@@ -1,0 +1,67 @@
+<div class="row">
+
+	<div class="col-sm-12 text-center" id="top_nav_menu_lulu">
+		{% for category, data in nav_data.iteritems() %} 
+			{% if data["type"] == "dropdown_list" %}
+				<a href="/" class="nav_main_link dropdown"> {{category}} </a>
+				{{data["resource"]}}
+			{% elif data["type"] == "single_link" %}
+				<a href="{{data.resource}}" class="nav_main_link"> {{category}} </a>
+			{% endif %}
+		{% endfor %}
+
+
+		<a href="/login" class="nav_main_link_r"> Profile &nbsp;&nbsp;<span class="glyphicon glyphicon-user white"></span> </a>
+		<a href="/cart" class="nav_main_link_r">  Cart &nbsp;&nbsp;
+			{% if user_data %}
+						{% if user_data["cart_contents"] %}
+							<span id="cart_link" class="glyphicon glyphicon-shopping-cart green">  </span>
+						{% else %}
+							<span id="cart_link" class="glyphicon glyphicon-shopping-cart white"> </span>
+						{% endif %}
+					{% else %}
+							<span id="cart_link" class="glyphicon glyphicon-shopping-cart white"> </span> 
+			{% endif %}
+			</a>
+
+			{% if user_data %}
+							{% if user_data["username"] %}
+								{% if user_data["username"]  == "admin" %}
+								<a href="/control/products" class="nav_main_link_r"> Dashboard &nbsp;&nbsp;<span class="glyphicon glyphicon-wrench white"></span> </a>
+								{% endif %}
+							
+							{% endif %}
+
+							{% if user_data["username"] %}
+								<a href="/auth/logout" class="nav_main_link_r"> Logout &nbsp;&nbsp;<span class="glyphicon glyphicon-log-out white"></span> </a>
+								{% endif %}
+			{% endif %}
+		
+
+
+	</div>
+</div>
+
+<div class="row">
+	<div class="nav-dropdown" id="nav_dropdown_lulu">
+	
+		{% for category, data in nav_data.iteritems() %} 
+			{% if data["type"] == "dropdown_list" %}
+				<div class="col-md-3 nav-column">
+			<h4>{{data["resource"]["title"]}}</h4>
+					<ul> 
+					{% for link in data["resource"]["links"] %}
+						<li><a href="{{link[1]}}">{{link[0]}}</a></li>
+					{% endfor %}
+					</ul>
+
+				</div>
+				
+			{% endif %}
+		{% endfor %}
+
+
+
+
+	</div>
+</div>

@@ -1,0 +1,62 @@
+	{% extends "store/base.html" %}
+
+		{% block page_title %}
+			<title> Checkout </title>
+		{% endblock page_title %}
+
+		{% block page_content %}
+
+		<hr>
+		<h3 class="h3-inline"> Secure checkout&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-lock"></span> </h3>  <div id="paypal_logo"> </div> <h3 id="powered_by"> powered by </h3>
+		
+		<hr>
+
+		<div class="row">
+			<div class="col-xs-6" id="table_checkout">
+				{{ data.page_content.table_checkout | safe }}
+			</div>
+			<div class="col-xs-6">
+				<h4 class="h4_cart text-center"> Review your order </h4>
+				<hr>
+				{{ data.page_content.cart_details | safe }}
+
+
+				<div class="text-center" id="progress_button">
+					<button class="btn btn-lg btn-link"><span class="glyphicon glyphicon-refresh spinning"></span> &nbsp;&nbsp; Verifying... </button>
+				</div>
+	
+				<div id="confirm_order_container"> 
+						<div id="order_billing_info">
+							<h4> Billing info: </h4>
+							<h5 id="order_BillingName"> </h5> <br>
+							<h5 id="order_BillingAddress1"> </h5> <br>
+							<h5 id="order_BillingAddress2"> </h5> 
+							<h5 id="order_BillingCity"> </h5>, &nbsp;<h5 id="order_BillingState"> </h5> &nbsp;<h5 id="order_BillingPostalCode"> </h5> <br>
+							<h5 id="order_BillingCountry"> </h5> <br>
+						</div>
+
+						<div id="order_shipping_info">
+							<h4> Shipping info: </h4>
+							<h5 id="order_ShippingName"> </h5> <br>
+							<h5 id="order_ShippingAddress1"> </h5> <br>
+							<h5 id="order_ShippingAddress2">  </h5> 
+							<h5 id="order_ShippingCity"> </h5>, &nbsp;<h5 id="order_ShippingState"> </h5> &nbsp;<h5 id="order_ShippingPostalCode"> </h5> <br>
+							<h5 id="order_ShippingCountry"> </h5> <br>
+						</div>
+
+						
+						<div id="confirm_order_button" class="text-center">
+							<hr>
+							<button class="btn btn-lg btn-default" id="btn_confirmOrder"> Place your order</button>
+						</div>
+				</div>
+
+				<div class="text-center" id="error_message_container"> </div>
+
+
+		</div>
+
+
+	</div>
+		
+		{% endblock page_content %}

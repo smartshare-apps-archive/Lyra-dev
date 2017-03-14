@@ -1,0 +1,132 @@
+
+<div class="row">
+	{% if productList | length == 0 %}
+		<div id="no_products" class="text-center">
+			<h4> You haven't added any products to your store yet. </h4><hr>
+			<button type="button" class="btn btn-link btn-lg"><a href="/control/products/addProduct"> Add product </a></button>
+		</div>
+	{% endif %}
+
+	{% for product_id, product in productList.iteritems() %}
+
+		<div class="col-lg-3 col-md-4 col-sm-6 product_container" id="product_{{product.product_id}}"> 
+			
+				<h4 id="product_title_inventory"> <a href="" class="product_link"> {{ product.Title }} </a> </h4>
+				
+				<div class="btn-group product_tile_actions" role="group" aria-label="product selection">
+
+				<label class="btn btn-default select_container">
+           			<input type="checkbox" class="selectProduct" id="chk_{{product.product_id}}">
+        		</label>
+
+        		{% if variantList[product_id] | length >= 1 %}
+				<button type="button" class="btn btn-default btn_showVariants" id="show_product_{{product.product_id}}"> <span class="btn_txt"> Variants &nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right"> </span> </span> </button>
+				{% else %}
+				<button type="button" class="btn btn-default disabled" id="show_product_{{product.product_id}}"> No variants </span> </button>
+				{% endif %}
+
+				</div>
+				
+				<div class="product_img_cont"></div>
+				
+				<input type="hidden" id="thumbnail_uri_{{product.product_id}}" value="{{product_thumbnail[product.product_id | string]}}">
+
+				<div id="default_content_{{product.product_id}}">
+
+				</div>
+
+				<div id="info_content_{{product.product_id}}" class="info_panel">
+
+							<div class="product_info_cell"> 
+							<hr class="unpadded_hr" >
+								<button type="button" class="btn btn-default btn_info_cell"> 
+									<b class="info_field">Inventory:</b> 
+									<span class="info_value"> </span>
+								</button> 
+							 	<button type="button" class="btn btn-default btn_info_cell"> 
+								 	<b class="info_field">Product rating:</b> 
+								 	<span class="info_value"> 
+								 		<span class="glyphicon glyphicon-star"></span>
+								 		<span class="glyphicon glyphicon-star"></span>
+								 		<span class="glyphicon glyphicon-star"></span>
+								 		<span class="glyphicon glyphicon-star"></span>
+								 		<span class="glyphicon glyphicon-star-empty"></span>
+								 	 </span>
+							 	</button> 
+								<button type="button" class="btn btn-default btn_info_cell">
+									 <b class="info_field">Vendor:</b> 
+									 <span class="info_value">{{ product.Vendor }} </span>
+
+								 </button>
+
+	
+								 <button type="button" class="btn btn-default btn_info_cell">
+									 <b class="info_field">Tags:</b> 
+									 <span class="info_value">{{ product.Tags }} </span>
+								 </button> 
+							</div> 
+				</div>
+				<input type="hidden" class="img_src" value="{{product.ImageSrc}}">
+
+		</div>
+		<!-- this one is for the products variants -->
+		
+		{% if variantList[product_id] | length >= 1 %}
+			<div class="col-lg-3 col-md-4 col-sm-6 product_container variant" id="product_variants_{{product.product_id}}"> 
+				<div class="variant_info_panel">
+					{% for variant in variantList[product_id] %}	
+						<div class="product_variant_container">
+							<img src="{{product_thumbnail[variant["VariantImg"] | int]}}" class="product_variant_thumbnail">
+							<input type="hidden" id="variant_{{variant.variant_id}}_imgSrc" value="{{product_thumbnail[variant["VariantImg"] | int]}}">
+							
+							<div class="variant_attributes_cont">
+
+								{% for variantOption, variantValue in variant.VariantData.iteritems() %}
+									<button type="button" class="btn btn-link btn_variantAttribute"> {{variantOption}}:&nbsp;<b>{{variantValue}}</b> </button>
+								{% endfor %}
+									
+							</div>
+
+								<hr>
+								<button type="button" class="btn btn-default btn_variant_info_cell"> 
+									<b class="info_field">SKU:</b> 
+									<span class="info_value"> {{variant.VariantSKU}} </span>
+								</button> 
+								<button type="button" class="btn btn-default btn_variant_info_cell"> 
+									<b class="info_field">Inventory:</b> 
+									<span class="info_value"> {{variant.VariantInventoryQty}} </span>
+								</button> 
+
+								<button type="button" class="btn btn-default btn_variant_info_cell"> 
+									<b class="info_field">Price:</b> 
+									<span class="info_value"> ${{'%0.2f' % variant.VariantPrice}} </span>
+								</button> 
+
+							<button type="button" class="btn btn-default btn_variant_info_cell btn_editVariant" id="variant_{{variant.variant_id}}"> Edit this variant &nbsp;<span class="glyphicon glyphicon-pencil"></span> </button>
+							
+							<input type="hidden" class="img_src" value="{{product.ImageSrc}}">
+
+						</div>
+						<hr>
+					{% endfor %}
+				</div>
+			</div>
+
+		{% endif %}
+
+		<!-- end products variants box -->
+		
+
+	{% endfor %}
+</div>
+
+
+
+<div id="product_data_container">
+	
+	<input type="hidden" id="productIDList" value="{% for product_id, product in productList.iteritems() %}{{product_id}},{% endfor %}">
+	
+{% for product_id, product in productList.iteritems() %}
+	<input type="text" class="product_data" id="product_data_{{product_id}}" value="{{product}}">
+{% endfor %}
+</div>

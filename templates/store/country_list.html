@@ -1,0 +1,3 @@
+{% for country in country_list %}
+	<option value="{{country[0]}}" {% if country[0] == saved_customer_data["BillingCountry"] %} selected {% endif %}>{{country[1]}}</option>
+{% endfor %}

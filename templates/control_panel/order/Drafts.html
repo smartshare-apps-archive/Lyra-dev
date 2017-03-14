@@ -1,0 +1,31 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-credit-card"></span> &nbsp;  <a href="/control/orders/drafts/">Drafts</a> </h4>
+	
+
+		<button type="button" class="btn btn-default btn-floated" id="btn_addDraft">Create order&nbsp;&nbsp;<span class="glyphicon glyphicon-plus-sign off_black"></span></button>
+	</div>
+
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12 tab_content">
+	<!-- Begin order main content div -->
+		<br>
+		<!-- Begin: main order list div (left aligned) -->
+		<div class="col-xs-12" id="order_main_panel">
+			{{ control_data.table_allDrafts  | safe  }}
+ 		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">			
+	</div>
+</div>
+
+
+{% endblock page_content %}

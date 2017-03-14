@@ -1,0 +1,179 @@
+{% block page_content %}
+
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-user"></span> &nbsp;  <a href="/control/customers/">Customers</a> / {{control_data.customer_data.ShippingFirstName}}&nbsp;{{control_data.customer_data.ShippingLastName}} <span class="glyphicon glyphicon-pencil"></span> </h4>
+	<button type="button" class="btn btn-primary" id="btn_saveCustomer" data-toggle="modal" data-target="#modal_saveCustomer">Save Customer&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk"> </span> </button>
+
+	</div>	
+</div>
+
+
+<div class="row">
+	<!-- Begin customer editor content div -->
+	<div class="col-xs-12 tab_content">
+		<div class="row">
+		<!-- begin customer editor left panel -->
+			<div class="col-md-8 flex-panel">
+				<!-- begin customer details panel-->
+				
+				<div class="panel panel-default padded-panel text-center">
+					<h4> {{control_data.customer_data.ShippingFirstName}} &nbsp;{{control_data.customer_data.ShippingLastName}}</h4>
+					<hr class="hr-defined">
+					<div id="customer_shipping_info">
+						<h4 class="h4-inline"> Shipping address </h4>
+						<button type="button" class="btn btn-primary" id="btn_editShippingInfo" data-toggle="modal" data-target="#modal_editShippingAddress"> Edit &nbsp;<span class="glyphicon glyphicon-pencil"> </span> </button>
+						<hr class="hr-defined">
+						<span class="customer_field" id="span_ShippingFirstName">{{control_data.customer_data.ShippingFirstName}}</span>
+						<span class="customer_field" id="span_ShippingLastName">{{control_data.customer_data.ShippingLastName}}</span> <br>
+						<span class="customer_field" id="span_ShippingAddress1">{{ control_data.customer_data.ShippingAddress1}}</span> <br>
+						{% if control_data.customer_data.ShippingAddress2 %} <span class="customer_field" id="span_ShippingAddress2">{{control_data.customer_data.ShippingAddress2}}</span> <br> {% endif  %}
+						<span class="customer_field" id="span_ShippingCity">{{ control_data.customer_data.ShippingCity}}</span>,
+						<span class="customer_field" id="span_ShippingState">{{ control_data.customer_data.ShippingState}}</span>
+						<span class="customer_field" id="span_ShippingPostalCode">{{ control_data.customer_data.ShippingPostalCode}}</span> <br>
+						<span class="customer_field" id="span_ShippingCountry">{{ control_data.customer_data.ShippingCountry}}</span>
+					</div>
+					<div id="customer_billing_info">
+						<h4 class="h4-inline"> Billing address </h4>
+						<hr class="hr-defined">
+						{{control_data.customer_data.BillingFirstName}} &nbsp;{{control_data.customer_data.BillingLastName}} <br>
+						{{ control_data.customer_data.BillingAddress1}} <br>
+						{% if control_data.customer_data.BillingAddress2 %} {{ control_data.customer_data.BillingAddress2}} <br> {% endif  %}
+						{{ control_data.customer_data.BillingCity}},
+						{{ control_data.customer_data.BillingState}} 
+						{{ control_data.customer_data.BillingPostalCode}} <br>
+						{{ control_data.customer_data.BillingCountry}} 
+					</div>
+				</div>
+			<div class="panel panel-default text-center" id="panel_customer_orders">
+					<h4> Recent orders </h4>
+					<hr class="hr-defined">
+				{% if control_data.customer_orders | length >= 1 %}
+					<!-- begin order action panel -->
+					<div class="row">
+					  <div class="col-xs-12" id="order_action_bar">
+
+					        <div class="btn-group" role="group" aria-label="order_actions" id="order_action_bar_grp">
+
+					        <label class="btn btn-default">
+					           <input type="checkbox" id="select_all_orders"> 
+					        </label>
+
+					        <label class="btn btn-default" id="n_orders_selected"></label>
+					    
+
+					        <div class="dropdown" id="bulk_action_dropdown">
+					          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="btn_toggleDropdown">  Bulk Actions <span class="caret"></span></button>
+
+					            <ul class="dropdown-menu">
+					              <li class="btn_bulk_publish_products"><a href="#">Archive Orders</a></li>
+					              <li class="btn_bulk_hide_products"><a href="#">Mark as fulfilled</a></li>
+					              <li class="btn_bulk_delete_products"><a href="#">Mark as paid</a></li>
+					            </ul>
+					        </div>
+					       </div>
+					     </div>
+
+					   </div>
+					   <!-- end order action panel -->
+
+
+
+					<table class="table table-bordered table-hover" id="table_all_orders">
+					 	<thead>
+					 	<th class="th_select">  </th>
+					 	<th> Order </th>
+					 	<th> Date </th>
+					 	<th> Payment Status </th>
+					 	<th> Fulfillment Status </th>
+					 	<th> Total </th>
+
+					 	</thead>
+					 	<tbody>
+					 	{% for order_id, order in control_data.customer_orders.iteritems() %}
+					 	<tr>
+				 		<td> 
+			 			<label class="btn btn-default select_container">
+			           		<input type="checkbox" class="selectTableItem" id="chk_{{order.order_id}}">
+			        	</label> 
+ 						</td>
+					 		<td> <a href="/control/orders/{{order_id}}">#{{order_id}}</a> </td>
+					 		<td> {{order.Date}}</td>
+					 		<td>
+						 		{% if order.PaymentStatus == "paid" %} 
+									<button type="button" class="btn btn-success btn_fill">Paid</button>
+								{% elif order.PaymentStatus == "pending" %}
+									<button type="button" class="btn btn-warning btn_fill">Pending</button>
+								{% elif order.PaymentStatus == "unpaid" %}
+									<button type="button" class="btn btn-danger btn_fill">Unpaid</button>
+								{% endif %}
+							</td>
+					 		<td> 
+								{% if order.FulfillmentStatus == "fulfilled" %} 
+									<button type="button" class="btn btn-success btn_fill">Fulfilled</button>
+								{% elif order.FulfillmentStatus == "unfulfilled" %}
+									<button type="button" class="btn btn-danger btn_fill">Unfulfilled</button>
+								{% endif %}
+ 							</td>
+					 		<td> ${{'%0.2f' % order.OrderTotal}}</td>
+					 	</tr>
+
+
+					 	{% endfor %}
+					 	<input type="hidden" id="orderIDList" value="{% for order_id, order in control_data.customer_orders.iteritems() %}{{order_id}},{% endfor %}">
+
+					 	</tbody>
+					  </table>	
+					  {% else %}
+					  		<div id="no_orders" class="text-center">
+								<h4> No recent orders found. </h4><hr>
+								<button type="button" class="btn btn-link btn-lg"><a href="/control/products/"> Create order </a></button>
+							</div>
+
+					  {% endif %}
+			</div>					
+		</div>
+		<!-- end customer editor left panel -->
+		
+		<!-- begin customer editor right panel -->
+			<div class="col-md-4" id="customer_editor_right_panel">
+				<div class="panel panel-default text-left" id="panel_customer_contact">
+					<h4>  Contact info 
+					<button type="button" class="btn btn-primary" id="btn_editContactInfo" data-toggle="modal" data-target="#modal_editContactInfo"> 
+						Edit &nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span>
+					</button>
+					</h4>
+					<hr class="hr-defined">
+					<h5> Phone #: &nbsp;&nbsp;<span class="customer_field" id="span_Phone">{{control_data.customer_data.Phone }}</span> </h5>
+					<h5> Email: &nbsp;&nbsp;<span class="customer_field" id="span_Email">{{control_data.customer_data.Email }}</span> </h5>
+					<h5> User ID: &nbsp;&nbsp;<a href="/control/customers/user/{{control_data.customer_data.user_id }}"> {{control_data.customer_data.user_id }}</a> </h5>
+				</div>
+
+
+				<div class="panel panel-default text-left" id="panel_customer_payment">
+					<h4>  Payment info </h4>
+					<hr class="hr-defined">
+					<h5> Payment method: </h5>
+					<h5> Verification code: </h5>
+					
+				</div>
+			</div>
+		<!-- end customer editor right panel -->
+
+		</div>
+	</div>
+	<!-- End customer editor content div -->
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">	
+	</div>
+</div>
+
+
+<input type="hidden" id="customer_id" value="{{control_data.customer_data.customer_id}}">
+
+{{ control_data.customer_editor_modals | safe }}
+
+{% endblock page_content %}

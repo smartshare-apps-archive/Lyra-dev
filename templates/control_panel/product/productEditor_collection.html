@@ -1,0 +1,169 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-tags"></span> &nbsp; <a href="/control/products/">Products</a> / <a href="/control/products/collections">Collections</a> / {{ control_data.collection_data.Title }} 	&nbsp; <span class="glyphicon glyphicon-pencil"></span> </h4>
+
+		<button type="button" class="btn btn-warning" id="btn_deleteCollection">Delete Collection  <span class="glyphicon glyphicon-trash"> </span> </button>
+		<button type="button" class="btn btn-primary" id="btn_saveCollection" data-toggle="modal" data-target="#modal_saveCollection">Save Collection <span class="glyphicon glyphicon-floppy-disk"> </span> </button>
+	</div>
+		
+</div>
+
+<div class="row">
+	<!-- Begin collection editor content div -->
+	<div class="col-xs-12 tab_content">
+		<div class="row">
+
+			<!-- Begin: main collection editor column (left aligned) -->
+			<div class="col-md-8" id="collection_editor_panel">
+
+				<div class="panel panel-default" id="panel_collection_text_editor">
+					<div class="form-group">
+				  		<h5> Title </h5>
+				  			<input type="text" class="form-control" id="input_collection_title" value="{{control_data.collection_data.Title}}">
+						<br>
+					
+						<h5> Description </h5>
+						<div class="panel panel-default" id="panel_collection_description_editor">
+							<div id="collection_description_editor" contenteditable="true">
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			<div class="panel panel-default" id="panel_collection_visibility">
+				<h4> Conditions </h4>
+					Products are required to match: 
+					<label class="radio-inline"><input type="radio" name="optradio" id="radio_Strict">Any conditions</label>
+					<label class="radio-inline"><input type="radio" name="optradio" id="radio_Lax">All conditions</label>
+					<hr>
+
+				<!-- Begin condition form editor -->
+				<div class="form-group" id="form_collection_conditions">
+					{% for condition_id, condition in control_data.formattedCollectionConditions.iteritems() %}
+						<input type="hidden" id="condition_{{condition_id}}" value="{{condition}}" class="collection_condition">
+					{% endfor %}
+				</div>
+
+				<button type="button" class="btn btn-warning" id="btn_addCondition">Add condition <span class="glyphicon glyphicon-plus"> </span> </button>
+
+				<!-- End: condition form editor -->
+
+			</div>
+
+
+			 <!-- Begin: products in collection panel -->
+			<div class="panel panel-default" id="panel_product_text_editor">
+				<div class="form-group">
+			  		<h4> Products </h4>
+					<hr>
+			  		{{ control_data.collectionProductsTable | safe }}	
+				</div>
+			</div>
+			<!-- End: product variant editor panel -->
+
+ 			
+
+ 			</div>
+ 			<!-- End: main collection editor column (left aligned) -->
+
+ 			<!-- Begin: collection attribute editor column (right aligned) -->
+			<div class="col-md-4" id="collection_editor_attributes">
+				
+				<div class="panel panel-default text-center" id="panel_collection_visibility">
+					<h4> Collection Visibility </h4>
+					<hr>
+					
+					 <div class="btn-group" role="group">
+
+       				 			<label class="btn btn-default select_container">
+									{% if control_data.collection_data.Published %}
+										<input type='checkbox' id="chk_collection_{{control_data.collection_data.collection_id}}" checked> 
+									{% else %}
+										<input type='checkbox' id="chk_collection_{{control_data.collection_data.collection_id}}"> 
+									{% endif %}
+						        </label>
+						 
+								<label class="btn btn-default">
+									Show in Online store? 
+								 </label>
+					</div>
+				</div>
+
+				<div class="panel panel-default text-center" id="panel_collection_image">
+					<h4> Collection Image </h4>
+					<hr>
+					<div class="collection_image_main"></div>
+					
+					<input type="hidden" id="collection_img_src" value="{{control_data["collection_image_src"]}}">
+					<hr>
+					<button type="button" class="btn btn-primary" id="btn_uploadImage" data-toggle="modal" data-target="#modal_uploadImage">Upload Image
+				</div>
+
+			
+
+
+			</div>
+			<!-- End: collection attribute editor column (right aligned) -->
+
+		</div>
+	</div>
+	<!-- End: Product editor content div -->
+</div>
+
+
+<div id="condition_template">
+	<select class="condition_field select_collection_condition" id="field_x">
+	  <option value="Title">Product Title</option>
+	  <option value="Tags">Product Tag</option>
+	   <option value="Type">Product Type</option>
+	  <option value="VariantPrice">Product Price</option>
+	</select>
+
+</div>
+
+
+<div id="condition_rule_template">
+	<select class="condition_rule select_collection_condition" id="rule_x">
+	  <option value= "=">is equal to</option>
+	  <option value= "!=">is not equal to</option>
+	  <option value= ">">is greater than</option>
+	  <option value= "<">is less than</option>
+	  <option value= "sw">starts with</option>
+	  <option value= "c">contains</option>
+	</select>
+</div>
+
+
+<div id="condition_tag_selection">
+		<select class="condition_input_field select_collection_condition select_tag" id="tag_x">
+		  {% for tag in control_data.product_tags %}
+		  <option>{{tag}}</option>
+		  {% endfor %}
+		</select>
+
+</div>
+
+
+<div id="condition_text_input">
+		<input type="text" class="form-control condition_input_field input_text_condition" id="input_x">
+</div>
+
+
+<div id="delete_condition_template">
+	<button type="button" class="btn btn-warning btn_remove_condition" id="btn_deleteCondition_x"><span class="glyphicon glyphicon-trash"> </span> </button>
+</div>
+
+<input type="hidden" id="rule_policy" value="{{control_data.collection_data.Strict}}">
+<input type="hidden" id="collection_id" value="{{control_data.collection_data.collection_id}}">
+<input type="hidden" id="collection_image_url" value="{{control_data.collection_data.CollectionImageSrc}}">
+<input type="hidden" id="collection_description" value="{{control_data.collection_data.BodyHTML}}">
+<div class="row">
+	<div class="col-xs-12" id="footer_products">	
+		
+	</div>
+</div>
+
+
+{% endblock page_content %}

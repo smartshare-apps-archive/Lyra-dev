@@ -1,0 +1,51 @@
+{% if resources %}
+  <table class="table table-bordered table-hover" id="store_file_table">
+  <thead>
+	  <th class="th_select"></th>
+	  <th>Filename</th>
+	  <th>Extension</th>
+	  <th>Path</th>
+	  <th></th>
+
+  </thead>
+ 	<tbody>
+ 	{% for resource_id, resource in resources.iteritems() %}
+ 	<tr class="row_resource" data-resourceID="{{resource_id}}">
+ 		<td> 
+ 			<label class="btn btn-default select_container">
+           		<input type="checkbox" class="selectTableItem" data-resourceID="{{resource_id}}">
+        	</label> 
+ 		</td>
+ 		
+ 		
+ 		<td> <a href="{{resource.uri}}"> {{ resource["filename"] }} </a> </td>
+ 		
+ 		<td class="text-center"> 
+ 			<button type="button" class="btn btn-default btn-noclick"> {{ resource["filetype"] }} </button> 
+ 		</td>
+ 		
+ 		<td class="resource_uri">{{resource["uri"]}}</td>
+
+ 		<td class="text-center">
+ 			 <a href="/actions/deleteResource/{{resource_id}}">
+ 			 <button type="button" class="btn btn-danger"> Delete &nbsp;<span class="glyphicon glyphicon-minus-sign"> </span> </button>
+ 			 </a>
+ 		</td>
+
+
+ 	</tr>
+ 	{% endfor %}
+
+
+ 	</tbody>
+  </table>	
+
+  <input type="hidden" id="resourceIDList" value="{% for resource_id, resource in resources.iteritems() %}{{resource_id}},{% endfor %}">
+
+
+{% else %}
+			<div id="no_files" class="text-center">
+			<h4> You haven't uploaded any files yet. </h4><hr>
+			<button type="button" class="btn btn-link btn-lg" data-toggle="modal" data-target="#modal_uploadFile"> Upload a file</button>
+		</div>
+{% endif %}

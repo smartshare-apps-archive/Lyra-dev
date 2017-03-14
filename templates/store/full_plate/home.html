@@ -1,0 +1,25 @@
+{% extends "store/base.html" %}
+
+		{% block page_title %}
+			<title> </title>
+		{% endblock page_title %}
+
+		{% block splash_screen %}
+		
+						<div class="outer-container">
+							<div class="inner-container text-left"> 
+								<div id="header_logo"> </div> <br><br>
+								<h3 class="h3-inline"> Modern Dublin - </h3> <h5> 3/11/17 </h5> <br>
+									Join us in a celebration of modern Irish cuisine,
+									<br> inspired by the farm to table movement. <br><br>
+									<a href="/product/11"><button type="button" class="btn btn-default btn-lg" id="btn_reserveSeat"> <span class="glyphicon glyphicon-cutlery off_black"></span> &nbsp;&nbsp;Reserve a table </button></a>
+							</div>
+						</div>
+
+		{% endblock splash_screen %}
+
+		{% block page_content %}
+		
+		{{ data.page_content.content_row | safe }}
+
+		{% endblock page_content %}

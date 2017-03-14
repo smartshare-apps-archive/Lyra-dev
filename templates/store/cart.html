@@ -1,0 +1,15 @@
+	{% extends "store/base.html" %}
+
+		{% block page_title %}
+			<title> Cart </title>
+		{% endblock page_title %}
+
+		{% block page_content %}
+
+		<hr>
+		<h3 class="h3-inline"> Your cart &nbsp;&nbsp; <span class="glyphicon glyphicon-shopping-cart black"></span></h3>
+		<hr>
+		
+		{{ data.page_content.cart_details | safe }}
+		
+		{% endblock page_content %}

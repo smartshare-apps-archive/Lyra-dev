@@ -1,0 +1,35 @@
+{% if products | length != 0 %}
+
+
+<table class="table table-responsive table-hover table-bordered" id="shopping_cart_checkout">
+
+	<tbody>
+	
+
+	{% for product, itemDetails in products.iteritems() %}
+
+	<tr class="text-center"> 
+		<td class="thumbnail_cart_40" id="product_{{itemDetails[0].product_id}}"> </td>
+		<td> <h3> <a href="/product/{{itemDetails[0].product_id}}"> {{itemDetails[0].Title}} </a> </h3> <hr>
+
+		<h4>SKU:{{itemDetails[0].VariantSKU}} </h4>
+		</td>
+		<td> <h3> {{itemDetails[1]}}  x <b>${{'%0.2f' % itemDetails[0].VariantPrice}} </b></h3> </td>
+
+		<td class="order_item_total"> <h3> <b>${{ '%0.2f' % (itemDetails[0].VariantPrice * (itemDetails[1] | float)) }}</b> </h3> </td>
+	</tr>
+
+	<input type="hidden"  id="product_{{itemDetails[0].product_id}}_thumbnail" value="{{product_thumbnail[itemDetails[0]["product_id"]]}}" class="product_thumbnail_src">
+
+
+	{% endfor %}
+
+	</tbody>
+</table>
+
+{% else %}
+
+<h4> Your cart is empty </h4>
+
+{% endif %}
+

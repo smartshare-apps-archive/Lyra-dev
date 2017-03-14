@@ -1,0 +1,39 @@
+<div class="panel panel-default padded-panel">
+	<h4><span class="glyphicon glyphicon-duplicate"> </span> &nbsp; Content pages </h4>
+	<hr>
+	<div class="row">
+{% if pages %}
+
+
+	{% for page_id, page in pages.iteritems() %}
+		<div class="col-lg-3">
+			<div class="page_container text-center">
+				<h4> <a href="/control/store/pages/{{page_id}}"> {{page_id}} </a> </h4> 
+
+				<hr>
+				<h5> Template: &nbsp; <b> {{page["template"]}} </b> </h5>
+				<hr>
+				<h5> Page type: &nbsp; <b> {{page["type"]}} </b> </h5>
+				<hr>
+				<a href="/control/store/pages/{{page_id}}">
+					<button type="button" class="btn btn-default"> Edit page &nbsp; <span class="glyphicon glyphicon-pencil"></span> </button>
+				</a>
+			</div>
+		</div>
+
+	{% endfor %}
+
+
+
+{% else %}
+		<div id="no_pages" class="text-center">
+			<h4> You don't have any pages yet. </h4><hr>
+			<button type="button" class="btn btn-link btn-lg" data-toggle="modal" data-target="#modal_addPage"><a href="#" "> Create a page </a></button>
+		</div>
+
+{% endif %}
+
+
+	</div>
+
+</div>

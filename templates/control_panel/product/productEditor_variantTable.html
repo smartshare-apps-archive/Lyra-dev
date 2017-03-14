@@ -1,0 +1,46 @@
+<hr>
+{% if productVariants|length >= 1 %}
+	<table class="table table-bordered table-hover" id="product_variants_table">
+	<thead>
+		<tr>
+		<th id="th_thumbnail"></th>
+		<th> Attributes </th>
+	    <th id="th_sku">SKU</th>
+	    <th>Stock</th>
+		</tr>
+	</thead>
+	<tbody>
+
+
+	{% for variant in productVariants %}
+
+	<tr id="row_variant_{{variant.variant_id}}">
+		<td class="thumbnail_product_40">
+			<input type="hidden" id="variant_{{variant.variant_id}}_imgSrc" value="{{product_thumbnail[variant["VariantImg"] | int]}}">
+
+		</td>
+		<td> 
+			{% for variantOption, variantValue in variant.VariantData.iteritems() %}  
+					<button type="button" class="btn btn-small btn-default btn_variant_attribute">{{variantOption}}&nbsp;:&nbsp;{{variantValue}}</button>
+			{% endfor %}
+		</td>
+
+	    <td> {{ variant.VariantSKU }} </td>
+	    <td> {{variant.VariantInventoryQty}} </td>
+	</tr>
+
+	{% endfor %}
+
+	</tbody>
+	</table>
+
+	<input type="hidden" value="{% for variant in productVariants %}{{variant.variant_id}},{% endfor %}" id="variantIDList"> 	
+
+{% else %}
+
+	<h4 class="h4-inline"> Looks like there aren't any variants of this product. </h4>
+
+{% endif %}
+
+	
+

@@ -1,0 +1,65 @@
+	<table class="table table-responsive table-hover table-bordered" id="product_table">
+	<thead id="product_table_thead">
+	<tr>
+ 	<th><input type="checkbox" id="chk_select_all_products"></th>
+  	<th id="th_products_selected"></th>
+    <th id="th_product_title">Product</th>
+    <th>Inventory</th>
+    <th>Type</th>
+    <th>Vendor</th>
+	</tr>
+	</thead>
+
+
+
+	<tbody>
+	{% for product_id, product in productList.iteritems() %}
+		<div class="product_container"> </div>
+				<tr class='row_product' id='product_{{product.product_id}}'>
+		 		<td class="td_selectProduct"><input type='checkbox' class="selectProduct" id="chk_{{product.product_id}}"></td>
+		 		<td class='thumbnail_product_40' id='thumbnail_product_{{product.product_id}}'></td>
+		 		<td class='td_product_title'> <a class="product_link" href="">{{ product.Title }}</a></td>
+		 		<td class='td_product_inventory'> {{ productStock[product_id][1] }} in stock {% if productStock[product_id][0] > 1 %} for {{ productStock[product_id][0] }} variants {% endif %}</td>
+		 		<td class='td_product_type'></td>
+		 		<td class='td_product_vendor'> {{ product.Vendor }}</td>
+		 		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+
+// inventory temp table
+
+
+<table class="table table-responsive table-hover table-bordered" id="product_table">
+	<thead id="product_table_thead">
+	<tr>
+ 	<th><input type="checkbox" id="chk_select_all_products"></th>
+  	<th id="th_products_selected"></th>
+    <th id="th_product_title">Product</th>
+    <th>Product Variant</th>
+    <th>SKU</th>
+    <th>When sold out</th>
+    <th>Incoming</th>
+    <th>Quantity</th>
+    <th>Update Quantity</th>
+	</tr>
+	</thead>
+
+
+	<tbody>
+	{% for product_id, product in productList.iteritems() %}
+				<tr class='row_variant' id='product_{{product.product_id}}'>
+		 		<td class="td_selectProduct"><input type='checkbox' class="selectProduct" id="chk_{{product.product_id}}"></td>
+		 		<td class='thumbnail_product_40' id='thumbnail_product_{{product.product_id}}'></td>
+		 		<td class='td_product_title'> <a class="product_link" href="">{{ product.Title }}</a></td>
+		 		<td class='td_product_variant'> {{ product.Option1Value }}</td>
+		 		<td class='td_product_sku'> {{ product.VariantSKU }} </td>
+		 		<td class='td_product_sold_out'> </td>
+		 		<td class='td_product_incoming'> </td>
+		 		<td class='td_product_quantity'>{{ product.Stock }}</td>
+		 		<td class='td_product_update_quantity'> </td>
+		 		</tr>
+	{% endfor %}
+	</tbody>
+</table>

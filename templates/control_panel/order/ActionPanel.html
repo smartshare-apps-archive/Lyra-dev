@@ -1,0 +1,34 @@
+<! -- this template is for performing bulk actions on product tables-->
+
+<div class="row">
+  <div class="col-xs-12" id="order_action_bar_main">
+
+        <div class="btn-group" role="group" aria-label="order_actions">
+
+        <label class="btn btn-default">
+           <input type="checkbox" id="select_all_orders"> 
+        </label>
+
+        <label class="btn btn-default">
+          <span id="n_orders_selected"></span>
+        </label>
+  
+
+        <div class="dropdown" id="bulk_action_dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="btn_toggleDropdown">  Bulk Actions <span class="caret"></span></button>
+
+            <ul class="dropdown-menu">
+              <li class="btn_bulk_mark_fulfilled"><a href="#">Mark fulfilled</a></li>
+              <li class="btn_bulk_mark_unfulfilled"><a href="#">Mark unfulfilled</a></li>
+              <hr class="hr-sm-margin">
+              <li class="btn_bulk_mark_paid"><a href="#">Mark paid</a></li>
+              <li class="btn_bulk_mark_pending"><a href="#">Mark pending</a></li>
+              <li class="btn_bulk_mark_unpaid"><a href="#">Mark unpaid</a></li>
+              <hr class="hr-sm-margin">
+              <li class="btn_bulk_delete_orders"><a href="#">Delete orders</a></li>
+            </ul>
+        </div>
+       </div>
+     </div>
+ </div>
+

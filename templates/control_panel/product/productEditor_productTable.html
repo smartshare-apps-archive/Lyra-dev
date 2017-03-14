@@ -1,0 +1,80 @@
+	{% if products|length >= 1 %}
+
+	<table class="table table-responsive table-hover table-bordered">
+	<thead>
+		<tr>
+			<th></th>
+			<th> Product </th>
+		
+		{% for field in selectedFields %}
+			<th>{{field}}</th>
+		{% endfor %}
+
+		</tr>
+	</thead>
+	<tbody>
+
+
+	{% for product in products %}
+		
+		<tr id="">
+			<td class="thumbnail_product_40" style="background-image:url('{% if product[0].VariantImage == "" %}{{ product[0].ImageSrc }} {% else %} {{ product[0].VariantImage }} {% endif %}');"> </td>
+		    <td style="padding:10px;"> <h4 style="margin-left:15px;"> {{ product[0].Title }} <h4> </td>
+		    
+		    {% for field in selectedFields %}
+			<td> <span class="glyphicon glyphicon-minus"></span> </td>
+		    {% endfor %}
+		
+		</tr>
+		
+		{% for product_variant in product %}
+			
+		{% if product_variant.VariantSKU == (product_variant.product_id | string)  and (product | length == 1) %}
+			<tr class="variant_row" id="product_{{product_variant.product_id}}">	
+		{% else %}
+			<tr class="variant_row" id="variant_{{product_variant.variant_id}}">
+		{% endif %}	
+			<td> </td>
+		    <td> 
+		    {% if "VariantData" in product_variant %}
+			    {% for option, value in product_variant.VariantData.iteritems() %} 
+			   		<button type="button" class="btn btn-small btn-default btn_variant_attribute">{{option}}:&nbsp;{{value}}</button> 
+			    {% endfor %}
+			{% else %}
+				<button type="button" class="btn btn-small btn-primary btn_variant_attribute">Default product</button> 
+			{% endif %}
+
+		    </td>
+
+		    {% for field in selectedFields %}
+
+			{% if product_variant.VariantSKU == (product_variant.product_id | string) %}
+				<td> <input type="text" value="{{product_variant[field]}}" id="{{field}}_{{product_variant["product_id"]}}" class="bulk_editor_input_field">
+					 <input type="hidden" value="{{product_variant[field]}}" id="current_{{field}}_{{product_variant["product_id"]}}" class="bulk_editor_hidden_field">
+				</td>
+			{% else %}
+				<td> <input type="text" value="{{product_variant[field]}}" id="{{field}}_{{product_variant["variant_id"]}}" class="bulk_editor_input_field">
+					 <input type="hidden" value="{{product_variant[field]}}" id="current_{{field}}_{{product_variant["variant_id"]}}" class="bulk_editor_hidden_field">
+				</td>
+			{% endif %}
+		    {% endfor %}
+		    
+
+		</tr>
+	
+
+		{% endfor %}
+		
+	{% endfor %}
+
+	</tbody>
+	</table>
+	{% else %}
+
+	<h5> <b>Looks like there aren't any variants of this product. </b></h5>
+	
+	{% endif %}
+
+	<input type="hidden" value="{% for product in products %}{{product.product_id}},{% endfor %}" id="productIdList"> 	
+	<input type="hidden" value="{% for field in selectedFields %}{{field}},{% endfor %}" id="selectedFields">
+

@@ -1,0 +1,52 @@
+#customer api endpoints
+	/api/customer/bulkDeleteCustomers
+
+#store settings api endpoints
+	/api/store/saveNavigationSettings
+	/api/store/saveFooterSettings
+	/api/store/savePageData
+	/api/store/createNewPage
+	/api/store/deletePage
+
+#order api endpoints
+	/api/order/markOrderFulfillment
+	/api/order/bulkMarkOrderFulfillment
+	/api/order/bulkMarkOrderPaymentStatus
+	/api/order/bulkDeleteOrders
+
+#product api endpoints
+	/api/product/addProduct
+	/api/product/addProductVariant
+	/api/product/addCollection
+	/api/product/deleteProduct
+	/api/product/deleteCollection
+	/api/product/deleteVariant
+	/api/product/updateProductData
+	/api/product/updateProductData
+	/api/product/updateProductTags
+	/api/product/updateProductTypes
+	/api/product/deleteProductResource
+	/api/product/setDefaultProductImage
+	/api/product/updateVariantTypes
+	/api/product/updateInventoryData
+	/api/product/updateCollectionData
+	/api/product/bulkPublish
+	/api/product/bulkDelete
+	/api/product/bulkUpdateProducts
+	/api/product/bulkUpdateCollections
+
+#settings api endpoints
+	/api/settings/updateBulkProductEditorFields
+	/api/settings/updateBulkInventoryEditorFields
+	/api/settings/updateBulkCollectionEditorFields
+	/api/settings/saveStripeAPIKeys
+
+#search api endpoints
+	/api/search/filterProducts
+	/api/search/filterOrders
+	/api/search/filterCustomers
+
+#resource api endpoints
+	/api/resource/uploadFile
+	/api/resource/deleteResource
+	/api/resource/uploadImage

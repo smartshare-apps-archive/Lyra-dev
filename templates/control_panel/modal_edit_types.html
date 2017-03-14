@@ -1,0 +1,40 @@
+<div id="modal_editProductTypes" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"> Edit product types </h4>
+      </div>
+      <div class="modal-body">
+      <!-- begin type edit form -->
+      <div id="product_type_buttons">
+        {% for type in all_types %} 
+              <button type="button" class="btn btn-default btn-type" data-ptype="{{type}}">{{type}}&nbsp;&nbsp;<span class="glyphicon glyphicon-minus-sign"></span></button>
+        {% endfor %}
+
+      </div>
+        <hr>
+        <h3 class="h3-inline"> Current product type:&nbsp;<b>{{product_type}}</b></h3>
+        &nbsp;&nbsp;<h3 class="h3-inline" id="current_type_label">
+        
+        </h3>
+
+        <hr>
+            <input type="text" class="form-control" id="newProductType_input" placeholder="Enter a new product type"> 
+            <button type="button" class="btn btn-default" id="btn_createProductType"> Add type &nbsp;&nbsp;<span class="glyphicon glyphicon-plus-sign"></span> </button>
+      <!-- end tag edit form -->
+
+       <input type="hidden" id="currentProductTypes" value="{% for type in all_types %}{{type}}{% if not loop.last %},{% endif %}{% endfor %}">
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="btn_updateProductTypes">Save product types</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

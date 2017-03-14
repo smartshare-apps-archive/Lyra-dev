@@ -1,0 +1,62 @@
+		<div class="row">
+			<div class="col-sm-12 text-center" id="top_nav_menu">
+				
+				<ul class="top-navbar">
+					{% for field, subFields in nav_data.iteritems() %}
+						{% if subFields | length > 1 %}
+						<li id="link_{{field}}">{{field}}<span class="glyphicon glyphicon-chevron-down"></span></li>
+						{% else %}
+						<li id="link_{{field}}"> <a href="{{subFields[0]}}"> {{field}} </a> </li>
+						{% endif %}
+					{% endfor %}
+
+					{% if user_data %}
+						{% if user_data["cart_contents"] %}
+							<span id="cart_link" class="glyphicon glyphicon-shopping-cart green">  </span>
+						{% else %}
+							<span id="cart_link" class="glyphicon glyphicon-shopping-cart black"> </span>
+						{% endif %}
+					{% else %}
+							<span id="cart_link" class="glyphicon glyphicon-shopping-cart black"> </span>
+					{% endif %}
+
+					<span id="user_link" class="glyphicon glyphicon-user black"> </span>
+
+					{% if user_data %}
+						{% if user_data["username"] %}
+							{% if user_data["username"]  == "admin" %}
+								<span id="admin_link" class="glyphicon glyphicon glyphicon-wrench black"> </span>
+							{% endif %}
+						
+						{% endif %}
+
+						{% if user_data["username"] %}
+							<span id="logout_link" class="glyphicon glyphicon-log-out black"> </span>
+						{% endif %}
+						
+					{% endif %}
+				</ul>
+			</div>
+			<!--
+			<div class="col-sm-4 search-bar">
+				<input type="text" class="form-control" id="product_search" placeholder="Search for a product. ">
+			</div>
+			-->
+
+	
+
+		{% for field, subFields in nav_data.iteritems() %}
+			{% if subFields | length > 1 %}
+				<div class="nav_link_menu" id="{{field}}_menu">
+						<ul>
+						{% for subField in subFields %}
+							<li> <a href="{{subField[1]}}">{{subField[0]}}</a> </li>
+						{% endfor %}
+
+						</ul>
+				</div>
+			{% endif %}
+
+		{% endfor %}
+
+</div>

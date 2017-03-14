@@ -1,0 +1,11 @@
+{% if page_content | length > 1 %}
+	{% for content in page_content %}
+		<hr>
+		{{content | safe }}
+		<hr>
+	{% endfor %} 
+
+{% else %}
+
+	{{ page_content[0] | safe }}
+{% endif %}

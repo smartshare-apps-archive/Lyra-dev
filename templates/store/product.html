@@ -1,0 +1,12 @@
+{% extends "store/base.html" %}
+
+	{% block page_title %}
+		<title> Product page </title>
+	{% endblock page_title %}
+
+	{% block page_content %}
+	
+	<hr>
+	{{ data.page_content.product_details | safe }}
+	
+	{% endblock page_content %}

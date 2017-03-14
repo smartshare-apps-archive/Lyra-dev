@@ -1,0 +1,64 @@
+  {% if allOrders %}
+
+  <table class="table table-bordered table-hover" id="table_all_orders">
+ 	<thead>
+ 	<th class="th_select">  </th>
+ 	<th> Order </th>
+ 	<th> Date </th>
+ 	<th> Customer </th>
+ 	<th> Payment Status </th>
+ 	<th> Fulfillment Status </th>
+ 	<th> Total </th>
+
+ 	</thead>
+
+ 	<tbody>
+ 	{% for order_id, order in allOrders.iteritems() %}
+ 	<tr class="row_order" data-orderID="{{order_id}}">
+ 		<td> 
+ 			<label class="btn btn-default select_container">
+           		<input type="checkbox" class="selectTableItem" data-orderID="{{order_id}}">
+        	</label> 
+ 		</td>
+ 		<td> <a href="" class="order_link">#{{ order.order_id }}</a> </td>
+ 		<td> {{ order.Date }} </td>
+ 		<td> <a href="#">{{ order.ShippingFirstName }} {{ order.ShippingLastName }} </a></td>
+ 		 <td> 
+			{% if order.PaymentStatus == "paid" %} 
+				<button type="button" class="btn btn-success btn_fill">Paid</button>
+			{% elif order.PaymentStatus == "pending" %}
+				<button type="button" class="btn btn-warning btn_fill">Pending</button>
+			{% elif order.PaymentStatus == "unpaid" %}
+				<button type="button" class="btn btn-danger btn_fill">Unpaid</button>
+			{% endif %}
+
+ 		</td>
+ 		<td> 
+					{% if order.FulfillmentStatus == "fulfilled" %} 
+						<button type="button" class="btn btn-success btn_fill">Fulfilled</button>
+					{% elif order.FulfillmentStatus == "unfulfilled" %}
+						<button type="button" class="btn btn-danger btn_fill">Unfulfilled</button>
+					{% endif %}
+ 		</td>
+ 		<td> ${{ '%0.2f' % order.OrderTotal }}</td>
+ 	</tr>
+ 	{% endfor %}
+
+
+ 	</tbody>
+  </table>	
+
+
+<div id="order_data_container">
+	<input type="hidden" id="orderIDList" value="{% for order_id, order in allOrders.iteritems() %}{{order_id}},{% endfor %}">
+{% for order_id, order in allOrders.iteritems() %}
+	<input type="hidden" class="order_data" data-orderID="{{order_id}}" value="{{order}}">
+{% endfor %}
+</div>
+
+{% else %}
+		<div id="no_orders" class="text-center">
+			<h4> You don't have any orders yet. </h4><hr>
+			<button type="button" class="btn btn-link btn-lg"><a href="/control/orders/addDraft/"> Create an order </a></button>
+		</div>
+{% endif %}

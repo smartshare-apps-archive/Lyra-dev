@@ -1,0 +1,56 @@
+<div class="row">
+{% if collectionList %}
+
+	{% for collection in collectionList %}
+		<div class="col-lg-3 col-md-4 col-sm-6 product_container" id="collection_{{collection.collection_id}}"> 
+				<h4 id="collection_title"> <a href="/control/products/collections/{{collection.collection_id}}" class="product_link"> {{ collection.Title }} </a> </h4>
+				
+				<div class="btn-group product_tile_actions" role="group" aria-label="product selection">
+
+				<label class="btn btn-default select_container">
+           			<input type="checkbox" class="selectProduct" id="chk_{{collection.collection_id}}">
+        		</label>
+
+				<button type="button" class="btn btn-default btn_launch_editor" id="collection_{{collection.collection_id}}"> Edit &nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"> </span> </button>
+				</div>
+				
+				<div class="collection_img_cont" id="collection_img_{{collection.collection_id}}"></div>
+
+				<input type="hidden" id="thumbnail_uri_{{collection.collection_id}}" value="{{collection_thumbnail[collection.collection_id]}}">
+
+				<div id="info_content_{{collection.collection_id}}" class="collection_info_panel">
+
+							<div class="product_info_cell"> 
+							<hr class="unpadded_hr" >
+						
+							{% for condition in collection["Conditions"] %}
+								<button type="button" class="btn btn-default btn_info_cell"> 
+									<b class="info_field">{{condition}}</b> 
+									
+								</button> 
+							{% endfor %}	
+							</div> 
+				</div>
+				<input type="hidden" class="img_src" value="{{collection.ImageSrc}}">
+		</div>
+
+	{% endfor %}
+
+
+<div id="collection_data_container">
+	<input type="hidden" id="collectionIDList" value="{% for collection in collectionList %}{{collection.collection_id}},{% endfor %}">
+
+	{% for collection in collectionList %}
+		<input type="hidden" class="collection_data" id="collection_data_{{collection.collection_id}}" value="{{collection}}">
+	{% endfor %}
+
+</div>
+
+
+{% else %}
+		<div id="no_collections" class="text-center">
+			<h4> You haven't added any collections to your store yet. </h4><hr>
+			<button type="button" class="btn btn-link btn-lg"><a href="/control/products/addCollection"> Add collection </a></button>
+		</div>
+{% endif %}
+</div>

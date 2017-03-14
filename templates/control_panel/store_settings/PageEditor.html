@@ -1,0 +1,81 @@
+{% block page_content %}
+
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-globe"></span> &nbsp;  <a href="/control/store/">Store settings</a> / <a href="/control/store/pages"> Pages </a> / <a href="/control/store/pages/{{control_data.page.page_id}}"> {{control_data.page.page_id}}</a> </h4>
+
+		<button type="button" class="btn btn-default btn-floated" id="btn_viewStore">View store &nbsp;<span class="glyphicon glyphicon-eye-open off_black"></span></button>
+		<button type="button" class="btn btn-default btn-floated" id="btn_savePageData">Save page &nbsp;<span class="glyphicon glyphicon-floppy-disk off_black"></span></button>
+	</div>
+</div>
+
+
+<div class="row">
+	<!-- Begin page editor content div -->
+	<div class="col-xs-12 tab_content">
+		<div class="row">
+		<!-- begin customer editor left panel -->
+			<div class="col-lg-9 flex-panel">
+				<div class="panel panel-default padded-panel text-center">
+				<h4> <span class="glyphicon glyphicon-edit"> </span> &nbsp;Page content </h4> <hr>
+					<div class="input-group">
+ 				 		<span class="input-group-addon" id="title-addon">Page title </span>
+						<input type="text" class="form-control editor_input" data-fieldID="page_title" placeholder="Enter a title for this page" value="{{control_data.page.title}}">
+					</div>
+
+					<hr>
+					<div id="input_PageHTML" contenteditable="true" data-fieldID="page_content"></div>
+				</div>					
+			</div>
+
+			<div class="col-lg-3 flex-panel">
+				<div class="panel panel-default padded-panel text-center">
+				<h4> <span class="glyphicon glyphicon-info-sign"> </span> &nbsp;Page details </h4> <hr>
+				
+				<div class="input-group">
+ 				 		<span class="input-group-addon" id="type-addon">Page type </span>
+						<select class="form-control editor_input" data-fieldID="page_type">
+							{% for page_type_id, page_type_data in control_data.page_types.iteritems() %}
+								{% if page_type_id == control_data.page.type %}
+								<option value="{{page_type_id}}" selected> {{page_type_id}} </option>
+								{% else %}
+								<option value="{{page_type_id}}"> {{page_type_id}} </option>
+								{% endif %}
+							{% endfor %}
+						</select>					
+				</div>
+
+				<hr>
+
+				<div class="input-group">
+ 				 		<span class="input-group-addon" id="template-addon"> Page template </span>	
+						<select class="form-control editor_input" data-fieldID="page_template">
+							{% for page_template_id, page_template_data in control_data.page_templates.iteritems() %}
+								<option value="{{page_template_id}}"> {{page_template_id}} </option>
+							{% endfor %}
+						</select>
+				</div>		
+
+				<hr>
+
+				<button type="button" class="btn btn-danger" id="btn_deletePage"> <span class="glyphicon glyphicon-remove-circle"> </span> &nbsp;Delete Page </button>		
+			</div>
+		<!-- end page editor left panel -->
+	
+		</div>
+	</div>
+	<!-- End page editor content div -->
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">	
+	</div>
+</div>
+
+<input type="hidden" class="editor_input" data-fieldID="page_id" id="page_id" value="{{control_data.page.page_id}}">
+<input type="hidden" id="page_content" value="{{control_data.page.content}}">
+
+{{ control_data.customer_editor_modals | safe }}
+
+{% endblock page_content %}

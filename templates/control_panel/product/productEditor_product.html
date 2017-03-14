@@ -1,0 +1,327 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-tags"></span> &nbsp;  <a href="/control/products/">Products</a> / {{ control_data.product_data.Title }} 	&nbsp;<span class="glyphicon glyphicon-pencil"></span> </h4>
+	
+
+	
+		<button type="button" class="btn btn-danger" id="btn_deleteProduct">Delete Product&nbsp;&nbsp;<span class="glyphicon glyphicon-trash white"> </span> </button>
+		<button type="button" class="btn btn-default" id="btn_saveProduct" data-toggle="modal" data-target="#modal_saveProduct">Save Product&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk off_black"> </span> </button>
+	</div>
+		
+</div>
+
+<div class="row">
+	<!-- Begin product editor content div -->
+	<div class="col-xs-12 tab_content">
+		<div class="row">
+
+			<!-- Begin: main product editor column (left aligned) -->
+			<div class="col-lg-7" id="product_editor_panel">
+
+				<div class="panel panel-default" id="panel_product_text_editor">
+					<h4> Product Details &nbsp;&nbsp; <span class="glyphicon glyphicon-list-alt"></span></h4>
+					<hr>
+					<div class="form-group">
+				  		<h5> Title </h5>
+				  			<input type="text" class="form-control editor_input_field" id="input_Title" value="{{control_data.product_data.Title}}">
+						<br>
+					
+						<h5> Description </h5>
+						<div class="panel panel-default" id="panel_product_description_editor">
+							<div id="input_BodyHTML" contenteditable="true">
+							</div>
+						</div>
+
+					</div>
+				</div>
+	
+
+ 				<!-- Begin: product image editor panel -->
+				<div class="panel panel-default" id="panel_product_images">
+				<h4> Product Images &nbsp;&nbsp; <span class="glyphicon glyphicon-picture"></span></h4>
+					<div class="text-center" id="product_images">
+				  		
+				  		<hr>
+				  		{% if control_data.image_resources %}
+				  			{% for resource_id, resource_uri in control_data.image_resources.iteritems() %}
+				  				{% if (resource_id | string) == control_data.product_data.ImageSrc %}
+				  					<div class="product_image main-image vcenter image_resource" id="img_{{resource_id}}">
+				  						
+				  					<button type="button" class="btn btn-default btn-sm image-btn delete" id="btn_deleteResource_{{resource_id}}" data-toggle="tooltip" title="Delete image">
+				  						<span class="glyphicon glyphicon-trash"></span>
+				  					</button>
+
+				  					<button type="button" class="btn btn-default btn-sm image-btn default" id="btn_setDefaultImage_{{resource_id}}" data-toggle="tooltip" title="Set as default">
+				  						<span class="glyphicon glyphicon-eye-open"></span>
+				  					</button>
+
+				  					</div>
+				  					<input type="hidden" id="resource_uri_{{resource_id}}" value="{{resource_uri}}">
+				  				{% else %}
+					  				<div class="product_image sub-image vcenter image_resource" id="img_{{resource_id}}">
+					  				
+					  				<button type="button" class="btn btn-default btn-sm image-btn delete" id="btn_deleteResource_{{resource_id}}" data-toggle="tooltip" title="Delete image">
+				  						<span class="glyphicon glyphicon-trash"></span>
+				  					</button>
+
+				  					<button type="button" class="btn btn-default btn-sm image-btn default" id="btn_setDefaultImage_{{resource_id}}" data-toggle="tooltip" title="Set as default">
+				  						<span class="glyphicon glyphicon-eye-open"></span>
+				  					</button>
+				  					
+					  				</div>
+					  				<input type="hidden" id="resource_uri_{{resource_id}}" value="{{resource_uri}}">
+				  				{% endif %}
+				  			{% endfor %}
+				  		{% else %}
+				  			<div class="product_image_main vcenter image_resource" id="img_1"></div>
+				  			<input type="hidden" id="resource_uri_1" value="/static/images/missing_product_icon.png">
+				  		{% endif %}
+				  		
+				  	</div>
+				  	<div class="text-center">
+				  	<hr>
+				  		<button type="button" class="btn btn-primary" id="btn_uploadImage" data-toggle="modal" data-target="#modal_uploadImage">Upload Image
+				  		&nbsp;&nbsp;<span class="glyphicon glyphicon-plus"> </span> </button>
+				  	</div>
+					
+				</div>
+				<!-- End: product image editor panel -->
+
+				 <!-- Begin: product variant editor panel -->
+				<div class="panel panel-default" id="panel_product_variant_editor">
+					
+				  		<h4 class="h4-inline"> Product Variation Options </h4>
+				  		<button type="button" class="btn btn-info" id="btn_saveVariantTypes"> Save changes &nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span> </button>
+				  		<div id="current_variant_types">
+				  		
+				  			{%  for variantType, variantValues in control_data.variant_types.iteritems() %}
+				  				<div class="variant_type" id="variantType_{{variantType}}">
+					  				<hr>
+					  				<h3 class="h3-inline" style="padding-left:10px;"> <b>{{variantType}}</b> </h3>
+					  				<button type="button" class="btn btn-primary btn-small btn_editVariantType" id="edit_variant_{{variantType}}" style="float:right;position:relative;margin-right:20px;bottom:8px;"> <span class="glyphicon glyphicon-pencil"></span> </button>
+
+					  				<button type="button" class="btn btn-warning btn-small btn_deleteVariantType" id="variant_{{variantType}}" style="float:right;position:relative;margin-right:20px;bottom:8px;"> <span class="glyphicon glyphicon-trash"></span> </button>
+					  				<hr>
+					  				
+					  				{% for variantValue in variantValues %}
+
+					  				<button type="button" class="btn btn-primary btn-small btn_newVariantType"> {{variantValue}} </button>
+						
+					  				{% endfor %}
+				  				</div>
+				  			{% endfor %}
+				  		</div>
+
+
+						<hr>
+				  		
+				  			<div id="variant_add_step1" class="text-center">
+					  			<h3 class="h3-inline">Create a new variant option:</h3><hr> 
+						  			<h3 class="h3-inline">Name:&nbsp;&nbsp;</h3><input class="form-control variant_class_input" type="text" placeholder="e.g. Color, Size, Capacity" id="newVariantType_input"><hr>
+						  			<button type="button" class="btn btn-default btn_variantNext" id="btn_addVariantType"> Continue to add items &nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right"></span> </button>
+					  		</div>
+
+					  		<div id="variant_add_step2" class="text-center">
+					  			<h3 class="h3-inline">Enter some ways this could vary:</h3><hr> 
+						  			<h3 class="h3-inline">Value:&nbsp;&nbsp;</h3> <input class="form-control variant_value_input" type="text" id="newVariantValue_input" placeholder="e.g. Small, Medium, Large"> 
+						  			<button type="button" class="btn btn-default btn_variantNext" id="btn_addVariantValue"><span class="glyphicon glyphicon-plus"></span> </button> 
+
+
+						  			<select class="form-control variant_value_input" id="select_newVariantValues"> </select>
+						  			<button type="button" class="btn btn-default btn_variantNext" id="btn_deleteVariantValue"><span class="glyphicon glyphicon-minus"></span> </button>
+
+						  			<hr>
+						  			<button type="button" class="btn btn-default btn_variantNext" id="btn_variantSummary"> Review variant options &nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right"></span> </button>
+
+					  		</div>
+
+					  		<div id="variant_add_step3" class="text-center">
+					  			<h3 class="h3-inline" id="newVariantType_label"></h3><hr>
+					  			<div id="new_variant_types"></div>
+					  			<hr>
+
+					  			<button type="button" class="btn btn-default btn_variantNext" id="btn_confirmNewVariant"> Save these variant options &nbsp;&nbsp;<span class="glyphicon glyphicon-ok"></span></button>
+							</div>
+				</div>
+				<!-- End: product variant editor panel -->
+
+
+
+ 			</div>
+ 			<!-- End: main product editor column (left aligned) -->
+
+ 			<!-- Begin: product attribute editor column (right aligned) -->
+			<div class="col-lg-5" id="product_editor_attributes">
+				<div class="panel panel-default text-center" id="panel_product_visibility">
+					<h4> Product Visibility &nbsp;&nbsp; <span class="glyphicon glyphicon-eye-open"></span> </h4>
+					<hr>
+					
+					<input type='checkbox' class="editor_input_field" id="input_Published" {% if control_data.product_data.Published == "true" %}checked{% endif %}> 
+					Show in Online store? 
+				</div>
+
+
+				{% if control_data.variant_types | length >= 1 %}
+				 <!-- Begin: product variant editor panel -->
+				
+				<div class="panel panel-default" id="panel_product_variants">
+					<div class="form-group">
+				  		<h4> Available product variants </h4>
+				  		{{ control_data.productVariantTable | safe }}
+						<hr>
+						{% if control_data.variant_types | length >= 1 %}
+							<div id="create_variant" class="text-center">
+
+					  		<h3 class="h3-inline">Add a new variant:</h3><hr>
+					  			{%  for variantType, variantValues in control_data.variant_types.iteritems() %}
+					 					<h3 class="h3-inline">{{variantType}}:</h3>
+					 					<select class="new_variant_select" id="product_variant_{{variantType}}">
+						  				{% for variantValue in variantValues %}
+						  					<option value="{{variantValue}}">{{variantValue}}</option>
+						  				{% endfor %}
+					  					</select>
+					  					<hr>
+					  			{% endfor %}
+					  			<button type="button" class="btn btn-primary btn-lg" id="btn_addProductVariant"> Add variant </button>
+					  		</div>
+				  		{% else %}
+				  			<h4 class="h4-inline">Add some options to add new product variants. </h4>
+				  		{% endif %}
+					</div>
+				</div>
+				<!-- End: product variant editor panel -->
+
+				{% else %}
+
+ 				<!-- Begin: product main price editor -->
+					<div class="panel panel-default text-center" id="panel_product_text_editor">
+						<div class="form-group">
+							<h4> Product Info &nbsp;&nbsp;<span class="glyphicon glyphicon-info-sign"></span> </h4>
+							<hr>
+					  		<h5> Inventory Quantity: </h5>
+					  		<div class="input-group">
+								  <span class="input-group-addon" id="inventory-addon">#</span>
+					  				<input type="text" class="form-control editor_input_field" id="input_VariantInventoryQty" value="{{control_data.product_data.VariantInventoryQty}}" aria-describedby="inventory-addon">
+					  		</div>
+							<hr>
+
+					  		<h5> Product price: </h5>
+					  			<div class="input-group">
+								  <span class="input-group-addon" id="price-addon">$</span>
+								  <input type="text" class="form-control editor_input_field"  id="input_VariantPrice" placeholder="Product Price" aria-describedby="price-addon" value="{{'%0.2f' % control_data.product_data.VariantPrice | float }}">
+								</div>
+
+					  		<hr>
+							<h5> Compare at price: </h5>
+							<div class="input-group">
+								 <span class="input-group-addon" id="price-addon1">$</span>
+					  			<input type="text" class="form-control editor_input_field" id="input_VariantCompareAtPrice" aria-describedby="price-addon1" value="{{ '%0.2f' % control_data.product_data.VariantCompareAtPrice | float }}">
+					  		</div>
+						
+
+						</div>
+					</div>
+				<!-- End: product variant price editor -->
+
+				{% endif %}
+
+
+				<div class="panel panel-default text-center" id="panel_product_organization">
+					<h4> Product Organization &nbsp;&nbsp;<span class="glyphicon glyphicon-folder-open"></span></h4>
+					<hr>
+
+					<h5> Product tags &nbsp;&nbsp; <span class="glyphicon glyphicon-tag"></span> </h5>
+					<div class="btn-group editor_btn_group" role="group" aria-label="product_tags">
+
+						<select class="form-control">
+
+							{% if control_data.product_data.Tags | length < 1 %}
+								<option value="notags"> No tags on this product </option>
+							{% else %}
+								{% for tag in control_data.product_data.Tags %}
+								<option value="{{tag}}">{{tag}}</option>
+								{% endfor %}
+							{% endif %}
+
+						</select>
+
+						<button type="button" class="btn btn-default form-control" id="btn_editProductTags" data-toggle="modal" data-target="#modal_editProductTags">Modify&nbsp;&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span></button>
+
+					</div>
+
+					<hr>
+					<h5> Product type </h5>
+					<div class="btn-group editor_btn_group" role="group" aria-label="product_type">
+						<select class="form-control editor_input_field" id="input_Type">
+							{% for type in control_data.product_types %}
+								<option value="{{type}}" 
+									{% if control_data.product_data.Type == type %} selected {% endif %}>
+									{{type}}
+								</option>
+							{% endfor %}
+							
+							
+							
+								<option value="None" {% if control_data.product_data.Type == None or control_data.product_data.Type == "None" %} selected {% endif %}> 
+									No type
+								</option>
+
+						</select>
+						<button type="button" class="btn btn-default form-control" data-toggle="modal" data-target="#modal_editProductTypes"> Update types&nbsp;&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span></button>
+					</div>
+					
+					<hr>
+					<h5> Vendor </h5>
+					<div class="btn-group editor_btn_group" role="group" aria-label="product_vendor">
+						<select class="form-control">
+							<option>allenlake</option>
+						</select>
+						<button type="button" class="btn btn-default form-control"> Change vendor&nbsp;&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span></button>
+					</div>
+					
+
+
+
+					<hr>
+					<h5> Collection </h5>
+					<div class="btn-group editor_btn_group" role="group" aria-label="product_collection">
+						<select class="form-control">
+							<option>No collection</option>
+						</select>
+						<button type="button" class="btn btn-default form-control"> Change collection(s)&nbsp;&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span></button>
+					</div>
+					
+
+
+				</div>
+			</div>
+			<!-- End: product attribute editor column (right aligned) -->
+
+		</div>
+	</div>
+	<!-- End: Product editor content div -->
+</div>
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">	
+	
+	</div>
+</div>
+
+
+<div class="data_container">
+	<input type="text" id="product_description_html" value="{{control_data.product_data.BodyHTML}}"> 
+	<input type="text" id="currentVariantTypes" value="{{control_data.variant_types}}">
+
+	<input type="hidden" id="currentProductId" value="{{control_data.product_data.product_id}}">
+	<input type="hidden" id="currentBodyHTML" value="{{control_data.product_data.BodyHTML}}">
+    <input type="hidden" id="currentProductTitle" value="{{control_data.product_data.Title}}">
+    <input type="hidden" id="currentProductPublished" value="{{control_data.product_data.Published}}">
+    <input type="hidden" id="currentVariantPrice" value="{{control_data.product_data.VariantPrice}}">
+    <input type="hidden" id="currentVariantCompareAtPrice" value="{{control_data.product_data.VariantCompareAtPrice}}">
+
+
+
+</div>
+{% endblock page_content %}

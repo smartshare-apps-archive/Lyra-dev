@@ -1,0 +1,36 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"><span class="glyphicon glyphicon-tags"></span> &nbsp;  <a href="/control/products/">Products</a> / <a href="/control/products/inventory">Inventory</a> </h4>
+		<button type="button" class="btn btn-default" id="btn_viewProducts">View Products</button>
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="col-xs-12" id="search_products">
+		{{ control_data.productSearchPanel | safe }} 
+	</div>
+</div>
+
+{{ control_data.productInventoryActionPanel | safe }}
+
+
+<div class="row">
+	<div class="col-xs-12 tab_content">
+		{{ control_data.productInventoryTable | safe }}
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">
+				
+	</div>
+</div>
+
+
+
+{% endblock page_content %}
+

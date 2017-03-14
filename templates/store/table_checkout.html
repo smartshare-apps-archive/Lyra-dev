@@ -1,0 +1,194 @@
+
+
+	<div class="row">
+		<h4 class="h4-inline"> Contact Information </h4>
+		<div class="col-xs-12" >
+			<div class="input-group customer_info_input">
+				<span class="input-group-addon placeholder_addon glyphicon glyphicon-envelope"></span>
+				<input type="text" class="form-control" id="customer_Email" placeholder="Email" value="{% if saved_customer_data.Email %}{{ saved_customer_data.Email }}{% endif %}">
+			</div>
+			
+		</div>
+
+
+		<div class="col-xs-12">
+			<div class="input-group customer_info_input">
+				<span class="input-group-addon placeholder_addon glyphicon glyphicon-earphone"></span>
+				<input type="text" class="form-control" placeholder="Phone number (optional)"id="customer_Phone">
+			</div>
+		</div>
+
+
+		<div class="col-xs-12">
+			<div class="input-group customer_info_input">
+				<input type="text" class="form-control" placeholder="Company (optional)" id="customer_Company">
+			</div>
+			<hr>
+		</div>
+
+	</div>
+
+<!-- start billing info container -->
+	<div class="row" id="billing_info_container">
+		<div class="col-xs-12">
+			<h4 class="h4-inline"> Billing Address </h4>
+			<div class="btn-group" role="group" aria-label="ship_to_address" id="ship_to_address_grp">
+				<label class="btn btn-default"> <input type="checkbox" id="chk_ship_to_address" checked> Ship to this address </label>	
+			</div>
+		</div>
+
+		<div class="col-xs-6"> 
+			<div class="input-group customer_info_input">
+				<input type="text" class="form-control"  id="customer_BillingFirstName" placeholder="First name" value="{% if saved_customer_data.BillingFirstName %} {{ saved_customer_data.BillingFirstName }}{% endif %}">
+			</div>
+		</div>
+
+		<div class="col-xs-6"> 
+			<div class="input-group customer_info_input">
+				<input type="text" class="form-control" placeholder="Last name" id="customer_BillingLastName" value="{% if saved_customer_data.BillingLastName %} {{ saved_customer_data.BillingLastName }}{% endif %}">
+			</div>
+
+		</div>
+		
+		<div class="col-xs-8"> 
+			<div class="input-group customer_info_input">
+				<input type="text" class="form-control" placeholder="Address" id="customer_BillingAddress1" value="{% if saved_customer_data.BillingAddress1 %} {{ saved_customer_data.BillingAddress1 }}{% endif %}">
+			</div>
+		</div>
+
+		<div class="col-xs-4"> 
+			<div class="input-group customer_info_input">
+				<input type="text" class="form-control" placeholder="Apt, suite, etc." id="customer_BillingAddress2" value="{% if saved_customer_data.BillingAddress2 %} {{ saved_customer_data.BillingAddress2 }}{% endif %}">
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="input-group customer_info_input">
+				<input type="text" class="form-control" placeholder="City" id="customer_BillingCity" value="{% if saved_customer_data.BillingCity %} {{ saved_customer_data.BillingCity}}{% endif %}">
+			</div>
+		</div>
+
+		<div class="col-xs-5"> 
+			<div class="input-group customer_info_input">
+				<select class="form-control" placeholder="Country" id="customer_BillingCountry">
+					{{ country_options | safe }}
+				</select>
+			</div>
+		</div>
+
+		<div class="col-xs-4"> 
+			<div class="input-group customer_info_input">
+			<input type="text" class="form-control" placeholder="State" id="customer_BillingState" value="{% if saved_customer_data.BillingState %} {{ saved_customer_data.BillingState}}{% endif %}">
+			</div>
+		</div>
+
+		<div class="col-xs-3"> 
+			<div class="input-group customer_info_input">
+				<input type="text" class="form-control" placeholder="Zip code" id="customer_BillingPostalCode" value="{% if saved_customer_data.BillingPostalCode %} {{ saved_customer_data.BillingPostalCode }}{% endif %}">
+			</div>
+		</div>
+	</div>
+<!-- end billing info container -->
+
+<!-- start shipping info container -->
+<div class="row" id="shipping_info_container">
+	<hr>
+		<div class="col-xs-12">
+			<h4 class="h4-inline"> Shipping Address </h4>
+		</div>
+
+		<div class="col-xs-6"> 
+			<div class="input-group customer_info_input">
+				<input type="text" class="form-control"  id="customer_ShippingFirstName" placeholder="First name" value="{% if saved_customer_data.ShippingFirstName %} {{ saved_customer_data.ShippingFirstName }}{% endif %}">
+			</div>
+		</div>
+
+		<div class="col-xs-6"> 
+			<div class="input-group customer_info_input">
+				<input type="text" class="form-control" placeholder="Last name" id="customer_ShippingLastName" value="{% if saved_customer_data.ShippingLastName %} {{ saved_customer_data.ShippingLastName }}{% endif %}">
+			</div>
+
+		</div>
+
+		<div class="col-xs-8"> 
+			<div class="input-group customer_info_input">
+				<input type="text" class="form-control" placeholder="Address" id="customer_ShippingAddress1" value="{% if saved_customer_data.ShippingAddress1 %} {{  saved_customer_data.ShippingAddress1 }}{% endif %}">
+			</div>
+		</div>
+
+		<div class="col-xs-4"> 
+			<div class="input-group customer_info_input">
+				<input type="text" class="form-control" placeholder="Apt, suite, etc." id="customer_ShippingAddress2" value="{% if  saved_customer_data.2 %} {{  saved_customer_data.ShippingAddress2 }}{% endif %}">
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="input-group customer_info_input">
+				<input type="text" class="form-control" placeholder="City" id="customer_ShippingCity" value="{% if  saved_customer_data.ShippingCity %} {{ saved_customer_data.ShippingCity }}{% endif %}">
+			</div>
+		</div>
+
+		<div class="col-xs-5"> 
+			<div class="input-group customer_info_input">
+				<select class="form-control" placeholder="Country" id="customer_ShippingCountry">
+					{{ country_options | safe }}
+				</select>
+			</div>
+		</div>
+
+		<div class="col-xs-4"> 
+			<div class="input-group customer_info_input">
+			<input type="text" class="form-control" placeholder="State" id="customer_ShippingState" value="{% if saved_customer_data.ShippingState %} {{ saved_customer_data.ShippingState }}{% endif %}">
+			</div>
+		</div>
+
+		<div class="col-xs-3"> 
+			<div class="input-group customer_info_input">
+				<input type="text" class="form-control" placeholder="Zip code" id="customer_ShippingPostalCode" value="{% if saved_customer_data.ShippingPostalCode %} {{ saved_customer_data.ShippingPostalCode }}{% endif %}">
+			</div>
+		</div>
+</div>
+<!-- start shipping info container -->
+
+<!-- start payment info container -->
+	<div class="row" id="payment_info_container">
+		<h4 class="h4-inline"> Payment Information </h4>
+		<div class="col-xs-12">
+			<div class="input-group customer_info_input">
+				<span class="input-group-addon placeholder_addon glyphicon glyphicon-credit-card"></span>
+				<input type="text" class="form-control" id="customer_cc" placeholder="Credit Card">
+			</div>
+
+		</div>
+
+		<div class="col-xs-6"> 
+			<div class="input-group customer_info_input">
+				<span class="input-group-addon placeholder_addon glyphicon glyphicon-lock"></span>
+				<input type="text" class="form-control"  id="customer_cvc" placeholder="Security code">
+			</div>
+		</div>
+
+		<div class="col-xs-6"> 
+			<div class="input-group customer_info_input">
+				<span class="input-group-addon placeholder_addon glyphicon glyphicon-calendar"></span>
+				<input type="text" class="form-control" placeholder="Expiration date" id="customer_exp">
+			</div>
+
+		</div>
+
+
+	</div>
+
+	<div class="row" id="checkout_actions">
+	<hr>
+		<div class="col-xs-12"> 
+			<div class="btn-group" role="group" aria-label="checkout_browser" id="checkout_action_bar">
+				<button type="button" class="btn btn-default disabled" id="btn_checkoutPrevious"> <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;&nbsp;<span id="previous_message"></span> </button> 
+				<button type="button" class="btn btn-default disabled" id="btn_checkoutNext"> <span id="next_message">Continue to payment</span> &nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right"></span> </button> 
+			</div>
+		</div>
+	</div>
+
+
+<!-- <span class="input-group-addon valid_entry glyphicon glyphicon-ok green"></span>  -->
+<!-- <span class="input-group-addon invalid_entry glyphicon glyphicon-remove red"></span> -->

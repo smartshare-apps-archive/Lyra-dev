@@ -1,0 +1,96 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-globe"></span> &nbsp;  <a href="/control/store/">Store settings</a> </h4>
+
+		<button type="button" class="btn btn-primary" id="btn_exportSettings">Export settings</button>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12 tab_content">
+		<div class="row">
+		<!-- Begin: general settings column (left aligned) -->
+			<div class="col-lg-12 flex-panel">
+				<div class="panel panel-default padded-panel">
+					<h4> <span class="glyphicon glyphicon-wrench"></span> &nbsp;Store settings </h4>
+					<hr class="hr-defined">
+					<div class="row settings-row">
+						<div class="col-md-4">
+							<a href="/control/store/navigation"> 
+								<div class="col-lg-12 settings-tile text-center">
+									Navigation Settings <hr>
+									<span class="glyphicon glyphicon-globe glyph-lg faded_black"></span>
+								</div>
+							</a>
+						</div>
+
+						
+						<div class="col-md-4">
+							<a href="/control/store/footer"> 
+								<div class="col-lg-12 settings-tile text-center">
+									Footer Settings <hr>
+									<span class="glyphicon glyphicon-object-align-bottom glyph-lg faded_black"></span>
+								</div>
+							</a>
+						</div>
+						
+
+						<div class="col-md-4">
+							<a href="/control/store/pages"> 
+							<div class="col-lg-12 settings-tile text-center">
+								 Pages <hr>
+								<span class="glyphicon glyphicon-duplicate glyph-lg faded_black"></span>
+							</div>
+							</a>
+						</div>
+						
+					</div>
+					<hr>
+				<div class="row settings-row">
+						<div class="col-md-4">
+							<a href="/control/store/file_manager"> 
+							<div class="col-lg-12 settings-tile text-center">
+								File Manager <hr>
+								<span class="glyphicon glyphicon-folder-open glyph-lg faded_black"></span>
+							</div>
+							</a>
+						</div>
+						
+						<div class="col-md-4">
+							<a href="/control/store/theme_manager"> 
+							<div class="col-lg-12 settings-tile text-center">
+								Theme manager <hr>
+								<span class="glyphicon glyphicon-eye-open glyph-lg faded_black"></span>
+							</div>
+							</a>
+						</div>
+						
+						<div class="col-md-4">
+							<div class="col-lg-12 settings-tile text-center">
+								<a href="/control/store/navigation"> Domains </a> <hr>
+								<span class="glyphicon glyphicon-tent glyph-lg faded_black"></span>
+							</div>
+						</div>
+						
+					</div>
+					
+				</div>
+				
+			</div>
+		<!-- End: general settings column (left aligned) -->
+
+		
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">			
+	</div>
+</div>
+
+
+
+{% endblock page_content %}

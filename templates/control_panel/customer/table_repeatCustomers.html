@@ -1,0 +1,43 @@
+  {% if repeatCustomers %}
+
+  <table class="table table-bordered table-hover">
+ 	<thead>
+ 	<th class="th_select">  </th>
+ 	<th> Name </th>
+ 	<th> Location </th>
+ 	<th> Last order </th>
+ 	<th> Total Spent</th>
+
+ 	</thead>
+ 	<tbody>
+ 	{% for customer_id, customer in repeatCustomers.iteritems() %}
+ 	<tr class="row_customer" data-customerID="{{customer_id}}">
+ 		<td> 
+ 		 	<label class="btn btn-default select_container">
+           		<input type="checkbox" class="selectTableItem" data-customerID="{{customer_id}}">
+        	</label> 
+ 		</td>
+ 		
+ 		<td> 
+ 			<a href="/control/customers/{{customer.customer_id}}" class="customer_link">{{ customer.ShippingFirstName }} {{ customer.ShippingLastName }}</a> 
+ 		</td>
+ 		<td> {{customer.ShippingState}}, {{customer.ShippingCountry}} </td>
+ 		
+ 		<td> <a href="/control/orders/{{customer.LastOrder}}">#{{ customer.LastOrder }}  </a></td>
+
+ 		<td> $&nbsp; {{ "%0.2f" % customer.TotalSpent }}</td>
+ 	</tr>
+ 	{% endfor %}
+
+
+ 	</tbody>
+  </table>	
+
+
+
+{% else %}
+		<div id="no_customers" class="text-center">
+			<h4> You don't have any repeat customers yet. </h4><hr>
+			<button type="button" class="btn btn-link btn-lg"><a href="/control/customers/"> Kill yourself </a></button>
+		</div>
+{% endif %}

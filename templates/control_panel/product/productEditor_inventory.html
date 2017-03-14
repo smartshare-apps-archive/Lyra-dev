@@ -1,0 +1,125 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-tags"></span> &nbsp; <a href="/control/products/">Products</a> / <a href="/control/products/inventory">Inventory</a> / {{ control_data.product_data.Title }}{% for option,value in control_data.variant_data.VariantData.iteritems() %}/{{value}}{% endfor %}
+&nbsp;<span class="glyphicon glyphicon-pencil"></span> </h4>
+
+		<button type="button" class="btn btn-warning" id="btn_deleteVariant">Delete Variant  <span class="glyphicon glyphicon-trash"> </span> </button>
+		<button type="button" class="btn btn-primary" id="btn_saveProduct" data-toggle="modal" data-target="#modal_saveProduct">Save Variant <span class="glyphicon glyphicon-floppy-disk"> </span> </button>
+		
+	</div>
+		
+</div>
+
+<div class="row">
+	<!-- Begin product editor content div -->
+	<div class="col-xs-12 tab_content">
+		<div class="row">
+
+			<!-- Begin: main product editor column (left aligned) -->
+			<div class="col-md-6" id="product_editor_panel">
+ 				<!-- Begin: product variant price editor -->
+				<div class="panel panel-default" id="panel_product_text_editor">
+					<div class="form-group">
+						<h4> Product Pricing </h4>
+						<hr>
+				  		<h5> Price: </h5>
+				  				<input type="text" class="form-control" id="input_VariantPrice" value="{{'%0.2f' % control_data.variant_data.VariantPrice | float }}">
+						<h5> Compare at price: </h5>
+				  			<input type="text" class="form-control" id="input_VariantCompareAtPrice" value="{{ '%0.2f' % control_data.variant_data.VariantCompareAtPrice | float }}">
+
+						<br>
+
+					</div>
+				</div>
+				<!-- End: product variant price editor -->
+
+ 				<!-- Begin: product variant inventory editor -->
+				<div class="panel panel-default" id="panel_product_text_editor">
+					<div class="form-group">
+				  		<h4> Inventory </h4>
+						<hr>
+				  		<div class="form-group">
+				  			<h5> Current inventory quantity: </h5>
+				  			<input type="text" class="form-control" id="input_VariantStock" value="{{control_data.variant_data.VariantInventoryQty}}">
+				  			<h5> SKU: </h5>
+				  			<input type="text" class="form-control" id="input_VariantSKU" value="{{control_data.variant_data.VariantSKU}}">
+				  			<h5> Barcode: </h5>
+				  			<input type="text" class="form-control" id="input_VariantBarcode" value="{{control_data.variant_data.VariantBarcode}}">
+				  		
+
+				  		</div>
+				  		
+					</div>
+				</div>
+				<!-- End: product variant inventory editor -->
+
+ 			</div>
+ 			<!-- End: main product editor column (left aligned) -->
+
+ 			<!-- Begin: product attribute editor column (right aligned) -->
+			<div class="col-md-6" id="product_editor_attributes">
+
+				<div class="panel panel-default" id="panel_product_options_editor">
+					<div class="form-group">
+				  		{% if control_data.variant_types | length >= 1 %}
+							<div id="variant_attributes">
+					  		<h4>Variant attributes: </h4><hr>
+					  			{%  for option,value in control_data.variant_data.VariantData.iteritems() %}
+					 					<h3 class="h3-inline">{{option}}:</h3> <button type="button" class="btn btn-primary btn_variantAttribute_inventory"> {{value}} </button> <hr>
+					  			{% endfor %}
+					  		</div>
+					  	{% endif %}
+					</div>
+				</div>
+				
+				<div class="panel panel-default" id="panel_product_visibility">
+					<h4> Product Variants </h4>
+					<hr>
+					{{ control_data.productVariantTable | safe }}	
+				</div>
+
+			</div>
+			<!-- End: product attribute editor column (right aligned) -->
+
+		</div>
+	</div>
+	<!-- End: Product editor content div -->
+</div>
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">	
+	
+	</div>
+</div>
+
+
+<div class="data_container">
+	
+	<table class="table">
+		<thead>
+			<tr>
+			<th>Product ID</th>
+		    <th>Variant Price</th>
+		    <th>Variant Compare at price</th>
+			<th>Variant SKU</th>
+			<th>Variant Barcode</th>
+			<th>Variant Stock</th>
+			</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td><input type="hidden" id="currentVariantID" value="{{control_data.variant_data.variant_id}}"></td>
+			<td><input type="hidden" id="currentVariantPrice" value="{{control_data.variant_data.VariantPrice}}"></td>
+			<td><input type="hidden" id="currentVariantCompareAtPrice" value="{{control_data.variant_data.VariantCompareAtPrice}}"></td>
+			<td><input type="hidden" id="currentVariantSKU" value="{{control_data.variant_data.VariantSKU}}"></td>
+			<td><input type="hidden" id="currentVariantBarcode" value="{{control_data.variant_data.VariantBarcode}}"></td>
+			<td><input type="hidden" id="currentVariantStock" value="{{control_data.variant_data.VariantInventoryQty}}"></td>
+
+		</tr>
+		</tbody>
+	</table>
+
+	
+</div>
+{% endblock page_content %}

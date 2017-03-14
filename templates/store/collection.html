@@ -1,0 +1,15 @@
+{% extends "store/base.html" %}
+
+		{% block page_title %}
+			<title> {{ data.page_content.collection_title }} </title>
+		{% endblock page_title %}
+
+		{% block page_content %}
+
+			<hr>
+			<h3 class="h3-inline"> {{ data.page_content.collection_title}} </h3>
+			<hr>
+	
+		{{ data.page_content.product_rows | safe }}
+		
+		{% endblock page_content %}

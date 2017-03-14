@@ -1,0 +1,146 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-tags"></span> &nbsp;  <a href="/control/products/">Products</a> / New Product 	&nbsp;<span class="glyphicon glyphicon-pencil"></span> </h4>
+
+
+	
+		<button type="button" class="btn btn-primary" id="btn_saveProduct" data-toggle="modal" data-target="#modal_saveProduct">Save Product <span class="glyphicon glyphicon-floppy-disk"> </span> </button>
+	</div>
+		
+</div>
+
+<div class="row">
+	<!-- Begin product editor content div -->
+	<div class="col-xs-12 tab_content">
+		<div class="row">
+
+			<!-- Begin: main product editor column (left aligned) -->
+			<div class="col-md-7" id="product_editor_panel">
+
+				<div class="panel panel-default" id="panel_product_text_editor">
+					<h4> Product Details </h4>
+					<hr>
+					<div class="form-group">
+				  		<h5> Title </h5>
+				  			<input type="text" class="form-control" id="input_product_title" value="">
+						<br>
+					
+						<h5> Description </h5>
+						<div class="panel panel-default" id="panel_product_description_editor">
+							<div id="product_description_editor" contenteditable="true">
+							</div>
+						</div>
+
+					</div>
+				</div>
+	
+
+ 				<!-- Begin: product image editor panel -->
+				<div class="panel panel-default" id="panel_product_images">
+				<h4> Product Images </h4>
+					<div class="text-center" id="product_images">
+				  		
+				  		<hr>
+				  		{% if control_data.image_resources %}
+				  			{% for resource_id, resource_uri in control_data.image_resources.iteritems() %}
+				  				{% if (resource_id | string) == control_data.product_data.ImageSrc %}
+
+				  					<div class="product_image_main vcenter image_resource" id="img_{{resource_id}}"></div>
+				  					<input type="hidden" id="resource_uri_{{resource_id}}" value="{{resource_uri}}">
+				  				{% else %}
+					  				<div class="product_image_sub vcenter image_resource" id="img_{{resource_id}}"></div>
+					  				<input type="hidden" id="resource_uri_{{resource_id}}" value="{{resource_uri}}">
+				  				{% endif %}
+				  			{% endfor %}
+				  		{% else %}
+				  			<div class="product_image_main vcenter image_resource" id="img_1"></div>
+				  			<input type="hidden" id="resource_uri_1" value="/static/images/missing_product_icon.png">
+				  		{% endif %}
+				  		
+				  	</div>
+				  	<div class="text-center">
+				  	<hr>
+				  		<button type="button" class="btn btn-primary" id="btn_uploadImage" data-toggle="modal" data-target="#modal_uploadImage">Upload Image
+				  		&nbsp;&nbsp;<span class="glyphicon glyphicon-plus"> </span> </button>
+				  	</div>
+					
+				</div>
+				<!-- End: product image editor panel -->
+
+
+
+ 			</div>
+ 			<!-- End: main product editor column (left aligned) -->
+
+ 			<!-- Begin: product attribute editor column (right aligned) -->
+			<div class="col-md-5" id="product_editor_attributes">
+				<div class="panel panel-default text-center" id="panel_product_visibility">
+					<h4> Product Visibility </h4>
+					<hr>
+					<input type='checkbox' id="chk_product_x"> 
+					Show in Online store? 
+				</div>
+
+
+				<div class="panel panel-default text-center" id="panel_product_organization">
+					<h4> Organization </h4>
+					<hr>
+					<h5> Product Type </h5>
+					<select class="select_product_editor">
+						<option>test</option>
+					</select>
+
+					<h5> Vendor </h5>
+					<select class="select_product_editor">
+						<option>allenlake</option>
+					</select>
+
+					<hr>
+					<h5> Collection </h5>
+
+
+				</div>
+
+
+			</div>
+			<!-- End: product attribute editor column (right aligned) -->
+
+		</div>
+	</div>
+	<!-- End: Product editor content div -->
+</div>
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">	
+	
+	</div>
+</div>
+
+
+<div class="data_container">
+	<input type="text" id="product_description_html" value=""> 
+	<input type="hidden" id="main_product_img" value="">
+
+	<table class="table">
+		<thead>
+			<tr>
+			<th>Product ID</th>
+		    <th>Title</th>
+		    <th>Description</th>
+		    <th>Visibility</th>
+			</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td id="currentProductId"></td>
+		    <td id="currentProductTitle"></td>
+		    <td id="currentProductDescription"></td>
+		    <td id="currentProductVisibility"></td>
+		</tr>
+		</tbody>
+	</table>
+
+	
+</div>
+{% endblock page_content %}

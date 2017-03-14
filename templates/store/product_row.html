@@ -1,0 +1,60 @@
+
+
+	{% for row in rows %}
+
+	<div class="row">
+		{% if row | length == 3 %}	
+
+			{% for product_id in row %}
+				<div class="col-sm-4 product_tile" id="product_{{product_id}}">
+					<h5>{{ products[product_id].Title }} | <b> ${{ '%0.2f' % products[product_id].VariantPrice }} </h5>
+						
+
+					{% if image_resources[product_id | string] %}
+						<input type="hidden" class="product_thumbnail_src" value="{{image_resources[product_id]}}" id="product_{{product_id}}_thumbnail">	
+					{% else %}
+						<input type="hidden" class="product_thumbnail_src" value="/static/images/missing_product_icon.png" id="product_{{product_id}}_thumbnail">	
+					{% endif %}
+				</div>
+
+			{% endfor %}
+
+		{% elif row | length == 2 %}
+
+			{% for product_id in row %}
+				<div class="col-sm-6 product_tile" id="product_{{product_id}}">
+					<h5>{{ products[product_id].Title }} | <b> ${{ '%0.2f' % products[product_id].VariantPrice }} </h5>
+
+
+					{% if image_resources[product_id | string] %}
+						<input type="hidden" class="product_thumbnail_src" value="{{image_resources[product_id]}}" id="product_{{product_id}}_thumbnail">	
+					{% else %}
+						<input type="hidden" class="product_thumbnail_src" value="/static/images/missing_product_icon.png" id="product_{{product_id}}_thumbnail">	
+					{% endif %}
+				</div>
+			{% endfor %}
+
+		{% elif row | length == 1 %}
+
+			{% for product_id in row %}
+				<div class="col-sm-3"></div>
+				<div class="col-sm-6 product_tile" id="product_{{product_id}}">
+					<h5>{{ products[product_id].Title }} | <b> ${{ '%0.2f' % products[product_id].VariantPrice }} </h5>
+
+
+					{% if image_resources[product_id | string] %}
+						
+						<input type="hidden" class="product_thumbnail_src" value="{{image_resources[product_id]}}" id="product_{{product_id}}_thumbnail">	
+						
+					{% else %}
+						<input type="hidden" class="product_thumbnail_src" value="/static/images/missing_product_icon.png" id="product_{{product_id}}_thumbnail">	
+					{% endif %}
+				</div>
+				<div class="col-sm-3"></div>
+			{% endfor %}
+
+		{% endif %}
+	</div>
+	<hr>
+	{% endfor %}
+

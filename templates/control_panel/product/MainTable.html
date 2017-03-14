@@ -1,0 +1,79 @@
+
+<div class="row">
+	{% if productList | length == 0 %}
+		<div id="no_products" class="text-center">
+			<h4> You haven't added any products to your store yet. </h4><hr>
+			<button type="button" class="btn btn-link btn-lg"><a href="/control/products/addProduct"> Add product </a></button>
+		</div>
+	{% endif %}
+
+	{% for product_id, product in productList.iteritems() %}
+
+		<div class="col-lg-3 col-md-4 col-sm-6 product_container" id="product_{{product.product_id}}"> 
+			
+			
+				<h4 id="product_title"> <a href="" class="product_link"> {{ product.Title }} </a> </h4>
+				
+				<div class="btn-group product_tile_actions" role="group" aria-label="product selection">
+
+				<label class="btn btn-default select_container">
+           			<input type="checkbox" class="selectProduct" id="chk_{{product.product_id}}">
+        		</label>
+
+				<button type="button" class="btn btn-default btn_launch_editor"> Edit &nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"> </span> </button>
+				</div>
+				
+				<div class="product_img_cont"></div>
+
+				<input type="hidden" id="thumbnail_uri_{{product.product_id}}" value="{{product_thumbnail[product.product_id | string]}}">
+
+				<div id="default_content_{{product.product_id}}">
+
+				</div>
+
+				<div id="info_content_{{product.product_id}}" class="info_panel">
+
+							<div class="product_info_cell"> 
+							<hr class="unpadded_hr" >
+								<button type="button" class="btn btn-default btn_info_cell"> 
+									<b class="info_field">Inventory:</b> 
+									<span class="info_value"> {{product.VariantInventoryQty}} </span>
+								</button> 
+							 	<button type="button" class="btn btn-default btn_info_cell"> 
+								 	<b class="info_field">Product rating:</b> 
+								 	<span class="info_value"> 
+								 		<span class="glyphicon glyphicon-star"></span>
+								 		<span class="glyphicon glyphicon-star"></span>
+								 		<span class="glyphicon glyphicon-star"></span>
+								 		<span class="glyphicon glyphicon-star"></span>
+								 		<span class="glyphicon glyphicon-star-empty"></span>
+								 	 </span>
+							 	</button> 
+									 <button type="button" class="btn btn-default btn_info_cell">
+									 <b class="info_field">Vendor:</b> 
+									 <span class="info_value">{{ product.Vendor }} </span>
+								 </button>
+
+								 </button> 
+									 <button type="button" class="btn btn-default btn_info_cell">
+									 <b class="info_field">Tags:</b> 
+									 <span class="info_value">{{ product.Tags }} </span>
+								 </button> 
+							</div> 
+				</div>
+				<input type="hidden" class="img_src" value="{{product.ImageSrc}}">
+		</div>
+
+
+
+	{% endfor %}
+</div>
+
+
+
+<div id="product_data_container">
+	<input type="hidden" id="productIDList" value="{% for product_id, product in productList.iteritems() %}{{product_id}},{% endfor %}">
+{% for product_id, product in productList.iteritems() %}
+	<input type="text" class="product_data" id="product_data_{{product_id}}" value="{{product}}">
+{% endfor %}
+</div>

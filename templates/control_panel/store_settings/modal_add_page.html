@@ -1,0 +1,47 @@
+<div id="modal_addPage" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create a new page: </h4>
+      </div>
+      <div class="modal-body">
+
+      <div class="input-group">
+          <span class="input-group-addon" id="type-addon">Page ID </span>
+            <input type="text" class="form-control add_page_input" data-fieldID="page_id" placeholder="Enter a unique name for this page...">
+          </div>
+        <hr>
+
+        <div class="input-group">
+          <span class="input-group-addon" id="type-addon">Page type </span>
+            <select class="form-control add_page_input" data-fieldID="page_type">
+              {% for page_type_id, page_type_data in page_types.iteritems() %}
+                <option value="{{page_type_id}}"> {{page_type_id}} </option>
+              {% endfor %}
+            </select>   
+          </div>
+        <hr>
+        <div class="input-group">
+          <span class="input-group-addon" id="type-addon">Page template </span>
+            <select class="form-control add_page_input" data-fieldID="page_template">
+              {% for page_template_id, page_template_data in page_templates.iteritems() %}
+                <option value="{{page_template_id}}"> {{page_template_id}} </option>
+              {% endfor %}
+            </select>   
+          </div>
+          
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="btn_confirmAddPage">Create Page</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+

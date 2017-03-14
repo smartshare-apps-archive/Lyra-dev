@@ -1,0 +1,35 @@
+
+  <table class="table table-bordered table-hover" id="order_products_table">
+  <thead>
+  <th id="th_thumbnail"></th>
+  <th></th>
+  <th id="th_sku"></th>
+  <th></th>
+
+  </thead>
+ 	<tbody>
+ 	{% for product_id, product in products.iteritems() %}
+ 	<tr id="product_{{product.product_id}}">
+ 		
+ 		<td class="thumbnail_product_40"> 
+ 		<input type="hidden" class="product_img_src" id="{{product.product_id}}" value="{{product_thumbnails[product_id]}}"> 
+ 		</td>
+ 		<td> <a href="/control/products/{{product_id}}"> {{ product.Title }} </a><hr>SKU: {{product.VariantSKU}} </td>
+ 		<td> ${{ '%0.2f' % product.VariantPrice }} <span class="order_quantity"> x {{ product.quantity }} </span> <hr>
+
+ 		</td>
+ 		<td class="order_item_total"> ${{ '%0.2f' % subtotals[product.VariantSKU] }}</td>
+
+
+ 	</tr>
+ 	{% endfor %}
+
+
+ 	</tbody>
+  </table>	
+
+
+
+
+
+

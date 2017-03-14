@@ -1,0 +1,46 @@
+{% block page_content %}
+
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-credit-card"></span> &nbsp;  <a href="/control/orders/">Orders</a> / #{{ control_data.order_id }}  &nbsp;({{control_data.order_data.Date}}) &nbsp;<span class="glyphicon glyphicon-pencil"></span> </h4>
+		<button type="button" class="btn btn-primary" id="btn_saveOrder" data-toggle="modal" data-target="#modal_printOrder">Print Order <span class="glyphicon glyphicon-print"> </span> </button>
+
+	</div>	
+</div>
+
+
+<div class="row">
+	<!-- Begin draft editor content div -->
+	<div class="col-xs-12 tab_content">
+		<div class="row">
+		<!-- begin draft editor left panel -->
+			<div class="col-xs-8" id="order_editor_left_panel">
+
+			</div>
+		<!-- end draft editor left panel -->
+		
+		<!-- begin draft editor right panel -->
+			<div class="col-xs-4" id="order_editor_right_panel">
+
+			</div>
+		<!-- end draft editor right panel -->
+
+		</div>
+	</div>
+	<!-- End draft editor content div -->
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">	
+	</div>
+</div>
+
+
+<input type="hidden" id="order_id" value="{{control_data.order_data.order_id}}">
+
+{{ control_data.order_editor_modals | safe }}
+
+
+
+{% endblock page_content %}

@@ -1,0 +1,33 @@
+<div class="row">
+	<div class="nav-footer" id="footer_lulu">
+			{% for category, data in footer_data.iteritems() %} 
+				{% if data["type"] == "dropdown_list" %}
+				
+				<div class="col-sm-3 footer-column ">
+				
+				<h4> <span class="glyphicon glyphicon-user off_black"> </span> &nbsp; {{data["resource"]["title"]}} </h4>
+
+					<ul> 
+					{% for link in data["resource"]["links"] %}
+						<li><a href="{{link[1]}}">{{link[0]}}</a></li>
+					{% endfor %}
+					</ul>
+
+					</div>
+				{% endif %}
+			{% endfor %}
+
+
+
+		<div class="col-sm-3 footer-column text-center" id="powered_by_stamp">
+			<h4> <span class="glyphicon glyphicon-dashboard off_black"></span>&nbsp;Powered by Lyra </h4>
+			<ul> 
+			<li>Copyright 2017. All rights reserved.</li>
+			</ul>
+
+		</div>
+
+
+
+	</div>
+</div>

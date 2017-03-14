@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% block head %}
+	
+	{% block page_title %}
+		<title> {{data.current_page}} </title>
+	{% endblock page_title %}
+
+	{{ data.common_libraries | safe }}
+	<script src="/static/js/store/Requests.js?v={{data.ts}}"> </script>
+	<script src="/static/js/{{data.current_class_js}}?v={{data.ts}}"> </script>
+	
+	{% for script in data.current_page_js %}
+		<script src="/static/js/{{script}}?v={{data.ts}}"> </script>
+	{% endfor %}
+	
+	<link rel="stylesheet" href="/static/css/store/core.css?v={{data.ts}}">
+	<link rel="stylesheet" href="/static/css/store/lulu.css?v={{data.ts}}">
+
+	{% block extra_scripts %}
+
+	{% endblock extra_scripts %}
+	
+{% endblock head %}
+
+</head>
+<body>
+	<div class="full_width_container header_container">
+		{% block top_nav_bar %}
+			{{ data.nav_bar | safe }}
+		{% endblock top_nav_bar %}
+
+	</div>	
+	
+	<div class="container-fluid">
+		
+			{% block page_content %}
+
+				{% for sectionID in data.page.page_sections %}
+					{% if sectionID == "content" %}
+						{{ data.page.content_section | safe }}
+					{% else %}
+						{{ data.page.rendered_sections[sectionID] | safe }}
+
+					{% endif %}
+				{% endfor %}
+				
+			{% endblock page_content %}
+
+		<div id="message_container" class="text-center"></div>
+	</div>
+		
+		{% block footer %}
+			{{ data.footer | safe }}
+		{% endblock footer %}
+
+
+<!-- data containers -->
+
+{% block data_containers %}
+
+{% endblock data_containers %}
+	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+	<script type="text/javascript" src="/static/js/store/jquery.payment.js"></script>
+	
+	<script type="text/javascript">
+			 Stripe.setPublishableKey('pk_test_idhTCBskER5T8GVsT7JhdHxK');
+	</script>
+</body>
+</html>

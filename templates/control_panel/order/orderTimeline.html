@@ -1,0 +1,21 @@
+<h4> <span class="glyphicon glyphicon-time"> </span> Order timeline: &nbsp;&nbsp;
+<hr>
+
+{% for event in timeline %}
+	<div class="order_event">
+ 		<b> {{event.Time}} </b> &nbsp;&nbsp;&nbsp;
+	{% if event.Type == "order_payment_received" %}
+		<span class="glyphicon glyphicon-usd"></span>
+	{% elif event.Type == "order_shipped" %}
+		<span class="glyphicon glyphicon-road"></span>
+	{% elif event.Type == "order_received" %}
+		<span class="glyphicon glyphicon-bell"></span>
+	{% endif %}
+
+		
+		 <h5>  {{event.Message}}/{{event.Data | safe}} </h5>
+
+	
+	</div>
+	<hr>
+{% endfor %}

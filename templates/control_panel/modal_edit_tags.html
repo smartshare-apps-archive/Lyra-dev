@@ -1,0 +1,45 @@
+<div id="modal_editProductTags" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"> Edit product tags </h4>
+      </div>
+      <div class="modal-body">
+      <!-- begin tag edit form -->
+
+      {% for tag in all_tags %}
+        {% if tag in product_tags %}
+            <button type="button" class="btn btn-default btn-tag" id="tag_{{tag}}">{{tag}}&nbsp;&nbsp;<span class="glyphicon glyphicon-ok"></span></button>
+        {% else %}
+            <button type="button" class="btn btn-primary btn-tag" id="tag_{{tag}}">{{tag}}</button>
+        {% endif %}
+     
+      {% endfor %}
+        <hr>
+        <h3 class="h3-inline"> <b>Current tags:</b> </h3>
+        &nbsp;&nbsp;<h3 class="h3-inline" id="current_tag_label">
+        {% for tag in product_tags %}
+            {{tag}}{% if not loop.last %},&nbsp;{% endif %}
+         {% endfor %}
+        </h3>
+
+        <hr>
+            <button type="button" class="btn btn-default" id="btn_createTag"> New tag &nbsp;&nbsp;<span class="glyphicon glyphicon-plus-sign"></span> </button>
+      <!-- end tag edit form -->
+      </div>
+
+      <input type="hidden" id="currentProductTags" value="{% for tag in product_tags %}{{tag}}{% if not loop.last %},{% endif %}{% endfor %}">
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="btn_updateProductTags">Save product tags</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+

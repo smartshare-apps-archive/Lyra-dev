@@ -1,0 +1,36 @@
+
+  <table class="table table-bordered table-hover" id="order_products_table">
+  <thead>
+  <th id="th_thumbnail"></th>
+  <th></th>
+  <th id="th_sku"></th>
+  <th></th>
+
+  </thead>
+ 	<tbody>
+ 	{% for product_id, product in products.iteritems() %}
+ 	<tr class="product_row" data-productID="{{product_id}}" data-productSKU="{{product.VariantSKU}}">
+ 		
+ 		<td class="thumbnail_product_40"> 
+ 		<input type="hidden" class="product_img_src" id="{{product.product_id}}" value="{{product_thumbnails[product_id]}}"> 
+
+ 		</td>
+ 		<td> <a href="/control/products/{{product_id}}"> {{ product.Title }} </a><hr>SKU: {{product.VariantSKU}} </td>
+ 		<td> ${{ '%0.2f' % product.VariantPrice }} x <hr>
+ 			<select class="form-control select_product_quantity" data-productID="{{product_id}}" data-productSKU="{{product.VariantSKU}}"> 
+				{% for n in range((product.quantity | int) + 1) %}
+					<option value="{{n}}">{{n}}</option>
+				{% endfor %}
+ 			</select>
+ 		</td>
+ 		<td class="order_item_total"> ${{ '%0.2f' % subtotals[product.VariantSKU] }}</td>
+
+ 		<input type="hidden" class="product_quantity" data-productID="{{product_id}}" data-productSKU="{{product.VariantSKU}}" value="{{product.quantity}}">
+
+ 	</tr>
+ 	{% endfor %}
+
+
+ 	</tbody>
+  </table>	
+

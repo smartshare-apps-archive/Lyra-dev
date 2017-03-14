@@ -1,0 +1,164 @@
+{% block page_content %}
+
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-credit-card"></span> &nbsp;  <a href="/control/orders/">Orders</a> / #{{ control_data.order_id }}  &nbsp;({{control_data.order_data.Date}}) &nbsp;<span class="glyphicon glyphicon-pencil"></span> </h4>
+		<button type="button" class="btn btn-primary" id="btn_saveOrder" data-toggle="modal" data-target="#modal_printOrder">Print Order <span class="glyphicon glyphicon-print"> </span> </button>
+
+	</div>	
+</div>
+
+
+<div class="row">
+	<!-- Begin order editor content div -->
+	<div class="col-xs-12 tab_content">
+		<div class="row">
+		<!-- begin order editor left panel -->
+			<div class="col-md-8" id="order_editor_left_panel">
+				<!-- begin order details panel -->
+				<div class="panel panel-default" id="panel_order_details">
+					<h4> Order details: &nbsp;&nbsp;
+
+					{% if control_data.order_data.FulfillmentStatus == "fulfilled" %} 
+						<button type="button" class="btn btn-success" id="btn_fulfillmentStatus">Fulfilled</button>
+					{% elif control_data.order_data.FulfillmentStatus == "unfulfilled" %}
+						<button type="button" class="btn btn-danger" id="btn_fulfillmentStatus">Unfulfilled</button>
+					{% endif %}
+
+					</h4> 
+
+					
+					<div class="row">
+						<hr>
+						<div class="col-xs-12">
+							{{ control_data.table_orderProducts | safe }}
+						</div>
+						<div class="col-xs-6">
+							Add a note to this order:<br><br>
+							<input type="text" id="order_note_input">
+						</div>
+						<div class="col-xs-6" id="order_subtotal">
+							<span class="order_field">Subtotal:</span> &nbsp;&nbsp;&nbsp;<b><span class="order_value">${{ '%0.2f' % control_data.order_data.SubTotal }} </span></b><br>
+							<span class="order_field">Shipping:</span> &nbsp;&nbsp;&nbsp;<b><span class="order_value">${{ '%0.2f' % control_data.order_data.ShippingTotal }} </span></b><br>
+							<span class="order_field">Tax:</span> &nbsp;&nbsp;&nbsp;<b>	<span class="order_value">${{ '%0.2f' % control_data.order_data.TaxTotal }} </span></b><br>
+							<span class="order_field">Total:</span> &nbsp;&nbsp;&nbsp;<b>	<span class="order_value">${{ '%0.2f' % control_data.order_data.OrderTotal }} </span></b>
+						</div>
+					</div>
+					
+					<div class="row">
+						<hr>
+						<div class="col-xs-12">
+							<h4 id="payment_status_message"> 
+							{% if control_data.order_data.PaymentStatus == "unpaid" %}
+								<span class="glyphicon glyphicon-remove">
+							{% elif control_data.order_data.PaymentStatus == "pending" %}
+								<span class="glyphicon glyphicon-time">
+							{% elif control_data.order_data.PaymentStatus == "paid" %}
+								<span class="glyphicon glyphicon-ok">
+							{% endif %}
+
+							</span> &nbsp; Payment status: &nbsp;&nbsp;
+							{% if control_data.order_data.PaymentStatus == "unpaid" %}
+								A payment has not yet been submitted.
+							{% elif control_data.order_data.PaymentStatus == "pending" %}
+								A payment has been submitted and is pending.
+							{% elif control_data.order_data.PaymentStatus == "paid" %}
+								A payment of <b>${{control_data.order_data.OrderTotal}}</b> has been accepted.
+							{% endif %}
+							</h4> 
+						</div>
+					</div>
+
+					<div class="row">
+						<hr>
+						<div class="col-xs-12">
+						{% if control_data.order_data.FulfillmentStatus == "unfulfilled" %}
+
+							<h4 id="payment_shipping_message"> <span class="glyphicon glyphicon-road"></span>
+							&nbsp;&nbsp; Buy postage and ship out this order <button type="button" class="btn btn-primary" id="btn_shipOrder">Continue</button>
+
+							</h4>
+
+						{% elif control_data.order_data.FulfillmentStatus == "fulfilled" %}
+							<h4 id="payment_shipping_message"> <span class="glyphicon glyphicon-ok"></span>
+							&nbsp;&nbsp; All items were shipped.
+							</h4>
+						{% endif %}
+						</div>
+					</div>
+				</div>
+				<!-- end order details panel -->
+				{% if control_data.order_timeline %}
+					<!-- begin order timeline -->
+					<div class="panel panel-default" id="panel_order_timeline">
+						{{ control_data.order_timeline | safe }}
+					</div>
+					<!-- end order timeline -->
+				{% endif %}
+
+
+
+
+			</div>
+		<!-- end order editor left panel -->
+		
+		<!-- begin order editor right panel -->
+			<div class="col-md-4" id="order_editor_right_panel">
+				<!-- begin order customer panel -->
+				<div class="panel panel-default" id="panel_order_customer">
+					<h4> Customer info</h4>
+					<hr>
+					<div class="thumbnail_customer_60"> </div>
+					<div class="customer_info_panel"> 
+					<a href="#"> {{control_data.customer_data.FirstName}} {{control_data.customer_data.LastName}} </a> <br>
+					<a href="#"> {{control_data.customer_data.Email}} </a>
+					<br>
+					Accepts Marketing
+					</div>
+					<hr style="clear:left;">
+					
+					<h4> Shipping Information <a href="#" data-toggle="modal" data-target="#modal_editShippingAddress" style="float:right;"> Edit </a> </h4>
+					<br>
+
+					<div class="customer_info_address">
+						<a href="#"> {{control_data.order_data.ShippingFirstName}} {{control_data.order_data.ShippingLastName}} </a> <br>
+						{{ control_data.order_data.ShippingAddress }} <br>
+						{{ control_data.order_data.ShippingCity }} {{ control_data.order_data.ShippingState }}, {{ control_data.order_data.ShippingPostalCode }} <br>
+						{{ control_data.order_data.ShippingCountry }}
+					</div>
+
+					<hr>
+					<h4> Billing Address </h4>
+					<br>
+
+					<div class="customer_info_address">
+						<a href="#"> {{control_data.order_data.ShippingFirstName}} {{control_data.order_data.ShippingLastName}} </a> <br>
+						{{ control_data.order_data.ShippingAddress }} <br>
+						{{ control_data.order_data.ShippingCity }} {{ control_data.order_data.ShippingState }}, {{ control_data.order_data.ShippingPostalCode }} <br>
+						{{ control_data.order_data.ShippingCountry }}
+					</div>
+
+				</div>
+				<!-- end order customer panel -->
+			</div>
+		<!-- end order editor right panel -->
+
+		</div>
+	</div>
+	<!-- End order editor content div -->
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">	
+	</div>
+</div>
+
+
+<input type="hidden" id="order_id" value="{{control_data.order_data.order_id}}">
+
+{{ control_data.order_editor_modals | safe }}
+
+
+
+{% endblock page_content %}

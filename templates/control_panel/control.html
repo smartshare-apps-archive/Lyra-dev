@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Padauk" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="/static/css/control.css?v={{data.ts}}">
+	<link rel="stylesheet" href="/static/css/hover-min.css?v={{data.ts}}" media="all">
+
+	{# 
+
+	<!-- flask included stylesheets <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/control.css') }}"> --> 
+
+	#}
+
+	<title> control panel </title>
+</head>
+
+<body>
+<div id="nav-bar">
+	<ul class="sidebar-nav">
+		<li id="li_products" class="hvr-float-shadow valign"> </li> 
+		<li id="li_orders" class="hvr-float-shadow">  </li>
+		<li id="li_customers" class="hvr-float-shadow">  </li>
+		<li id="li_settings" class="hvr-float-shadow">  </li> 
+		<li id="li_store" class="hvr-float-shadow">  </li> 
+	</ul>
+
+	<a href="/">
+	<button type="button" class="btn btn-default" id="btn_backToStore"><span class="glyphicon glyphicon-globe"> </span></button>
+	</a>
+	
+</div>
+<div id="wrapper">
+	<div id="sidebar-wrapper">
+		{{ data.submenu }}
+	</div>
+
+	<div id="page-content-wrapper">
+		<div class="container-fluid" id="tab_panel">
+				{% block page_content %}
+					{{ data.current_page_content | safe }}
+				{% endblock page_content %}
+			</div>
+		</div>
+
+	<input type="text" value="{{data.current_page}}" id="currentPage">
+</div>
+
+<!-- these script includes should be moved to a common libraries template -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"> </script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"> </script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"> </script>
+<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script> 
+
+{% block script_includes %}
+
+	<script src="/static/js/control_panel/control.js?v={{data.ts}}"> </script>
+	<script src="/static/js/{{data.current_page_js}}?v={{data.ts}}"> </script>
+	<script src="/static/js/{{data.current_class_js}}?v={{data.ts}}"> </script>
+	<script src="/static/js/{{data.current_requests_js}}?v={{data.ts}}"> </script>
+
+{% endblock script_includes %}
+
+
+
+{% block modal_dialogs %}
+
+	{% for modal in data.modals %}
+		{{ modal | safe }}
+	{% endfor %}
+
+{% endblock modal_dialogs %}
+
+
+</body>
+</html>

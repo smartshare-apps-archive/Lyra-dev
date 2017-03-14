@@ -1,0 +1,39 @@
+<! -- this template is for performing bulk actions on product tables-->
+
+<div class="row">
+  <div class="col-xs-12" id="product_action_bar">
+
+        <div class="btn-group" role="group" aria-label="product_actions">
+
+        <label class="btn btn-default">
+           <input type="checkbox" id="select_all_products"> 
+        </label>
+
+        <label class="btn btn-default">
+          <span id="n_products_selected"> </span>
+        </label>
+
+        <button class="btn btn-default btn_bulk_edit_products" type="button">  Edit Products </button>
+    
+
+        <div class="dropdown" id="bulk_action_dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="btn_toggleDropdown">  Bulk Actions <span class="caret"></span></button>
+
+            <ul class="dropdown-menu">
+              <li class="btn_bulk_publish_products"><a href="#">Show Products</a></li>
+              <li class="btn_bulk_hide_products"><a href="#">Hide Products</a></li>
+              <li class="btn_bulk_delete_products"><a href="#">Delete Products</a></li>
+              <hr>
+              <li><a href="#">Add tags</a></li>
+              <li><a href="#">Remove tags</a></li>
+              <hr>
+              <li><a href="#">Add to collection</a></li>
+              <li><a href="#">Remove from collection</a></li>
+            </ul>
+        </div>
+       </div>
+     </div>
+
+   </div>
+
+

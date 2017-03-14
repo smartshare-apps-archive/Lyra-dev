@@ -1,0 +1,162 @@
+{% block page_content %}
+
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-credit-card"></span> &nbsp;  <a href="/control/orders/">Orders</a> / New Draft &nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span> </h4>
+		<button type="button" class="btn btn-primary btn-floated" id="btn_saveDraft" data-toggle="modal" data-target="#modal_printOrder">Save Draft&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk"> </span> </button>
+
+	</div>	
+</div>
+
+
+<div class="row">
+	<!-- Begin draft editor content div -->
+	<div class="col-xs-12 tab_content">
+		<div class="row">
+		<!-- begin draft editor left panel -->
+			<div id="draft_step_1" class="draft-step">
+				<div class="col-md-6" id="order_editor_left_panel">
+					<div class="panel panel-default padded-panel">
+						<div class="btn-group product_search_group" role="group" aria-label="product selection">
+								<input type="text"  id="product_search_input" placeholder="Start typing to search for a product...">
+								
+							<select class="btn btn-default" id="search_filter">
+								 <option value="Title"> Title </option>
+								 <option value="Tags"> Tag </option>
+								 <option value="SKU"> SKU </option>
+							</select>
+
+
+						</div>
+
+						<div id="product_search_results">
+							<table class="table table-bordered table-hover">
+							<thead>
+							 	<th class="th_select">  </th>
+							 	<th> Product </th>
+							 	<th> SKU </th>
+							 	<th> Quantity </th>
+							 	</thead>
+							<tbody id="tbody_product_results">
+							
+							{% for product_id, product in control_data.products.iteritems() %}
+								<tr class="product_row" data-productID="{{product_id}}">
+								<td> 
+						 			<label class="btn btn-default select_container">
+						           		<input type="checkbox" class="selectTableItem" data-productID="{{product_id}}">
+						        	</label> 
+						 		</td>
+
+								<td> {{product["Title"]}} </td>
+								<td> {{product["VariantSKU"]}} </td>
+								<td> 
+									<select class="form-control select_product_qty" data-productID="{{product_id}}">
+										<option value="1"> 1 </option>
+										<option value="2"> 2 </option>
+										<option value="3"> 3 </option>
+										<option value="4"> 4 </option>
+										<option value="5"> 5 </option>
+										<option value="6"> 6 </option>
+										<option value="7"> 7 </option>
+										<option value="8"> 8 </option>
+										<option value="9"> 9 </option>
+									</select>
+								</td>
+							</tr>
+
+							{% endfor %}
+							</tbody>
+							</table>
+						</div>
+
+						<button type="button" class="btn btn-success" id="btn_addToOrder"> Add to order &nbsp;&nbsp; <span class="glyphicon glyphicon-plus-sign"></span></button>
+					</div>
+				</div>
+			<!-- end draft editor left panel -->
+			
+			<!-- begin draft editor right panel -->
+				<div class="col-md-6" id="order_editor_right_panel">
+
+				<div class="panel panel-default padded-panel text-center">
+				<h4> Order details </h4>
+				<hr>
+				<div id="order_products">
+					<table class="table table-bordered table-hover" id="table_order_products">
+						<thead>
+						 	<th class="th_select">  </th>
+						 	<th> Product </th>
+						 	<th> SKU </th>
+						 	<th> Quantity </th>
+						 	</thead>
+						<tbody id="tbody_order_products"></tbody>
+					</table>
+				</div>
+				<button type="button" class="btn btn-danger" id="btn_deleteFromOrder"> Delete from order &nbsp;&nbsp; <span class="glyphicon glyphicon-minus-sign"></span></button>
+
+
+				<div id="no_orders" class="text-center">
+					<h4> You haven't added any products yet. </h4><hr>
+				</div>
+
+				</div>
+
+				</div>
+			<!-- end draft editor right panel -->
+			
+		</div>
+		<div id="draft_step_2" class="draft-step">
+			<div class="col-md-6" id="order_editor_left_panel">
+				<div class="panel panel-default padded-panel text-center">
+					<h4> Customer info </h4>
+				</div>
+			</div>
+
+			<div class="col-md-6" id="order_editor_right_panel">
+				<div class="panel panel-default padded-panel">
+
+				</div>
+			</div>
+
+		</div>
+
+		<div id="draft_step_3" class="draft-step">
+			<div class="col-md-6" id="order_editor_left_panel">
+				<div class="panel panel-default padded-panel">
+					
+				</div>
+			</div>
+			<div class="col-md-6" id="order_editor_right_panel">
+				<div class="panel panel-default padded-panel">
+					
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+		<div class="row">
+			<div class="col-xs-12 text-center" id="draft_step_navigation">
+					<button type="button" class="btn btn-default" id="btn_previous"> <span class="glyphicon glyphicon-arrow-left"> </span>  &nbsp; Previous step </button>
+					<button type="button" class="btn btn-default" id="btn_next"> Next step &nbsp;<span class="glyphicon glyphicon-arrow-right"> </span> </button>
+			</div>
+		</div>
+	</div>
+	<!-- End draft editor content div -->
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12 " id="footer_products">	
+
+		
+	</div>
+</div>
+
+{% for product_id, product in control_data.products.iteritems() %}
+	<input type="hidden" class="product_data" id="product_data_{{product_id}}" value="{{product}}">
+{% endfor %}
+
+
+
+{% endblock page_content %}

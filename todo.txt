@@ -1,0 +1,27 @@
+
+backend:
+1. customer section
+- don't forget to save modal dialog if user forgets to save their changes
+- users panel with list of user accounts and some other tools (vague, needs clarification)
+
+2. order section
+- field updates when customer information is updated
+- some solution for buying shipping labels (no clue)
+
+3. product section
+- dont forget to save your work dialog in product, inventory, and collection
+- dont allow empty collection conditions when saving 
+- bulk product editor bug fix (wtf is going on with that)
+- product vendor editor modal
+- product collection editor modal
+
+4. settings
+
+- set analytics tag
+
+front-end
+1. lulu theme:
+- product details model
+- cart model
+
+

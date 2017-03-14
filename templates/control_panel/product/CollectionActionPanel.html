@@ -1,0 +1,31 @@
+<! -- this template is for performing bulk actions on inventory tables-->
+
+<div class="row">
+  <div class="col-xs-12" id="collection_action_bar">
+
+        <div class="btn-group" role="group" aria-label="collection_actions">
+
+        <label class="btn btn-default">
+           <input type="checkbox" id="select_all_collections"> 
+        </label>
+
+        <label class="btn btn-default">
+            <span id="n_collections_selected"> </span>
+        </label>
+
+        <button class="btn btn-default btn_bulk_edit_collections" type="button">  Edit Collections </button>
+
+        <div class="dropdown" id="bulk_action_dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="btn_toggleDropdown">  Bulk Actions <span class="caret"></span></button>
+
+            <ul class="dropdown-menu">
+              <li class="btn_bulk_publish_products"><a href="#">Show Collections</a></li>
+              <li class="btn_bulk_hide_products"><a href="#">Hide Collections</a></li>
+              <li class="btn_bulk_delete_products"><a href="#">Delete Collections</a></li>
+              <hr>
+            </ul>
+        </div>
+     </div>
+   </div>
+</div>
+

@@ -1,0 +1,16 @@
+{% extends "store/base.html" %}
+
+	{% block page_title %}
+		<title> All Products </title>
+	{% endblock page_title %}
+
+	{% block page_content %}
+
+		<hr>
+		<h3 class="h3-inline"> All Products &nbsp;&nbsp; <span class="glyphicon glyphicon-tag black"></span></h3>
+		<hr>
+		
+		{{ data.page_content.product_rows | safe }}
+
+		
+	{% endblock page_content %}

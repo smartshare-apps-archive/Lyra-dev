@@ -1,0 +1,40 @@
+	{% if collections|length >= 1 %}
+
+	<table class="table table-responsive table-hover table-bordered">
+	<thead>
+		<tr>
+			<th></th>
+			<th> Product </th>
+		
+		{% for field in selectedFields %}
+			<th>{{field}}</th>
+		{% endfor %}
+
+		</tr>
+	</thead>
+	<tbody>
+
+	{% for collection in collections %}
+		<tr class="variant_row" id="collection_{{collection.collection_id}}">
+			<td class="thumbnail_product_40" style="background-image:url('{% if collection.VariantImage == "" %}{{ collection.ImageSrc }} {% else %} {{ collection.VariantImage }} {% endif %}');"> </td>
+		    <td> {{ collection.Title }}</td>
+			{% for field in selectedFields %}
+			<td> 
+				 <input type="text" value="{{collection[field]}}" id="{{field}}_{{collection["collection_id"]}}" class="bulk_editor_input_field">
+			</td>
+		    {% endfor %}
+		
+		</tr>
+	{% endfor %}
+
+	</tbody>
+	</table>
+	{% else %}
+
+	<h5> <b>Looks like there aren't any variants of this product. </b></h5>
+	
+	{% endif %}
+
+	<input type="hidden" value="{% for collection in collections %}{{collection.collection_id}},{% endfor %}" id="collectionIDList"> 	
+	<input type="hidden" value="{% for field in selectedFields %}{{field}},{% endfor %}" id="selectedFields">
+

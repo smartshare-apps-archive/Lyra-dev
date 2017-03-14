@@ -1,0 +1,94 @@
+
+
+<div id="modal_addFields" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Fields</h4>
+      </div>
+      <div class="modal-body">
+
+          {% if selectedFields.VariantPrice %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantPrice" data-dismiss="modal">Price</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantPrice" data-dismiss="modal">Price</button>
+          {% endif %}
+
+          {% if selectedFields.VariantCompareAtPrice %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantCompareAtPrice" data-dismiss="modal">Compare at Price</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantCompareAtPrice" data-dismiss="modal">Compare at Price</button>
+          {% endif %}
+
+          {% if selectedFields.VariantTaxable %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantTaxable" data-dismiss="modal">Taxable</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantTaxable" data-dismiss="modal">Taxable</button>
+          {% endif %}
+
+          <hr>
+
+          {% if selectedFields.VariantSKU %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantSKU" data-dismiss="modal">SKU</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantSKU" data-dismiss="modal">SKU</button>
+          {% endif %}
+
+          {% if selectedFields.VariantBarcode %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantBarcode" data-dismiss="modal">Barcode</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantBarcode" data-dismiss="modal">Barcode</button>
+          {% endif %}
+
+          {% if selectedFields.Stock %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_Stock" data-dismiss="modal">Inventory Quantity</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_Stock" data-dismiss="modal">Inventory Quantity</button>
+          {% endif %}    
+
+          {% if selectedFields.VariantInventoryPolicy %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantInventoryPolicy" data-dismiss="modal">Allow Overselling</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantInventoryPolicy" data-dismiss="modal">Allow Overselling</button>
+          {% endif %}    
+
+          <hr>
+
+          {% if selectedFields.VariantGrams %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantGrams" data-dismiss="modal">Weight</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantGrams" data-dismiss="modal">Weight</button>
+          {% endif %}    
+
+          {% if selectedFields.VariantRequiresShipping %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantRequiresShipping" data-dismiss="modal">Requires Shipping</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantRequiresShipping" data-dismiss="modal">Requires Shipping</button>
+          {% endif %}    
+
+          {% if selectedFields.VariantTaxCod %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantTaxCod" data-dismiss="modal">Tariff Code</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantTaxCod" data-dismiss="modal">Tariff Code</button>
+          {% endif %}    
+
+          {% if selectedFields.VariantFulfillmentService %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantFulfillmentService" data-dismiss="modal">Fulfillment Service</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantFulfillmentService" data-dismiss="modal">Fulfillment Service</button>
+          {% endif %}    
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

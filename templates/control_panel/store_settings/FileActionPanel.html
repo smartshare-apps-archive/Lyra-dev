@@ -1,0 +1,30 @@
+<!-- this template is for performing bulk actions on file manager table-->
+
+<div class="row">
+  <div class="col-xs-12 action-bar" id="file_action_bar">
+
+        <div class="btn-group" role="group" aria-label="file_actions">
+
+        <label class="btn btn-default">
+           <input type="checkbox" id="select_all_files"> 
+        </label>
+
+        <label class="btn btn-default">
+          <span id="n_files_selected"> </span>
+        </label>
+    
+
+        <div class="dropdown" id="bulk_action_dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="btn_toggleDropdown">  Bulk Actions <span class="caret"></span></button>
+
+            <ul class="dropdown-menu">
+              <li class="btn_bulk_delete_files"><a href="#">Delete Files</a></li>
+              <!--<hr class="hr-sm-margin">-->
+            </ul>
+        </div>
+       </div>
+     </div>
+
+   </div>
+
+

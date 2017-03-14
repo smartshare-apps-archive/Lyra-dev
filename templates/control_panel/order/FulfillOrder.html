@@ -1,0 +1,165 @@
+{% block page_content %}
+
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-credit-card"></span> &nbsp;  <a href="/control/orders/">Orders</a> / <a href="/control/orders/{{control_data.order_id}}">#{{ control_data.order_id }}</a> / Fulfillment &nbsp;<span class="glyphicon glyphicon-pencil"></span> </h4>
+
+
+		<a href="/control/orders/{{control_data.order_id}}"> <button type="button" class="btn btn-primary btn_float_right" id="btn_cancelFulfillment" data-toggle="modal" data-target="#modal_cancelFulfillment"> Cancel <span class="glyphicon glyphicon-check"> </span> </button> </a>
+	</div>
+</div>
+
+
+<div class="row">
+	<!-- Begin fulfillment editor content div -->
+	<div class="col-xs-12 tab_content">
+		<div class="row">
+		<!-- begin fulfillment editor left panel -->
+			<div class="col-xs-8" id="fulfillment_editor_left_panel">
+				
+				<!-- begin fulfillment details panel -->
+				<div class="panel panel-default" id="panel_fulfillment_details">
+					<h4> Fulfillment Method </h4>
+					<!-- begin fulfillment method choice -->
+					<div class="row">
+						<hr>
+						<div class="col-xs-12" id="fulfillmentMethod">
+							<div class="btn-group-vertical" id="btn_group_fulfillment">
+
+						        <label class="btn btn-default btn_fulfillment">
+   									<input type="checkbox" class="chk_fulfillment" id="btn_buyLabel"> <span class="span_fulfillment"> Buy and print a shipping label </span>
+								</label>
+
+								<label class="btn btn-default btn_fulfillment">
+   									<input type="checkbox"  class="chk_fulfillment" id="btn_markFulfilled" checked> <span class="span_fulfillment"> Mark as fulfilled </span>
+								</label>
+								
+							</div>
+						</div>
+					</div>
+					<!-- end fulfillment method choice -->
+					<br>
+					<h4> Items to fulfill </h4>
+					<!-- begin order details -->
+					<div class="row">
+						<hr>
+						<div class="col-xs-12">
+							{{ control_data.table_orderProducts | safe }}
+							<input type="hidden" id="sku_fulfillment" value="{{control_data.order_data.SKU_Fulfilled}}">
+						</div>
+					</div>
+					<!-- begin order details -->
+
+					<br>
+
+					<!-- begin fulfillment option -> buy label -->
+					<div id="cont_buy_label">
+						<h4> Buy a label </h4>
+						<div class="row">
+							<hr>
+							<div class="col-xs-12">
+
+
+
+							</div>
+						</div>
+						
+					</div>
+					<!-- end fulfillment option -> buy label -->
+
+					<!-- begin fulfillment option -> mark fulfilled -->
+					<div id="cont_mark_fulfilled">
+						<h4> Tracking information </h4>
+							<hr>
+								<div class="form-group">
+
+									<div class="row">
+										<div class="col-xs-6">
+											<span class="span_label"> Enter a tracking number: </span>
+										</div>
+										<div class="col-xs-6">
+											<span class="span_label"> Select your shipping service: </span>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-xs-6">
+											<input type="text" class="form-control" placeholder="Tracking number: e.g. 9400 1000 0000 0000 0000 00">
+										</div>
+										<div class="col-xs-6">
+											<select class="form-control">
+												<option value="USPS"> USPS </option>
+												<option value="UPS"> UPS </option>
+											</select>
+										</div>
+									</div>
+								</div>
+						</div>
+					<!-- end fulfillment option -> mark fulfilled -->
+					</div>
+						
+			</div>
+			<!-- end fulfillment editor left panel -->
+
+		<!-- begin fulfillment editor right panel -->
+			<div class="col-xs-4" id="fulfillment_editor_right_panel">
+			<!-- begin order customer panel -->
+				<div class="panel panel-default padded_panel" id="panel_order_customer">					
+					<h4> Shipping Information <a href="#" data-toggle="modal" data-target="#modal_editShippingAddress" style="float:right;"> Edit </a> </h4>
+					<hr>
+					<div class="customer_info_address">
+						<a href="#"> {{control_data.order_data.ShippingFirstName}} {{control_data.order_data.ShippingLastName}} </a> <br>
+						{{ control_data.order_data.ShippingAddress }} <br>
+						{{ control_data.order_data.ShippingCity }} {{ control_data.order_data.ShippingState }}, {{ control_data.order_data.ShippingPostalCode }} <br>
+						{{ control_data.order_data.ShippingCountry }}
+					</div>
+				</div>
+				<!-- end order customer panel -->
+
+				<!-- begin fulfillment summary panel -->
+				<div class="panel panel-default padded_panel" id="panel_fulfillment_summary">					
+					<h4> Summary </h4>
+					<hr>
+
+					<div id="cont_summary_fulfill">
+						<h5> Mark selected item quantities as fulfilled: </h5>
+						<hr>
+						<div class="row">
+								<div class="col-xs-12 text-center">
+									<button type="button" class="btn btn-success btn_fulfill" data-toggle="modal" data-target="#modal_markFulfilled"> Update order fulfillment </button>
+								</div>
+						</div>
+
+					</div>
+
+					<div id="cont_summary_buy_label">
+						<h4> Buy label </h4>
+
+					</div>
+
+				</div>
+				<!-- end fulfillment summary panel -->
+			</div>
+		<!-- end fulfillment editor right panel -->
+
+
+		</div>
+	</div>
+	<!-- End fulfillment editor content div -->
+</div>
+
+	<div class="row">
+		<div class="col-xs-12 control_panel_footer">	
+		</div>
+	</div>
+
+
+
+
+
+<input type="hidden" id="order_id" value="{{control_data.order_data.order_id}}">
+
+
+{{ control_data.fulfillment_editor_modals | safe }}
+
+{% endblock page_content %}

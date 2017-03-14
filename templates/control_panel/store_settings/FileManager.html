@@ -1,0 +1,33 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-hdd"></span> &nbsp;  <a href="/control/store/">Store settings</a> / <a href="/control/store/file_manager"> File Manager </a> </h4>
+
+	<button type="button" class="btn btn-default btn-floated" id="btn_addPage" data-toggle="modal" data-target="#modal_uploadFile">Upload File &nbsp;&nbsp; <span class="glyphicon glyphicon-plus-sign off_black"> </span> </button>
+
+	</div>
+</div>
+
+{{ control_data.fileActionPanel | safe }}
+
+<div class="row">
+	<div class="col-xs-12 tab_content">
+		<div class="panel panel-default padded-panel">
+			{{control_data.resource_table | safe }}	
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12 control_panel_footer">
+				
+	</div>
+</div>
+
+
+{{ control_data.modals | safe }}
+
+
+{% endblock page_content %}

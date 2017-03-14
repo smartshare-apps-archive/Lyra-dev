@@ -1,0 +1,58 @@
+
+
+<div id="modal_addFields" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Fields</h4>
+      </div>
+      <div class="modal-body">
+
+          {% if selectedFields.VariantPrice %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantPrice" data-dismiss="modal">Price</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantPrice" data-dismiss="modal">Price</button>
+          {% endif %}
+
+          {% if selectedFields.VariantCompareAtPrice %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantCompareAtPrice" data-dismiss="modal">Compare at Price</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantCompareAtPrice" data-dismiss="modal">Compare at Price</button>
+          {% endif %}
+
+          {% if selectedFields.VariantTaxable %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantTaxable" data-dismiss="modal">Taxable</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantTaxable" data-dismiss="modal">Taxable</button>
+          {% endif %}
+
+          <hr>
+
+          {% if selectedFields.VariantSKU %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantSKU" data-dismiss="modal">SKU</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantSKU" data-dismiss="modal">SKU</button>
+          {% endif %}
+
+          <button type="button" class="btn btn-info" id="field_Barcode" data-dismiss="modal">Barcode</button>
+          <button type="button" class="btn btn-info" id="field_Stock" data-dismiss="modal">Inventory Quantity</button>
+          <button type="button" class="btn btn-info" id="field_InventoryPolicy" data-dismiss="modal">Allow Overselling</button>
+          <hr>
+          <button type="button" class="btn btn-info" id="field_Weight" data-dismiss="modal">Weight</button>
+          <button type="button" class="btn btn-info" id="field_RequiresShipping" data-dismiss="modal">Requires Shipping</button>
+          <button type="button" class="btn btn-info" id="field_TariffCode" data-dismiss="modal">Tariff Code</button>
+          <button type="button" class="btn btn-info" id="field_FullfillmentService" data-dismiss="modal">Fullfillment Service</button>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

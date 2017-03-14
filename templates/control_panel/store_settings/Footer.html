@@ -1,0 +1,89 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-globe"></span> &nbsp;  <a href="/control/store/">Store settings</a> / <a href="/control/store/footer"> Footer </a> </h4>
+
+		<button type="button" class="btn btn-default btn-floated" id="btn_viewStore">View store &nbsp;<span class="glyphicon glyphicon-eye-open off_black"></span></button>
+		<button type="button" class="btn btn-default btn-floated" id="btn_saveFooterSettings">Save footer &nbsp;<span class="glyphicon glyphicon-floppy-disk off_black"></span></button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 tab_content">
+	<!-- Begin store settings footer content div -->
+		<div class="row">
+		<!-- Begin: footer settings column (left aligned) -->
+
+			<div class="col-lg-7 flex-panel">
+				<div class="panel panel-default padded-panel">
+					<h4> Footer Sections </h4>
+					<hr class="hr-defined">
+					<table class="table table-bordered table-hover" id="table_footerCategories">
+						<tbody id="footer_categories_body">
+							{% for footer_category, footer_resources in control_data.footer_categories.iteritems() %}
+							<tr class="row_footer_category" data-footerCategory="{{footer_category}}">
+								<td class="td_select">
+									<label class="btn btn-default select_container">
+						           		<input type="checkbox" class="selectTableItem" id="chk_{{footer_category}}" data-footerCategory="{{footer_category}}">
+						        	</label> 
+						        </td>
+								<td class="text-center"><input type="text" class="form-control rename_category" value="{{footer_category}}" data-footerCategory="{{footer_category}}"></td> 
+								
+									
+									<input type="hidden" class="footer_data dropdown" data-footerCategory="{{footer_category}}" value="{{footer_resources.resource}}">
+
+						
+								<input type="hidden" class="resource_id" data-footerCategory="{{footer_category}}" value="{{footer_resources.resource_id}}">
+
+								<input type="hidden" class="initial_category" data-footerCategory="{{footer_category}}" value="{{footer_category}}">
+								<td> <button type="button" class="btn btn-danger btn_delete_footer_category" data-footerCategory="{{footer_category}}"> &nbsp; <span class="glyphicon glyphicon-minus-sign"></span> &nbsp; </td>
+							</tr>
+							{% endfor %}
+						</tbody>
+						</table>
+						<hr>
+						<h4 class="h4-inline"> New section: &nbsp;</h4> 
+
+						<input type="text" class="form-control" id="input_footerCategory">
+
+						<button type="button" class="btn btn-primary" id="btn_addFooterCategory"> <span class="glyphicon glyphicon-plus-sign"></span> &nbsp;Add </button>
+				</div>
+				
+			</div>
+
+			<div class="col-lg-5 flex-panel">
+				<div class="panel panel-default padded-panel">
+					<h4> Footer Data: &nbsp; <span id="span_footer_category"></span></h4>
+					<hr class="hr-defined">
+					<div id="footer_data_dropdown_list">
+						<h5> Section Header </h5>
+						<input type="text" class="form-control" id="dropdown_title_input">
+						<hr>
+						<div id="dropdown_link_container">
+
+
+						</div>
+						<div id="dropdown_button_container">
+							<hr>
+							<h4 class="h4-inline"> Link name: </h4>
+							<input type="text" class="form-control" id="dropdown_link_input">
+
+							<button type="button" class="btn btn-success" id="btn_addFooterLink"> <span class="glyphicon glyphicon-plus-sign"> </span> </button>
+
+						</div>
+					</div>
+				
+				</div>
+			</div>
+
+		</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">			
+	</div>
+</div>
+
+
+{% endblock page_content %}

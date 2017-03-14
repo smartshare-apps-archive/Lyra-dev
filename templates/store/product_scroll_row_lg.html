@@ -1,0 +1,42 @@
+<hr>
+	<h3 class="h3-inline"> {{row_data.title}} </h3>
+<hr>
+
+<div class="row product_row" id="row_{{row_data.productRowID}}">
+			<div class="col-xs-4 home_product_tile tile_0">
+				<div class="product_cont">
+					<h4 class="product_title"></h4>
+				</div>
+			</div>
+
+			<div class="col-xs-4 home_product_tile tile_1">
+				<div class="product_cont">
+					<h4 class="product_title"></h4>
+				</div>
+			</div>
+
+			<div class="col-xs-4 home_product_tile tile_2">
+				<div class="product_cont">
+					<h4 class="product_title"></h4>
+				</div>
+			</div>
+
+
+		<button type="button" class="btn btn-primary valign btn_rowScroll btn_scrollLeft" id="sl_{{row_data.productRowID}}"><span class="glyphicon glyphicon-chevron-left glyph-lg"></span></button>
+		<button type="button" class="btn btn-primary valign btn_rowScroll btn_scrollRight" id="sr_{{row_data.productRowID}}"><span class="glyphicon glyphicon-chevron-right glyph-lg"></span></button>
+
+	</div>
+
+
+	<div class="product_data_container" id="{{row_data.productRowID}}">
+		{% for product_id,product in products.iteritems() %}
+			<div class="product_metadata" id="product_{{product_id}}">
+				<input type="hidden" class="product_id" value="{{product.product_id}}">
+				<input type="hidden" class="product_title" value="{{product.Title}}">
+				<input type="hidden" class="product_price" value="{{product.VariantPrice}}">
+				<input type="hidden" class="product_thumbnail_src" value="{{image_resources[product_id]}}">
+
+			</div>
+			<input type="hidden" class="n_products" value="{{products | length}}">
+		{% endfor %}
+	</div>

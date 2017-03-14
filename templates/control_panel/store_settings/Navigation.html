@@ -1,0 +1,103 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-globe"></span> &nbsp;  <a href="/control/store/">Store settings</a> / <a href="/control/store/navigation"> Navigation </a> </h4>
+
+		<button type="button" class="btn btn-default btn-floated" id="btn_viewStore">View store &nbsp;<span class="glyphicon glyphicon-eye-open off_black"></span></button>
+		<button type="button" class="btn btn-default btn-floated" id="btn_saveNavigationSettings">Save navigation &nbsp;<span class="glyphicon glyphicon-floppy-disk off_black"></span></button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 tab_content">
+	<!-- Begin store settings navigation content div -->
+		<div class="row">
+		<!-- Begin: navigation settings column (left aligned) -->
+
+			<div class="col-lg-7 flex-panel">
+				<div class="panel panel-default padded-panel">
+					<h4> Navigation Sections </h4>
+					<hr class="hr-defined">
+					<table class="table table-bordered table-hover" id="table_navCategories">
+						<tbody id="nav_categories_body">
+							{% for nav_category, nav_resources in control_data.nav_categories.iteritems() %}
+							<tr class="row_nav_category" data-navCategory="{{nav_category}}">
+								<td class="td_select">
+									<label class="btn btn-default select_container">
+						           		<input type="checkbox" class="selectTableItem" id="chk_{{nav_category}}" data-navCategory="{{nav_category}}">
+						        	</label> 
+						        </td>
+								<td class="text-center"><input type="text" class="form-control rename_category" value="{{nav_category}}" data-navCategory="{{nav_category}}"></td> 
+								{% if nav_resources["type"] == "dropdown_list" %} 
+									<td class="text-center"> 
+									<select class="form-control"> 
+										<option value="dropdown" selected> Dropdown </option> 
+										<option value="single_link"> Single Link </option> 
+									</select> 
+									</td>
+									<input type="hidden" class="nav_data dropdown" data-navCategory="{{nav_category}}" value="{{nav_resources.resource}}">
+
+								{% elif nav_resources["type"] == "single_link" %}
+									<input type="hidden" class="nav_data single" data-navCategory="{{nav_category}}" value="{{nav_resources.resource}}">
+									<td class="text-center"> 									
+
+									<select class="form-control"> 
+										<option value="dropdown"> Dropdown </option> 
+										<option value="single_link" selected> Single Link </option> 
+									</select> 
+									</td>
+								{% endif %}
+								<input type="hidden" class="resource_id" data-navCategory="{{nav_category}}" value="{{nav_resources.resource_id}}">
+
+								<input type="hidden" class="initial_category" data-navCategory="{{nav_category}}" value="{{nav_category}}">
+								<td> <button type="button" class="btn btn-danger btn_delete_nav_category" data-navCategory="{{nav_category}}"> &nbsp; <span class="glyphicon glyphicon-minus-sign"></span> &nbsp; </td>
+							</tr>
+							{% endfor %}
+						</tbody>
+						</table>
+						<hr>
+						<h4 class="h4-inline"> New Category: &nbsp;</h4> 
+
+						<input type="text" class="form-control" id="input_navCategory">
+						<select class="form-control" id="input_categoryType"> 
+							<option value="dropdown"> Dropdown </option> 
+							<option value="single_link" selected> Single Link </option> 
+						</select> 
+
+						<button type="button" class="btn btn-primary" id="btn_addNavCategory"> <span class="glyphicon glyphicon-plus-sign"></span> &nbsp;Add </button>
+				</div>
+				
+			</div>
+
+			<div class="col-lg-5 flex-panel">
+				<div class="panel panel-default padded-panel">
+					<h4> Navigation Data: &nbsp; <span id="span_nav_category"></span></h4>
+					<hr class="hr-defined">
+					<div id="nav_data_dropdown_list">
+						<h5> Dropdown menu(s) </h5>
+						<input type="text" class="form-control" id="dropdown_title_input">
+						<hr>
+						<div id="dropdown_link_container">
+
+
+						</div>
+					</div>
+					<div id="nav_data_single_link">
+						<h5> Single link </h5>
+						<input type="text" class="form-control" id="single_link_input">
+					</div>
+				
+				</div>
+			</div>
+
+		</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">			
+	</div>
+</div>
+
+
+{% endblock page_content %}

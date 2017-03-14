@@ -1,0 +1,42 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-tags"></span> &nbsp; <a href="/control/products/">Products</a> / <a href="/control/products/collections/">Collections</a> / Bulk Editing  </h4>
+	
+		<button type="button" class="btn btn-warning" id="btn_closeEditor"> Close <span class="glyphicon glyphicon-remove-circle"> </span> </button>
+		<button type="button" class="btn btn-primary" id="btn_saveCollections" data-toggle="modal" data-target="#modal_saveCollection">Save Changes <span class="glyphicon glyphicon-floppy-disk"> </span> </button>
+	</div>
+
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12 tab_content">
+		
+		<div class="panel panel-default" id="panel_product_field_editor">
+			You are currently editing these fields:
+			<hr>
+			{% for field in control_data.selectedFields %}
+				<button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_{{field}}"> {{field}} <span class="glyphicon glyphicon-minus-sign"></span> </button>
+			{% endfor %}
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_addFields"> Add fields <span class="glyphicon glyphicon-plus-sign"> </span> </button>
+		</div>
+
+		<div class="panel panel-default" id="panel_product_bulk_product_editor">
+			{{ control_data.collectionTable | safe }}
+		</div>
+
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">
+	</div>
+</div>
+
+
+{{ control_data.modal | safe }}
+
+{% endblock page_content %}

@@ -1,0 +1,67 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-credit-card"></span> &nbsp;  <a href="/control/orders/">Orders</a> </h4>
+	
+
+		<button type="button" class="btn btn-default btn-floated" id="btn_addDraft">Create order&nbsp;&nbsp;<span class="glyphicon glyphicon-plus-sign off_black"></span></button>
+	</div>
+
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="search_products">
+		{{ control_data.orderSearchPanel | safe }}
+	</div>
+</div>
+
+{{ control_data.orderActionPanel | safe }}
+
+<div class="row"> 
+	<div class="col-xs-12 tab_content">
+	<!-- Begin order main content div -->
+		<br>
+		<!-- Begin: main order list div (left aligned) -->
+		<div class="col-xs-12" id="order_main_panel">
+			<ul class="nav nav-tabs">
+			  <li class="active"><a data-toggle="tab" href="#all_orders">All orders</a></li>
+			  <li><a data-toggle="tab" href="#open_orders">Open</a></li>
+			  <li><a data-toggle="tab" href="#unfulfilled_orders">Unfulfilled</a></li>
+			  <li><a data-toggle="tab" href="#unpaid_orders">Unpaid</a></li>
+			</ul>
+
+			<div class="tab-content">
+  				<div id="all_orders" class="tab-pane fade in active">
+  				<br>
+   					{{ control_data.table_allOrders  | safe }}
+  				</div>
+  
+  				<div id="open_orders" class="tab-pane fade">
+  				 <br>
+    				{{ control_data.table_openOrders  | safe }}
+  				</div>
+
+  				<div id="unfulfilled_orders" class="tab-pane fade">
+  				<br>
+   					{{ control_data.table_unfulfilledOrders  | safe }}
+  				</div>
+
+  				<div id="unpaid_orders" class="tab-pane fade">
+  				<br>
+   					{{ control_data.table_unpaidOrders  | safe }}
+  				</div>
+
+		   </div>
+ 		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">			
+	</div>
+</div>
+
+
+{% endblock page_content %}

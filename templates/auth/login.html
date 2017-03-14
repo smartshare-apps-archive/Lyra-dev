@@ -1,0 +1,26 @@
+{% extends "store/base.html" %}
+
+		{% block page_title %}
+			<title> login page </title>
+		{% endblock page_title %}
+
+		{% block extra_scripts %}
+
+			<script src="/static/js/auth/Requests.js?v={{data.ts}}"> </script>
+			<script src="/static/js/{{data.current_class_js}}?v={{data.ts}}"> </script>
+			<script src="/static/js/{{data.current_page_js}}?v={{data.ts}}"> </script>
+			<link rel="stylesheet" href="/static/css/store/core.css?v={{data.ts}}">
+			<link rel="stylesheet" href="/static/css/store/lulu.css?v={{data.ts}}">
+		{% endblock extra_scripts %}
+
+		{% block page_content %}
+			<hr>
+				<h3 class="h3-inline"> Login &nbsp;&nbsp; <span class="glyphicon glyphicon-user black"></span></h3>
+			<hr>
+
+			{{ data.page_content.login_panel | safe }} 
+
+			
+			<input type="hidden" id="redirect_url" value="{{data.redirect_url}}">
+
+		{% endblock page_content %}

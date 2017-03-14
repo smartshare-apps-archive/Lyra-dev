@@ -1,0 +1,55 @@
+{% block page_content %}
+
+<div class="row">
+	<div class="col-sm-6 banner">
+	<h4> <span class="glyphicon glyphicon-tags"></span> &nbsp;  <a href="/control/orders/">Orders</a> / #{{ control_data.order_id }}  {{control_data.order_data.Date}} &nbsp;<span class="glyphicon glyphicon-pencil"></span> </h4>
+	</div>
+
+	<div class="col-sm-6 banner">
+		<button type="button" class="btn btn-primary" id="btn_saveOrder" data-toggle="modal" data-target="#modal_printOrder">Print Order <span class="glyphicon glyphicon-print"> </span> </button>
+	</div>
+		
+</div>
+
+
+<div class="row">
+	<!-- Begin order editor content div -->
+	<div class="col-xs-12" id="content_order_editor">
+		<div class="row">
+		<!-- begin fulfillment editor left panel -->
+			<div class="col-xs-8" id="order_editor_left_panel">
+				<!-- begin fulfillment details panel -->
+				<div class="panel panel-default" id="panel_order_details">
+
+
+
+				</div>
+			</div>
+		<!-- end order editor left panel -->
+		
+		<!-- begin order editor right panel -->
+			<div class="col-xs-4" id="order_editor_right_panel">
+
+
+			</div>
+		<!-- end order editor right panel -->
+
+		</div>
+	</div>
+	<!-- End fulfillment editor content div -->
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">	
+	</div>
+</div>
+
+
+<input type="hidden" id="order_id" value="{{control_data.order_data.order_id}}">
+
+{{ control_data.order_editor_modals | safe }}
+
+
+
+{% endblock page_content %}

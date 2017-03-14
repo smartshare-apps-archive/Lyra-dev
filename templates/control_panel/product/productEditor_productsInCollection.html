@@ -1,0 +1,36 @@
+	{% if products %}
+
+	<table class="table table-responsive table-hover">
+	<thead>
+		<tr>
+		<th></th>
+	    <th>Title</th>
+	    <th>SKU</th>
+		</tr>
+	</thead>
+	<tbody>
+
+
+	{% for product_id, product in products.iteritems() %}
+
+	<tr id="row_product_{{product_id}}">
+		<td class="thumbnail_product_40" style="background-image:url('{% if product.VariantImage == "" %}{{ product.ImageSrc }} {% else %} {{ product.VariantImage }} {% endif %}');"></td>
+	    <td>{{ product.Title }}</td>
+	    <td>{{ product.VariantSKU }}</td>
+	</tr>
+
+	{% endfor %}
+
+	</tbody>
+	</table>
+
+	<input type="hidden" value="{% for product_id, product in products.iteritems() %}{{product_id}},{% endfor %}" id="productIDList"> 	
+	
+	{% else %}
+
+	<h5> <b>Looks like there aren't any no products that meet these conditions. </b></h5>
+	
+	<input type="hidden" value="" id="productIDList"> 	
+
+	{% endif %}
+
