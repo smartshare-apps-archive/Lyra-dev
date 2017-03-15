@@ -156,9 +156,16 @@
 				<div class="panel panel-default text-center" id="panel_product_visibility">
 					<h4> Product Visibility &nbsp;&nbsp; <span class="glyphicon glyphicon-eye-open"></span> </h4>
 					<hr>
-					
-					<input type='checkbox' class="editor_input_field" id="input_Published" {% if control_data.product_data.Published == "true" %}checked{% endif %}> 
-					Show in Online store? 
+					 <div class="btn-group select_container" role="group">
+
+       				 			<label class="btn btn-default">
+									<input type='checkbox' class="editor_input_field" id="input_Published" {% if control_data.product_data.Published == "true" %}checked{% endif %}> 
+						        </label>
+						 
+								<label class="btn btn-default">
+									Show in Online store? 
+								 </label>
+					</div>
 				</div>
 
 

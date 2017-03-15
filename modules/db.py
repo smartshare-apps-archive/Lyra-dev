@@ -1,8 +1,7 @@
 import sqlite3
 
 DEFAULT_db = "ecomm.db"
-DEFAULT_table = "products"
-
+#DEFAULT_db = smartshare-core.chpryfodqoop.us-east-1.rds.amazonaws.com:3306
 
 def db_handle():
 	try:
