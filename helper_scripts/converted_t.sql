@@ -5,7 +5,7 @@ CREATE TABLE users (
 	`password`	TEXT,
 	`customer_id`	INTEGER,
 	`level`	INTEGER DEFAULT 1,
-	`is_active`	TEXT DEFAULT 1,
+	`is_active`	TEXT NOT NULL,
 	`last_login`	TEXT,
 	`created_on`	TEXT,
 	`order_list`	TEXT,

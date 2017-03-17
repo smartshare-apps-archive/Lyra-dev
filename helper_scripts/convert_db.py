@@ -1,3 +1,5 @@
+#converts a sqlite db dump to a sql file for import into rds server
+
 import re
 
 #re.sub(pattern, repl, string, count=0, flags=0)
@@ -63,8 +65,8 @@ def main():
 
 	if r:
 		print "File converted successfully."
-	
-	#print f_array
+	else:
+		print "There was an error converting this file."
 
 
 

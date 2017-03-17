@@ -35,8 +35,6 @@ class ControlPanel(object):
 			return self.product_Inventory()
 		elif tab == "product_editor":
 			return self.product_ProductEditor(data)
-		elif tab == "product_editor_new":
-			return self.product_addProduct()
 		elif tab == "product_bulk_editor":
 			return self.product_BulkProductEditor(data)
 		elif tab == "product_inventory_editor":
@@ -105,6 +103,8 @@ class ControlPanel(object):
 		self.control_data["productMainTable"] = self.product_MainTable()
 		self.control_data["productActionPanel"] = self.product_MainActionPanel()
 		self.control_data["productSearchPanel"] = self.product_SearchPanel()
+		self.control_data["modals"] = [render_template("control_panel/product/modal_add_product.html")]
+
 		return render_template("control_panel/product/Main.html", control_data = self.control_data)
 
 
@@ -122,14 +122,6 @@ class ControlPanel(object):
 		self.control_data["productCollectionActionPanel"] = self.product_CollectionActionPanel()
 		self.control_data["productSearchPanel"] = self.product_SearchPanel()
 		return render_template("control_panel/product/Collections.html", control_data = self.control_data)
-
-
-	#create a new product
-	def product_addProduct(self):
-		self.control_data["page"] = "product_editor_new"
-		self.control_data["image_resources"] = None
-		#set root product data for template rendering
-		return render_template("control_panel/product/productEditor_addProduct.html", control_data = self.control_data)
 
 
 

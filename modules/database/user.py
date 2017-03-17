@@ -31,7 +31,8 @@ def auth_user(login_info, db):
 		return False
 
 
-
+def createNewUser(db_cursor):
+	currentQuery = "INSERT INTO users(username, password, customer_id, level, is_active, last_login, created_on, order_list) VALUES(?,?,?,?,?,?,?,?);"
 
 	
 def setCustomerID(user_id, customer_id, db_cursor):

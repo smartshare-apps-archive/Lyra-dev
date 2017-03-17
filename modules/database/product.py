@@ -446,10 +446,9 @@ def deleteInvalidVariants(product_id, productDatabase):
 
 #saves a new product to the database
 def saveNewProductData(productData, productDatabase):
-	currentQuery = """INSERT INTO products(Title, BodyHTML, VariantTypes) VALUES(?,?,?);"""
-	productTuple = (productData["Title"], productData["BodyHTML"], productData["VariantTypes"])
+	currentQuery = """INSERT INTO products(Title) VALUES(?);"""
+	productTuple = (productData["Title"],)
 	
-	print "Title:", productData["Title"]
 	try:
 		productDatabase.execute(currentQuery, productTuple)
 	except Exception as e:

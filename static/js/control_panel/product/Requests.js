@@ -1,12 +1,17 @@
 function saveNewProduct(event){
-	productData = JSON.stringify(event.data.productData)
+	var productData = {};
+	productData["Title"] = $("#new_product_title").val();
+	
+	if (productData["Title"] == ""){
+		return false;
+	}
 
 	$.ajax({
 	  method: "POST",
 	  url: "/actions/addProduct",
 	  dataType: "json",
 	  traditional:true,
-	  data: { productData: productData }
+	  data: { productData: JSON.stringify(productData) }
 	})
 	  .done(function(product_id) {
 			window.location.replace("/control/products/"+product_id);

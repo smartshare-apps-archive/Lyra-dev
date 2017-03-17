@@ -3,7 +3,7 @@
 	{% if productList | length == 0 %}
 		<div id="no_products" class="text-center">
 			<h4> You haven't added any products to your store yet. </h4><hr>
-			<button type="button" class="btn btn-link btn-lg"><a href="/control/products/addProduct"> Add product </a></button>
+			<button type="button" class="btn btn-link btn-lg" data-toggle="modal" data-target="#modal_addProduct">Add product</button>
 		</div>
 	{% endif %}
 

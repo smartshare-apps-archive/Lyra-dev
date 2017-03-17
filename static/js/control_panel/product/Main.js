@@ -48,13 +48,13 @@ function bindTableEvents(){
 	$(".btn_bulk_publish_products").click({published:"true", product_id_list: selectedProducts}, bulkPublish);
 	$(".btn_bulk_hide_products").click({published:"false", product_id_list: selectedProducts}, bulkPublish);
 	$(".btn_bulk_delete_products").click({product_id_list: selectedProducts}, bulkDelete);
-	$("#btn_addProduct").click(goToNewProductEditor);
 
 	$("#search_filter").change(updateProductFilter);
 	$("#product_search_input").keyup(filterProducts);
 
 	$("#select_all_products").change(toggleAllProducts);
 	
+	$("#btn_addNewProduct").click(saveNewProduct);
 }
 
 

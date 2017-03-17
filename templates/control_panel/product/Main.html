@@ -4,7 +4,7 @@
 	
 	<h4 id="h4_banner"> <span class="glyphicon glyphicon-tags white"></span> &nbsp;  <a href="/control/products/">Products</a> </h4>
 
-	<button type="button" class="btn btn-default" id="btn_addProduct">Add product &nbsp;&nbsp; <span class="glyphicon glyphicon-plus-sign off_black"> </span> </button>
+	<button type="button" class="btn btn-default" id="btn_addProduct" data-toggle="modal" data-target="#modal_addProduct">Add product &nbsp;&nbsp; <span class="glyphicon glyphicon-plus-sign off_black"> </span> </button>
 
 	</div>
 </div>
@@ -33,6 +33,10 @@
 				
 	</div>
 </div>
+
+		{% for modal in control_data.modals %}
+			{{ modal | safe }}
+		{% endfor %}
 
 
 {% endblock page_content %}
