@@ -107,13 +107,159 @@
 		<div id="draft_step_2" class="draft-step">
 			<div class="col-md-6" id="order_editor_left_panel">
 				<div class="panel panel-default padded-panel text-center">
-					<h4> Customer info </h4>
+					<h4> Customer Contact Information </h4>
+					<hr>
+
+					<div class="row">
+						<div class="col-xs-12" >
+							<div class="input-group customer_info_input">
+								<span class="input-group-addon placeholder_addon glyphicon glyphicon-envelope"></span>
+								<input type="text" class="form-control" id="customer_Email" placeholder="Email">
+							</div>
+							
+						</div>
+
+
+						<div class="col-xs-12">
+							<div class="input-group customer_info_input">
+								<span class="input-group-addon placeholder_addon glyphicon glyphicon-earphone"></span>
+								<input type="text" class="form-control" placeholder="Phone number (optional)" id="customer_Phone">
+							</div>
+						</div>
+
+						<div class="col-xs-12">
+							<div class="input-group customer_info_input">
+								<input type="text" class="form-control" placeholder="Company (optional)" id="customer_Company">
+							</div>
+						</div>
+
+					</div>
 				</div>
 			</div>
 
 			<div class="col-md-6" id="order_editor_right_panel">
 				<div class="panel panel-default padded-panel">
+					<!-- start billing info container -->
+					<div class="row" id="billing_info_container">
+						<div class="col-xs-12">
+							<h4 class="h4-inline"> Billing Address </h4>
+							<div class="btn-group" role="group" aria-label="ship_to_address" id="ship_to_address_grp">
+								<label class="btn btn-default"> <input type="checkbox" id="chk_ship_to_address" checked> Ship to this address </label>	
+							</div>
+						</div>
 
+						<div class="col-xs-6"> 
+							<div class="input-group customer_info_input">
+								<input type="text" class="form-control"  id="customer_BillingFirstName" placeholder="First name">
+							</div>
+						</div>
+
+						<div class="col-xs-6"> 
+							<div class="input-group customer_info_input">
+								<input type="text" class="form-control" placeholder="Last name" id="customer_BillingLastName">
+							</div>
+
+						</div>
+						
+						<div class="col-xs-8"> 
+							<div class="input-group customer_info_input">
+								<input type="text" class="form-control" placeholder="Address" id="customer_BillingAddress1">
+							</div>
+						</div>
+
+						<div class="col-xs-4"> 
+							<div class="input-group customer_info_input">
+								<input type="text" class="form-control" placeholder="Apt, suite, etc." id="customer_BillingAddress2">
+							</div>
+						</div>
+
+						<div class="col-xs-12">
+							<div class="input-group customer_info_input">
+								<input type="text" class="form-control" placeholder="City" id="customer_BillingCity">
+							</div>
+						</div>
+
+						<div class="col-xs-5"> 
+							<div class="input-group customer_info_input">
+								<select class="form-control" placeholder="Country" id="customer_BillingCountry">
+									
+								</select>
+							</div>
+						</div>
+
+						<div class="col-xs-4"> 
+							<div class="input-group customer_info_input">
+							<input type="text" class="form-control" placeholder="State" id="customer_BillingState" >
+							</div>
+						</div>
+
+						<div class="col-xs-3"> 
+							<div class="input-group customer_info_input">
+								<input type="text" class="form-control" placeholder="Zip code" id="customer_BillingPostalCode">
+							</div>
+						</div>
+					</div>
+				<!-- end billing info container -->
+
+				<!-- start shipping info container -->
+				<div class="row" id="shipping_info_container">
+					<hr>
+						<div class="col-xs-12">
+							<h4 class="h4-inline"> Shipping Address </h4>
+						</div>
+
+						<div class="col-xs-6"> 
+							<div class="input-group customer_info_input">
+								<input type="text" class="form-control"  id="customer_ShippingFirstName" placeholder="First name">
+							</div>
+						</div>
+
+						<div class="col-xs-6"> 
+							<div class="input-group customer_info_input">
+								<input type="text" class="form-control" placeholder="Last name" id="customer_ShippingLastName">
+							</div>
+
+						</div>
+
+						<div class="col-xs-8"> 
+							<div class="input-group customer_info_input">
+								<input type="text" class="form-control" placeholder="Address" id="customer_ShippingAddress1">
+							</div>
+						</div>
+
+						<div class="col-xs-4"> 
+							<div class="input-group customer_info_input">
+								<input type="text" class="form-control" placeholder="Apt, suite, etc." id="customer_ShippingAddress2">
+							</div>
+						</div>
+
+						<div class="col-xs-12">
+							<div class="input-group customer_info_input">
+								<input type="text" class="form-control" placeholder="City" id="customer_ShippingCity">
+							</div>
+						</div>
+
+						<div class="col-xs-5"> 
+							<div class="input-group customer_info_input">
+								<select class="form-control" placeholder="Country" data-fieldID="ShippingCountry">
+									
+								</select>
+							</div>
+						</div>
+
+						<div class="col-xs-4"> 
+							<div class="input-group customer_info_input">
+							<input type="text" class="form-control" placeholder="State" data-fieldID="ShippingState" >
+							</div>
+						</div>
+
+						<div class="col-xs-3"> 
+							<div class="input-group customer_info_input">
+								<input type="text" class="form-control" placeholder="Zip code" data-fieldID="ShippingPostalCode">
+							</div>
+						</div>
+				</div>
+				<!-- end shipping info container -->
 				</div>
 			</div>
 

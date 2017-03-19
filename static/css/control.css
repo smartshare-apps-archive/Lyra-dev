@@ -1075,6 +1075,41 @@ h4 {
 }
 
 
+.customer_info_input .input-group-addon{
+    width:10%;
+}
+
+.input-group{
+    margin-top:10px;
+    width:100%;
+
+}
+
+.input-group-addon{
+    position:relative;
+    top:0px;
+    background-color:white;
+    height:40px;
+
+}
+.customer_info_input .form-control {
+    height:40px;
+}
+
+.placeholder_addon{
+
+}
+
+
+.valid_entry{
+    display:none;
+}
+
+.invalid_entry{
+    display:none;
+}
+
+
 .product_search_group{
     width:100%;
 }
@@ -1183,9 +1218,8 @@ h4 {
     height:200px;
     
 }
-.tooltip-inner{
-    width:100px;
-}
+
+
 
 .product_image.sub-image {
     position:relative;
@@ -1212,6 +1246,10 @@ h4 {
     right:40px; 
 }
 
+.tooltip-inner{
+    width:100px;
+
+}
 
 .btn-file {
     position: relative;

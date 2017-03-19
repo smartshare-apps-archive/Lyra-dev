@@ -61,7 +61,7 @@ def upload_image_file():
             
 			db = db_handle()
 			database = db.cursor()
-			imageURL = url_for('resourceActions.uploaded_file',
+			imageURL = url_for('resourceActions.uploaded_image',
                                     filename=filename)
 
 			if collection_id is not None:

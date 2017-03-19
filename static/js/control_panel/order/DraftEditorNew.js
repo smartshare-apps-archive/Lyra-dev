@@ -19,6 +19,10 @@ var orderProducts = {};
 var current_step = "order_details";
 var draft_steps = ["order_details", "customer_details", "payment_details"];
 
+
+var shippingIsBilling = true;
+
+
 $(document).ready(function(){
 	order_id = $("#order_id").val();
 
@@ -26,6 +30,7 @@ $(document).ready(function(){
 	bindElements();
 	bindEvents();
 	showStep();
+
 });
 
 
@@ -46,6 +51,7 @@ function bindElements(){
 	tbody_order_products = $("#tbody_order_products");
 	tbody_product_results = $("#tbody_product_results");
 }
+
 
 
 function bindEvents(){
@@ -85,6 +91,7 @@ function previousStep(event){
 	showStep();
 }
 
+
 function nextStep(event){
 	var currentIndex = draft_steps.indexOf(current_step);
 
@@ -95,6 +102,7 @@ function nextStep(event){
 
 	showStep();
 }
+
 
 function showStep(){
 	$(".draft-step").each(function(){
@@ -120,6 +128,7 @@ function showStep(){
 	}
 
 }
+
 
 
 function selectProduct(event){
@@ -155,6 +164,7 @@ function addToOrder(event){
 	$("#product_search_input").val("");
 	filterProducts();
 }
+
 
 
 function deleteFromOrder(event){
@@ -259,4 +269,38 @@ function filterResults(matchIDList){
 	});
 
 
+}
+
+
+
+
+function toggleShippingAddress(event){
+	shipping_info_container.slideToggle();
+
+	if(btn_chkShippingAddress.is(":checked")){
+		shippingIsBilling = true;
+
+		var step_valid = validateCheckoutStep(currentCheckoutStep);
+
+		$(".customer_info_input").each(function(){
+			var targetField = $(this).find('input');
+			var targetFieldID = targetField.attr('id').split('_')[1];
+			var currentFieldValue =  targetField.val();
+
+			//replace the content in the shipping container to match the billing container, if "Ship to this address" is selected
+			if(targetFieldID.indexOf("Billing") >= 0){
+				var el = targetFieldID.replace("Billing","Shipping");
+
+				//$("#customer_"+el).val(currentFieldValue);
+				//validateFieldContent(el, currentFieldValue);
+			}
+
+		});
+
+	}
+	// revalidate the step assuming that shipping info isn't that same as billing info
+	else{
+		shippingIsBilling = false;
+		//var step_valid = validateCheckoutStep(currentCheckoutStep);
+	}
 }
