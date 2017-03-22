@@ -8,14 +8,15 @@ from product_util import *
 #load single product by product_id
 def loadProduct(product_id, productDatabase):
 	try:
-		productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE product_id=?;""",(product_id,))
+		productDatabase.execute("SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE product_id=%s;", [product_id] )
 	except Exception as e:
-		print "Exception: ", e
+		print "Exception hey: ", e
 		return None
 
 	productData = productDatabase.fetchone()
 
 	if productData:
+		print "Product data:", productData
 		formattedProductData = {}
 		for i in range(len(productColumnMappings)):
 			formattedProductData[productColumnMappings[i]] = productData[i]
@@ -29,11 +30,11 @@ def loadProduct(product_id, productDatabase):
 def loadProductBySKU(variantSKU, productDatabase):
 	variantData = None 
 	if len(variantSKU.split('-')) == 1:
-		productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=?;""",(variantSKU, ))
+		productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU='%s';""",(variantSKU, ))
 	else:
 		product_id = variantSKU.split('-')[0]
 		variantData = loadProductVariantBySKU(variantSKU, productDatabase)
-		productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=?;""",(product_id, ))
+		productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU='%s';""",(product_id, ))
 
 	productData = productDatabase.fetchone()
 
@@ -54,7 +55,7 @@ def loadProductBySKU(variantSKU, productDatabase):
 
 def loadProductVariant(variant_id, productDatabase):
 	currentQuery = """SELECT variant_id, VariantSKU, product_id, VariantData, VariantPrice, VariantCompareAtPrice, VariantGrams, VariantWeightUnit, VariantInventoryQty,
-				      VariantImg, VariantTaxCode, VariantTaxable, VariantBarcode, VariantRequiresShipping FROM product_variants WHERE variant_id = ?;"""
+				      VariantImg, VariantTaxCode, VariantTaxable, VariantBarcode, VariantRequiresShipping FROM product_variants WHERE variant_id = %s;"""
 	try:
 		productDatabase.execute(currentQuery, (variant_id, ))
 	except Exception as e:
@@ -76,7 +77,7 @@ def loadProductVariant(variant_id, productDatabase):
 
 def loadProductVariants(product_id, productDatabase):
 	currentQuery = """SELECT variant_id, VariantSKU, product_id, VariantData, VariantPrice, VariantCompareAtPrice, VariantGrams, VariantWeightUnit, VariantInventoryQty,
-				      VariantImg, VariantTaxCode, VariantTaxable, VariantBarcode, VariantRequiresShipping FROM product_variants WHERE product_id = ?;"""
+				      VariantImg, VariantTaxCode, VariantTaxable, VariantBarcode, VariantRequiresShipping FROM product_variants WHERE product_id = %s;"""
 	try:
 		productDatabase.execute(currentQuery, (product_id, ))
 	except Exception as e:
@@ -104,7 +105,7 @@ def loadProductVariants(product_id, productDatabase):
 #loads a variant by it's SKU
 def loadProductVariantBySKU(VariantSKU, productDatabase):
 	currentQuery = """SELECT variant_id, VariantSKU, product_id, VariantData, VariantPrice, VariantCompareAtPrice, VariantGrams, VariantWeightUnit, VariantInventoryQty,
-				      VariantImg, VariantTaxCode, VariantTaxable, VariantBarcode, VariantRequiresShipping FROM product_variants WHERE VariantSKU = ?;"""
+				      VariantImg, VariantTaxCode, VariantTaxable, VariantBarcode, VariantRequiresShipping FROM product_variants WHERE VariantSKU = '%s';"""
 	try:
 		productDatabase.execute(currentQuery, (VariantSKU, ))
 	except Exception as e:
@@ -162,7 +163,7 @@ def loadAllProductVariants(formattedProductList, productDatabase):
 
 def loadCollection(collectionID, productDatabase):	
 	try:
-		productDatabase.execute("""SELECT collection_id,Title,BodyHTML,CollectionImageSrc,Published,Conditions,Strict,URL,Meta,PageTitle,Template,resources FROM collections WHERE collection_id=?;""",(collectionID,));
+		productDatabase.execute("""SELECT collection_id,Title,BodyHTML,CollectionImageSrc,Published,Conditions,Strict,URL,Meta,PageTitle,Template,resources FROM collections WHERE collection_id=%s;""",(collectionID,));
 	except Exception as e:
 		return None
 	
@@ -256,7 +257,7 @@ def loadProductsInCollection(conditions, productDatabase):
 
 
 def saveProductTags(product_id, product_tags, productDatabase):
-	currentQuery = "UPDATE products SET Tags=? WHERE product_id=?;"
+	currentQuery = "UPDATE products SET Tags=%s WHERE product_id=%s;"
 
 	try:
 		productDatabase.execute(currentQuery, (product_tags, product_id,))
@@ -270,7 +271,7 @@ def saveProductTags(product_id, product_tags, productDatabase):
 
 
 def saveProductTypes(product_types, productDatabase):
-	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="Types";"""
+	currentQuery = "UPDATE settings SET FieldList=%s WHERE setting_id='Types';"
 
 	try:
 		productDatabase.execute(currentQuery, (product_types, ))
@@ -284,7 +285,7 @@ def saveProductTypes(product_types, productDatabase):
 
 
 def loadProductTags(productDatabase):
-	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="Tags";""";
+	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='Tags';";
 	
 	try:
 		productDatabase.execute(currentQuery);
@@ -300,8 +301,7 @@ def loadProductTags(productDatabase):
 
 
 def loadProductTypes(productDatabase):
-	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="Types";""";
-	
+	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='Types';"	
 	try:
 		productDatabase.execute(currentQuery);
 	except Exception as e:
@@ -317,7 +317,7 @@ def loadProductTypes(productDatabase):
 
 #returns a list of product variants given a product id 
 def findProductVariants(product_id, productDatabase):
-	currentQuery = """SELECT variant_id FROM product_variants WHERE product_id = ?;"""
+	currentQuery = "SELECT variant_id FROM product_variants WHERE product_id = '%s';"
 
 	try:
 		productDatabase.execute(currentQuery, (product_id,))
@@ -338,7 +338,7 @@ def findProductVariants(product_id, productDatabase):
 
 
 def findTotalProductStock(product_id, productDatabase):
-	currentQuery = "SELECT VariantInventoryQty FROM product_variants WHERE product_id=?;"
+	currentQuery = "SELECT VariantInventoryQty FROM product_variants WHERE product_id=%s;"
 	try:
 		productDatabase.execute(currentQuery, (product_id,))
 	except Exception as e:
@@ -365,13 +365,15 @@ def saveProductData(productData, productDatabase):
 			continue
 		else:	
 			orderedFields[field] = value
-			fieldUpdates += field + "=?," 
+			fieldUpdates += field + "=%s," 
 
 	fieldUpdates = fieldUpdates[:-1]
 
-	currentQuery = 'UPDATE products SET %s WHERE product_id = ?;' % fieldUpdates	#pop in the fieldUpdates for this query
 	valueList = [value for field, value in orderedFields.iteritems()]
 	valueList.append(product_id)
+
+	currentQuery = "UPDATE products SET %s WHERE product_id =" % fieldUpdates	#pop in the fieldUpdates for this query
+	currentQuery += " %s;" 
 
 	print currentQuery,":", valueList
 
@@ -382,7 +384,7 @@ def saveProductData(productData, productDatabase):
 
 
 def saveProductVariantTypes(product_id, variantTypes, productDatabase):
-	currentQuery = """UPDATE products SET VariantTypes = ? WHERE product_id=?;"""
+	currentQuery = """UPDATE products SET VariantTypes = '%s' WHERE product_id=%s;"""
 
 	formattedVariantTypes = ""
 
@@ -402,7 +404,7 @@ def saveProductVariantTypes(product_id, variantTypes, productDatabase):
 
 
 def deleteAllVariants(product_id, productDatabase):
-	currentQuery = "DELETE FROM product_variants WHERE product_id=?;"
+	currentQuery = "DELETE FROM product_variants WHERE product_id=%s;"
 	try:
 		productDatabase.execute(currentQuery, (product_id,))
 	except Exception as e:
@@ -411,7 +413,7 @@ def deleteAllVariants(product_id, productDatabase):
 
 
 def deleteInvalidVariants(product_id, productDatabase):
-	currentQuery = "SELECT VariantTypes FROM products WHERE product_id=?;"
+	currentQuery = "SELECT VariantTypes FROM products WHERE product_id=%s;"
 	try:
 		productDatabase.execute(currentQuery, (product_id,))
 	except Exception as e:
@@ -446,21 +448,25 @@ def deleteInvalidVariants(product_id, productDatabase):
 
 #saves a new product to the database
 def saveNewProductData(productData, productDatabase):
-	currentQuery = """INSERT INTO products(Title) VALUES(?);"""
-	productTuple = (productData["Title"],)
+	currentQuery = "INSERT INTO products(Title, ImageSrc) VALUES(%s, %s);"
+	defaultImageID = "1"
+
+	productTuple = (productData["Title"], defaultImageID, )
 	
 	try:
+		print "query:", currentQuery 
 		productDatabase.execute(currentQuery, productTuple)
 	except Exception as e:
-		print e
+		print "Error creating product: ", e
 
 	try:
-		productDatabase.execute("SELECT last_insert_rowid();")
+		productDatabase.execute("SELECT LAST_INSERT_ID();")
 	except Exception as e:
 		print "Exception: ", e
 
 	product_id = productDatabase.fetchone()[0]
-	currentQuery = """UPDATE products SET VariantSKU=? WHERE product_id = ?;"""
+	print "last insert id: ", product_id
+	currentQuery = """UPDATE products SET VariantSKU=%s WHERE product_id = %s;"""
 
 	try:
 		productDatabase.execute(currentQuery, (product_id, product_id,)) 
@@ -475,7 +481,7 @@ def saveNewProductData(productData, productDatabase):
 
 # save a new type of product variant based on variant options specified in product editor
 def saveNewVariantData(product_id, variantData, productDatabase):
-	currentQuery = """INSERT into product_variants(product_id, VariantSKU, VariantData, VariantPrice, VariantImg) VALUES(?, ?, ?, ?, ?);"""
+	currentQuery = """INSERT into product_variants(product_id, VariantSKU, VariantData, VariantPrice, VariantImg, VariantRequiresShipping, VariantWeightUnit) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s');"""
 	productData = loadProduct(product_id, productDatabase)
 	
 	formattedVariantData = ""
@@ -486,7 +492,7 @@ def saveNewVariantData(product_id, variantData, productDatabase):
 		formattedVariantSKU += "-" + variantValue.replace(' ','-').lower()
 
 	try:
-		productDatabase.execute(currentQuery, (product_id, formattedVariantSKU, formattedVariantData[:-1], productData["VariantPrice"], productData["ImageSrc"]))
+		productDatabase.execute(currentQuery, (product_id, formattedVariantSKU, formattedVariantData[:-1], productData["VariantPrice"], productData["ImageSrc"], "true", "lb"))
 	except Exception as e:
 		print "Error: ", e
 
@@ -496,8 +502,9 @@ def saveNewVariantData(product_id, variantData, productDatabase):
 
 #saves a new colleciton to the database
 def saveNewCollectionData(collectionData, productDatabase):
-	currentQuery = """INSERT INTO collections(Title, Conditions, Published) VALUES(?,?,?);"""
-	collectionTuple = (collectionData["Title"], collectionData["Conditions"], collectionData["Published"])
+	currentQuery = """INSERT INTO collections(Title, Conditions, Published, CollectionImageSrc) VALUES('%s','%s','%s','%s');"""
+	defaultCollectionImage = "1"
+	collectionTuple = (collectionData["Title"], collectionData["Conditions"], collectionData["Published"], defaultCollectionImage)
 	
 	try:
 		productDatabase.execute(currentQuery, collectionTuple)
@@ -505,7 +512,7 @@ def saveNewCollectionData(collectionData, productDatabase):
 		print e
 
 	try:
-		productDatabase.execute("SELECT collection_id FROM collections WHERE Title=?;", (collectionData["Title"],))
+		productDatabase.execute("SELECT collection_id FROM collections WHERE Title='%s';", (collectionData["Title"],))
 	except Exception as e:
 		print e
 
@@ -518,7 +525,7 @@ def saveNewCollectionData(collectionData, productDatabase):
 
 #save changes from product inventory editor
 def saveProductInventoryData(variantData, productDatabase):
-	currentQuery = """UPDATE product_variants SET VariantPrice = ?, VariantCompareAtPrice = ?, VariantBarcode = ?, VariantSKU = ?, VariantInventoryQty = ? WHERE variant_id=?;"""
+	currentQuery = """UPDATE product_variants SET VariantPrice = '%s', VariantCompareAtPrice = '%s', VariantBarcode = '%s', VariantSKU = '%s', VariantInventoryQty = '%s' WHERE variant_id=%s;"""
 	productTuple = (variantData["VariantPrice"], variantData["VariantCompareAtPrice"], variantData["VariantBarcode"], variantData["VariantSKU"], variantData["VariantInventoryQty"], variantData["variant_id"])
 	
 	try:
@@ -547,17 +554,17 @@ def saveCollectionData(collectionData, productDatabase):
 			fieldUpdates += (field + "=\"" + value + "\",")
 
 	fieldUpdates = fieldUpdates[:-1] 	#remove the last comma
-	currentQuery = 'UPDATE collections SET %s WHERE collection_id = ?;' % fieldUpdates	#pop in the fieldUpdates for this query
+	currentQuery = "UPDATE collections SET '%s' WHERE collection_id = '%s';" % (fieldUpdates,collection_id)	#pop in the fieldUpdates for this query
 			
 	try:
-		productDatabase.execute(currentQuery, (int(collection_id),))		#run current query
+		productDatabase.execute(currentQuery)		#run current query
 	except Exception as e:
 		print "Exception:", e
 
 
 
 def setDefaultProductImage(product_id, resource_id, productDatabase):
-	currentQuery = "UPDATE products SET ImageSrc=? WHERE product_id=?;"
+	currentQuery = "UPDATE products SET ImageSrc=%s WHERE product_id=%s;"
 	try:
 		productDatabase.execute(currentQuery, (resource_id, product_id, ))
 	except Exception as e:
@@ -568,7 +575,7 @@ def setDefaultProductImage(product_id, resource_id, productDatabase):
 
 
 def updateProductResources(product_id, resource_id, resource_type, productDatabase):
-	currentQuery = "SELECT resources FROM products WHERE product_id=?;"
+	currentQuery = "SELECT resources FROM products WHERE product_id=%s;"
 	try:
 		productDatabase.execute(currentQuery, (product_id,))
 	except Exception as e:
@@ -601,8 +608,8 @@ def updateProductResources(product_id, resource_id, resource_type, productDataba
 		formattedResourceString += (resource_type + ":" + resource_ids + ",") 
 
 
-	currentQuery = "UPDATE products SET resources=? WHERE product_id=?;"
-
+	currentQuery = "UPDATE products SET resources=%s WHERE product_id=%s;"
+	print "Query:", currentQuery
 	try:
 		productDatabase.execute(currentQuery,(formattedResourceString, product_id, ))
 	except Exception  as e:
@@ -614,7 +621,7 @@ def updateProductResources(product_id, resource_id, resource_type, productDataba
 
 
 def updateCollectionImage(collection_id, resource_id, productDatabase):
-	currentQuery = "UPDATE collections SET CollectionImageSrc=? WHERE collection_id=?;"
+	currentQuery = "UPDATE collections SET CollectionImageSrc=%s WHERE collection_id=%s;"
 
 	try:
 		productDatabase.execute(currentQuery,(str(resource_id), collection_id, ))
@@ -628,8 +635,8 @@ def updateCollectionImage(collection_id, resource_id, productDatabase):
 #deletes a single product from the database
 def deleteProduct(product_id, productDatabase):	
 	try:
-		productDatabase.execute("DELETE FROM products WHERE product_id=?;",(product_id,))
-		productDatabase.execute("DELETE FROM product_variants WHERE product_id=?;", (product_id,))
+		productDatabase.execute("DELETE FROM products WHERE product_id=%s;",(product_id,))
+		productDatabase.execute("DELETE FROM product_variants WHERE product_id=%s;", (product_id,))
 	except Exception as e:
 		print "Exception:", e
 		return None
@@ -639,7 +646,7 @@ def deleteProduct(product_id, productDatabase):
 #deletes a single collection from the database
 def deleteCollection(collection_id, productDatabase):	
 	try:
-		productDatabase.execute("DELETE FROM collections WHERE collection_id=?;",(collection_id,))
+		productDatabase.execute("DELETE FROM collections WHERE collection_id=%s;",(collection_id,))
 	except Exception as e:
 		print "Exception:", e
 		return None
@@ -650,7 +657,7 @@ def deleteCollection(collection_id, productDatabase):
 
 #deletes a single variant from the database
 def deleteVariant(variant_id, productDatabase):
-	currentQuery = "DELETE FROM product_variants WHERE variant_id=?;"
+	currentQuery = "DELETE FROM product_variants WHERE variant_id=%s;"
 	try:
 		productDatabase.execute(currentQuery,(variant_id, ))
 	except Exception as e:
@@ -684,7 +691,7 @@ def insertProducts(products, tableName, productDatabase):
 		GoogleShopping_Gender,GoogleShopping_Age_Group,GoogleShopping_MPN,GoogleShopping_AdWords_Grouping,GoogleShopping_AdWords_Labels,GoogleShopping_Condition,
 		GoogleShopping_Custom_Product,GoogleShopping_Custom_Label_0,GoogleShopping_Custom_Label_1,GoogleShopping_Custom_Label_2,GoogleShopping_Custom_Label_3,
 		GoogleShopping_Custom_Label_4,VariantImage,VariantWeightUnit,VariantTaxCod,IsDefaultProduct)
-		VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"""
+		VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');"""
 
 		try:
 			productDatabase.execute(currentQuery, tuple(products[i]))
@@ -714,10 +721,10 @@ def bulkUpdateProducts(productData, productDatabase):
 				fieldUpdates += (field + "=\"" + value + "\",")
 
 		fieldUpdates = fieldUpdates[:-1] 	#remove the last comma
-		currentQuery = 'UPDATE products SET %s WHERE product_id = ?;' % fieldUpdates	#pop in the fieldUpdates for this query
+		currentQuery = "UPDATE products SET '%s' WHERE product_id = '%s';" % (fieldUpdates, product_id)	#pop in the fieldUpdates for this query
 		
 		try:
-			productDatabase.execute(currentQuery, (int(product_id),))		#run current query
+			productDatabase.execute(currentQuery)		#run current query
 		except Exception as e:
 			print e
 
@@ -743,11 +750,11 @@ def bulkUpdateVariants(variantData, productDatabase):
 				fieldUpdates += (field + "=\"" + value + "\",")
 
 		fieldUpdates = fieldUpdates[:-1] 	#remove the last comma
-		currentQuery = 'UPDATE product_variants SET %s WHERE variant_id = ?;' % fieldUpdates	#pop in the fieldUpdates for this query
+		currentQuery = "UPDATE product_variants SET '%s' WHERE variant_id = '%s';" % (fieldUpdates,variant_id)	#pop in the fieldUpdates for this query
 		
 		print currentQuery
 		try:
-			productDatabase.execute(currentQuery, (int(variant_id),))		#run current query
+			productDatabase.execute(currentQuery)		#run current query
 		except Exception as e:
 			print e
 
@@ -773,11 +780,11 @@ def bulkUpdateCollections(collectionData, productDatabase):
 				fieldUpdates += (field + "=\"" + value + "\",")
 
 		fieldUpdates = fieldUpdates[:-1] 	#remove the last comma
-		currentQuery = 'UPDATE collections SET %s WHERE collection_id = ?;' % fieldUpdates	#pop in the fieldUpdates for this query
+		currentQuery = "UPDATE collections SET '%s' WHERE collection_id = '%s';" % (fieldUpdates, collection_id)	#pop in the fieldUpdates for this query
 		
 		print currentQuery
 		try:
-			productDatabase.execute(currentQuery, (int(collection_id),))		#run current query
+			productDatabase.execute(currentQuery)		#run current query
 		except Exception as e:
 			print e
 
@@ -788,14 +795,15 @@ def bulkUpdateCollections(collectionData, productDatabase):
 def bulkPublish(value, product_id_list, productDatabase):
 	product_id_list = map(int, product_id_list)
 
-	placeholder = '?'
+	placeholder = "%s"
 	placeholders = ','.join(placeholder for unused in product_id_list)
-	currentQuery = 'UPDATE products SET Published = ? WHERE product_id IN (%s);' % placeholders
 
 	values = [value] + product_id_list
+	
+	currentQuery = "UPDATE products SET Published = '%s' WHERE product_id IN (%s);" % (placeholders, values)
 
 	try:
-		productDatabase.execute(currentQuery, values)
+		productDatabase.execute(currentQuery)
 	except Exception as e:
 		print e
 
@@ -805,7 +813,7 @@ def bulkPublish(value, product_id_list, productDatabase):
 #deletes a product and all of it's variants from the database
 def bulkDelete(products, productDatabase):
 	products = map(int, products)
-	placeholder = '?'
+	placeholder = "%s"
 	fullProductList = []
 
 	for i in range(len(products)):
@@ -816,11 +824,11 @@ def bulkDelete(products, productDatabase):
 	
 	if fullProductList != []:
 		placeholders = ','.join(placeholder for unused in fullProductList)
-		currentQuery = 'DELETE FROM products WHERE product_id IN (%s);' % placeholders
+		currentQuery = "DELETE FROM products WHERE product_id IN (%s);" % placeholders
 		values = fullProductList
 	else:
 		placeholders = ','.join(placeholder for unused in products)
-		currentQuery = 'DELETE FROM products WHERE product_id IN (%s);' % placeholders
+		currentQuery = "DELETE FROM products WHERE product_id IN (%s);" % placeholders
 		values = products
 	
 	try:

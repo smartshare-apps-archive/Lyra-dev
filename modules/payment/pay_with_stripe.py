@@ -10,6 +10,7 @@ from modules.db import *
 db = db_handle()
 
 #grab stripe api key settings from database
+print "DB: ", db
 stripe_keys = config.getStripeAPIKeys(db.cursor())
 stripe.api_key = stripe_keys['secret_key']
 
@@ -28,7 +29,7 @@ def create_order(response, order_contents, customer_info):
 	subtotal = calculate_subtotal(order_contents)
 
 	#order details dict 
-	
+
 	order_details["Date"] = (datetime.date.today())
 	order_details["SKU_List"] = (formatted_sku_list[:-1])
 	order_details["SKU_Fulfilled"] = formatted_sku_fulfillment[:-1]

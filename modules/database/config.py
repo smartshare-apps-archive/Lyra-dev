@@ -78,7 +78,8 @@ productFieldMapping = {
 	"Tags":"TEXT",
 	"Title":"TEXT",
 	"Type":"TEXT",
-	"BodyHTML":"TEXT"
+	"BodyHTML":"TEXT",
+	"ImageSrc":"TEXT"
 }
 
 
@@ -88,8 +89,9 @@ variantFieldMapping = {
 	"VariantCompareAtPrice":"REAL",
 	"VariantTaxable":"INTEGER",
 	"VariantInventoryPolicy":"TEXT",
+	"VariantWeightUnit":"TEXT",
 	"VariantGrams":"REAL",
-	"VariantRequiresShipping":"INTEGER",
+	"VariantRequiresShipping":"TEXT",
 	"VariantTaxCode":"INTEGER",
 	"VariantFulfillmentService":"TEXT",
 	"variant_id":"INTEGER",
@@ -190,12 +192,12 @@ productDisplayOptions = {
 
 #gets the stripe api keys to allow for payment with credit cards directly on the store
 def getStripeAPIKeys(database):
-	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="stripe_api_keys";"""
+	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='stripe_api_keys';"
 
 	try:
 		database.execute(currentQuery)
 	except Exception as e:
-		print "Error: ", error
+		print "Error: ", e
 
 	api_keys = database.fetchone()
 	if api_keys:
@@ -212,7 +214,7 @@ def getStripeAPIKeys(database):
 
 #sets the stripe api keys to allow for payment with credit cards directly on the store
 def setStripeAPIKeys(stripe_api_keys, database):
-	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="stripe_api_keys";"""
+	currentQuery = "UPDATE settings SET FieldList=? WHERE setting_id='stripe_api_keys';"
 
 	try:
 		database.execute(currentQuery, (stripe_api_keys,))
@@ -225,7 +227,7 @@ def setStripeAPIKeys(stripe_api_keys, database):
 
 
 def BulkProductEditorSettings(database):
-	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="BulkProductEditorFields";"""
+	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='BulkProductEditorFields';"
 	
 	try:
 		database.execute(currentQuery)
@@ -241,7 +243,7 @@ def BulkProductEditorSettings(database):
 
 
 def setBulkProductEditorSettings(selectedFields, database):
-	currentQuery = """UPDATE settings SET FieldList=%s WHERE setting_id="BulkProductEditorFields";""" % selectedFields
+	currentQuery = "UPDATE settings SET FieldList=%s WHERE setting_id='BulkProductEditorFields';" % selectedFields
 
 	try:
 		database.execute(currentQuery)
@@ -251,7 +253,7 @@ def setBulkProductEditorSettings(selectedFields, database):
 
 
 def BulkInventoryEditorSettings(database):
-	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="BulkInventoryEditorFields";"""
+	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='BulkInventoryEditorFields';"
 	
 	try:
 		database.execute(currentQuery)
@@ -267,7 +269,7 @@ def BulkInventoryEditorSettings(database):
 
 
 def setBulkInventoryEditorSettings(selectedFields, database):
-	currentQuery = """UPDATE settings SET FieldList=%s WHERE setting_id="BulkInventoryEditorFields";""" % selectedFields
+	currentQuery = "UPDATE settings SET FieldList=%s WHERE setting_id='BulkInventoryEditorFields';" % selectedFields
 
 	try:
 		database.execute(currentQuery)
@@ -277,7 +279,7 @@ def setBulkInventoryEditorSettings(selectedFields, database):
 
 
 def BulkCollectionEditorSettings(database):
-	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="BulkCollectionEditorFields";"""
+	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='BulkCollectionEditorFields';"
 	
 	try:
 		database.execute(currentQuery)
@@ -292,7 +294,7 @@ def BulkCollectionEditorSettings(database):
 
 
 def setBulkCollectionEditorSettings(selectedFields, database):
-	currentQuery = """UPDATE settings SET FieldList=%s WHERE setting_id="BulkCollectionEditorFields";""" % selectedFields
+	currentQuery = "UPDATE settings SET FieldList=%s WHERE setting_id='BulkCollectionEditorFields';" % selectedFields
 	print currentQuery
 	try:
 		database.execute(currentQuery)
@@ -303,7 +305,7 @@ def setBulkCollectionEditorSettings(selectedFields, database):
 
 
 def CountryList(database):
-	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="CountryList";"""
+	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='CountryList';"
 
 	try:
 		database.execute(currentQuery)

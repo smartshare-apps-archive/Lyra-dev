@@ -261,13 +261,14 @@
 					<h5> Product type </h5>
 					<div class="btn-group editor_btn_group" role="group" aria-label="product_type">
 						<select class="form-control editor_input_field" id="input_Type">
+						{% if control_data.product_types %}
 							{% for type in control_data.product_types %}
 								<option value="{{type}}" 
 									{% if control_data.product_data.Type == type %} selected {% endif %}>
 									{{type}}
 								</option>
 							{% endfor %}
-							
+						{% endif %}
 							
 							
 								<option value="None" {% if control_data.product_data.Type == None or control_data.product_data.Type == "None" %} selected {% endif %}> 

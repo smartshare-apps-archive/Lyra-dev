@@ -1,24 +1,22 @@
 BEGIN TRANSACTION;
 CREATE TABLE "users" (
-	`user_id`	INTEGER,
+	`user_id`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`username`	TEXT,
 	`password`	TEXT,
 	`customer_id`	INTEGER,
 	`level`	INTEGER DEFAULT 1,
-	`is_active`	TEXT DEFAULT 1,
+	`is_active`	TEXT,
 	`last_login`	TEXT,
 	`created_on`	TEXT,
-	`order_list`	TEXT,
-	PRIMARY KEY(`user_id`)
+	`order_list`	TEXT
 );
 INSERT INTO `users` VALUES (1,'joe','mulligan',NULL,1,'yes','today','today',NULL);
 INSERT INTO `users` VALUES (2,'admin','password',2,0,'yes','today','today','1,10,11,14,16,19,2,3,4,5,6,7,8,9,6');
 CREATE TABLE "store" (
-	`setting_id`	INTEGER,
+	`setting_id`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`Name`	TEXT,
 	`Type`	TEXT,
-	`Data`	BLOB,
-	PRIMARY KEY(`setting_id`)
+	`Data`	BLOB
 );
 INSERT INTO `store` VALUES (5,'Home','nav_bar_link','resource_id:87,type:single_link');
 INSERT INTO `store` VALUES (10,'Contact','footer_link','resource_id:104,type:dropdown_list');
@@ -35,7 +33,7 @@ INSERT INTO `store` VALUES (74,'Home','page_title','Home');
 INSERT INTO `store` VALUES (75,'Home','page_template','lulu');
 INSERT INTO `store` VALUES (76,'Home','page_type','static_content');
 INSERT INTO `store` VALUES (77,'Home','page_data','');
-INSERT INTO `store` VALUES (78,'Home','page_sections','content,Splash,Info');
+INSERT INTO `store` VALUES (78,'Home','page_sections','Splash,Info,content');
 INSERT INTO `store` VALUES (79,'Home','page_section_data','Splash:splash_screen<id_split>Splash image<anchor_id_split>anchor_type=image-resource<>anchor_value=126<split>Splash text<anchor_id_split>anchor_type=text-resource<>anchor_value=<br><h3 class="h3-header">Software with room to grow.&nbsp;<span class="glyphicon glyphicon-leaf"> </span></h3><br>
 
 <h5> 
@@ -85,10 +83,9 @@ INSERT INTO `settings` VALUES ('Types','hardware,Tech DIY,virtual reality');
 INSERT INTO `settings` VALUES ('CountryList','AF:Afghanistan,AL:Albania,DZ:Algeria,AS:American Samoa,AD:Andorra,AO:Angola,AI:Anguilla,AQ:Antarctica,AG:Antigua and Barbuda,AR:Argentina,AM:Armenia,AW:Aruba,AU:Australia,AT:Austria,AZ:Azerbaijan,BS:Bahamas,BH:Bahrain,BD:Bangladesh,BB:Barbados,BY:Belarus,BE:Belgium,BZ:Belize,BJ:Benin,BM:Bermuda,BT:Bhutan,BO:Bolivia (Plurinational State of),BQ:Bonaire,BA:Bosnia and Herzegovina,BW:Botswana,BV:Bouvet Island,BR:Brazil,IO:British Indian Ocean Territory,BN:Brunei Darussalam,BG:Bulgaria,BF:Burkina Faso,BI:Burundi,KH:Cambodia,CM:Cameroon,CA:Canada,CV:Cabo Verde,KY:Cayman Islands,CF:Central African Republic,TD:Chad,CL:Chile,CN:China,CX:Christmas Island,CC:Cocos (Keeling) Islands,CO:Colombia,KM:Comoros,CG:Congo,CD:Congo (Democratic Republic of the),CK:Cook Islands,CR:Costa Rica,CI:Côte d''Ivoire,HR:Croatia,CU:Cuba,CW:Curaçao,CY:Cyprus,CZ:Czech Republic,DK:Denmark,DJ:Djibouti,DM:Dominica,DO:Dominican Republic,EC:Ecuador,EG:Egypt,SV:El Salvador,GQ:Equatorial Guinea,ER:Eritrea,EE:Estonia,ET:Ethiopia,FK:Falkland Islands (Malvinas),FO:Faroe Islands,FJ:Fiji,FI:Finland,FR:France,GF:French Guiana,PF:French Polynesia,TF:French Southern Territories,GA:Gabon,GM:Gambia,GE:Georgia,DE:Germany,GH:Ghana,GI:Gibraltar,GR:Greece,GL:Greenland,GD:Grenada,GP:Guadeloupe,GU:Guam,GT:Guatemala,GG:Guernsey,GN:Guinea,GW:Guinea-Bissau,GY:Guyana,HT:Haiti,HM:Heard Island and McDonald Islands,VA:Holy See,HN:Honduras,HK:Hong Kong,HU:Hungary,IS:Iceland,IN:India,ID:Indonesia,IR:Iran (Islamic Republic of),IQ:Iraq,IE:Ireland,IM:Isle of Man,IL:Israel,IT:Italy,JM:Jamaica,JP:Japan,JE:Jersey,JO:Jordan,KZ:Kazakhstan,KE:Kenya,KI:Kiribati,KP:Korea (Democratic People''s Republic of),KR:Korea (Republic of),KW:Kuwait,KG:Kyrgyzstan,LA:Lao People''s Democratic Republic,LV:Latvia,LB:Lebanon,LS:Lesotho,LR:Liberia,LY:Libya,LI:Liechtenstein,LT:Lithuania,LU:Luxembourg,MO:Macao,MK:Macedonia (the former Yugoslav Republic of),MG:Madagascar,MW:Malawi,MY:Malaysia,MV:Maldives,ML:Mali,MT:Malta,MH:Marshall Islands,MQ:Martinique,MR:Mauritania,MU:Mauritius,YT:Mayotte,MX:Mexico,FM:Micronesia (Federated States of),MD:Moldova (Republic of),MC:Monaco,MN:Mongolia,ME:Montenegro,MS:Montserrat,MA:Morocco,MZ:Mozambique,MM:Myanmar,NA:Namibia,NR:Nauru,NP:Nepal,NL:Netherlands,NC:New Caledonia,NZ:New Zealand,NI:Nicaragua,NE:Niger,NG:Nigeria,NU:Niue,NF:Norfolk Island,MP:Northern Mariana Islands,NO:Norway,OM:Oman,PK:Pakistan,PW:Palau,PS:Palestine,PA:Panama,PG:Papua New Guinea,PY:Paraguay,PE:Peru,PH:Philippines,PN:Pitcairn,PL:Poland,PT:Portugal,PR:Puerto Rico,QA:Qatar,RO:Romania,RU:Russian Federation,RW:Rwanda,BL:Saint Barthélemy,SH:Saint Helena,KN:Saint Kitts and Nevis,LC:Saint Lucia,MF:Saint Martin (French part),PM:Saint Pierre and Miquelon,VC:Saint Vincent and the Grenadines,WS:Samoa,SM:San Marino,ST:Sao Tome and Principe,SA:Saudi Arabia,SN:Senegal,RS:Serbia,SC:Seychelles,SL:Sierra Leone,SG:Singapore,SX:Sint Maarten (Dutch part),SK:Slovakia,SI:Slovenia,SB:Solomon Islands,SO:Somalia,ZA:South Africa,GS:South Georgia and the South Sandwich Islands,SS:South Sudan,ES:Spain,LK:Sri Lanka,SD:Sudan,SR:Suriname,SJ:Svalbard and Jan Mayen,SZ:Swaziland,SE:Sweden,CH:Switzerland,SY:Syrian Arab Republic,TW:Taiwan,TJ:Tajikistan,TZ:Tanzania,TH:Thailand,TL:Timor-Leste,TG:Togo,TK:Tokelau,TO:Tonga,TT:Trinidad and Tobago,TN:Tunisia,TR:Turkey,TM:Turkmenistan,TC:Turks and Caicos Islands,TV:Tuvalu,UG:Uganda,UA:Ukraine,AE:United Arab Emirates,GB:United Kingdom of Great Britain and Northern Ireland,US:United States of America,UM:United States Minor Outlying Islands,UY:Uruguay,UZ:Uzbekistan,VU:Vanuatu,VE:Venezuela (Bolivarian Republic of),VN:Viet Nam,VG:Virgin Islands (British),VI:Virgin Islands (U.S.),WF:Wallis and Futuna,EH:Western Sahara,YE:Yemen,ZM:Zambia,ZW:Zimbabwe');
 INSERT INTO `settings` VALUES ('stripe_api_keys','secret_key:sk_test_8hackBwfiYRfYLWDKgdShe4s,publishable_key:pk_test_idhTCBskER5T8GVsT7JhdHxK');
 CREATE TABLE "resources" (
-	`resource_id`	INTEGER,
+	`resource_id`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`resource_uri`	TEXT,
-	`resource_type`	TEXT,
-	PRIMARY KEY(`resource_id`)
+	`resource_type`	TEXT
 );
 INSERT INTO `resources` VALUES (1,'/static/images/missing_product_icon.png','product_image');
 INSERT INTO `resources` VALUES (2,'/static/images/phone.png','product_image');
@@ -193,7 +190,7 @@ INSERT INTO `resources` VALUES (100,'title:Contact;Email:/;Call Us:/;Live Chat:/
 INSERT INTO `resources` VALUES (101,'title:Users;My Account:/;Login:/login;Register:/register','local_link');
 INSERT INTO `resources` VALUES (102,'title:Help;Ordering:/;Shipping:/;Frequently Asked:/','local_link');
 INSERT INTO `resources` VALUES (103,'title:Help;Frequently Asked:/','local_link');
-INSERT INTO `resources` VALUES (104,'title:Contact;Call Us:/contact;Don''t call us:/;Exit Site Immediately:/','local_link');
+INSERT INTO `resources` VALUES (104,'title:Contact;Call Us:/contact;Don''t call us:/','local_link');
 INSERT INTO `resources` VALUES (105,'title:default','local_link');
 INSERT INTO `resources` VALUES (106,'title:Help;Call Us:/call;Support:/','local_link');
 INSERT INTO `resources` VALUES (107,'/','local_link');
@@ -214,9 +211,13 @@ INSERT INTO `resources` VALUES (124,'/static/uploaded_files/pudding.png','upload
 INSERT INTO `resources` VALUES (125,'/static/uploaded_files/computer_plant.png','uploaded_file');
 INSERT INTO `resources` VALUES (126,'/static/uploaded_files/ss_splash2.png','uploaded_file');
 INSERT INTO `resources` VALUES (127,'/','local_link');
-INSERT INTO `resources` VALUES (128,'/static/uploaded_files/topography.png','product_image');
+INSERT INTO `resources` VALUES (128,'/static/uploaded_files/IMG_0247.JPG','product_image');
+INSERT INTO `resources` VALUES (129,'/static/images/IMG_0247.JPG','product_image');
+INSERT INTO `resources` VALUES (130,'/static/images/IMG_0247.JPG','product_image');
+INSERT INTO `resources` VALUES (131,'/static/images/IMG_0247.JPG','product_image');
+INSERT INTO `resources` VALUES (132,'/static/images/IMG_0251.JPG','collection_image');
 CREATE TABLE "products" (
-	`product_id`	INTEGER,
+	`product_id`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`VariantSKU`	TEXT,
 	`VariantInventoryQty`	INTEGER DEFAULT 0,
 	`VariantPrice`	REAL DEFAULT 0.00,
@@ -228,7 +229,7 @@ CREATE TABLE "products" (
 	`Type`	TEXT,
 	`Tags`	TEXT,
 	`Published`	TEXT,
-	`ImageSrc`	TEXT NOT NULL DEFAULT 1,
+	`ImageSrc`	TEXT NOT NULL,
 	`ImageAltText`	TEXT,
 	`VariantTypes`	TEXT,
 	`resources`	TEXT,
@@ -247,39 +248,38 @@ CREATE TABLE "products" (
 	`GoogleShopping_Custom_Label_1`	TEXT,
 	`GoogleShopping_Custom_Label_2`	TEXT,
 	`GoogleShopping_Custom_Label_3`	TEXT,
-	`GoogleShopping_Custom_Label_4`	TEXT,
-	PRIMARY KEY(`product_id`)
+	`GoogleShopping_Custom_Label_4`	TEXT
 );
-INSERT INTO `products` VALUES (11,'11',40,45.0,0.0,0,'Modern Dublin','<p><br></p>',NULL,'hardware','mvest,gear','true','80',NULL,'','product_image:80,',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `products` VALUES (1,'1',0,0.0,0.0,0,'Modern Dublin','<p>Some kind of description</p>',NULL,NULL,NULL,'true','131',NULL,'Color:Red,Blue,Orange','product_image:131,',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 CREATE TABLE "product_variants" (
-	`variant_id`	INTEGER,
+	`variant_id`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`product_id`	INTEGER,
 	`VariantSKU`	TEXT,
 	`VariantData`	TEXT,
 	`VariantPrice`	REAL DEFAULT 0.00,
 	`VariantCompareAtPrice`	REAL DEFAULT 0.00,
 	`VariantGrams`	REAL,
-	`VariantWeightUnit`	TEXT DEFAULT 'lb',
+	`VariantWeightUnit`	TEXT,
 	`VariantInventoryQty`	INTEGER DEFAULT 0,
 	`VariantImg`	TEXT,
 	`VariantTaxCode`	INTEGER,
 	`VariantTaxable`	INTEGER DEFAULT 0,
 	`VariantBarcode`	TEXT,
-	`VariantRequiresShipping`	TEXT DEFAULT 'true',
-	PRIMARY KEY(`variant_id`)
+	`VariantRequiresShipping`	TEXT
 );
-INSERT INTO `product_variants` VALUES (5,9,'9-blue-m','Color:Blue;Size:M',0.0,0.0,NULL,'lb',0,'53',NULL,0,NULL,'true');
-INSERT INTO `product_variants` VALUES (6,7,'7-blue','Color:Blue',600.0,0.0,NULL,'lb',0,'29',NULL,0,NULL,'true');
+INSERT INTO `product_variants` VALUES (7,1,'1-red','Color:Red',0.0,0.0,NULL,'lb',0,'131',NULL,0,NULL,'true');
+INSERT INTO `product_variants` VALUES (8,1,'1-blue','Color:Blue',0.0,0.0,NULL,'lb',0,'131',NULL,0,NULL,'true');
+INSERT INTO `product_variants` VALUES (9,1,'1-orange','Color:Orange',0.0,0.0,NULL,'lb',0,'131',NULL,0,NULL,'true');
 CREATE TABLE "orders" (
-	`order_id`	INTEGER,
+	`order_id`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`Email`	TEXT,
 	`PhoneNumber`	TEXT,
 	`Company`	TEXT,
 	`Date`	TEXT,
 	`customer_id`	INTEGER,
 	`PaymentInfo`	TEXT,
-	`PaymentStatus`	TEXT DEFAULT 'unpaid',
-	`FulfillmentStatus`	TEXT DEFAULT 'unfulfilled',
+	`PaymentStatus`	TEXT,
+	`FulfillmentStatus`	TEXT,
 	`SKU_List`	TEXT,
 	`SKU_Fulfilled`	TEXT,
 	`OrderTotal`	REAL,
@@ -287,7 +287,7 @@ CREATE TABLE "orders" (
 	`ShippingTotal`	REAL,
 	`SubTotal`	REAL,
 	`OrderEvents`	TEXT,
-	`Currency`	TEXT DEFAULT 'USD',
+	`Currency`	TEXT,
 	`ShippingAddress`	TEXT,
 	`ShippingAddress2`	TEXT,
 	`ShippingCity`	TEXT,
@@ -307,31 +307,22 @@ CREATE TABLE "orders" (
 	`BillingState`	TEXT,
 	`token_id`	TEXT,
 	`charge_id`	TEXT,
-	`order_creation_method`	TEXT DEFAULT 'customer',
-	PRIMARY KEY(`order_id`)
+	`order_creation_method`	TEXT
 );
-INSERT INTO `orders` VALUES (1,'llombar1@binghamton.edu','7184145662','','2017-03-01',1,'cc:4242','pending','unfulfilled','7-blue;5','7-blue;5',3000.0,0.0,0.0,3000.0,NULL,'USD','594 earl street','','saint paul','55106','US','luke','lombardi','Minnesota',NULL,'594 earl street','','saint paul','55106','US','luke','lombardi','Minnesota','tok_19sdXnB9jeytrsNCuB7MhD2z','ch_19sdXoB9jeytrsNCajE4c6HL','customer');
-INSERT INTO `orders` VALUES (2,'jack@aol.com','7184145662','','2017-03-01',2,'cc:4242','pending','unfulfilled','11;7,7-blue;3','11;7,7-blue;3',2115.0,0.0,0.0,2115.0,NULL,'USD','594 earl street','','saint paul','55106','US','jack','fenton','Minnesota',NULL,'594 earl street','','saint paul','55106','US','jack','fenton','Minnesota','tok_19sdYOB9jeytrsNCPsMxRWfq','ch_19sdYPB9jeytrsNC81IQUrfo','customer');
-INSERT INTO `orders` VALUES (3,'jack@aol.com','7184145662','','2017-03-01',3,'cc:4242','pending','unfulfilled','11;7,7-blue;9','11;7,7-blue;9',5715.0,0.0,0.0,5715.0,NULL,'USD','594 earl street','','saint paul','55106','US','frank','rogers','Minnesota',NULL,'594 earl street','','saint paul','55106','US','frank','rogers','Minnesota','tok_19se2ZB9jeytrsNCT01HXGOP','ch_19se2hB9jeytrsNCE3itRjBG','customer');
-INSERT INTO `orders` VALUES (4,'llombar1@binghamton.edu','7184145662','Year','2017-03-04',4,'cc:4242','pending','unfulfilled','7-blue;1','7-blue;1',600.0,0.0,0.0,600.0,NULL,'USD','86 Silver Lake Road','','Staten Island','10301','US','Luke','Lombardi','NY',NULL,'86 Silver Lake Road','','Staten Island','10301','US','Luke','Lombardi','NY','tok_19tfW0B9jeytrsNCVjR1zfR9','ch_19tfW3B9jeytrsNCimJ9Ezqx','customer');
-INSERT INTO `orders` VALUES (5,'jack@aol.com','','','2017-03-06',2,'cc:4242','pending','unfulfilled','11;5','11;5',225.0,0.0,0.0,225.0,NULL,'USD',' 594 earl street','',' saint paul',' 55106','US',' jack',' fenton',' Minnesota',NULL,' 594 earl street','',' saint paul',' 55106','US',' jack',' fenton',' Minnesota','tok_19uU9vB9jeytrsNC38qD81FK','ch_19uU9xB9jeytrsNCqUtq2WeU','customer');
-INSERT INTO `orders` VALUES (6,'jack@aol.com','','','2017-03-06',2,'cc:4242','pending','unfulfilled','7-blue;5','7-blue;0',3000.0,0.0,0.0,3000.0,NULL,'USD',' 594 earl street','',' saint paul',' 55106','US',' jack',' fenton',' Minnesota',NULL,' 594 earl street','',' saint paul',' 55106','US',' jack',' fenton',' Minnesota','tok_19uZLwB9jeytrsNCxHBAPO43','ch_19uZLzB9jeytrsNCUkJTyZOr','customer');
-INSERT INTO `orders` VALUES (7,'llombar1@binghamton.edu','7184145662','SmartShare LLC','2017-03-10',5,'cc:4242','pending','unfulfilled','7-blue;1','7-blue;0',600.0,0.0,0.0,600.0,NULL,'USD','86 Silver Lake Road','','Staten Island','10301','US','Luke','Lombardi','NY',NULL,'86 Silver Lake Road','','Staten Island','10301','US','Luke','Lombardi','NY','tok_19vpC2B9jeytrsNCfZFG7m0y','ch_19vpC5B9jeytrsNCX77mRzD6','customer');
-INSERT INTO `orders` VALUES (8,'llombar1@binghamton.edu','7184145662','Smartshare','2017-03-10',6,'cc:4242','pending','unfulfilled','11;4','11;0',180.0,0.0,0.0,180.0,NULL,'USD','594 earl street','','saint paul','55106','US','zach','lombardi','Minnesota',NULL,'594 earl street','','saint paul','55106','US','zach','lombardi','Minnesota','tok_19vs2IB9jeytrsNCekwv8Yaf','ch_19vs2LB9jeytrsNCJzIfR4oR','customer');
-CREATE TABLE `events` (
-	`event_id`	INTEGER,
+INSERT INTO `orders` VALUES (1,'jack@harris.com','7184145662','smartshare','2017-03-22',3,'cc:4242','pending','unfulfilled','11;1','11;0',45.0,0.0,0.0,45.0,NULL,'USD','594 earl street','','saint paul','55106','US','jack','fenton','Minnesota',NULL,'594 earl street','','saint paul','55106','US','jack','fenton','Minnesota','tok_1A0DvRB9jeytrsNCtfq6oLOv','ch_1A0DvTB9jeytrsNCe8wg4Fka','customer');
+CREATE TABLE "events" (
+	`event_id`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`Time`	TEXT,
 	`Type`	TEXT,
 	`Message`	TEXT,
-	`Data`	TEXT,
-	PRIMARY KEY(`event_id`)
+	`Data`	TEXT
 );
 INSERT INTO `events` VALUES (2,'1:23
 ','order_payment_received','Payment was received','<b> $11.23 </b>');
 INSERT INTO `events` VALUES (3,'3:24','order_shipped','Order shipped','&nbsp;<input type="text" value="873827382738273827">');
 INSERT INTO `events` VALUES (4,'4:12','order_received','Order received','Customer ID');
 CREATE TABLE "customers" (
-	`customer_id`	INTEGER,
+	`customer_id`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`user_id`	INTEGER,
 	`Email`	TEXT,
 	`Phone`	TEXT,
@@ -354,20 +345,16 @@ CREATE TABLE "customers" (
 	`Company`	TEXT,
 	`TotalSpent`	REAL,
 	`LastOrder`	INTEGER,
-	`accepts_marketing`	TEXT DEFAULT 'false',
-	PRIMARY KEY(`customer_id`)
+	`accepts_marketing`	TEXT
 );
-INSERT INTO `customers` VALUES (1,NULL,'llombar1@binghamton.edu','7184145662','luke','lombardi','594 earl street',NULL,'saint paul','Minnesota','55106','US','luke','lombardi','594 earl street',NULL,'saint paul','Minnesota','55106','US',NULL,3000.0,1,'false');
-INSERT INTO `customers` VALUES (2,NULL,'jack@aol.com','7184145662','jack','fenton','594 earl street',NULL,'saint paul','Minnesota','55106','US','jack','fenton','594 earl street',NULL,'saint paul','Minnesota','55106','US',NULL,5340.0,6,'false');
-INSERT INTO `customers` VALUES (3,NULL,'jack@aol.com','7184145662','frank','rogers','594 earl street',NULL,'saint paul','Minnesota','55106','US','frank','rogers','594 earl street',NULL,'saint paul','Minnesota','55106','US',NULL,5715.0,3,'false');
-INSERT INTO `customers` VALUES (4,NULL,'llombar1@binghamton.edu','7184145662','Luke','Lombardi','86 Silver Lake Road',NULL,'Staten Island','NY','10301','US','Luke','Lombardi','86 Silver Lake Road',NULL,'Staten Island','NY','10301','US','Year',600.0,4,'false');
-INSERT INTO `customers` VALUES (5,NULL,'llombar1@binghamton.edu','7184145662','Luke','Lombardi','86 Silver Lake Road',NULL,'Staten Island','NY','10301','US','Luke','Lombardi','86 Silver Lake Road',NULL,'Staten Island','NY','10301','US','SmartShare LLC',600.0,7,'false');
-INSERT INTO `customers` VALUES (6,NULL,'llombar1@binghamton.edu','7184145662','zach','lombardi','594 earl street',NULL,'saint paul','Minnesota','55106','US','zach','lombardi','594 earl street',NULL,'saint paul','Minnesota','55106','US','Smartshare',180.0,8,'false');
+INSERT INTO `customers` VALUES (1,NULL,'jack@jack.com','7184145662','michael','harris','594 earl street',NULL,'saint paul','Minnesota','55106','US','michael','harris','594 earl street',NULL,'saint paul','Minnesota','55106','US',NULL,45.0,1,'false');
+INSERT INTO `customers` VALUES (2,NULL,'llombar1@binghamton.edu','7184145662','ack','fenton','594 earl street',NULL,'saint paul','Minnesota','55106','US','ack','fenton','594 earl street',NULL,'saint paul','Minnesota','55106','US',NULL,45.0,2,'false');
+INSERT INTO `customers` VALUES (3,NULL,'jack@harris.com','7184145662','jack','fenton','594 earl street',NULL,'saint paul','Minnesota','55106','US','jack','fenton','594 earl street',NULL,'saint paul','Minnesota','55106','US','smartshare',45.0,1,'false');
 CREATE TABLE "collections" (
-	`collection_id`	INTEGER,
+	`collection_id`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`Title`	TEXT,
 	`BodyHTML`	TEXT,
-	`CollectionImageSrc`	TEXT DEFAULT ' ',
+	`CollectionImageSrc`	TEXT,
 	`Published`	INTEGER,
 	`Conditions`	TEXT,
 	`Strict`	INTEGER DEFAULT 0,
@@ -375,8 +362,7 @@ CREATE TABLE "collections" (
 	`PageTitle`	TEXT,
 	`Meta`	TEXT,
 	`Template`	TEXT,
-	`resources`	TEXT,
-	PRIMARY KEY(`collection_id`)
+	`resources`	TEXT
 );
-INSERT INTO `collections` VALUES (1,'Featured products','This is our top of the line collection.','123',1,'Tags:=:gear;',0,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `collections` VALUES (1,'New Collection','None','1',1,'Tags:=:sunglasses;',0,NULL,NULL,NULL,NULL,NULL);
 COMMIT;

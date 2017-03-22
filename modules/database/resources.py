@@ -9,7 +9,7 @@ from order import *
 
 
 def createResource(resource_URI, resource_type, database):
-	currentQuery = "INSERT INTO resources(resource_uri, resource_type) VALUES(?,?);"
+	currentQuery = "INSERT INTO resources(resource_uri, resource_type) VALUES(%s,%s);"
 
 	try:
 		database.execute(currentQuery, (resource_URI, resource_type,))
@@ -18,7 +18,7 @@ def createResource(resource_URI, resource_type, database):
 		return None
 
 	try:
-		database.execute("SELECT last_insert_rowid();")
+		database.execute("SELECT LAST_INSERT_ID();")
 	except Exception as e:
 		print "Exception: ", e
 
@@ -32,7 +32,7 @@ def createResource(resource_URI, resource_type, database):
 
 
 def loadResourceURI(resource_id, database):
-	currentQuery = "SELECT resource_uri FROM resources WHERE resource_id=?;"
+	currentQuery = "SELECT resource_uri FROM resources WHERE resource_id=%s;"
 
 	try:
 		database.execute(currentQuery, (resource_id, ))
@@ -49,7 +49,7 @@ def loadResourceURI(resource_id, database):
 
 
 def deleteResource(resource_id, database):
-	currentQuery = "DELETE FROM resources WHERE resource_id=?;"
+	currentQuery = "DELETE FROM resources WHERE resource_id=%s;"
 	
 	try:
 		database.execute(currentQuery,(resource_id, ))
@@ -65,7 +65,7 @@ def deleteResource(resource_id, database):
 def bulkDeleteResources(resource_id_list, database):
 	resource_id_list = map(int, resource_id_list)
 
-	placeholder = '?'
+	placeholder = '%s'
 	placeholders = ','.join(placeholder for unused in resource_id_list)
 
 	currentQuery = "DELETE FROM resources WHERE resource_id IN(%s);" % placeholders
@@ -80,7 +80,7 @@ def bulkDeleteResources(resource_id_list, database):
 
 
 def loadResourcesByType(resource_type, database):
-	currentQuery = """SELECT resource_uri, resource_id FROM resources WHERE resource_type=?;"""
+	currentQuery = """SELECT resource_uri, resource_id FROM resources WHERE resource_type='%s';"""
 	try:
 		database.execute(currentQuery, (resource_type, ))
 	except Exception as e:
@@ -145,10 +145,10 @@ def deleteProductResource(product_id, resource_id, resource_type, database):
 				else:
 					newDefaultImage = "1"
 				#update main product image	
-				database.execute("UPDATE products SET ImageSrc=? WHERE product_id=?;", (newDefaultImage, product_id,))
+				database.execute("UPDATE products SET ImageSrc=%s WHERE product_id=%s;", (newDefaultImage, product_id,))
 
 			#update resources
-			database.execute("UPDATE products SET resources=? WHERE product_id=?;", (formattedProductResources, product_id,))
+			database.execute("UPDATE products SET resources=%s WHERE product_id=%s;", (formattedProductResources, product_id,))
 		except Exception as e:
 			print "Error: ", e
 			return None
