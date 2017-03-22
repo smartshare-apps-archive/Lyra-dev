@@ -9,7 +9,7 @@ from order import *
 
 
 def createResource(resource_URI, resource_type, database):
-	currentQuery = "INSERT INTO resources(resource_uri, resource_type) VALUES(%s,%s);"
+	currentQuery = "INSERT INTO resources(resource_uri, resource_type) VALUES(%s, %s);"
 
 	try:
 		database.execute(currentQuery, (resource_URI, resource_type,))
@@ -80,7 +80,7 @@ def bulkDeleteResources(resource_id_list, database):
 
 
 def loadResourcesByType(resource_type, database):
-	currentQuery = """SELECT resource_uri, resource_id FROM resources WHERE resource_type='%s';"""
+	currentQuery = """SELECT resource_uri, resource_id FROM resources WHERE resource_type=%s;"""
 	try:
 		database.execute(currentQuery, (resource_type, ))
 	except Exception as e:

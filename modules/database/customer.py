@@ -9,7 +9,7 @@ from order import *
 
 
 def loadCustomer(customer_id, database):
-	currentQuery = "SELECT customer_id,user_id,Email,Phone,ShippingFirstName,ShippingLastName,ShippingAddress1,ShippingAddress2,ShippingCity,ShippingState,ShippingPostalCode,ShippingCountry,BillingFirstName,BillingLastName,BillingAddress1,BillingAddress2,BillingCity,BillingState,BillingPostalCode,BillingCountry,Company,TotalSpent,LastOrder,accepts_marketing FROM customers WHERE customer_id = ?;"
+	currentQuery = "SELECT customer_id,user_id,Email,Phone,ShippingFirstName,ShippingLastName,ShippingAddress1,ShippingAddress2,ShippingCity,ShippingState,ShippingPostalCode,ShippingCountry,BillingFirstName,BillingLastName,BillingAddress1,BillingAddress2,BillingCity,BillingState,BillingPostalCode,BillingCountry,Company,TotalSpent,LastOrder,accepts_marketing FROM customers WHERE customer_id = %s;"
 	
 	try:
 		database.execute(currentQuery,(customer_id,))
@@ -72,10 +72,12 @@ def saveCustomerData(customerData, database):
 			fieldUpdates += (field + "=\"" + value + "\",")
 
 	fieldUpdates = fieldUpdates[:-1] 	#remove the last comma
-	currentQuery = 'UPDATE customers SET %s WHERE customer_id = ?;' % fieldUpdates	#pop in the fieldUpdates for this query
-			
+	currentQuery = "UPDATE customers SET %s WHERE customer_id =" % fieldUpdates	#pop in the fieldUpdates for this query
+	
+	currentQuery += "%s;"
+
 	try:
-		database.execute(currentQuery, (int(customer_id),))		#run current query
+		database.execute(currentQuery, (customer_id, ))		#run current query
 	except Exception as e:
 		print "Exception:", e
 
@@ -91,11 +93,11 @@ def createCustomer(customer_info, order_details, database, user_data = None):
 			continue
 
 		if customerFieldMapping[field] == "TEXT":
-			value = "\"" + value + "\""
+			value = "'" + value + "'"
 		elif customerFieldMapping[field] == "INTEGER" or customerFieldMapping[field] == "REAL":
 			value = value
 		else:
-			value = "\"" + value + "\""
+			value = "'" + value + "'"
 
 		fieldList += field + ","
 		valueList += value + ","
@@ -112,7 +114,7 @@ def createCustomer(customer_info, order_details, database, user_data = None):
 		return None
 
 	try:
-		database.execute("SELECT last_insert_rowid();")
+		database.execute("SELECT LAST_INSERT_ID();")
 	except Exception as e:
 		print "Exception: ", e
 
@@ -131,7 +133,7 @@ def updateCustomer(customer_id, order_details, database):
 	else:
 		newTotalSpent = float(order_details["OrderTotal"])
 
-	currentQuery = "UPDATE customers SET TotalSpent=?, LastOrder=? WHERE customer_id=?;"
+	currentQuery = "UPDATE customers SET TotalSpent=%s, LastOrder=%s WHERE customer_id=%s;"
 
 	order_id = order_details["order_id"]
 
@@ -149,7 +151,7 @@ def updateCustomer(customer_id, order_details, database):
 def bulkDeleteCustomers(customer_id_list, database):
 	customer_id_list = map(int, customer_id_list)
 
-	placeholder = '?'
+	placeholder = '%s'
 	placeholders = ','.join(placeholder for unused in customer_id_list)
 
 	currentQuery = "DELETE FROM customers WHERE customer_id IN(%s);" % placeholders

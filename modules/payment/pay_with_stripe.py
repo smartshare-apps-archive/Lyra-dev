@@ -34,7 +34,7 @@ def create_order(response, order_contents, customer_info):
 	order_details["SKU_List"] = (formatted_sku_list[:-1])
 	order_details["SKU_Fulfilled"] = formatted_sku_fulfillment[:-1]
 
-	order_details["Subtotal"] = float(subtotal)
+	order_details["SubTotal"] = float(subtotal)
 	order_details["TaxTotal"] = 0.00
 	order_details["ShippingTotal"] = 0.00
 	order_details["OrderTotal"] = (float(subtotal))

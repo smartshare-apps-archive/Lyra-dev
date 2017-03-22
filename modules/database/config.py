@@ -150,7 +150,10 @@ orderFieldMapping = {
 	"Currency": "TEXT",
 	"TotalSpent":"REAL",
 	"LastOrder": "INTEGER",
-	"accepts_marketing": "TEXT"
+	"accepts_marketing": "TEXT",
+	"order_creation_method": "TEXT",
+	"token_id":"TEXT",
+	"charge_id":"TEXT"
 }
 
 

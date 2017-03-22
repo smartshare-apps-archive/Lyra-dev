@@ -354,7 +354,7 @@ def order_success(user_data=None):
 	if charge_id != '':
 		db = db_handle()
 		order_details = loadOrderByCharge(charge_id, db.cursor())	#loads order from db, so no session is required for persistance
-
+		print "CHARGE ID: ", charge_id
 		if order_details:
 			data["current_page"] = "order_success"
 			data["current_class_js"] = "store/Core.js"
@@ -362,9 +362,9 @@ def order_success(user_data=None):
 			data["order_details"] = order_details
 			data["page_content"] = ctl.render_tab("order_success", order_details)
 		else:
-			return redirect(url_for('store.Home'))
+			return redirect(url_for('store_routes.Home'))
 	else:
-		return redirect(url_for('store.Home'))
+		return redirect(url_for('store_routes.Home'))
 
 
 	if user_data:

@@ -10,7 +10,7 @@ from order_util import *
 
 def loadOrder(orderID, database):
 	currentQuery = """SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,SKU_Fulfilled,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
-					ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE order_id = ?;"""
+					ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE order_id = %s;"""
 	
 	try:
 		database.execute(currentQuery,(orderID,))
@@ -32,8 +32,7 @@ def loadOrder(orderID, database):
 
 
 def loadOrderByToken(tokenID, database):
-	currentQuery = """SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,SKU_Fulfilled,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
-					ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE token_id = ?;"""
+	currentQuery = "SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,SKU_Fulfilled,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE token_id = %s;"
 	
 	try:
 		database.execute(currentQuery,(tokenID,))
@@ -52,13 +51,14 @@ def loadOrderByToken(tokenID, database):
 
 
 def loadOrderByCharge(chargeID, database):
-	currentQuery = """SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,SKU_Fulfilled,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
-					ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE charge_id = ?;"""
+	currentQuery = "SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,SKU_Fulfilled,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE charge_id = %s;"
 	
 	try:
 		database.execute(currentQuery,(chargeID,))
 	except Exception as e:
+		"Error getting charged order: ", e
 		return None
+
 
 	order = database.fetchone()
 
@@ -145,7 +145,7 @@ def loadCustomerOrders(customer_id, database):
 	formattedOrderList = collections.OrderedDict()
 
 	currentQuery = """SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,SKU_Fulfilled,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
-	ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE customer_id = ? ORDER BY order_id DESC; """
+	ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE customer_id = %s ORDER BY order_id DESC; """
 	
 
 	try:
@@ -172,30 +172,38 @@ def loadCustomerOrders(customer_id, database):
 
 def createOrder(database, order_details):
 	fieldList = ""
-	valueList = []
+	valueList = ""
+
 	placeholders = []
 
 	for field, value in order_details.iteritems():
+		placeholders.append('%s')
+
+		if orderFieldMapping[field] == "TEXT":
+			valueList += "'" + str(value) + "'"
+		elif orderFieldMapping[field] == "INTEGER" or orderFieldMapping[field] == "REAL":
+			valueList += str(value)
+		else:
+			valueList += "'" + value + "'"
+
 		fieldList += field + ","
-		valueList.append(value)
-		placeholders.append('?')
+		valueList += ","
 
 	fieldList = fieldList[:-1]
+	valueList = valueList[:-1]
+
 	placeholders = ','.join(placeholders)
 
-	currentQuery = "INSERT INTO orders(%s) VALUES(%s);" % (fieldList, placeholders)
-
-	print "placeholders: ", placeholders
-	print currentQuery 
+	currentQuery = "INSERT INTO orders(%s) VALUES(%s);" % (fieldList, valueList)
 
 	try:
-		database.execute(currentQuery, valueList)
+		database.execute(currentQuery)
 	except Exception as e:
-		print "Error: ", e
+		print "Error creating order: ", e
 		return None
 
 	try:
-		database.execute("SELECT last_insert_rowid();")
+		database.execute("SELECT LAST_INSERT_ID();")
 	except Exception as e:
 		print "Exception: ", e
 
@@ -209,7 +217,7 @@ def createOrder(database, order_details):
 
 
 def set_OrderPaymentStatus(database, token_id, payment_status):
-	currentQuery = "UPDATE orders SET PaymentStatus=? WHERE token_id=?;"
+	currentQuery = "UPDATE orders SET PaymentStatus=%s WHERE token_id=%s;"
 
 	try:
 		database.execute(currentQuery, (payment_status, token_id, ))
@@ -219,7 +227,7 @@ def set_OrderPaymentStatus(database, token_id, payment_status):
 
 
 def set_OrderChargeID(database, token_id, charge_id):
-	currentQuery = "UPDATE orders SET charge_id=? WHERE token_id=?;"
+	currentQuery = "UPDATE orders SET charge_id=%s WHERE token_id=%s;"
 
 	try:
 		database.execute(currentQuery, (charge_id, token_id, ))
@@ -229,7 +237,7 @@ def set_OrderChargeID(database, token_id, charge_id):
 
 
 def set_OrderCustomerID(database, token_id, customer_id):
-	currentQuery = "UPDATE orders SET customer_id=? WHERE token_id=?;"
+	currentQuery = "UPDATE orders SET customer_id=%s WHERE token_id=%s;"
 
 	try:
 		database.execute(currentQuery, (customer_id, token_id, ))
@@ -240,7 +248,7 @@ def set_OrderCustomerID(database, token_id, customer_id):
 
 
 def deleteOrder(database, token_id):
-	currentQuery = "DELETE FROM orders WHERE token_id=?;"
+	currentQuery = "DELETE FROM orders WHERE token_id='%s';"
 	try:
 		database.execute(currentQuery, (token_id, ))
 	except Exception as e:
@@ -252,14 +260,14 @@ def updateOrderFulfillment(SKU_Fulfilled, order_id, database):
 	order_data = loadOrder(order_id, database)
 
 	if (order_data["SKU_List"] == SKU_Fulfilled):
-		currentQuery = """UPDATE orders SET SKU_Fulfilled=?, FulfillmentStatus="fulfilled" WHERE order_id=?;"""
+		currentQuery = """UPDATE orders SET SKU_Fulfilled=%s, FulfillmentStatus="fulfilled" WHERE order_id=%s;"""
 		try:
 			database.execute(currentQuery, (SKU_Fulfilled, order_id, ))
 		except Exception as e:
 			print "Error: ", e
 			return False
 	else:
-		currentQuery = """UPDATE orders SET SKU_Fulfilled=?, FulfillmentStatus="unfulfilled" WHERE order_id=?;"""
+		currentQuery = """UPDATE orders SET SKU_Fulfilled=%s, FulfillmentStatus="unfulfilled" WHERE order_id=%s;"""
 		try:
 			database.execute(currentQuery, (SKU_Fulfilled, str(order_id), ))
 		except Exception as e:
@@ -274,10 +282,12 @@ def updateOrderFulfillment(SKU_Fulfilled, order_id, database):
 def bulkMarkFulfillment(fulfillment_status, order_id_list, database):
 	order_id_list = map(int, order_id_list)
 
-	placeholder = '?'
+	placeholder = '%s'
 	placeholders = ','.join(placeholder for unused in order_id_list)
 
-	currentQuery = 'UPDATE orders SET FulfillmentStatus = ? WHERE order_id IN (%s);' % placeholders
+	currentQuery = "UPDATE orders SET FulfillmentStatus = '%s' WHERE order_id IN ("
+
+	currentQuery += "%s);" % placeholders
 
 	values = [fulfillment_status] + order_id_list
 
