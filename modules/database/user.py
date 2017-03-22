@@ -10,7 +10,7 @@ def auth_user(login_info, db):
 	username = login_info['username']
 	password = login_info['password']
 
-	currentQuery = "SELECT user_id, customer_id, username, level, is_active, last_login,created_on, order_list FROM users WHERE username=? AND password=?;"
+	currentQuery = "SELECT user_id, customer_id, username, level, is_active, last_login,created_on, order_list FROM users WHERE username=%s AND password=%s;"
 	
 	try:
 		db_cursor.execute(currentQuery,(username, password, ))
@@ -32,11 +32,11 @@ def auth_user(login_info, db):
 
 
 def createNewUser(db_cursor):
-	currentQuery = "INSERT INTO users(username, password, customer_id, level, is_active, last_login, created_on, order_list) VALUES(?,?,?,?,?,?,?,?);"
+	currentQuery = "INSERT INTO users(username, password, customer_id, level, is_active, last_login, created_on, order_list) VALUES(%s,%s,%s,%s,%s,%s,%s,%s);"
 
 	
 def setCustomerID(user_id, customer_id, db_cursor):
-	currentQuery = "UPDATE users SET customer_id=? WHERE user_id=?;"
+	currentQuery = "UPDATE users SET customer_id=%s WHERE user_id=%s;"
 
 	try:
 		db_cursor.execute(currentQuery, (customer_id, user_id, ))
@@ -46,7 +46,7 @@ def setCustomerID(user_id, customer_id, db_cursor):
 
 
 def updateUserOrders(user_id, order_details, db_cursor):
-	currentQuery = "SELECT order_list from users WHERE user_id=?;"
+	currentQuery = "SELECT order_list from users WHERE user_id=%s;"
 
 	try:
 		db_cursor.execute(currentQuery,(user_id, ))
@@ -67,7 +67,7 @@ def updateUserOrders(user_id, order_details, db_cursor):
 		updated_order_list.append(order_id)
 		updated_order_list = ",".join(updated_order_list)
 
-		currentQuery = "UPDATE users SET order_list=? WHERE user_id=?;"
+		currentQuery = "UPDATE users SET order_list=%s WHERE user_id=%s;"
 		try:
 			db_cursor.execute(currentQuery, (updated_order_list, user_id,))
 		except Exception as e:

@@ -42,7 +42,7 @@ def createNavCategory(nav_category, nav_data, database):
 	insert_type = "nav_bar_link"
 	data_string = "resource_id:"+str(nav_data["resource_id"]) + ",type:"+nav_data["type"]
 	
-	currentQuery = """INSERT INTO store(Name, Type, Data) VALUES(?,?,?);"""
+	currentQuery = "INSERT INTO store(Name, Type, Data) VALUES(%s,%s,%s);"
 
 	try:
 		database.execute(currentQuery, (newCategory, insert_type, data_string, ))
@@ -57,7 +57,7 @@ def createNavCategory(nav_category, nav_data, database):
 def updateNavData(navData, database):
 	for nav_category, nav_data in navData.iteritems():
 		if(navData[nav_category]["action"] == "delete"):
-			deleteQuery = """DELETE FROM store WHERE Name=?;"""
+			deleteQuery = "DELETE FROM store WHERE Name=%s;"
 			
 			try:
 				database.execute(deleteQuery,(nav_category,))
@@ -77,7 +77,7 @@ def updateNavData(navData, database):
 
 		
 
-		resourceQuery = """UPDATE resources SET resource_uri=? WHERE resource_id=?;"""
+		resourceQuery = "UPDATE resources SET resource_uri=%s WHERE resource_id=%s;"
 		
 		new_resource_uri = nav_data["data"]
 		resource_id = nav_data["resource_id"]
@@ -91,7 +91,7 @@ def updateNavData(navData, database):
 			print "Error: ", e
 			return False
 
-		resourceQuery = """UPDATE store SET Name=? WHERE Name=?;"""
+		resourceQuery = "UPDATE store SET Name=%s WHERE Name=%s;"
 		
 		try:
 			database.execute(resourceQuery, (nav_category, initial_category,))
@@ -134,7 +134,7 @@ def createFooterCategory(footer_category, footer_data, database):
 	insert_type = "footer_link"
 	data_string = "resource_id:"+str(footer_data["resource_id"]) + ",type:"+footer_data["type"]
 	
-	currentQuery = """INSERT INTO store(Name, Type, Data) VALUES(?,?,?);"""
+	currentQuery = "INSERT INTO store(Name, Type, Data) VALUES(%s,%s,%s);"
 
 	try:
 		database.execute(currentQuery, (newCategory, insert_type, data_string, ))
@@ -148,7 +148,7 @@ def createFooterCategory(footer_category, footer_data, database):
 def updateFooterData(footerData, database):
 	for footer_category, footer_data in footerData.iteritems():
 		if(footerData[footer_category]["action"] == "delete"):
-			deleteQuery = """DELETE FROM store WHERE Name=? AND Type="footer_link";"""
+			deleteQuery = "DELETE FROM store WHERE Name=? AND Type='footer_link';"
 			
 			try:
 				database.execute(deleteQuery,(footer_category,))
@@ -168,7 +168,7 @@ def updateFooterData(footerData, database):
 
 		
 
-		resourceQuery = """UPDATE resources SET resource_uri=? WHERE resource_id=?;"""
+		resourceQuery = "UPDATE resources SET resource_uri=%s WHERE resource_id=%s;"
 		
 		new_resource_uri = footer_data["data"]
 		resource_id = footer_data["resource_id"]
@@ -182,7 +182,7 @@ def updateFooterData(footerData, database):
 			print "Error: ", e
 			return False
 
-		resourceQuery = """UPDATE store SET Name=? WHERE Name=? and Type="footer_link";"""
+		resourceQuery = "UPDATE store SET Name=%s WHERE Name=%s and Type='footer_link';"
 		
 		try:
 			database.execute(resourceQuery, (footer_category, initial_category,))
@@ -193,7 +193,7 @@ def updateFooterData(footerData, database):
 
 
 def getPageData(page_id, database):
-	currentQuery = """SELECT Data FROM store WHERE Type="page_data" AND Name=?;"""
+	currentQuery = "SELECT Data FROM store WHERE Type='page_data' AND Name=%s;"
 	
 	try:
 		database.execute(currentQuery, (page_id, ))
@@ -213,28 +213,28 @@ def getPage(page_id, database):
 	page = {}
 	page["page_id"] = page_id
 	
-	currentQuery = """SELECT Data FROM store WHERE Type="page_data" AND Name=?;""" 
+	currentQuery = "SELECT Data FROM store WHERE Type='page_data' AND Name=%s;" 
 	try:
 		database.execute(currentQuery, (page_id,))
 		page["content"] = database.fetchone()[0]
 	except:
 		page["content"] = ""
 
-	currentQuery = """SELECT Data FROM store WHERE Type="page_template" AND Name=?;""" 
+	currentQuery = "SELECT Data FROM store WHERE Type='page_template' AND Name=%s;" 
 	try:
 		database.execute(currentQuery, (page_id,))
 		page["template"] = database.fetchone()[0]
 	except:
 		page["template"] = ""
 
-	currentQuery = """SELECT Data FROM store WHERE Type="page_type" AND Name=?;""" 
+	currentQuery = "SELECT Data FROM store WHERE Type='page_type' AND Name=%s;" 
 	try:
 		database.execute(currentQuery, (page_id,))
 		page["type"] = database.fetchone()[0]
 	except:
 		page["type"] = ""
 
-	currentQuery = """SELECT Data FROM store WHERE Type="page_title" AND Name=?;""" 
+	currentQuery = "SELECT Data FROM store WHERE Type='page_title' AND Name=%s;" 
 	try:
 		database.execute(currentQuery, (page_id,))
 		page["title"] = database.fetchone()[0]
@@ -242,7 +242,7 @@ def getPage(page_id, database):
 		page["title"] = ""
 
 
-	currentQuery = """SELECT Data FROM store WHERE Type="page_sections" AND Name=?;""" 
+	currentQuery = "SELECT Data FROM store WHERE Type='page_sections' AND Name=%s;" 
 	try:
 		database.execute(currentQuery, (page_id,))
 		page["sections"] = database.fetchone()[0]
@@ -250,7 +250,7 @@ def getPage(page_id, database):
 		page["sections"] = ""
 
 
-	currentQuery = """SELECT Data FROM store WHERE Type="page_section_data" AND Name=?;""" 
+	currentQuery = "SELECT Data FROM store WHERE Type='page_section_data' AND Name=%s;" 
 	try:
 		database.execute(currentQuery, (page_id,))
 		page["section_data"] = database.fetchone()[0]
@@ -263,7 +263,7 @@ def getPage(page_id, database):
 
 
 def getPages(database):
-	currentQuery = """SELECT Data FROM store WHERE Type="page_id";"""
+	currentQuery = "SELECT Data FROM store WHERE Type='page_id';"
 
 	try:
 		database.execute(currentQuery)
@@ -276,28 +276,28 @@ def getPages(database):
 		for page in pageList:
 			page = page[0]
 			pages[page] = {}
-			currentQuery = """SELECT Data FROM store WHERE Type="page_data" AND Name=?;""" 
+			currentQuery = "SELECT Data FROM store WHERE Type='page_data' AND Name=%s;" 
 			try:
 				database.execute(currentQuery, (page,))
 				pages[page]["content"] = database.fetchone()[0]
 			except:
 				pages[page]["content"] = ""
 
-			currentQuery = """SELECT Data FROM store WHERE Type="page_template" AND Name=?;""" 
+			currentQuery = "SELECT Data FROM store WHERE Type='page_template' AND Name=%s;" 
 			try:
 				database.execute(currentQuery, (page,))
 				pages[page]["template"] = database.fetchone()[0]
 			except:
 				pages[page]["template"] = ""
 
-			currentQuery = """SELECT Data FROM store WHERE Type="page_type" AND Name=?;""" 
+			currentQuery = "SELECT Data FROM store WHERE Type='page_type' AND Name=%s;" 
 			try:
 				database.execute(currentQuery, (page,))
 				pages[page]["type"] = database.fetchone()[0]
 			except:
 				pages[page]["type"] = ""
 
-			currentQuery = """SELECT Data FROM store WHERE Type="page_title" AND Name=?;""" 
+			currentQuery = "SELECT Data FROM store WHERE Type='page_title' AND Name=%s;" 
 			try:
 				database.execute(currentQuery, (page,))
 				pages[page]["title"] = database.fetchone()[0]
@@ -305,14 +305,14 @@ def getPages(database):
 				pages[page]["title"] = ""
 
 
-			currentQuery = """SELECT Data FROM store WHERE Type="page_sections" AND Name=?;""" 
+			currentQuery = "SELECT Data FROM store WHERE Type='page_sections' AND Name=%s;" 
 			try:
 				database.execute(currentQuery, (page,))
 				pages[page]["sections"] = database.fetchone()[0]
 			except:
 				pages[page]["sections"] = ""
 
-			currentQuery = """SELECT Data FROM store WHERE Type="page_section_data" AND Name=?;""" 
+			currentQuery = "SELECT Data FROM store WHERE Type='page_section_data' AND Name=%s;" 
 			try:
 				database.execute(currentQuery, (page,))
 				pages[page]["section_data"] = database.fetchone()[0]
@@ -327,7 +327,7 @@ def getPages(database):
 
 #grabs basic page type data
 def getPageTypes(database):
-	currentQuery = """SELECT Name,Data FROM store WHERE Type="page_type_template";"""
+	currentQuery = "SELECT Name,Data FROM store WHERE Type='page_type_template';"
 	try:
 		database.execute(currentQuery)
 	except Exception as e:
@@ -351,7 +351,7 @@ def getPageTypes(database):
 
 #grabs all template data 
 def getPageTemplates(database):
-	currentQuery = """SELECT Name,Data FROM store WHERE Type="template";"""
+	currentQuery = "SELECT Name,Data FROM store WHERE Type='template';"
 	try:
 		database.execute(currentQuery)
 	except Exception as e:
@@ -375,7 +375,7 @@ def getPageTemplates(database):
 
 #grabs all section template data 
 def getSectionTemplates(database):
-	currentQuery = """SELECT Name,Data FROM store WHERE Type="section_template";"""
+	currentQuery = "SELECT Name,Data FROM store WHERE Type='section_template';"
 	try:
 		database.execute(currentQuery)
 	except Exception as e:
@@ -401,7 +401,7 @@ def getSectionTemplates(database):
 
 #grabs template data 
 def loadTemplateData(template_id, database):
-	currentQuery = """SELECT Data FROM store WHERE Type="template" AND Name=?;"""
+	currentQuery = "SELECT Data FROM store WHERE Type='template' AND Name=%s;"
 	try:
 		database.execute(currentQuery, (template_id, ))
 	except Exception as e:
@@ -424,7 +424,7 @@ def loadTemplateData(template_id, database):
 
 
 def loadSectionTemplate(section_id, database):
-	currentQuery = """SELECT Data FROM store WHERE Type="section_template" AND Name=?;"""
+	currentQuery = "SELECT Data FROM store WHERE Type='section_template' AND Name=%s;"
 	try:
 		database.execute(currentQuery, (section_id, ))
 	except Exception as e:
@@ -442,7 +442,7 @@ def loadSectionTemplate(section_id, database):
 
 #grabs template data 
 def loadTypeTemplateData(template_id, database):
-	currentQuery = """SELECT Data FROM store WHERE Type="page_type_template" AND Name=?;"""
+	currentQuery = "SELECT Data FROM store WHERE Type='page_type_template' AND Name=%s;"
 	try:
 		database.execute(currentQuery, (template_id, ))
 	except Exception as e:
@@ -468,7 +468,7 @@ def updatePageData(page_data, database):
 	
 	if "page_title" in page_data:
 		page_title = page_data["page_title"]
-		currentQuery = """UPDATE store SET Data=? WHERE Name=? AND Type="page_title";"""
+		currentQuery = "UPDATE store SET Data=%s WHERE Name=%s AND Type='page_title';"
 		try:
 			database.execute(currentQuery, (page_title, page_id, ))
 		except Exception as e:
@@ -478,7 +478,7 @@ def updatePageData(page_data, database):
 	
 	if "page_template" in page_data:
 		page_template = page_data["page_template"]
-		currentQuery = """UPDATE store SET Data=? WHERE Name=? AND Type="page_template";"""
+		currentQuery = "UPDATE store SET Data=%s WHERE Name=%s AND Type='page_template';"
 		try:
 			database.execute(currentQuery, (page_template, page_id, ))
 		except Exception as e:
@@ -487,7 +487,7 @@ def updatePageData(page_data, database):
 
 	if "page_type" in page_data:
 		page_type = page_data["page_type"]
-		currentQuery = """UPDATE store SET Data=? WHERE Name=? AND Type="page_type";"""
+		currentQuery = "UPDATE store SET Data=%s WHERE Name=%s AND Type='page_type';"
 		try:
 			database.execute(currentQuery, (page_type, page_id, ))
 		except Exception as e:
@@ -497,7 +497,7 @@ def updatePageData(page_data, database):
 	if "content" in page_data:
 		page_content = page_data["content"]
 
-		currentQuery = """UPDATE store SET Data=? WHERE Name=? AND Type="page_data";"""
+		currentQuery = "UPDATE store SET Data=%s WHERE Name=%s AND Type='page_data';"
 		try:
 			database.execute(currentQuery, (page_content, page_id, ))
 		except Exception as e:
@@ -509,7 +509,7 @@ def updatePageData(page_data, database):
 		
 
 		print "page sections: ", page_sections
-		currentQuery = """UPDATE store SET Data=? WHERE Name=? AND Type="page_sections";"""
+		currentQuery = "UPDATE store SET Data=%s WHERE Name=%s AND Type='page_sections';"
 		try:
 			database.execute(currentQuery, (page_sections, page_id)) 
 		except Exception as e:
@@ -519,7 +519,7 @@ def updatePageData(page_data, database):
 
 #updates all the section data for a page
 def updatePageSectionData(page_section_data, page_id, database):
-	currentQuery = """UPDATE store SET Data=? WHERE Name=? AND Type="page_section_data";"""
+	currentQuery = "UPDATE store SET Data=%s WHERE Name=%s AND Type='page_section_data';"
 	try:
 		database.execute(currentQuery, (page_section_data, page_id, ))
 	except Exception as e:
@@ -538,14 +538,14 @@ def createNewPage(page_data, database):
 	print "Page ID: ", page_id
 
 
-	currentQuery = """INSERT into store(Name, Data, Type) VALUES(?,?,?);"""
+	currentQuery = "INSERT into store(Name, Data, Type) VALUES(%s,%s,%s);"
 	try:
 		database.execute(currentQuery, (page_id, page_id, "page_id" ))
 	except Exception as e:
 		print "Error: ", e
 		return False
 
-	currentQuery = """INSERT into store(Name, Data, Type) VALUES(?,?,?);"""
+	currentQuery = "INSERT into store(Name, Data, Type) VALUES(%s,%s,%s);"
 	try:
 		database.execute(currentQuery, (page_id, page_title, "page_title" ))
 	except Exception as e:
@@ -553,35 +553,35 @@ def createNewPage(page_data, database):
 		return False
 
 
-	currentQuery = """INSERT into store(Name, Data, Type) VALUES(?,?,?);"""
+	currentQuery = "INSERT into store(Name, Data, Type) VALUES(%s,%s,%s);"
 	try:
 		database.execute(currentQuery, (page_id, page_template, "page_template" ))
 	except Exception as e:
 		print "Error: ", e
 		return False
 
-	currentQuery = """INSERT into store(Name, Data, Type) VALUES(?,?,?);"""
+	currentQuery = "INSERT into store(Name, Data, Type) VALUES(%s,%s,%s);"
 	try:
 		database.execute(currentQuery, (page_id, page_type, "page_type" ))
 	except Exception as e:
 		print "Error: ", e
 		return False
 
-	currentQuery = """INSERT into store(Name, Data, Type) VALUES(?,?,?);"""
+	currentQuery = "INSERT into store(Name, Data, Type) VALUES(%s,%s,%s);"
 	try:
 		database.execute(currentQuery, (page_id, page_content, "page_data" ))
 	except Exception as e:
 		print "Error: ", e
 		return False
 
-	currentQuery = """INSERT into store(Name, Data, Type) VALUES(?,?,?);"""
+	currentQuery = "INSERT into store(Name, Data, Type) VALUES(%s,%s,%s);"
 	try:
 		database.execute(currentQuery, (page_id, "content", "page_sections" ))
 	except Exception as e:
 		print "Error: ", e
 		return False
 
-	currentQuery = """INSERT into store(Name, Data, Type) VALUES(?,?,?);"""
+	currentQuery = "INSERT into store(Name, Data, Type) VALUES(%s,%s,%s);"
 	try:
 		database.execute(currentQuery, (page_id, "", "page_section_data" ))
 	except Exception as e:
@@ -590,7 +590,7 @@ def createNewPage(page_data, database):
 
 
 def deletePage(page_id, database):
-	currentQuery = """DELETE FROM store WHERE Name=? AND Type != "page_type_template";"""
+	currentQuery = "DELETE FROM store WHERE Name=%s AND Type != 'page_type_template';"
 
 	try:
 		database.execute(currentQuery, (page_id,))
