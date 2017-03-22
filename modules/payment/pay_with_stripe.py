@@ -15,7 +15,7 @@ stripe.api_key = stripe_keys['secret_key']
 
 
 def create_order(response, order_contents, customer_info):
-	order_details = []
+	order_details = {}
 
 	#format order items into sku_list for storage
 	formatted_sku_list = ""
@@ -27,35 +27,46 @@ def create_order(response, order_contents, customer_info):
 	#calculate order_total
 	subtotal = calculate_subtotal(order_contents)
 
-	order_details.append(datetime.date.today())
-	order_details.append(formatted_sku_list[:-1])
-	order_details.append(formatted_sku_fulfillment[:-1])
-	order_details.append(float(subtotal))
-	order_details.append(0.00)
-	order_details.append(0.00)
-	order_details.append(float(subtotal))
-	order_details.append(customer_info["ShippingAddress1"])
-	order_details.append(customer_info["ShippingAddress2"])
-	order_details.append(customer_info["ShippingCity"])
-	order_details.append(customer_info["ShippingPostalCode"])
-	order_details.append(customer_info["ShippingCountry"])
-	order_details.append(customer_info["Company"])
-	order_details.append(customer_info["ShippingFirstName"])
-	order_details.append(customer_info["ShippingLastName"])
-	order_details.append(customer_info["Email"])
-	order_details.append(customer_info["ShippingState"])
-	order_details.append(customer_info["Phone"])
-	order_details.append(response["card"]["address_line1"])
-	order_details.append(response["card"]["address_line2"])
-	order_details.append(response["card"]["address_city"])
-	order_details.append(response["card"]["address_zip"])
-	order_details.append(response["card"]["address_country"])
-	order_details.append(customer_info["BillingFirstName"])
-	order_details.append(customer_info["BillingLastName"])
-	order_details.append(response["card"]["address_state"])
-	order_details.append(response["id"])
-	order_details.append("cc:"+response["card"]["last4"])
+	#order details dict 
 	
+	order_details["Date"] = (datetime.date.today())
+	order_details["SKU_List"] = (formatted_sku_list[:-1])
+	order_details["SKU_Fulfilled"] = formatted_sku_fulfillment[:-1]
+
+	order_details["Subtotal"] = float(subtotal)
+	order_details["TaxTotal"] = 0.00
+	order_details["ShippingTotal"] = 0.00
+	order_details["OrderTotal"] = (float(subtotal))
+
+	order_details["Email"] = (customer_info["Email"])
+	order_details["ShippingState"] = (customer_info["ShippingState"])
+	order_details["PhoneNumber"] = (customer_info["Phone"])
+	order_details["Company"] = (customer_info["Company"])
+	
+	order_details["ShippingAddress"] = (customer_info["ShippingAddress1"])
+	order_details["ShippingAddress2"] = (customer_info["ShippingAddress2"])
+	order_details["ShippingCity"] = customer_info["ShippingCity"]
+	order_details["ShippingPostalCode"] = customer_info["ShippingPostalCode"]
+	order_details["ShippingCountry"] = (customer_info["ShippingCountry"])
+	order_details["ShippingFirstName"] = (customer_info["ShippingFirstName"])
+	order_details["ShippingLastName"] = (customer_info["ShippingLastName"])
+
+
+	order_details["BillingAddress"] = (response["card"]["address_line1"])
+	order_details["BillingAddress2"] = (response["card"]["address_line2"])
+	order_details["BillingCity"] = (response["card"]["address_city"])
+	order_details["BillingPostalCode"] = (response["card"]["address_zip"])
+	order_details["BillingCountry"] = (response["card"]["address_country"])
+	order_details["BillingFirstName"] = (customer_info["BillingFirstName"])
+	order_details["BillingLastName"] = (customer_info["BillingLastName"])
+	order_details["BillingState"] = (response["card"]["address_state"])
+	
+	order_details["token_id"] = (response["id"])
+	order_details["PaymentInfo"] = ("cc:"+response["card"]["last4"])
+	order_details["FulfillmentStatus"] = "unfulfilled"
+	order_details["Currency"] = "USD"
+	order_details["order_creation_method"] = "customer"
+
 	db = db_handle()
 
 	order_id = order.createOrder(db.cursor(), order_details)

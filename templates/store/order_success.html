@@ -14,7 +14,7 @@
 					<div class="row">	
 						<div id="order_shipping_info" class="col-xs-6">
 								<h4> Shipping info: </h4>
-								<h5 id="order_ShippingName"> {{ data.order_details.ShippingFirstName }} </h5> <br>
+								<h5 id="order_ShippingName"> {{ data.order_details.ShippingFirstName }}&nbsp; {{ data.order_details.ShippingLastName }}  </h5> <br>
 								<h5 id="order_ShippingAddress1"> {{ data.order_details.ShippingAddress }}</h5> <br>
 								<h5 id="order_ShippingAddress2"> {{ data.order_details.ShippingAddress2 }}</h5> 
 								<h5 id="order_ShippingCity"> {{ data.order_details.ShippingCity }}</h5>, <h5 id="order_ShippingState"> {{ data.order_details.ShippingState }} </h5> <h5 id="order_ShippingPostalCode"> {{ data.order_details.ShippingPostalCode }} </h5>  <br>
@@ -23,7 +23,7 @@
 							
 						<div id="order_billing_info" class="col-xs-6">
 								<h4> Billing info: </h4>
-								<h5 id="order_BillingName"> {{ data.order_details.BillingFirstName }} </h5> <br>
+								<h5 id="order_BillingName"> {{ data.order_details.BillingFirstName }} &nbsp; {{ data.order_details.BillingLastName }}  </h5> <br>
 								<h5 id="order_BillingAddress1"> {{ data.order_details.BillingAddress }}</h5> <br>
 								<h5 id="order_BillingAddress2"> {{ data.order_details.BillingAddress2 }}</h5> 
 								<h5 id="order_BillingCity"> {{ data.order_details.BillingCity }}</h5>, <h5 id="order_BillingState"> {{ data.order_details.BillingState }} </h5><h5 id="order_BillingPostalCode"> {{ data.order_details.BillingPostalCode }} </h5> <br>

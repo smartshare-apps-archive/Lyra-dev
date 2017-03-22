@@ -112,6 +112,46 @@ collectionFieldMapping = {
 
 }
 
+orderFieldMapping = {
+	"order_id":"INTEGER",
+	"customer_id":"INTEGER",
+	"Email":"TEXT",
+	"PhoneNumber":"TEXT",
+	"Date": "TEXT",
+	"ShippingFirstName": "TEXT",
+	"ShippingLastName": "TEXT",
+	"ShippingAddress" : "TEXT",
+	"ShippingAddress2" : "TEXT",
+	"ShippingCity": "TEXT",
+	"ShippingState": "TEXT",
+	"ShippingPostalCode": "TEXT",
+	"ShippingCountry": "TEXT",
+	"BillingFirstName": "TEXT",
+	"BillingLastName": "TEXT",
+	"BillingAddress" : "TEXT",
+	"BillingAddress2" : "TEXT",
+	"BillingCity": "TEXT",
+	"BillingState": "TEXT",
+	"BillingPostalCode": "TEXT",
+	"BillingCountry": "TEXT",
+	"Company": "TEXT",
+	"PaymentInfo": "TEXT",
+	"PaymentStatus": "TEXT",
+	"FulfillmentStatus": "TEXT",
+	"SKU_List":"TEXT",
+	"SKU_Fulfilled": "TEXT",
+	"OrderTotal": "REAL",
+	"TaxTotal" : "REAL",
+	"ShippingTotal": "REAL",
+	"SubTotal": "REAL",
+	"OrderEvents": "TEXT",
+	"Currency": "TEXT",
+	"TotalSpent":"REAL",
+	"LastOrder": "INTEGER",
+	"accepts_marketing": "TEXT"
+}
+
+
 
 customerFieldMapping = {
 	"customer_id":"INTEGER",
@@ -136,7 +176,8 @@ customerFieldMapping = {
 	"BillingCountry":"TEXT",
 	"TotalSpent":"REAL",
 	"LastOrder":"INTEGER",
-	"Company":"TEXT"
+	"Company":"TEXT",
+	"accepts_marketing":"TEXT"
 }
 
 productDisplayOptions = {

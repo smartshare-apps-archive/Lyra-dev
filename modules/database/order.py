@@ -171,18 +171,37 @@ def loadCustomerOrders(customer_id, database):
 
 
 def createOrder(database, order_details):
-	print "Order details:", order_details
-	currentQuery = """INSERT into orders(Date,SKU_List,SKU_Fulfilled,OrderTotal,TaxTotal,ShippingTotal,SubTotal,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
-					ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName, BillingState, token_id, PaymentInfo) 
-					VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"""
+	fieldList = ""
+	valueList = []
+	placeholders = []
+
+	for field, value in order_details.iteritems():
+		fieldList += field + ","
+		valueList.append(value)
+		placeholders.append('?')
+
+	fieldList = fieldList[:-1]
+	placeholders = ','.join(placeholders)
+
+	currentQuery = "INSERT INTO orders(%s) VALUES(%s);" % (fieldList, placeholders)
+
+	print "placeholders: ", placeholders
+	print currentQuery 
 
 	try:
-		database.execute(currentQuery, order_details)
+		database.execute(currentQuery, valueList)
 	except Exception as e:
-		print "Exception:", e
+		print "Error: ", e
 		return None
 
-	return True
+	try:
+		database.execute("SELECT last_insert_rowid();")
+	except Exception as e:
+		print "Exception: ", e
+
+	order_id = database.fetchone()
+	if order_id:
+		return order_id[0]
 
 
 

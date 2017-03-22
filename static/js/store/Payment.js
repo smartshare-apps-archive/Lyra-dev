@@ -180,6 +180,8 @@ function orderResponseHandler(response){
 
 // creates a record of the order in the database
 function create_order(response, customer_info){
+	customer_info["accepts_marketing"] = "false"
+
 	$.ajax({
 	  method: "POST",
 	  url: "/create_order/",
