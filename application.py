@@ -106,7 +106,7 @@ def debug_dirUpdate():
 if __name__ == "__main__":
 	extra_files = debug_dirUpdate()
 
-	live_host = "0.0.0.0"
-	live_host = "127.0.0.1"
+	#live_host = "0.0.0.0"
+	#live_host = "127.0.0.1"
 
-	application.run(host = live_host, debug=True, extra_files=extra_files, threaded=True)
+	application.run(debug=True, extra_files=extra_files, threaded=True)
