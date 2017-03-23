@@ -1,0 +1,13 @@
+{% if section_data  %}
+	<div class="row narrow-outer-container anchor image-resource" data-anchorID="Splash image" style="background-image:url('{{section_data["Splash image"]["anchor_value"]}}');">
+{% else %}
+	<div class="row narrow-outer-container anchor image-resource" data-anchorID="Splash image">
+{% endif %}
+
+		<div class="col-xs-12 narrow-inner-container text-left anchor text-resource" data-anchorID="Splash text"> 
+			{% if section_data  %}
+				{{ section_data["Splash text"]["anchor_value"] | safe }}
+			{% endif %}
+		</div>
+	
+</div>
