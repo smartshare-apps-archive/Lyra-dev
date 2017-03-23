@@ -429,7 +429,21 @@ h4{
 }
 
 .services-strip{
-	background-color:#344733;
-	height:200px;
+	padding-top:40px;
+	border:0px;
+	border-top:1px solid #344733;
+	background-color:white;
+	height:auto;
 	color:white;
+	padding-bottom:30px;
+}
+
+.services-btn{
+	border:0px;
+	height:100%;
+	display:inline-block;
+}
+.services-btn div{
+	border:0px;
+	margin-right:20px;
 }
