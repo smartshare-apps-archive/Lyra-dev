@@ -248,7 +248,7 @@ def set_OrderCustomerID(database, token_id, customer_id):
 
 
 def deleteOrder(database, token_id):
-	currentQuery = "DELETE FROM orders WHERE token_id='%s';"
+	currentQuery = "DELETE FROM orders WHERE token_id=%s;"
 	try:
 		database.execute(currentQuery, (token_id, ))
 	except Exception as e:
@@ -285,8 +285,7 @@ def bulkMarkFulfillment(fulfillment_status, order_id_list, database):
 	placeholder = '%s'
 	placeholders = ','.join(placeholder for unused in order_id_list)
 
-	currentQuery = "UPDATE orders SET FulfillmentStatus = '%s' WHERE order_id IN ("
-
+	currentQuery = "UPDATE orders SET FulfillmentStatus = %s WHERE order_id IN ("
 	currentQuery += "%s);" % placeholders
 
 	values = [fulfillment_status] + order_id_list
@@ -302,10 +301,12 @@ def bulkMarkFulfillment(fulfillment_status, order_id_list, database):
 def bulkMarkPaymentStatus(payment_status, order_id_list, database):
 	order_id_list = map(int, order_id_list)
 
-	placeholder = '?'
+	placeholder = '%s'
 	placeholders = ','.join(placeholder for unused in order_id_list)
 
-	currentQuery = 'UPDATE orders SET PaymentStatus = ? WHERE order_id IN (%s);' % placeholders
+
+	currentQuery = "UPDATE orders SET PaymentStatus = %s WHERE order_id IN ("
+	currentQuery += "%s);" % placeholders
 
 	values = [payment_status] + order_id_list
 
@@ -318,10 +319,11 @@ def bulkMarkPaymentStatus(payment_status, order_id_list, database):
 def bulkDeleteOrders(order_id_list, database):
 	order_id_list = map(int, order_id_list)
 
-	placeholder = '?'
+	placeholder = '%s'
 	placeholders = ','.join(placeholder for unused in order_id_list)
 
-	currentQuery = 'DELETE FROM orders WHERE order_id IN (%s);' % placeholders
+	currentQuery = "DELETE FROM orders WHERE order_id IN ("
+	currentQuery += "%s);" % placeholders
 
 
 	try:
