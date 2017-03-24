@@ -388,8 +388,24 @@ h4{
     color: rgba(53,53,53, 0.9);
 }
 
+.info-banner-text{
+	height:auto;
+	border-top:1px solid rgba(53,53,53,0.4);	
+	margin-bottom:20px;
+	padding-top:20px;
+	padding-bottom:30px;
+}
+
+.info-banner-text h3{
+	margin-top:40px;
+	font-family: "Roboto", "Arial", sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: rgba(53,53,53, 0.9);
+}
+
 .banner-text{
-	height:500px;
 	padding-left:50px;
 	padding-right:50px;
 }
@@ -675,3 +691,14 @@ h4{
 
 
 /* end email capture styles */
+
+/* faq styles */
+
+.faq-question h4{
+	font-size:18px;
+	text-align:left;
+	font-weight:300;
+	margin-top:30px;
+}
+
+/* end faq styles */
