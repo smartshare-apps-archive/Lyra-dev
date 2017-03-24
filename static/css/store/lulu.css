@@ -624,3 +624,48 @@ h4{
 }
 
 /* end slideshow styles */
+
+/* email capture styles */
+
+
+.email-signup-container {
+	height:auto;
+	background-color:#f3f4f6;
+	padding-top:40px;
+	border-top:1px solid rgba(53,53,53,0.5);
+	}
+
+.email-capture {
+	margin-top: 30px;
+	height:120px;
+	}
+
+.email-text{
+	height:120px;
+}
+
+.input_email{
+	display:inline-block;
+	border:1px solid #e3bd32;
+	color:#5e573e;
+	background-color:white;
+	height:60px;
+	font-family:"Raleway";
+	font-size:24px;
+	width:50%;
+}
+
+.input_email:hover{
+	color:black;
+}
+
+#btn_demoSignUp{
+	position:relative;
+	top:-4px;
+	display:inline-block;
+	height:60px;
+
+}
+
+
+/* end email capture styles */
