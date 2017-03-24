@@ -601,7 +601,7 @@ h4{
 
 /* begin slideshow styles */
 #slideshow_container{
-	height:70vh;
+	height:60vh;
 }
 
 #main_slideshow{
@@ -622,7 +622,8 @@ h4{
 	position:relative;
 	top:5%;
 	background-repeat:no-repeat;
-	background-size:100% 100%;
+	background-size:100%;
+	background-color:black;
 	background-image:url('/static/images/store/lyra_1.png');
 }
 
