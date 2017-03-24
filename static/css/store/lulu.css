@@ -629,6 +629,12 @@ h4{
 
 
 .email-signup-container {
+	font-family: "Roboto", "Arial", sans-serif;
+	color:#333333;
+    font-size: 22px;
+    font-weight: 200;
+
+    letter-spacing: 0.10em;
 	height:auto;
 	background-color:#f3f4f6;
 	padding-top:40px;
@@ -645,7 +651,6 @@ h4{
 }
 
 .input_email{
-	display:inline-block;
 	border:1px solid #e3bd32;
 	color:#5e573e;
 	background-color:white;
@@ -660,9 +665,6 @@ h4{
 }
 
 #btn_demoSignUp{
-	position:relative;
-	top:-4px;
-	display:inline-block;
 	height:60px;
 
 }
