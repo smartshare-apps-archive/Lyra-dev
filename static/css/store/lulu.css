@@ -187,13 +187,13 @@
 
 .outer-container{
 	position:relative;
-	height:70vh;
+	height:auto;
 	background-repeat:no-repeat;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
-
+	overflow-y:hidden;
 }
 
 
@@ -206,7 +206,7 @@
     letter-spacing: 0.10em;
  	margin:0 auto;
 	width:100%;
-	height:400px;
+	height:auto;
 	padding:20px;
 }
 
@@ -521,7 +521,9 @@ h4{
 	margin:0px;
 }
 
-/* price banner */
+/* end narrow splash styles */
+
+/* pricing banner */
 
 .price-row{
 	border-top:1px solid #333333;
@@ -590,3 +592,32 @@ h4{
 
 
 }
+
+
+/* end pricing banner */
+
+/* begin slideshow styles */
+
+#main_slideshow{
+	position:relative;
+	top:50px;
+	height:60vh;
+	background-image:url('/static/images/store/macbook_screen.png');
+	background-repeat:no-repeat;
+	background-size:100%;
+
+}
+
+
+#slideshow_contents{
+	margin:0 auto;
+	height:94%;
+	width:95%;
+	position:relative;
+	top:6%;
+	background-repeat:no-repeat;
+	background-size:100%;
+	background-image:url('/static/images/store/lyra_1.png');
+}
+
+/* end slideshow styles */
