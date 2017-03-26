@@ -15,6 +15,9 @@ $(document).ready(function(){
 
 	var default_selection = $("#table_footerCategories").find(".row_footer_category");
 	selectedFooterCategory = default_selection.attr('data-footerCategory');
+	
+	setupHeaderEditor();
+
 	selectFooterCategory(selectedFooterCategory);
 
 
@@ -67,6 +70,17 @@ function bindEvents(){
 }
 
 
+function setupHeaderEditor(){
+	$('#dropdown_title_input').summernote({
+		  height: 175,                 // set editor height
+		  minHeight: 175,             // set minimum height of editor
+		  maxHeight: 500,             // set maximum height of editor
+		  focus: false                  // set focus to editable area after initializing summernote
+	});
+}
+
+
+
 function createFooterCategory(event){
 	var new_footer_category = $("#input_footerCategory").val();
 
@@ -85,7 +99,7 @@ function createFooterCategory(event){
 		"</td>";
 
 
-		templateHTML += "<input type=\"hidden\" class=\"footer_data dropdown\" data-footerCategory=\"" + new_footer_category + "\" value=\"title:default;default:/\">";
+		templateHTML += "<input type=\"hidden\" class=\"footer_data dropdown\" data-footerCategory=\"" + new_footer_category + "\" value=\"title:default<split>default:/\">";
 
 		
 
@@ -115,12 +129,16 @@ function deleteFooterCategory(event){
 function passFooterCategory(event){
 	var footer_category = event.data.footer_category;
 	selectFooterCategory(footer_category);
+
 }
 
 
 function selectFooterCategory(footer_category){
+	console.log("Selecting: " + footer_category);
+
 	var selectorString = 'input:checkbox[data-footerCategory="' + footer_category + '"]';
 	var chk_box = $(selectorString);
+	
 	selectedNavCategory = footer_category;
 
 	$(".selectTableItem").each(function(){
@@ -131,17 +149,19 @@ function selectFooterCategory(footer_category){
 
 
 	$("#span_footer_category").html(footer_category);
+	
 
 	var parsed_dropdown_data = parseDropdownData(footerData[footer_category]["data"]);
+	console.log("New parsed dropdown data: " + parsed_dropdown_data);
 
 	$("#dropdown_list_input").html("");
 	
 	dropDownMenuData = {};
 
-	var dropDownTitle = parsed_dropdown_data["title"];
 
-	$("#dropdown_title_input").val(dropDownTitle);
+	var dropDownTitle = parsed_dropdown_data["title"];
 	
+
 	$("#dropdown_link_container").html("");
 
 	for(var link in parsed_dropdown_data){
@@ -182,10 +202,13 @@ function selectFooterCategory(footer_category){
 	})
 
 	$("#dropdown_title_input").unbind();
-	$("#dropdown_title_input").change({footer_category: footer_category}, updateFooterData);
 
+	$('#dropdown_title_input').on('summernote.change', {footer_category: footer_category}, function(e) {
+		updateFooterData(e);
+	});
 
-		
+	$("#dropdown_title_input").summernote('code', dropDownTitle);
+
 	if (!chk_box.is(":checked")){
 		chk_box.prop("checked",true);
 	}
@@ -287,32 +310,34 @@ function deleteFooterLink(event){
 
 function updateFooterData(event){
 	var footer_category = event.data.footer_category;
-	
+	console.log("Updating: " + footer_category);
 
 	if (footerData[footer_category]["type"] == "dropdown_list"){
 
-		var c_title = $("#dropdown_title_input").val();
-
-		footerData[footer_category]["data"] = "title:" + c_title + ";";
+		var c_title = $("#dropdown_title_input").summernote('code');
+		console.log(footerData);	
+		footerData[footer_category]["data"] = "title:" + c_title + "<split>";
 
 		$(".input_link_label").each(function(){
 			footerData[footer_category]["data"] += $(this).val();
-			footerData[footer_category]["data"] += ":" + $(this).next(".input_link_href").val() + ";";
+			footerData[footer_category]["data"] += ":" + $(this).next(".input_link_href").val() + "<split>";
 		});
-		footerData[footer_category]["data"] = footerData[footer_category]["data"].slice(0,-1);
+		footerData[footer_category]["data"] = footerData[footer_category]["data"].slice(0,-7);
 
 	}
 	else if (footerData[footer_category]["type"] == "single_link"){
 		footerData[footer_category]["data"] = $("#single_link_input").val();
 	}
-	console.log(footerData);
+
+	//console.log(footerData);	
+
 }
 
 
 
 
 function parseDropdownData(data){
-	data = data.split(';')
+	data = data.split('<split>')
 	parsedData = {};
 
 	for (var i=0;i<data.length;i++){
@@ -364,9 +389,8 @@ function createFooterData(footerCategory){
  		footerData[footerCategory]["resource_id"] = "new";
  		footerData[footerCategory]["initial_category"] = initial_category;
  		footerData[footerCategory]["action"] = "insert";
-
- 		console.log(footerData);
 }
+
 
 function redirect_Store(){
 	window.location.href = '/';

@@ -148,7 +148,7 @@ def createFooterCategory(footer_category, footer_data, database):
 def updateFooterData(footerData, database):
 	for footer_category, footer_data in footerData.iteritems():
 		if(footerData[footer_category]["action"] == "delete"):
-			deleteQuery = "DELETE FROM store WHERE Name=? AND Type='footer_link';"
+			deleteQuery = "DELETE FROM store WHERE Name=%s AND Type='footer_link';"
 			
 			try:
 				database.execute(deleteQuery,(footer_category,))

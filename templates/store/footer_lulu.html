@@ -5,7 +5,7 @@
 				
 				<div class="col-sm-3 footer-column ">
 				
-				<h4> <span class="glyphicon glyphicon-user off_black"> </span> &nbsp; {{data["resource"]["title"]}} </h4>
+				{{ data["resource"]["title"] | safe }}
 
 					<ul> 
 					{% for link in data["resource"]["links"] %}

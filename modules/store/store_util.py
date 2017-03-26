@@ -61,7 +61,7 @@ def parseAddress(address):
 
 
 def parseDropdownList(navData):
-	navData = navData.split(';')
+	navData = navData.split('<split>')
 	formattedDropdown = {}
 	formattedDropdown["links"] = []
 
