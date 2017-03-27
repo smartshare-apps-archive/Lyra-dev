@@ -41,6 +41,9 @@ collectionColumnMappings = [
 		"collection_id","Title","BodyHTML","CollectionImageSrc","Published","Conditions","Strict","URL","Meta","PageTitle","Template","resources"
 ]
 
+pluginColumnMappings = [
+	"plugin_id", "plugin_name", "plugin_icon", "plugin_type", "uri", "description"
+]
 
 eventColumnMappings = [
 	"event_id", "Time", "Type", "Message", "Data"
@@ -183,6 +186,16 @@ customerFieldMapping = {
 	"LastOrder":"INTEGER",
 	"Company":"TEXT",
 	"accepts_marketing":"TEXT"
+}
+
+
+pluginFieldMapping = {
+	"plugin_id":"INTEGER",
+	"plugin_name":"TEXT",
+	"plugin_type":"TEXT",
+	"plugin_icon":"INTEGER",
+	"description":"TEXT",
+	"uri":"TEXT"
 }
 
 productDisplayOptions = {

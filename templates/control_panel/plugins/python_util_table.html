@@ -1,0 +1,35 @@
+ {% if pythonUtil %}
+
+  <table class="table table-bordered table-hover" id="table_python_util">
+ 	<thead>
+ 	<th class="th_select">  </th>
+ 	<th> Order </th>
+ 	<th> Date </th>
+ 	<th> Customer </th>
+
+ 	</thead>
+
+ 	<tbody>
+ 	{% for plugin_id, plugin in pythonUtil.iteritems() %}
+ 	<tr class="row_order" data-orderID="{{order_id}}">
+ 		<td> 
+ 			<label class="btn btn-default select_container">
+           		<input type="checkbox" class="selectTableItem" data-orderID="{{plugin_id}}">
+        	</label> 
+ 		</td>
+
+ 	</tr>
+ 	{% endfor %}
+
+
+ 	</tbody>
+  </table>	
+
+
+
+{% else %}
+		<div id="no_orders" class="text-center">
+			<h4> You don't have any plugins yet. </h4><hr>
+			<button type="button" class="btn btn-link btn-lg"><a href="/control/orders/addDraft/"> Upload a plugin </a></button>
+		</div>
+{% endif %}

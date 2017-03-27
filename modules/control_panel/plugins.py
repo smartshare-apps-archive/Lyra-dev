@@ -21,6 +21,8 @@ def setup_session():
 		print "Created: ", session[s_id]
 
 
+
+
 @plugin_routes.route('/control/plugins')
 @plugin_routes.route('/control/plugins/')
 #@admin_required(current_app, session, login_redirect)

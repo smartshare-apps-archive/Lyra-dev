@@ -11,6 +11,7 @@ import database.resources as resources
 import database.order as order
 import database.store as store
 import database.customer as customer
+import database.plugins as plugins
 
 from db import *
 
@@ -834,4 +835,9 @@ class ControlPanel(object):
 
 #plugins section methods
 	def plugins_Main(self):
+		allPlugins = plugins.loadAllPlugins(self.database)
+		print allPlugins
+
+		self.control_data["table_pythonUtil"] = render_template("control_panel/plugins/table_pythonUtil.html", pythonUtil = allPlugins)
+
 		return render_template("control_panel/plugins/Main.html", control_data = self.control_data)

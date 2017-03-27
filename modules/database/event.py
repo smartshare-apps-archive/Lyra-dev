@@ -8,7 +8,7 @@ from customer import *
 
 
 def loadEvent(eventID, productDatabase):
-	currentQuery = "SELECT event_id, Time, Type, Message, Data FROM events WHERE event_id=?";
+	currentQuery = "SELECT event_id, Time, Type, Message, Data FROM events WHERE event_id=%s";
 
 	try:
 		productDatabase.execute(currentQuery,(eventID,))
