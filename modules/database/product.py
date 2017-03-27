@@ -1,4 +1,4 @@
-import sqlite3, sys, csv, json, collections
+import sys, csv, json, collections
 
 #config current only has column/field mapping information, which will be specific to the import form (of the product csv), e.g. shopify
 from config import *	
@@ -405,6 +405,7 @@ def saveProductVariantTypes(product_id, variantTypes, productDatabase):
 
 def deleteAllVariants(product_id, productDatabase):
 	currentQuery = "DELETE FROM product_variants WHERE product_id=%s;"
+
 	try:
 		productDatabase.execute(currentQuery, (product_id,))
 	except Exception as e:
@@ -414,6 +415,7 @@ def deleteAllVariants(product_id, productDatabase):
 
 def deleteInvalidVariants(product_id, productDatabase):
 	currentQuery = "SELECT VariantTypes FROM products WHERE product_id=%s;"
+
 	try:
 		productDatabase.execute(currentQuery, (product_id,))
 	except Exception as e:
@@ -454,7 +456,6 @@ def saveNewProductData(productData, productDatabase):
 	productTuple = (productData["Title"], defaultImageID, )
 	
 	try:
-		print "query:", currentQuery 
 		productDatabase.execute(currentQuery, productTuple)
 	except Exception as e:
 		print "Error creating product: ", e
@@ -465,7 +466,6 @@ def saveNewProductData(productData, productDatabase):
 		print "Exception: ", e
 
 	product_id = productDatabase.fetchone()[0]
-	print "last insert id: ", product_id
 	currentQuery = """UPDATE products SET VariantSKU=%s WHERE product_id = %s;"""
 
 	try:
@@ -481,7 +481,7 @@ def saveNewProductData(productData, productDatabase):
 
 # save a new type of product variant based on variant options specified in product editor
 def saveNewVariantData(product_id, variantData, productDatabase):
-	currentQuery = """INSERT into product_variants(product_id, VariantSKU, VariantData, VariantPrice, VariantImg, VariantRequiresShipping, VariantWeightUnit) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s');"""
+	currentQuery = "INSERT into product_variants(product_id, VariantSKU, VariantData, VariantPrice, VariantImg, VariantRequiresShipping, VariantWeightUnit) VALUES(%s, %s, %s, %s, %s, %s, %s);"
 	productData = loadProduct(product_id, productDatabase)
 	
 	formattedVariantData = ""
@@ -572,6 +572,8 @@ def setDefaultProductImage(product_id, resource_id, productDatabase):
 		return None
 
 	return True
+
+
 
 def updateProductInventory(product_id, inventory_qty, productDatabase):
 	currentQuery = "UPDATE products SET VariantInventoryQty=%s WHERE product_id=%s;"
@@ -676,22 +678,6 @@ def deleteVariant(variant_id, productDatabase):
 		return None
 
 	return True
-
-
-
-#placeholder function to import data from an exported store such as shopify
-def importProductsFromCSV(f):
-	productList = []
-	f = open(f, 'rt')
-	try:
-	    reader = csv.reader(f)
-	    for row in reader:
-	        productList.append(row)
-	finally:
-	    f.close()
-	return productList
-
-
 
 
 def bulkUpdateProducts(productData, productDatabase):

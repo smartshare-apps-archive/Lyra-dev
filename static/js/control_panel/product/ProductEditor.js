@@ -268,6 +268,9 @@ function deleteVariantType(event){
 
 function retrieveVariantTypes(){
 	var currentVariantTypes = replaceAll($("#currentVariantTypes").val(), "'","\"");
+	currentVariantTypes = replaceAll(currentVariantTypes, "u\"","\"");
+	console.log(currentVariantTypes);
+
 	currentVariantTypes = JSON.parse(currentVariantTypes);
 	
 	for (var variantType in currentVariantTypes){

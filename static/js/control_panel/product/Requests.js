@@ -19,7 +19,7 @@ function saveNewProduct(event){
 }
 
 
-// updates a products inventory quantity
+// updates a products inventory quantity from the quick edit modal
 function updateProductInventory(product_id, inventory_qty){
 	$.ajax({
 	  method: "POST",
