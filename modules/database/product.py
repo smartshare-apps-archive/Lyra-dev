@@ -256,6 +256,8 @@ def loadProductsInCollection(conditions, productDatabase):
 		return None
 
 
+
+
 def saveProductTags(product_id, product_tags, productDatabase):
 	currentQuery = "UPDATE products SET Tags=%s WHERE product_id=%s;"
 
@@ -381,6 +383,7 @@ def saveProductData(productData, productDatabase):
 		productDatabase.execute(currentQuery, valueList)		#run current query
 	except Exception as e:
 		print "Exception:", e
+
 
 
 def saveProductVariantTypes(product_id, variantTypes, productDatabase):

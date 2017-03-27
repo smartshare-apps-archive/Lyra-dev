@@ -20,6 +20,7 @@ function bindGlobalElements(){
 	li_customers = $("#li_customers")
 	li_settings = $("#li_settings")
 	li_store = $("#li_store")
+	li_plugins = $("#li_plugins")
 }
 
 function bindMainMenuEvents(){
@@ -28,6 +29,7 @@ function bindMainMenuEvents(){
 	li_customers.click(customerRedirect);
 	li_settings.click(settingsRedirect);
 	li_store.click(storeSettingsRedirect);
+	li_plugins.click(pluginsRedirect);
 
 	$(".sidebar-nav").hover(openFullMenu, closeFullMenu);
 }
@@ -61,6 +63,10 @@ function settingsRedirect(){
 
 function storeSettingsRedirect(){
 	window.location.href = "/control/store/";
+}
+
+function pluginsRedirect(){
+	window.location.href = "/control/plugins/";
 }
 
 

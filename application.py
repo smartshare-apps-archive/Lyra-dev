@@ -29,7 +29,7 @@ from modules.control_panel import orders
 from modules.control_panel import customers
 from modules.control_panel import store_settings
 from modules.control_panel import settings
-
+from modules.control_panel import plugins
 
 #store rendering sections
 from modules.store import store
@@ -72,6 +72,7 @@ application.register_blueprint(orders.order_routes)
 application.register_blueprint(customers.customer_routes)
 application.register_blueprint(settings.settings_routes)
 application.register_blueprint(store_settings.store_settings_routes)
+application.register_blueprint(plugins.plugin_routes)
 
 #register store blueprints
 application.register_blueprint(store.store_routes)

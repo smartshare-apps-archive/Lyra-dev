@@ -93,6 +93,9 @@ class ControlPanel(object):
 		elif tab == "store_settings_theme_manager":
 			return self.store_settings_ThemeManager()
 
+		elif tab == "plugins":
+			return self.plugins_Main()
+
 		self.database = None
 		db.close()
 
@@ -827,3 +830,8 @@ class ControlPanel(object):
 
 	def store_settings_FileActionPanel(self):	
 		return render_template("control_panel/store_settings/FileActionPanel.html", control_data = self.control_data)
+
+
+#plugins section methods
+	def plugins_Main(self):
+		return render_template("control_panel/plugins/Main.html", control_data = self.control_data)

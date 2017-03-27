@@ -185,6 +185,13 @@ body {
     background-size: 20px 20px;
 }
 
+#li_plugins {
+    background-image:url('../images/ext_icon.png');
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size: 20px 20px;
+}
+
 
 .li_sub_nav_header {
     text-transform: uppercase;
