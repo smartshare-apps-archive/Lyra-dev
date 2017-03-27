@@ -21,8 +21,6 @@ function saveNewProduct(event){
 
 // updates a products inventory quantity
 function updateProductInventory(product_id, inventory_qty){
-	console.log(product_id + ":" + inventory_qty);
-
 	$.ajax({
 	  method: "POST",
 	  url: "/actions/updateProductInventory",
@@ -31,12 +29,14 @@ function updateProductInventory(product_id, inventory_qty){
 	  data: { product_id: JSON.stringify(product_id), inventory_qty: JSON.stringify(inventory_qty)}
 	})
 	  .done(function(product_id) {
-			console.log("Update success.");
 			var selectorString = '[data-productID="' + product_id + '"]'; 
 			var label_inventory = $(".info_product_inventory" + selectorString);
 			label_inventory.html(inventory_qty);
+
+			productInventory[String(product_id)] = inventory_qty;
 	  });
 }
+
 
 
 

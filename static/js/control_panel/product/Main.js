@@ -6,6 +6,8 @@ var isPositionFixed = false;
 var actionBar;
 var ratio = 1.3;
 var productData = {};
+var productInventory = {};
+
 var currentSearchFilter = {"filter":"Title"};
 var selectAll = true;
 
@@ -59,7 +61,8 @@ function bindTableEvents(){
 	$(".btn-inventory-edit").each(function(){
 		var product_id = $(this).attr('data-productID');
 		var inventory_qty = $(this).attr('data-inventoryQty');
-		$(this).click({product_id: product_id, inventory_qty: inventory_qty}, editProductInventory);
+		productInventory[String(product_id)] = inventory_qty;
+		$(this).click({product_id: product_id}, editProductInventory);
 
 	});
 }
@@ -68,7 +71,7 @@ function bindTableEvents(){
 // product inventory quick edit modal data population
 function editProductInventory(event){
 	var product_id = event.data.product_id;
-	var inventory_qty = parseInt(event.data.inventory_qty);
+	var inventory_qty = parseInt(productInventory[String(product_id)]);
 	var input_product_inventory = $("#input_product_inventory");
 
 	input_product_inventory.val(inventory_qty);
@@ -123,7 +126,6 @@ function hideProductInfo(event){
 		imageDiv.stop().animate({ "height":"100%",
 						  "width":"100%",
 						  "left":"0%"
-
 						}, 200, function(){
 							
 						});
