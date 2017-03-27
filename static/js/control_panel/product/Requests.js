@@ -19,6 +19,25 @@ function saveNewProduct(event){
 }
 
 
+// updates a products inventory quantity
+function updateProductInventory(product_id, inventory_qty){
+	console.log(product_id + ":" + inventory_qty);
+
+	$.ajax({
+	  method: "POST",
+	  url: "/actions/updateProductInventory",
+	  dataType: "json",
+	  traditional:true,
+	  data: { product_id: JSON.stringify(product_id), inventory_qty: JSON.stringify(inventory_qty)}
+	})
+	  .done(function(product_id) {
+			console.log("Update success.");
+			var selectorString = '[data-productID="' + product_id + '"]'; 
+			var label_inventory = $(".info_product_inventory" + selectorString);
+			label_inventory.html(inventory_qty);
+	  });
+}
+
 
 
 function saveNewProductVariant(variantData, product_id){

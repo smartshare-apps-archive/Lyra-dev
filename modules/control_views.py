@@ -93,7 +93,6 @@ class ControlPanel(object):
 		elif tab == "store_settings_theme_manager":
 			return self.store_settings_ThemeManager()
 
-
 		self.database = None
 		db.close()
 
@@ -103,7 +102,7 @@ class ControlPanel(object):
 		self.control_data["productMainTable"] = self.product_MainTable()
 		self.control_data["productActionPanel"] = self.product_MainActionPanel()
 		self.control_data["productSearchPanel"] = self.product_SearchPanel()
-		self.control_data["modals"] = [render_template("control_panel/product/modal_add_product.html")]
+		self.control_data["modals"] = [render_template("control_panel/product/modal_add_product.html"), render_template("control_panel/product/modal_update_inventory.html") ]
 
 		return render_template("control_panel/product/Main.html", control_data = self.control_data)
 

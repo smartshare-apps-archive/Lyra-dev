@@ -573,6 +573,17 @@ def setDefaultProductImage(product_id, resource_id, productDatabase):
 
 	return True
 
+def updateProductInventory(product_id, inventory_qty, productDatabase):
+	currentQuery = "UPDATE products SET VariantInventoryQty=%s WHERE product_id=%s;"
+	
+	try:
+		productDatabase.execute(currentQuery,(inventory_qty, product_id, ))
+	except Exception as e:
+		print "Error: ", e
+		return None
+
+	return True
+
 
 def updateProductResources(product_id, resource_id, resource_type, productDatabase):
 	currentQuery = "SELECT resources FROM products WHERE product_id=%s;"

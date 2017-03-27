@@ -35,9 +35,9 @@
 
 							<div class="product_info_cell"> 
 							<hr class="unpadded_hr" >
-								<button type="button" class="btn btn-default btn_info_cell"> 
+								<button type="button" class="btn btn-default btn_info_cell btn-inventory-edit" data-inventoryQty="{{product.VariantInventoryQty}}" data-productID="{{product.product_id}}" data-toggle="modal" data-target="#modal_updateInventory"> 
 									<b class="info_field">Inventory:</b> 
-									<span class="info_value"> {{product.VariantInventoryQty}} </span>
+									<span class="info_value info_product_inventory" data-productID="{{product.product_id}}">{{product.VariantInventoryQty}} </span>
 								</button> 
 							 	<button type="button" class="btn btn-default btn_info_cell"> 
 								 	<b class="info_field">Product rating:</b> 

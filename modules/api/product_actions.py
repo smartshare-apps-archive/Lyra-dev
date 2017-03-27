@@ -153,6 +153,28 @@ def updateProductData():
 	return json.dumps(product_data["product_id"]);
 
 
+
+@productActions.route('/actions/updateProductInventory', methods=['POST'])
+##@admin_required(current_app, session, login_redirect)
+def updateProductInventory():
+	inventory_qty = request.form['inventory_qty']
+	inventory_qty = json.loads(inventory_qty)
+
+	product_id = request.form['product_id'];
+	product_id = json.loads(product_id);
+
+	db = db_handle()
+	productDatabase = db.cursor()
+	
+	product.updateProductInventory(product_id, inventory_qty, productDatabase)
+
+	db.commit()
+	db.close()
+
+	return json.dumps(product_id)
+
+
+
 #updates customer data changed in the customer editor 
 @productActions.route('/actions/updateProductData', methods=['POST'])
 #@admin_required(current_app, session, login_redirect)

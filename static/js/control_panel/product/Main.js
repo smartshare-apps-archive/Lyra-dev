@@ -55,7 +55,58 @@ function bindTableEvents(){
 	$("#select_all_products").change(toggleAllProducts);
 	
 	$("#btn_addNewProduct").click(saveNewProduct);
+
+	$(".btn-inventory-edit").each(function(){
+		var product_id = $(this).attr('data-productID');
+		var inventory_qty = $(this).attr('data-inventoryQty');
+		$(this).click({product_id: product_id, inventory_qty: inventory_qty}, editProductInventory);
+
+	});
 }
+
+
+// product inventory quick edit modal data population
+function editProductInventory(event){
+	var product_id = event.data.product_id;
+	var inventory_qty = parseInt(event.data.inventory_qty);
+	var input_product_inventory = $("#input_product_inventory");
+
+	input_product_inventory.val(inventory_qty);
+
+	$("#btn_increaseProductQty").unbind();
+	$("#btn_decreaseProductQty").unbind();
+
+	input_product_inventory.unbind();
+	
+	input_product_inventory.change(function(){
+		inventory_qty = parseInt($(this).val());
+	});
+
+	$("#btn_increaseProductQty").click(function(){
+		inventory_qty += 1;		
+		input_product_inventory.val(inventory_qty);
+
+	});
+
+	$("#btn_decreaseProductQty").click(function(){
+		if(inventory_qty == 0){
+			return;
+		}
+		else{
+			inventory_qty -= 1;		
+			input_product_inventory.val(inventory_qty);
+		}
+
+	});
+
+	$("#btn_updateInventoryQty").unbind();
+	
+	$("#btn_updateInventoryQty").click(function(){
+		updateProductInventory(product_id, inventory_qty);
+	});
+
+}
+
 
 
 function hideProductInfo(event){
@@ -77,6 +128,8 @@ function hideProductInfo(event){
 							
 						});
 }
+
+
 
 function showProductInfo(event){
 	var imageDiv = $(event.target).closest('.product_container').find('.product_img_cont');
