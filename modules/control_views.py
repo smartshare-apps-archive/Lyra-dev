@@ -833,6 +833,8 @@ class ControlPanel(object):
 		return render_template("control_panel/store_settings/FileActionPanel.html", control_data = self.control_data)
 
 
+
+
 #plugins section methods
 	def plugins_Main(self):
 		allPlugins = plugins.loadAllPlugins(self.database)
