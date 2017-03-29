@@ -43,3 +43,24 @@ def plugins():
 	return render_template("control_panel/control.html", data=data)
 
 
+
+
+@plugin_routes.route('/control/plugins/pyutil/<int:plugin_id>')
+@plugin_routes.route('/control/plugins/pyutil/<int:plugin_id>/')
+#@admin_required(current_app, session, login_redirect)
+def plugins_pyutil(plugin_id):
+	ctl = current_app.config["ctl"]
+	data = {}
+
+	data["current_page"] = "plugins_pyutil"
+	data["current_class_js"] = "control_panel/plugins/Core.js"
+	data["current_page_js"] = "control_panel/plugins/PyUtil.js"
+	data["current_requests_js"] = "control_panel/plugins/Requests.js"
+
+	data["current_page_content"] = ctl.render_tab("plugins_pyutil", plugin_id)
+	data["ts"] = int(time.time())
+	data["modal"] = Markup(render_template("control_panel/modal.html"))
+	data["submenu"] = Markup(render_template("control_panel/subMenu_plugins.html"))
+
+	return render_template("control_panel/control.html", data=data)
+

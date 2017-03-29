@@ -6,6 +6,7 @@
  	<th> Name </th>
  	<th> Description </th>
  	<th> URI </th>
+ 	<th> 	 </th>
 
  	</thead>
 
@@ -20,6 +21,10 @@
  		<td> {{plugin.plugin_name}} </td>
  		<td> {{plugin.description}} </td>
  		<td> {{plugin.uri}} </td>
+ 		<td> 
+ 			<button type="button" class="btn btn-primary btn-lg btn-run-plugin" data-pluginID="{{plugin_id}}" data-pluginName="{{plugin.plugin_name}}"> Run plugin </button>
+ 			<button type="button" class="btn btn-danger btn-lg btn-remove-plugin" data-pluginID="{{plugin_id}}" data-pluginName="{{plugin.plugin_name}}"> Remove &nbsp;<span class="glyphicon glyphicon-minus"></span> </button>
+ 		</td>
  	</tr>
  	{% endfor %}
 

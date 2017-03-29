@@ -1,17 +1,29 @@
 import requests,json,re,shutil
 
+from lyra_utility import *
+
 request_uri = "https://gpsfront.aliexpress.com/queryGpsProductAjax.do?widget_id=5101049&limit=31&currency=&numTopProducts=4"
 productList = {}
 
 
-class lyra_utility(object):
+class ali_scraper(lyra_utility):
+	def __init__(self, inputs):
+		super(ali_scraper, self).__init__(inputs)
 
-	def __init__(self):
+
+	def register_inputs(self, inputs):
+		#self.log("Registering: " + str(inputs))
 		pass
+
+	
+	def register_commands(self):
+		self.possible_commands = {"run": self.run,
+								  "say_hello": self.say_hello
+								 }
 
 
 	def download_product_image(self, product):
-		print "Downloading image for: ", product["product_title"], ":", product["product_id"], "\n"
+		self.log("Downloading image for: " + product["product_title"] + ":" + str(product["product_id"]))
 		
 		file_url = product["image_uri"]
 
@@ -24,12 +36,16 @@ class lyra_utility(object):
 
 
 
+	def say_hello(self, params):
+		self.log("You said: " + params["message"])
+
+
 
 	def run(self):
-		print "Attempting to scrape page: ", request_uri , "\n"
+		self.log("Attempting to scrape page: " + request_uri)
 		
 		nProducts = 0
-		maxProducts = 184
+		maxProducts = 40
 
 		while(nProducts < maxProducts):
 			r = requests.get(request_uri)
@@ -42,7 +58,7 @@ class lyra_utility(object):
 					currentProduct = productData["productTitle"]
 
 					if currentProduct not in productList:
-						print "Grabbing new product: ", currentProduct
+						self.log("Grabbing new product: "+ currentProduct)
 
 						productList[currentProduct] = {}
 						productList[currentProduct]["product_id"] = str(productData["productId"])
@@ -53,18 +69,23 @@ class lyra_utility(object):
 								productList[currentProduct]["image_uri"] = "https://" + value[2:]
 								self.download_product_image(productList[currentProduct])
 							elif key == "maxPrice":
-								productList[currentProduct]["max_price"] = float(value[4:])
+								productList[currentProduct]["max_price"] = float(value[4:].replace(',',''))
 			
 
 			nProducts = len(productList)
-			print "Total products scraped thus far: ", nProducts
+			self.log("Total products scraped thus far: " + str(nProducts))
 
-		print "Scraped: ", nProducts
+		self.log("Scraped: " + str(nProducts))
 
 
 
 def main():
-	aliTest = lyra_utility()
-	aliTest.run()
+	inputs = {
+		"url":"https://google.com"
+	}
+
+	aliTest = ali_scraper(inputs)
+	
+	#aliTest.run()
 
 if __name__ == "__main__":main()

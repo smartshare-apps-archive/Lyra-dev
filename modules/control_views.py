@@ -15,7 +15,7 @@ import database.plugins as plugins
 
 from db import *
 
-import sqlite3, sys
+import sys, ast, imp
 
 class ControlPanel(object):
 	def __init__(self):
@@ -50,6 +50,7 @@ class ControlPanel(object):
 			return self.product_CollectionEditor(data)
 		elif tab == "product_bulk_collection_editor":
 			return self.product_BulkCollectionEditor(data)
+
 
 		#orders section
 		elif tab == "orders":
@@ -96,6 +97,8 @@ class ControlPanel(object):
 
 		elif tab == "plugins":
 			return self.plugins_Main()
+		elif tab == "plugins_pyutil":
+			return self.plugins_PyUtil(data)
 
 		self.database = None
 		db.close()
@@ -836,10 +839,68 @@ class ControlPanel(object):
 
 
 #plugins section methods
+
 	def plugins_Main(self):
 		allPlugins = plugins.loadAllPlugins(self.database)
-		print allPlugins
+		python_utils = {}
+
+		lyra_utility = imp.load_source('lyra_utility', 'plugins/lyra_utility.py')
+
+		for plugin_id, plugin in allPlugins.iteritems():
+			if plugin["plugin_type"] == "python_utility":
+				plugin_name = plugin["plugin_name"]
+				
+				#loads the plugin module from stored URI
+				current_pluggin_module = imp.load_source(plugin_name, plugin["uri"])
+				
+				#looks for a class with the current plugin's name (stored ID)
+				if hasattr(current_pluggin_module, plugin_name):
+					plugin_class = getattr(current_pluggin_module, plugin_name)
+					python_utils[plugin_name] = plugin_class  #handle to class, not an instance
+
+					#instance will be initialized upon run
+
 
 		self.control_data["table_pythonUtil"] = render_template("control_panel/plugins/table_pythonUtil.html", pythonUtil = allPlugins)
-
 		return render_template("control_panel/plugins/Main.html", control_data = self.control_data)
+
+
+
+	#loads a python plugin
+	def plugins_PyUtil(self, data):
+		plugin_id = data
+		#load super class for python utility
+		lyra_utility = imp.load_source('lyra_utility', 'plugins/lyra_utility.py')
+		
+		#load python utility record from db
+		plugin_data = plugins.loadPluginByID(plugin_id, self.database)
+
+		#make sure it's a pyutil plugin
+		if plugin_data["plugin_type"] == "python_utility":
+			plugin_name = plugin_data["plugin_name"]
+			
+			#loads the plugin module from stored URI
+			current_pluggin_module = imp.load_source(plugin_name, plugin_data["uri"])
+			
+			#looks for a class with the current plugin's name (stored ID)
+			if hasattr(current_pluggin_module, plugin_name):
+				plugin_class = getattr(current_pluggin_module, plugin_name)
+				plugin = plugin_class  #handle to class, not an instance
+
+				#instance will be initialized upon run
+
+
+		inputs = {"test": "test"}
+
+		ali = plugin(inputs)
+
+		params = {"message": "hello world!"}
+		
+		ali.run_function("say_hello", params)
+
+		plugin_log = ali.output_log
+
+		self.control_data["plugin_log"] = plugin_log
+		self.control_data["plugin_data"] = plugin_data
+
+		return render_template("control_panel/plugins/PythonUtility.html", control_data = self.control_data)

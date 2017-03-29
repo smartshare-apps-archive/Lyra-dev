@@ -1,0 +1,37 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-magnet"></span> &nbsp;  <a href="/control/plugins/">Plugins</a> </h4>
+	
+
+		
+	</div>
+
+</div>
+
+
+<div class="row"> 
+	<div class="col-xs-12 tab_content">
+	<!-- Begin plugin main content div -->
+		<br>
+		<!-- Begin: main plugin list div (left aligned) -->
+		<div class="col-xs-12" id="python_utility_interface">
+			{{ control_data.plugin_data }}
+ 		</div>
+
+ 		<div class="col-xs-12" id="python_utility_interface">
+				{% for line in control_data.plugin_log %}
+					{{line}}
+				{% endfor %}			
+ 		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">			
+	</div>
+</div>
+
+
+{% endblock page_content %}
