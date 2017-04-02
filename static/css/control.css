@@ -2312,3 +2312,7 @@ top:-1px;
     display:inline-block;
     width:50%;
 }
+
+.rendered_section_body{
+    display:none;
+}
