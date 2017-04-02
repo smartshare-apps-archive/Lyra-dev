@@ -187,7 +187,7 @@
 
 .outer-container{
 	position:relative;
-	height:auto;
+	min-height:600px;
 	background-repeat:no-repeat;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -689,7 +689,11 @@ h4{
 
 }
 
-
+.heading_cont{
+	height:70px;
+	border-bottom:1px solid rgba(53,53,53,0.2);
+	margin-bottom:20px;
+}
 /* end email capture styles */
 
 /* faq styles */
