@@ -233,16 +233,20 @@
     font-size: 30px;
     font-weight: 200;
     letter-spacing: 0.1em;
+
 }
 
 .inner-container .h3-header{
 	display:inline-block;
 	margin-top:0px;
+	padding:5px;
 	font-family: "Roboto", "Arial", sans-serif;
-	color:#333333;
+	color:white;
     font-size: 40px;
     font-weight: 200;
     letter-spacing: 0.1em;
+    border-radius:3px;
+
 }
 
 .h3-feature{
@@ -654,6 +658,7 @@ h4{
 	background-color:#f3f4f6;
 	padding:0px;
 	border-top:1px solid rgba(53,53,53,0.5);
+	margin-bottom:0px;
 }
 
 .email-signup-container {
