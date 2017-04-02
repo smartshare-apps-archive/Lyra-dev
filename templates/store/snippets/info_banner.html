@@ -1,16 +1,20 @@
-<div class="row info-banner">
-	<div class="col-md-6 anchor banner-text text-resource" data-anchorID="Banner Description">
-		{% if section_data  %}
-				{{ section_data["Banner Description"]["anchor_value"] | safe }}
-		{% endif %}
-	</div>
+<div class="jumbotron jumbotron-info-banner">
+	<div class="container">
+		<div class="row info-banner">
+			<div class="col-md-6 anchor banner-text text-resource" data-anchorID="Banner Description">
+				{% if section_data  %}
+						{{ section_data["Banner Description"]["anchor_value"] | safe }}
+				{% endif %}
+			</div>
 
-	{% if section_data %}
-		<div class="col-md-6 hidden-sm hidden-xs banner-image anchor image-resource" data-anchorID="Banner Image" 
-		style="background-image:url('{{section_data["Banner Image"]["anchor_value"]}}');">
-	{% else %}
-		<div class="col-md-6 hidden-sm hidden-xs banner-image anchor image-resource" data-anchorID="Banner Image">
-	{% endif %}
+			{% if section_data %}
+				<div class="col-md-6 hidden-sm hidden-xs banner-image anchor image-resource" data-anchorID="Banner Image" 
+				style="background-image:url('{{section_data["Banner Image"]["anchor_value"]}}');">
+			{% else %}
+				<div class="col-md-6 hidden-sm hidden-xs banner-image anchor image-resource" data-anchorID="Banner Image">
+			{% endif %}
+			</div>
+		</div>
+		</div>
 	</div>
 </div>
-
