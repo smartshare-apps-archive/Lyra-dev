@@ -186,11 +186,19 @@ body {
 }
 
 #li_plugins {
-    background-image:url('../images/ext_icon.png');
+    background-image:url('../images/plug_icon4.png');
     background-repeat:no-repeat;
     background-position:center;
     background-size: 20px 20px;
 }
+
+#li_dashboard {
+    background-image:url('../images/plot_icon.png');
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size: 20px 20px;
+}
+
 
 
 .li_sub_nav_header {

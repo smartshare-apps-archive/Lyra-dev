@@ -1,0 +1,28 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-credit-card"></span> &nbsp;  <a href="/control/">Dashboard</a> </h4>
+	</div>
+
+</div>
+
+{{ control_data.orderActionPanel | safe }}
+
+<div class="row"> 
+	<div class="col-xs-12 tab_content">
+	
+	{{ control_data.plot_script | safe }}
+
+	{{ control_data.plot_div | safe }}
+
+
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">			
+	</div>
+</div>
+
+
+{% endblock page_content %}

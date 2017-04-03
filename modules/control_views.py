@@ -100,6 +100,9 @@ class ControlPanel(object):
 		elif tab == "plugins_pyutil":
 			return self.plugins_PyUtil(data)
 
+		elif tab == "dashboard":
+			return self.dashboard_Main()
+
 		self.database = None
 		db.close()
 
@@ -904,3 +907,24 @@ class ControlPanel(object):
 		self.control_data["plugin_data"] = plugin_data
 
 		return render_template("control_panel/plugins/PythonUtility.html", control_data = self.control_data)
+
+
+
+
+	# dashboard views
+
+	def dashboard_Main(self):
+		self.control_data["page"] = "dashboard"
+
+		from bokeh.plotting import figure
+		from bokeh.embed import components
+
+		plot = figure()
+		plot.circle([1,2], [3,4])
+
+		script, div = components(plot)
+
+		self.control_data["plot_script"] = script
+		self.control_data["plot_div"] = div
+
+		return render_template("control_panel/dashboard/Main.html", control_data = self.control_data)

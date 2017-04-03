@@ -13,6 +13,13 @@
 	<link rel="stylesheet" href="/static/css/control.css?v={{data.ts}}">
 	<link rel="stylesheet" href="/static/css/hover-min.css?v={{data.ts}}" media="all">
 
+	<link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css"
+    rel="stylesheet" type="text/css">
+
+	<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js"></script>
+
+
 	{# 
 
 	<!-- flask included stylesheets <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/control.css') }}"> --> 
@@ -25,6 +32,7 @@
 <body>
 <div id="nav-bar">
 	<ul class="sidebar-nav">
+		<li id="li_dashboard" class="hvr-float-shadow valign"> </li> 
 		<li id="li_products" class="hvr-float-shadow valign"> </li> 
 		<li id="li_orders" class="hvr-float-shadow">  </li>
 		<li id="li_customers" class="hvr-float-shadow">  </li>

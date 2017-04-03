@@ -17,10 +17,11 @@ $(document).ready(function(){
 function bindGlobalElements(){
 	li_products = $("#li_products");
 	li_orders = $("#li_orders");
-	li_customers = $("#li_customers")
-	li_settings = $("#li_settings")
-	li_store = $("#li_store")
-	li_plugins = $("#li_plugins")
+	li_customers = $("#li_customers");
+	li_settings = $("#li_settings");
+	li_store = $("#li_store");
+	li_plugins = $("#li_plugins");
+	li_dashboard = $("#li_dashboard");
 }
 
 function bindMainMenuEvents(){
@@ -30,6 +31,7 @@ function bindMainMenuEvents(){
 	li_settings.click(settingsRedirect);
 	li_store.click(storeSettingsRedirect);
 	li_plugins.click(pluginsRedirect);
+	li_dashboard.click(dashboardRedirect);
 
 	$(".sidebar-nav").hover(openFullMenu, closeFullMenu);
 }
@@ -43,6 +45,9 @@ function closeFullMenu(){
 	//$(".sidebar-nav").css("width","100px");
 }
 
+function dashboardRedirect(){
+	window.location.href = "/control/";
+}
 
 function productRedirect(){
 	window.location.href = "/control/products/";
