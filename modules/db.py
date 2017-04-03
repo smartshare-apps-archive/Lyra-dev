@@ -15,5 +15,11 @@ def db_handle():
 		#conn.text_factory = str
 	except Exception as e:
 		print "Exception connecting: ", e
-
+		return None
 	return conn
+
+
+def setup_db():
+	pass
+
+

@@ -924,7 +924,8 @@ class ControlPanel(object):
 
 		plot = figure(responsive=True)
 		plot.logo = None #removes bokeh logo
-		plot.line([1,2,3,4,5,6,7], [3,4,1,6,1,8,1])
+
+		plot.line([1,2,3,4,5,6,7,8], [3,4,1,6,1,8,1,9])
 
 		script, div = components(plot)
 
@@ -932,3 +933,27 @@ class ControlPanel(object):
 		self.control_data["plot_div"] = div
 
 		return render_template("control_panel/dashboard/Main.html", control_data = self.control_data)
+
+
+'''
+
+Lyra dashboard:
+
+A responsive dashboard API should consist of several parts. First, there should be restful endpoints that can stream requested data in a plot-ready format. 
+Included in these endpoints should be metadata describing the type of plot as well as other relevant information, such as axes labels and the like. 
+In addition to these endpoints, a dynamic container page that can add and remove these plots in realtime is necessary for the dashboard. 
+
+Several database tables will need to be added to accomodate these new features:
+
+	1. The dashboard plots will be maintained by a database table called 'dashboard_plots' which will contain several key fields:
+
+	'plot_id', 'plot_type', 'plot_label', and 'plot_data'
+
+
+	2. Dashboard statistics will be maintained by a table called 'dashboard_stats' which will contain the following fields:
+
+	'stat_id', 'stat_type', 'stat_label', and 'stat_data'
+
+
+
+'''
