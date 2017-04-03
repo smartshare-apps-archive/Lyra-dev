@@ -141,6 +141,10 @@ body{
 	padding:30px;
 }
 
+.product_tile_header{
+	margin-top:-20px;
+}
+
 
 .product_tile:hover {
 	opacity:0.8;
