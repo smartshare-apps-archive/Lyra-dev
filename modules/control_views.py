@@ -1,17 +1,22 @@
 from flask import render_template
 
+# data visualisation modules (bokeh)
+from bokeh.plotting import figure
+from bokeh.embed import components
+
 #ecomm module imports
 import database.config as config
 from database.product import *
-from database.product_util import *
-
-from database.order_util import *
-
 import database.resources as resources
 import database.order as order
 import database.store as store
 import database.customer as customer
 import database.plugins as plugins
+
+from database.product_util import *
+from database.order_util import *
+
+
 
 from db import *
 
@@ -911,16 +916,15 @@ class ControlPanel(object):
 
 
 
-	# dashboard views
+
+	#dashboard section methods
 
 	def dashboard_Main(self):
 		self.control_data["page"] = "dashboard"
 
-		from bokeh.plotting import figure
-		from bokeh.embed import components
-
-		plot = figure()
-		plot.circle([1,2], [3,4])
+		plot = figure(responsive=True)
+		plot.logo = None #removes bokeh logo
+		plot.line([1,2,3,4,5,6,7], [3,4,1,6,1,8,1])
 
 		script, div = components(plot)
 
