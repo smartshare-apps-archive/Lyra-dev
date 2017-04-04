@@ -200,7 +200,6 @@
 .inner-container{
 	position:relative;
 	font-family: "Roboto", "Arial", sans-serif;
-	color:#333333;
     font-size: 22px;
     font-weight: 200;
     letter-spacing: 0.10em;
@@ -211,9 +210,9 @@
 }
 
 .inner-container h5{
+	color:white;
 	display:inline-block;
 	font-family: "Roboto", "Arial", sans-serif;
-	color:white;
     font-size: 16px;
     font-weight: 200;
     letter-spacing: 0.14em;
@@ -849,18 +848,22 @@ h4{
 
 .pricing {
   padding: 80px 0;
-  padding-top: 170px;
+  padding-top: 0px;
   position: relative;
   z-index: 10;
+  margin-top:-150px;
 }
-.pricing .title {
-  font-size: 36px;
+
+.pricing-title {
+  font-size: 30px;
   font-weight: 300;
   margin-top: 0;
   margin-bottom: 30px;
   color: #fff;
 }
-.pricing .intro {
+
+.pricing-intro {
+  font-size:18px;
   color: #fff;
   margin-bottom: 80px;
 }
