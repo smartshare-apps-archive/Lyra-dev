@@ -58,7 +58,7 @@ function savePageSectionData(event){
 	  traditional: true
 	})
 	  .done(function(status) {
-	  	window.location.reload();
+	  	$( '#page_preview_container' ).attr( 'src', function ( i, val ) { return val; });
 	  });
 	  
 }
@@ -114,7 +114,7 @@ function savePageThemes(event){
 	  traditional: true
 	})
 	  .done(function(status) {
-	  	window.location.reload();
+	  	$( '#page_preview_container' ).attr( 'src', function ( i, val ) { return val; });
 	  });
 	
 }
