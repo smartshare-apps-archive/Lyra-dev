@@ -1,15 +1,19 @@
 <div class="row info-banner-text">
-	<div class="col-md-6 anchor banner-text text-resource" data-anchorID="Left panel text">
-		{% if section_data  %}
-				{{ section_data["Left panel text"]["anchor_value"] | safe }}
-		{% endif %}
-	</div>
+	<div class="jumbotron-info-banner">
+		<div class="container">
+				<div class="row">
+					<div class="col-md-6 anchor banner-text text-resource" data-anchorID="Left panel text">
+						{% if section_data  %}
+								{{ section_data["Left panel text"]["anchor_value"] | safe }}
+						{% endif %}
+					</div>
 
-	<div class="col-md-6 anchor banner-text text-resource" data-anchorID="Right panel text">
-		{% if section_data  %}
-				{{ section_data["Right panel text"]["anchor_value"] | safe }}
-		{% endif %}
-	</div>
-
+					<div class="col-md-6 anchor banner-text text-resource" data-anchorID="Right panel text">
+						{% if section_data  %}
+								{{ section_data["Right panel text"]["anchor_value"] | safe }}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
 </div>
-

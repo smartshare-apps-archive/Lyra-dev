@@ -333,6 +333,35 @@ h4{
 	color:white;
 }
 
+/* dividing header styles */
+
+.jumbotron-dividing-header{
+	padding:0px;
+	margin:0px;
+	background-color:#333333;
+}
+
+.dividing-header{
+	background-color:#333333;
+	height:100px;
+	padding-top:20px;
+}
+
+.dividing-header h2{
+	font-family: "Roboto", "Arial", sans-serif;
+    font-size: 22px;
+    font-weight: 200;
+    letter-spacing: 0.10em;
+ 	margin:0 auto;
+	width:100%;
+	height:auto;
+	padding:20px;
+	color:#fff;
+}
+
+
+/* f*/
+
 
 /* info banner styles */
 
