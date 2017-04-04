@@ -1,0 +1,47 @@
+<div class="faq-question">
+<div class="card">
+<div class="faq-card-front text-center">
+<h4>Why do people love Lyra?</h4>
+</div>
+<div class="faq-card-back">
+<hr>
+<p>Well, there's a few reasons. Lyra's quick, and it's easy to install. You can do it yourself, or hire one of our experts to help.&nbsp;</p>
+</div>
+</div>
+</div>
+<hr>
+
+
+
+.faq-question:hover .card, .faq-question.hover .card {
+		transform: rotateY(180deg);
+	}
+
+.card {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+.faq-card-front, .faq-card-back {
+	backface-visibility: hidden;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* front pane, placed above back */
+.faq-card-front {
+	height:100%;
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.faq-card-back {
+	transform: rotateY(180deg);
+}
+

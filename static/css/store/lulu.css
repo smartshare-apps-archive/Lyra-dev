@@ -701,15 +701,36 @@ h4{
 /* end email capture styles */
 
 /* faq styles */
+.faq-question{
+	padding:20px;
+	border-radius:5px;
+}
+
+.faq-question:hover{
+
+	background-color:rgba(53,53,53,0.1);
+
+}
 
 .faq-question h4{
 	font-size:18px;
 	text-align:left;
 	font-weight:300;
 	margin-top:30px;
+
 }
 
+.hr-responsive{
+
+}
+
+.faq-question:hover .hr-responsive{
+	border-top: 1px solid rgba(53,53,53,0.3);
+}
+
+
 /* end faq styles */
+
 
 /* start features tab styles */
 .features-tabbed {

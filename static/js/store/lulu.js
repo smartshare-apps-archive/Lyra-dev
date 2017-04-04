@@ -15,6 +15,9 @@ function bindTemplateEvents(){
 
 	$("#nav_dropdown_lulu").mouseleave(hideSubmenu);
 
+	$(".faq-question").each(function(){
+		
+	});
 }
 
 
