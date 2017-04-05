@@ -113,12 +113,19 @@ function populatePageData(){
 	label_page_type.val(page_type);
 	page_sections_container.html("");
 
+	var sortableHTML = "<ul id=\"sortable_sections\"></ul>";
+
+	page_sections_container.append(sortableHTML);
+
+	var sortableContainer = $("#sortable_sections");
+
 	for (var i=0;i<page_sections.length;i++){
 		var section_id = page_sections[i];
-		var currentHTML = "<div class=\"section-controls\" data-sectionID=\"" + section_id + "\">";
 		
-		currentHTML += "<button type=\"button\" class=\"btn btn-primary section-move-up\" data-sectionID=\"" + section_id + "\">" + "<span class=\"glyphicon glyphicon-chevron-up\"></span>" + "</button>";
-		currentHTML += "<button type=\"button\" class=\"btn btn-primary section-move-down\" data-sectionID=\"" + section_id + "\">" + "<span class=\"glyphicon glyphicon-chevron-down\"></span>" + "</button>";
+		var currentHTML = "<li class=\"ui-state-default\">";
+		currentHTML += "<div class=\"section-controls\" data-sectionID=\"" + section_id + "\">";
+		
+		currentHTML += "<button type=\"button\" class=\"btn btn-primary change-section-order\" data-sectionID=\"" + section_id + "\">" + "<span class=\"glyphicon glyphicon-th-large\"></span>" + "</button>";
 
 		if(section_id != "content"){
 			currentHTML += "<button type=\"button\" class=\"btn btn-primary section-edit\" data-sectionID=\"" + section_id + "\" data-toggle=\"modal\" data-target=\"#modal_editSection\">" + "<span class=\"glyphicon glyphicon-pencil\"></span>" + "</button>";
@@ -131,24 +138,25 @@ function populatePageData(){
 		}
 
 		currentHTML += "</div>";
+		currentHTML += "</li>";
 
-		page_sections_container.append(currentHTML);
-
+		sortableContainer.append(currentHTML);
 	}
 
+ 
+    $( "#sortable_sections" ).sortable({
+    	handle: '.change-section-order',
+    	cancel: ''
+    });
+    $( "#sortable_sections" ).disableSelection();
+
+    $( "#sortable_sections" ).on( "sortupdate", function( event, ui ) {
+    	updateSectionOrder(page_id);
+
+    } );
+
+
 	var page_url = "/page/" + page_id;
-
-
-	$(".section-move-up").each(function(){
-		var sectionID = $(this).attr('data-sectionID');
-		$(this).click({direction:"up", pageID: page_id, sectionID:sectionID}, changeSectionOrder);
-	});
-
-	$(".section-move-down").each(function(){
-		var sectionID = $(this).attr('data-sectionID');
-		$(this).click({direction:"down", pageID: page_id, sectionID:sectionID}, changeSectionOrder);
-	});
-
 
 	$(".section-edit").each(function(){
 		var sectionID = $(this).attr('data-sectionID');
@@ -169,46 +177,17 @@ function populatePageData(){
 }
 
 
+
 //moves a sections rendering either up or down on the page
-function changeSectionOrder(event){
-	var pageID = event.data.pageID;
-	var sectionID = event.data.sectionID;
-	var direction = event.data.direction;
+function updateSectionOrder(page_id){
+	pageData[page_id]["sections"] = [];
 
-	var currentSectionIndex = pageData[pageID]["sections"].indexOf(sectionID);
+	$("#sortable_sections").find(".section-controls").each(function(){
+		var sectionID = $(this).attr('data-sectionID');
+		pageData[page_id]["sections"].push(sectionID);
+	});	
 
-	var maxSectionIndex = (pageData[pageID]["sections"].length-1);
-	
-	if(currentSectionIndex == maxSectionIndex && direction == "down"){
-		return;
-	}
-	else if(currentSectionIndex == 0 && direction == "up"){
-		return;
-	}
-	else if(direction == "up"){
-		var newIndex = currentSectionIndex - 1;
-		var temp = pageData[pageID]["sections"][newIndex];
-
-		pageData[pageID]["sections"][newIndex] = pageData[pageID]["sections"][currentSectionIndex];
-		pageData[pageID]["sections"][currentSectionIndex] = temp;
-
-		var tempContainer = $(".section-controls" + '[data-sectionID="' + temp + '"]');
-		var currentContainer = $(".section-controls" + '[data-sectionID="' + sectionID + '"]');
-		currentContainer.insertBefore(tempContainer);
-	
-	}
-	else if(direction == "down"){
-		var newIndex = currentSectionIndex + 1;
-		var temp = pageData[pageID]["sections"][newIndex];
-
-		pageData[pageID]["sections"][newIndex] = pageData[pageID]["sections"][currentSectionIndex];
-		pageData[pageID]["sections"][currentSectionIndex] = temp;
-
-		var tempContainer = $(".section-controls" + '[data-sectionID="' + temp + '"]');
-		var currentContainer = $(".section-controls" + '[data-sectionID="' + sectionID + '"]');
-		currentContainer.insertAfter(tempContainer);
-
-	}
+	console.log(pageData[page_id]["sections"]);
 }
 
 

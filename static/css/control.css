@@ -2299,6 +2299,14 @@ top:-1px;
     margin-bottom:10px;
 }
 
+.change-section-order{
+    margin-right: 5px;
+}
+
+#sortable_sections{
+    list-style:none;
+}
+
 .image-preview{
     width:150px;
     height:150px;
