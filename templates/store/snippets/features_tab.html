@@ -1,6 +1,6 @@
 <section class="features-tabbed section">
 	<div class="container">
-		<h2 class="title text-center">Explore Lyra in your industry</h2>
+		<h2 class="title text-center">Explore Lyra </h2>
 		<div class="row">
 			<div class="text-center col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1 col-xs-offset-0">
 
@@ -9,7 +9,7 @@
 					<li class="active">
 					<a href="#feature-1" role="tab" data-toggle="tab"> <!-- glyphicon insert point --> <br />
 					<span class="hidden-sm hidden-xs">
-						Retail
+						User experience
 					</span>
 					</a>
 					</li>
@@ -37,30 +37,66 @@
 				</ul><!--//feature-tabs-->
 				
 				<!-- Feature tab content panes -->
-				<div class="tab-content">
-					<div class="tab-pane fade in active anchor text-resource" data-anchorID="Feature 1" id="feature-1">
-						{% if section_data  %}
-							{{ section_data["Feature 1"]["anchor_value"] | safe }}
-						{% endif %}
+				<div class="feature-tab-contents tab-content">
+					<div class="tab-pane fade in active" id="feature-1">
+
+						<div class="feature-image anchor image-resource" data-anchorID="Feature 1 Image" 
+						{% if section_data %} 
+							style="background-image:url('{{section_data["Feature 1 Image"]["anchor_value"]}}');"
+						{% endif %}>
+						</div>
+
+						<div class="feature-description text-left anchor text-resource" data-anchorID="Feature 1 Description">
+							{% if section_data  %}
+								{{ section_data["Feature 1 Description"]["anchor_value"] | safe }}
+							{% endif %}
+						</div>
 					</div>
 
-					<div class="tab-pane fade in anchor text-resource" data-anchorID="Feature 2" id="feature-2">
-						{% if section_data  %}
-							{{ section_data["Feature 2"]["anchor_value"] | safe }}
-						{% endif %}
+					<div class="tab-pane fade in" id="feature-2">
+
+						<div class="feature-image anchor image-resource" data-anchorID="Feature 2 Image" 
+						{% if section_data %} 
+							style="background-image:url('{{section_data["Feature 2 Image"]["anchor_value"]}}');"
+						{% endif %}>
+						</div>
+
+						<div class="feature-description text-left anchor text-resource" data-anchorID="Feature 2 Description">
+							{% if section_data  %}
+								{{ section_data["Feature 2 Description"]["anchor_value"] | safe }}
+							{% endif %}
+						</div>
 
 					</div>
 
-					<div class="tab-pane fade in anchor text-resource" data-anchorID="Feature 3" id="feature-3">
-						{% if section_data  %}
-							{{ section_data["Feature 3"]["anchor_value"] | safe }}
-						{% endif %}
+					<div class="tab-pane fade in" id="feature-3">
+
+						<div class="feature-image anchor image-resource" data-anchorID="Feature 3 Image" 
+						{% if section_data %} 
+							style="background-image:url('{{section_data["Feature 3 Image"]["anchor_value"]}}');"
+						{% endif %}>
+						</div>
+
+						<div class="feature-description text-left anchor text-resource" data-anchorID="Feature 3 Description">
+							{% if section_data  %}
+								{{ section_data["Feature 3 Description"]["anchor_value"] | safe }}
+							{% endif %}
+						</div>
 					</div>
 
-					<div class="tab-pane fade in anchor text-resource" data-anchorID="Feature 4" id="feature-4">
-						{% if section_data  %}
-							{{ section_data["Feature 4"]["anchor_value"] | safe }}
-						{% endif %}
+					<div class="tab-pane fade in" id="feature-4">
+
+						<div class="feature-image anchor image-resource" data-anchorID="Feature 4 Image" 
+						{% if section_data %} 
+							style="background-image:url('{{section_data["Feature 4 Image"]["anchor_value"]}}');"
+						{% endif %}>
+						</div>
+
+						<div class="feature-description text-left anchor text-resource" data-anchorID="Feature 4 Description">
+							{% if section_data  %}
+								{{ section_data["Feature 4 Description"]["anchor_value"] | safe }}
+							{% endif %}
+						</div>
 					</div>
 			
 				</div><!--//tab-content-->

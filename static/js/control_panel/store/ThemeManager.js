@@ -193,8 +193,6 @@ function updateSectionOrder(page_id){
 		var sectionID = $(this).attr('data-sectionID');
 		pageData[page_id]["sections"].push(sectionID);
 	});	
-
-	console.log(pageData[page_id]["sections"]);
 }
 
 
@@ -260,6 +258,7 @@ function setupResourceEditor(pageID, sectionID, anchorID){
 }
 
 
+
 // populate the section editor modal with currently applicable fields
 function populateSectionFields(event){
 	var pageID = event.data.pageID;
@@ -308,6 +307,7 @@ function addSection(event){
 	var section_template = $("#select_section_snippet").val();
 	var section_id = $("#new_section_id").val();
 
+	// remove this fucking dumb shit soon
 	if(section_id == "" || section_id in pageData[page_id]["sections"]){
 		console.log("exists");
 	}
@@ -338,6 +338,7 @@ function addSection(event){
 
 	populatePageData(); //re-renders the page as well as populates the section control dialogs
 
+
 	savePageThemes(event);
 }
 
@@ -364,6 +365,7 @@ function deleteSection(event){
 function closeEditor(){
 	window.location.href = '/control/store/'	
 }
+
 
 function removeEmpty(value){
 	return value != "";
