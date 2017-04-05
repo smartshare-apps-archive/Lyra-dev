@@ -122,7 +122,7 @@ function populatePageData(){
 	for (var i=0;i<page_sections.length;i++){
 		var section_id = page_sections[i];
 		
-		var currentHTML = "<li class=\"ui-state-default\">";
+		var currentHTML = "<li class=\"ui-state-default section-controls-container\" data-sectionID=\"" + section_id + "\">";
 		currentHTML += "<div class=\"section-controls\" data-sectionID=\"" + section_id + "\">";
 		
 		currentHTML += "<button type=\"button\" class=\"btn btn-primary change-section-order\" data-sectionID=\"" + section_id + "\">" + "<span class=\"glyphicon glyphicon-th-large\"></span>" + "</button>";
@@ -134,7 +134,7 @@ function populatePageData(){
 		currentHTML += "<button type=\"button\" class=\"btn btn-default section-btn\">" + section_id + "</button>";
 
 		if(section_id != "content"){
-			currentHTML += "<button type=\"button\" class=\"btn btn-danger section-delete\" data-sectionID=\"" + section_id + "\">" + "<span class=\"glyphicon glyphicon-minus-sign\"></span>" + "</button>";
+			currentHTML += "<button type=\"button\" data-toggle=\"modal\" data-target=\"#modal_deleteSection\" class=\"btn btn-danger section-delete\" data-sectionID=\"" + section_id + "\">" + "<span class=\"glyphicon glyphicon-minus-sign\"></span>" + "</button>";
 		}
 
 		currentHTML += "</div>";
@@ -167,7 +167,14 @@ function populatePageData(){
 
 	$(".section-delete").each(function(){
 		var sectionID = $(this).attr('data-sectionID');
-		$(this).click({pageID: page_id, sectionID:sectionID}, deleteSection);
+
+		$(this).click(function(){
+			var btn_deleteSection = $("#btn_deleteSection");
+			btn_deleteSection.unbind();
+
+			btn_deleteSection.click({pageID: page_id, sectionID:sectionID}, deleteSection);
+		});
+
 	});
 
 
@@ -338,6 +345,7 @@ function addSection(event){
 function deleteSection(event){
 	var page_id = event.data.pageID;
 	var section_id = event.data.sectionID;
+	var selectorString = '[data-sectionID="' + section_id + '"]';
 
 	delete pageData[page_id]["section_data"][section_id];
 
@@ -345,6 +353,9 @@ function deleteSection(event){
 
 	pageData[page_id]["sections"].splice(currentIndex, 1);
 
+	var containerToDelete = $(".section-controls-container" + selectorString);
+
+	containerToDelete.remove();
 	savePageThemes(event);
 }
 

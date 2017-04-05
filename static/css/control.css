@@ -2295,6 +2295,11 @@ top:-1px;
 
 }
 
+.modal-message{
+    padding-left:20px;
+    margin-bottom:20px;
+}
+
 .section-controls{
     margin-bottom:10px;
 }

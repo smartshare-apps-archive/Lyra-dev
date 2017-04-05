@@ -834,7 +834,7 @@ class ControlPanel(object):
 		if resource_dict:
 			self.control_data["resources"] = resource_dict
 			
-		self.control_data["modals"] = [render_template("control_panel/store_settings/modal_edit_section.html"), render_template("control_panel/store_settings/modal_add_section.html")]
+		self.control_data["modals"] = [render_template("control_panel/store_settings/modal_edit_section.html"), render_template("control_panel/store_settings/modal_add_section.html"), render_template("control_panel/store_settings/modal_delete_section.html")]
 
 		return render_template("control_panel/store_settings/ThemeManager.html", control_data = self.control_data)
 
