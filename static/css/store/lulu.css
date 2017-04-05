@@ -917,6 +917,8 @@ h4{
 	font-family: "Roboto", "Arial", sans-serif;
     font-size: 20px;
     font-weight:400;
+    color:rgba(53,53,53,1.0);
+    margin-top:25px;
     margin-bottom:15px;
 }
 
@@ -924,7 +926,7 @@ h4{
 	font-family: "Roboto", "Arial", sans-serif;
     font-size: 16px;
     font-weight:200;
-
+    color:rgba(53,53,53,0.8);
 }
 /* end features tab styles */
 
