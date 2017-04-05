@@ -360,7 +360,47 @@ h4{
 }
 
 
-/* f*/
+/* signup banner styles */
+
+.jumbotron-signup-banner{
+	padding:0px;
+	margin:0px;
+	background-color:rgb(92,182,94);
+}
+
+.signup-banner{
+	margin-top:-30px;
+	background-color:rgb(92,182,94);
+	height:250px;
+	padding-top:30px;
+}
+
+.signup-banner h2{
+	font-family: "Roboto", "Arial", sans-serif;
+    font-size: 36px;
+  	font-weight: 300;
+    
+ 	margin:0 auto;
+	width:100%;
+	height:auto;
+	padding:20px;
+	color:#fff;
+}
+
+.btn-trial-signup{
+	background-color:#333333;
+	color:white;
+	font-family: "Roboto", "Arial", sans-serif;
+	height:60px;
+	width:200px;
+}
+
+.btn-trial-signup:hover{
+	background-color:#333333;
+	color:white;
+	font-family: "Roboto", "Arial", sans-serif;
+}
+
 
 
 /* info banner styles */

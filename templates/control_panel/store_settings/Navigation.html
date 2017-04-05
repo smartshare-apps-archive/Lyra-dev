@@ -29,23 +29,12 @@
 						        </td>
 								<td class="text-center"><input type="text" class="form-control rename_category" value="{{nav_category}}" data-navCategory="{{nav_category}}"></td> 
 								{% if nav_resources["type"] == "dropdown_list" %} 
-									<td class="text-center"> 
-									<select class="form-control"> 
-										<option value="dropdown" selected> Dropdown </option> 
-										<option value="single_link"> Single Link </option> 
-									</select> 
-									</td>
+									<td class="text-center"> Dropdown </td>
 									<input type="hidden" class="nav_data dropdown" data-navCategory="{{nav_category}}" value="{{nav_resources.resource}}">
 
 								{% elif nav_resources["type"] == "single_link" %}
 									<input type="hidden" class="nav_data single" data-navCategory="{{nav_category}}" value="{{nav_resources.resource}}">
-									<td class="text-center"> 									
-
-									<select class="form-control"> 
-										<option value="dropdown"> Dropdown </option> 
-										<option value="single_link" selected> Single Link </option> 
-									</select> 
-									</td>
+									<td class="text-center"> Single Link </td>
 								{% endif %}
 								<input type="hidden" class="resource_id" data-navCategory="{{nav_category}}" value="{{nav_resources.resource_id}}">
 

@@ -1,0 +1,13 @@
+<div class="row signup-banner">
+	<div class="jumbotron jumbotron-signup-banner">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 text-center anchor banner-text text-resource" data-anchorID="Header text">
+					{% if section_data  %}
+							{{ section_data["Header text"]["anchor_value"] | safe }}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
