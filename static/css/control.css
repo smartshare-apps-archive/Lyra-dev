@@ -1939,11 +1939,25 @@ top:-1px;
 
 /* order products table */
 #order-details-row{
-
+    
 }
 
 .order-detail{
     border-right:1px solid rgba(53,53,53,0.3);
+    height:80px;
+}
+
+.order-detail-header{
+    height:30px;
+    display:inline-block;
+}
+
+.order-detail-value{
+    display:inline-block;
+    margin-top:10px;
+    font-size:18px;
+    font-weight:100;
+    font-family:"Roboto";
 }
 
 #order_products_table {

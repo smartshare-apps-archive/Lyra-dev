@@ -19,31 +19,31 @@
 				<div class="panel panel-default" id="panel_order_details">
 					<div class="row" id="order-details-row">
 						<div class="col-sm-4 order-detail text-center">
-							<h4> Order ID </h4> <hr class="hidden-xs hidden-sm"> <b>{{control_data.order_data.order_id}}</b>
+							<h4 class="order-detail-header"> Order ID: </h4> <hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">{{control_data.order_data.order_id}}</b>
 						</div>
 
-						<hr class="hidden-md hidden-lg hidden-xl">
+						<hr class="hidden-sm hidden-md hidden-lg hidden-xl">
 
 						<div class="col-sm-2 order-detail text-center">
-							<h4>Order Subtotal </h4> <hr class="hidden-xs hidden-sm"> <b>${{ '%0.2f' % control_data.order_data.SubTotal }} </b>
+							<h4 class="order-detail-header">Order Subtotal: </h4> <hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">${{ '%0.2f' % control_data.order_data.SubTotal }} </b>
 						</div>
 
-						<hr class="hidden-md hidden-lg hidden-xl">
+						<hr class="hidden-sm hidden-md hidden-lg hidden-xl">
 
 						<div class="col-sm-2 order-detail text-center">
-							<h4>Shipping Total </h4> <hr class="hidden-xs hidden-sm"> <b>${{ '%0.2f' % control_data.order_data.ShippingTotal }}</b>
+							<h4 class="order-detail-header">Shipping Total: </h4> <hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">${{ '%0.2f' % control_data.order_data.ShippingTotal }}</b>
 						</div>
 
-						<hr class="hidden-md hidden-lg hidden-xl">
+						<hr class="hidden-sm hidden-md hidden-lg hidden-xl">
 
 						<div class="col-sm-2 order-detail text-center">
-							<h4>Tax</h4> <hr class="hidden-xs hidden-sm"> <b>${{ '%0.2f' % control_data.order_data.TaxTotal }} </b>
+							<h4 class="order-detail-header">Tax:</h4> <hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">${{ '%0.2f' % control_data.order_data.TaxTotal }} </b>
 						</div>
 
-						<hr class="hidden-md hidden-lg hidden-xl">
+						<hr class="hidden-sm hidden-md hidden-lg hidden-xl">
 
 						<div class="col-sm-2 text-center">
-							<h4>Order Total </h4><hr class="hidden-xs hidden-sm"> <b>${{ '%0.2f' % control_data.order_data.OrderTotal }} </b>
+							<h4 class="order-detail-header">Order Total: </h4><hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">${{ '%0.2f' % control_data.order_data.OrderTotal }} </b>
 						</div>
 
 					</div>
