@@ -8,7 +8,7 @@
 	</div>	
 </div>
 
-
+<div class="container">
 <div class="row">
 	<!-- Begin order editor content div -->
 	<div class="col-xs-12 tab_content">
@@ -119,12 +119,21 @@
 				<div class="panel panel-default" id="panel_order_customer">
 					<h4> Customer info</h4>
 					<hr>
-					<div class="thumbnail_customer_60"> </div>
 					<div class="customer_info_panel"> 
-					<a href="#"> {{control_data.customer_data.FirstName}} {{control_data.customer_data.LastName}} </a> <br>
-					<a href="#"> {{control_data.customer_data.Email}} </a>
+					Name: <a href="/control/customers/{{control_data.customer_data.customer_id}}"> {{control_data.customer_data.ShippingFirstName}} {{control_data.customer_data.ShippingLastName}} </a> <br>
+					Email: <a href="#">  {{control_data.customer_data.Email}} </a><br>
+					Customer ID: <a href="/control/customers/{{control_data.customer_data.customer_id}}"> {{control_data.customer_data.customer_id}} </a> <br>
+
+					Accepts marketing:
+					{% if control_data.customer_data.accepts_marketing == "true" %}
+						Yes
+					{% else %}
+						No
+					{% endif %}
 					<br>
-					Accepts Marketing
+					
+
+
 					</div>
 					<hr style="clear:left;">
 					
@@ -158,7 +167,7 @@
 	</div>
 	<!-- End order editor content div -->
 </div>
-
+</div>
 
 <div class="row">
 	<div class="col-xs-12" id="footer_products">	
