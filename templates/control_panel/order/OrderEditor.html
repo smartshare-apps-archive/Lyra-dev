@@ -8,165 +8,167 @@
 	</div>	
 </div>
 
-<div class="container">
 <div class="row">
-	<!-- Begin order editor content div -->
-	<div class="col-xs-12 tab_content">
-		<div class="row">
-		<!-- begin order editor left panel -->
-			<div class="col-lg-10" id="order_editor_left_panel">
-				<!-- begin order details panel -->
-				<div class="panel panel-default" id="panel_order_details">
-					<div class="row" id="order-details-row">
-						<div class="col-sm-4 order-detail text-center">
-							<h4 class="order-detail-header"> Order ID: </h4> <hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">{{control_data.order_data.order_id}}</b>
+	<div class="container">
+	<div class="row">
+		<!-- Begin order editor content div -->
+		<div class="col-xs-12 tab_content">
+			<div class="row">
+			<!-- begin order editor left panel -->
+				<div class="col-lg-10" id="order_editor_left_panel">
+					<!-- begin order details panel -->
+					<div class="panel panel-default" id="panel_order_details">
+						<div class="row" id="order-details-row">
+							<div class="col-sm-4 order-detail text-center">
+								<h4 class="order-detail-header"> Order ID: </h4> <hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">{{control_data.order_data.order_id}}</b>
+							</div>
+
+							<hr class="hidden-sm hidden-md hidden-lg hidden-xl">
+
+							<div class="col-sm-2 order-detail text-center">
+								<h4 class="order-detail-header">Order Subtotal: </h4> <hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">${{ '%0.2f' % control_data.order_data.SubTotal }} </b>
+							</div>
+
+							<hr class="hidden-sm hidden-md hidden-lg hidden-xl">
+
+							<div class="col-sm-2 order-detail text-center">
+								<h4 class="order-detail-header">Shipping Total: </h4> <hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">${{ '%0.2f' % control_data.order_data.ShippingTotal }}</b>
+							</div>
+
+							<hr class="hidden-sm hidden-md hidden-lg hidden-xl">
+
+							<div class="col-sm-2 order-detail text-center">
+								<h4 class="order-detail-header">Tax:</h4> <hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">${{ '%0.2f' % control_data.order_data.TaxTotal }} </b>
+							</div>
+
+							<hr class="hidden-sm hidden-md hidden-lg hidden-xl">
+
+							<div class="col-sm-2 text-center">
+								<h4 class="order-detail-header">Order Total: </h4><hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">${{ '%0.2f' % control_data.order_data.OrderTotal }} </b>
+							</div>
+
+						</div>
+						
+						<div class="row">
+							<hr>
+							<div class="col-xs-12">
+								{{ control_data.table_orderProducts | safe }}
+							</div>
+
+						</div>
+						
+						<div class="row">
+							<hr>
+							<div class="col-xs-12">
+								<h4 id="payment_status_message"> 
+								{% if control_data.order_data.PaymentStatus == "unpaid" %}
+									<span class="glyphicon glyphicon-remove">
+								{% elif control_data.order_data.PaymentStatus == "pending" %}
+									<span class="glyphicon glyphicon-time">
+								{% elif control_data.order_data.PaymentStatus == "paid" %}
+									<span class="glyphicon glyphicon-ok">
+								{% endif %}
+
+								</span> &nbsp; Payment status: &nbsp;&nbsp;
+								{% if control_data.order_data.PaymentStatus == "unpaid" %}
+									A payment has not yet been submitted.
+								{% elif control_data.order_data.PaymentStatus == "pending" %}
+									A payment has been submitted and is pending.
+								{% elif control_data.order_data.PaymentStatus == "paid" %}
+									A payment of <b>${{control_data.order_data.OrderTotal}}</b> has been accepted.
+								{% endif %}
+								</h4> 
+							</div>
 						</div>
 
-						<hr class="hidden-sm hidden-md hidden-lg hidden-xl">
+						<div class="row">
+							<hr>
+							<div class="col-xs-12">
+							{% if control_data.order_data.FulfillmentStatus == "unfulfilled" %}
 
-						<div class="col-sm-2 order-detail text-center">
-							<h4 class="order-detail-header">Order Subtotal: </h4> <hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">${{ '%0.2f' % control_data.order_data.SubTotal }} </b>
-						</div>
+								<h4 id="payment_shipping_message"> <span class="glyphicon glyphicon-road"></span>
+								&nbsp;&nbsp; Buy postage and ship out this order <button type="button" class="btn btn-primary" id="btn_shipOrder">Continue</button>
 
-						<hr class="hidden-sm hidden-md hidden-lg hidden-xl">
+								</h4>
 
-						<div class="col-sm-2 order-detail text-center">
-							<h4 class="order-detail-header">Shipping Total: </h4> <hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">${{ '%0.2f' % control_data.order_data.ShippingTotal }}</b>
-						</div>
-
-						<hr class="hidden-sm hidden-md hidden-lg hidden-xl">
-
-						<div class="col-sm-2 order-detail text-center">
-							<h4 class="order-detail-header">Tax:</h4> <hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">${{ '%0.2f' % control_data.order_data.TaxTotal }} </b>
-						</div>
-
-						<hr class="hidden-sm hidden-md hidden-lg hidden-xl">
-
-						<div class="col-sm-2 text-center">
-							<h4 class="order-detail-header">Order Total: </h4><hr class="hr-sm-margin hidden-xs hidden-sm hidden-md"> <b class="order-detail-value">${{ '%0.2f' % control_data.order_data.OrderTotal }} </b>
-						</div>
-
-					</div>
-					
-					<div class="row">
-						<hr>
-						<div class="col-xs-12">
-							{{ control_data.table_orderProducts | safe }}
-						</div>
-
-					</div>
-					
-					<div class="row">
-						<hr>
-						<div class="col-xs-12">
-							<h4 id="payment_status_message"> 
-							{% if control_data.order_data.PaymentStatus == "unpaid" %}
-								<span class="glyphicon glyphicon-remove">
-							{% elif control_data.order_data.PaymentStatus == "pending" %}
-								<span class="glyphicon glyphicon-time">
-							{% elif control_data.order_data.PaymentStatus == "paid" %}
-								<span class="glyphicon glyphicon-ok">
+							{% elif control_data.order_data.FulfillmentStatus == "fulfilled" %}
+								<h4 id="payment_shipping_message"> <span class="glyphicon glyphicon-ok"></span>
+								&nbsp;&nbsp; All items were shipped.
+								</h4>
 							{% endif %}
-
-							</span> &nbsp; Payment status: &nbsp;&nbsp;
-							{% if control_data.order_data.PaymentStatus == "unpaid" %}
-								A payment has not yet been submitted.
-							{% elif control_data.order_data.PaymentStatus == "pending" %}
-								A payment has been submitted and is pending.
-							{% elif control_data.order_data.PaymentStatus == "paid" %}
-								A payment of <b>${{control_data.order_data.OrderTotal}}</b> has been accepted.
-							{% endif %}
-							</h4> 
+							</div>
 						</div>
 					</div>
-
-					<div class="row">
-						<hr>
-						<div class="col-xs-12">
-						{% if control_data.order_data.FulfillmentStatus == "unfulfilled" %}
-
-							<h4 id="payment_shipping_message"> <span class="glyphicon glyphicon-road"></span>
-							&nbsp;&nbsp; Buy postage and ship out this order <button type="button" class="btn btn-primary" id="btn_shipOrder">Continue</button>
-
-							</h4>
-
-						{% elif control_data.order_data.FulfillmentStatus == "fulfilled" %}
-							<h4 id="payment_shipping_message"> <span class="glyphicon glyphicon-ok"></span>
-							&nbsp;&nbsp; All items were shipped.
-							</h4>
-						{% endif %}
+					<!-- end order details panel -->
+					{% if control_data.order_timeline %}
+						<!-- begin order timeline -->
+						<div class="panel panel-default" id="panel_order_timeline">
+							{{ control_data.order_timeline | safe }}
 						</div>
-					</div>
-				</div>
-				<!-- end order details panel -->
-				{% if control_data.order_timeline %}
-					<!-- begin order timeline -->
-					<div class="panel panel-default" id="panel_order_timeline">
-						{{ control_data.order_timeline | safe }}
-					</div>
-					<!-- end order timeline -->
-				{% endif %}
-
-
-
-
-			</div>
-		<!-- end order editor left panel -->
-		
-		<!-- begin order editor right panel -->
-			<div class="col-lg-2" id="order_editor_right_panel">
-				<!-- begin order customer panel -->
-				<div class="panel panel-default" id="panel_order_customer">
-					<h4> Customer info</h4>
-					<hr>
-					<div class="customer_info_panel"> 
-					Name: <a href="/control/customers/{{control_data.customer_data.customer_id}}"> {{control_data.customer_data.ShippingFirstName}} {{control_data.customer_data.ShippingLastName}} </a> <br>
-					Email: <a href="#">  {{control_data.customer_data.Email}} </a><br>
-					Customer ID: <a href="/control/customers/{{control_data.customer_data.customer_id}}"> {{control_data.customer_data.customer_id}} </a> <br>
-
-					Accepts marketing:
-					{% if control_data.customer_data.accepts_marketing == "true" %}
-						Yes
-					{% else %}
-						No
+						<!-- end order timeline -->
 					{% endif %}
-					<br>
-					
 
 
-					</div>
-					<hr style="clear:left;">
-					
-					<h4> Shipping Information <a href="#" data-toggle="modal" data-target="#modal_editShippingAddress" style="float:right;"> Edit </a> </h4>
-					<br>
 
-					<div class="customer_info_address">
-						<a href="#"> {{control_data.order_data.ShippingFirstName}} {{control_data.order_data.ShippingLastName}} </a> <br>
-						{{ control_data.order_data.ShippingAddress }} <br>
-						{{ control_data.order_data.ShippingCity }} {{ control_data.order_data.ShippingState }}, {{ control_data.order_data.ShippingPostalCode }} <br>
-						{{ control_data.order_data.ShippingCountry }}
-					</div>
-
-					<hr>
-					<h4> Billing Address </h4>
-					<br>
-
-					<div class="customer_info_address">
-						<a href="#"> {{control_data.order_data.ShippingFirstName}} {{control_data.order_data.ShippingLastName}} </a> <br>
-						{{ control_data.order_data.ShippingAddress }} <br>
-						{{ control_data.order_data.ShippingCity }} {{ control_data.order_data.ShippingState }}, {{ control_data.order_data.ShippingPostalCode }} <br>
-						{{ control_data.order_data.ShippingCountry }}
-					</div>
 
 				</div>
-				<!-- end order customer panel -->
-			</div>
-		<!-- end order editor right panel -->
+			<!-- end order editor left panel -->
+			
+			<!-- begin order editor right panel -->
+				<div class="col-lg-2" id="order_editor_right_panel">
+					<!-- begin order customer panel -->
+					<div class="panel panel-default" id="panel_order_customer">
+						<h4> Customer info</h4>
+						<hr>
+						<div class="customer_info_panel"> 
+						Name: <a href="/control/customers/{{control_data.customer_data.customer_id}}"> {{control_data.customer_data.ShippingFirstName}} {{control_data.customer_data.ShippingLastName}} </a> <br>
+						Email: <a href="#">  {{control_data.customer_data.Email}} </a><br>
+						Customer ID: <a href="/control/customers/{{control_data.customer_data.customer_id}}"> {{control_data.customer_data.customer_id}} </a> <br>
 
+						Accepts marketing:
+						{% if control_data.customer_data.accepts_marketing == "true" %}
+							Yes
+						{% else %}
+							No
+						{% endif %}
+						<br>
+						
+
+
+						</div>
+						<hr style="clear:left;">
+						
+						<h4> Shipping Information <a href="#" data-toggle="modal" data-target="#modal_editShippingAddress" style="float:right;"> Edit </a> </h4>
+						<br>
+
+						<div class="customer_info_address">
+							<a href="#"> {{control_data.order_data.ShippingFirstName}} {{control_data.order_data.ShippingLastName}} </a> <br>
+							{{ control_data.order_data.ShippingAddress }} <br>
+							{{ control_data.order_data.ShippingCity }} {{ control_data.order_data.ShippingState }}, {{ control_data.order_data.ShippingPostalCode }} <br>
+							{{ control_data.order_data.ShippingCountry }}
+						</div>
+
+						<hr>
+						<h4> Billing Address </h4>
+						<br>
+
+						<div class="customer_info_address">
+							<a href="#"> {{control_data.order_data.ShippingFirstName}} {{control_data.order_data.ShippingLastName}} </a> <br>
+							{{ control_data.order_data.ShippingAddress }} <br>
+							{{ control_data.order_data.ShippingCity }} {{ control_data.order_data.ShippingState }}, {{ control_data.order_data.ShippingPostalCode }} <br>
+							{{ control_data.order_data.ShippingCountry }}
+						</div>
+
+					</div>
+					<!-- end order customer panel -->
+				</div>
+			<!-- end order editor right panel -->
+
+			</div>
 		</div>
+		<!-- End order editor content div -->
 	</div>
-	<!-- End order editor content div -->
-</div>
+	</div>
 </div>
 
 <div class="row">
