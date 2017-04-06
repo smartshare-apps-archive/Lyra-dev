@@ -574,11 +574,14 @@ class ControlPanel(object):
 		return render_template("control_panel/order/OrderEditor.html", control_data = self.control_data)
 
 
+
+
 	def order_addDraft(self):
 		formattedProductList = loadAllProducts(self.database)
 		self.control_data["products"] = formattedProductList
 		self.control_data["page"] = "order_editor_draft_new"
 		return render_template("control_panel/order/OrderEditor_addDraft.html", control_data = self.control_data)
+
 
 
 

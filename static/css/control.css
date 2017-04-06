@@ -1431,18 +1431,11 @@ h4 {
 .flex-panel {
     flex:1;
     padding:10px;
+    margin-top:10px;
+    display:flex;
+    flex-direction: column;
 }
 
-#product_editor_panel{
-	flex:1;
-	padding:10px;
-	
-}
-
-#product_editor_attributes{
-	flex:1;
-	padding:10px;
-}
 
 
 #product_description {
@@ -1975,6 +1968,10 @@ top:-1px;
     margin-bottom:20px;
 }
 
+.order_product_fulfillment_status{
+
+}
+
 .order_product{
     margin-top:10px;
     height:200px;
@@ -1993,6 +1990,28 @@ top:-1px;
 .order_product:hover{
     opacity:0.8;
 }
+
+
+.order_product_fulfillment{
+    margin-top:10px;
+    height:200px;
+    width:100%;
+    border:1px solid rgba(53,53,53,0.5);
+    background-repeat:no-repeat;
+    background-size:contain;
+    background-position:center;
+    background-origin:content-box;
+    padding:10px;
+    margin-right:20px;
+    border-radius:5px;
+
+}
+
+.order_product_fulfillment:hover{
+    opacity:0.8;
+    cursor:pointer;
+}
+
 
 
 .order_product_info{
