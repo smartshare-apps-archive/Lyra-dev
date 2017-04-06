@@ -2018,9 +2018,6 @@ top:-1px;
 
 
 
-
-
-
 /* end order products table  */
 
 
@@ -2037,6 +2034,7 @@ top:-1px;
     margin-top:10px;
     display:flex;
     flex-direction: column;
+
 }
 
 
