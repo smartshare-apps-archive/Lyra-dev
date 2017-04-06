@@ -17,32 +17,43 @@
 			<div class="col-md-8" id="order_editor_left_panel">
 				<!-- begin order details panel -->
 				<div class="panel panel-default" id="panel_order_details">
-					<h4> Order details: &nbsp;&nbsp;
+					<div class="row" id="order-details-row">
+						<div class="col-sm-4 order-detail text-center">
+							<h4> Order ID </h4> <hr class="hidden-xs hidden-sm"> <b>{{control_data.order_data.order_id}}</b>
+						</div>
 
-					{% if control_data.order_data.FulfillmentStatus == "fulfilled" %} 
-						<button type="button" class="btn btn-success" id="btn_fulfillmentStatus">Fulfilled</button>
-					{% elif control_data.order_data.FulfillmentStatus == "unfulfilled" %}
-						<button type="button" class="btn btn-danger" id="btn_fulfillmentStatus">Unfulfilled</button>
-					{% endif %}
+						<hr class="hidden-md hidden-lg hidden-xl">
 
-					</h4> 
+						<div class="col-sm-2 order-detail text-center">
+							<h4>Order Subtotal </h4> <hr class="hidden-xs hidden-sm"> <b>${{ '%0.2f' % control_data.order_data.SubTotal }} </b>
+						</div>
 
+						<hr class="hidden-md hidden-lg hidden-xl">
+
+						<div class="col-sm-2 order-detail text-center">
+							<h4>Shipping Total </h4> <hr class="hidden-xs hidden-sm"> <b>${{ '%0.2f' % control_data.order_data.ShippingTotal }}</b>
+						</div>
+
+						<hr class="hidden-md hidden-lg hidden-xl">
+
+						<div class="col-sm-2 order-detail text-center">
+							<h4>Tax</h4> <hr class="hidden-xs hidden-sm"> <b>${{ '%0.2f' % control_data.order_data.TaxTotal }} </b>
+						</div>
+
+						<hr class="hidden-md hidden-lg hidden-xl">
+
+						<div class="col-sm-2 text-center">
+							<h4>Order Total </h4><hr class="hidden-xs hidden-sm"> <b>${{ '%0.2f' % control_data.order_data.OrderTotal }} </b>
+						</div>
+
+					</div>
 					
 					<div class="row">
 						<hr>
 						<div class="col-xs-12">
 							{{ control_data.table_orderProducts | safe }}
 						</div>
-						<div class="col-xs-6">
-							Add a note to this order:<br><br>
-							<input type="text" id="order_note_input">
-						</div>
-						<div class="col-xs-6" id="order_subtotal">
-							<span class="order_field">Subtotal:</span> &nbsp;&nbsp;&nbsp;<b><span class="order_value">${{ '%0.2f' % control_data.order_data.SubTotal }} </span></b><br>
-							<span class="order_field">Shipping:</span> &nbsp;&nbsp;&nbsp;<b><span class="order_value">${{ '%0.2f' % control_data.order_data.ShippingTotal }} </span></b><br>
-							<span class="order_field">Tax:</span> &nbsp;&nbsp;&nbsp;<b>	<span class="order_value">${{ '%0.2f' % control_data.order_data.TaxTotal }} </span></b><br>
-							<span class="order_field">Total:</span> &nbsp;&nbsp;&nbsp;<b>	<span class="order_value">${{ '%0.2f' % control_data.order_data.OrderTotal }} </span></b>
-						</div>
+
 					</div>
 					
 					<div class="row">

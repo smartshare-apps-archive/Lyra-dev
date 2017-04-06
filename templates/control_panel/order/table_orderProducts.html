@@ -1,35 +1,31 @@
 
-  <table class="table table-bordered table-hover" id="order_products_table">
-  <thead>
-  <th id="th_thumbnail"></th>
-  <th></th>
-  <th id="th_sku"></th>
-  <th></th>
+<div id="order_products_table">
+	<div class="container">
+		<div class="row" id="order_products_row">
+			{% for product_id, product in products.iteritems() %}
+				<div class="col-sm-3 order_product_container">
+					
+					<a href="/control/products/{{product_id}}">
+						<h4 class="order_product_title"> {{product.Title}} </h4>	
+						<div class="order_product hvr-float" data-productID="{{product_id}}" style="background-image:url('{{product_thumbnails[product_id]}}');">
+								
+						</div>
+					</a>
 
-  </thead>
- 	<tbody>
- 	{% for product_id, product in products.iteritems() %}
- 	<tr id="product_{{product.product_id}}">
- 		
- 		<td class="thumbnail_product_40"> 
- 		<input type="hidden" class="product_img_src" id="{{product.product_id}}" value="{{product_thumbnails[product_id]}}"> 
- 		</td>
- 		<td> <a href="/control/products/{{product_id}}"> {{ product.Title }} </a><hr>SKU: {{product.VariantSKU}} </td>
- 		<td> ${{ '%0.2f' % product.VariantPrice }} <span class="order_quantity"> x {{ product.quantity }} </span> <hr>
+					<div class="order_product_info" data-productID="{{product_id}}">
+							SKU: {{product.VariantSKU}} <br>
+							Quantity: {{ product.quantity }} <br>
+							Price/Unit: ${{ '%0.2f' % product.VariantPrice }} <br>
+							Item total: ${{ '%0.2f' % subtotals[product.VariantSKU] }}
+					</div>
+				</div>
+				<hr class="hidden-sm hidden-md hidden-lg hidden-xl">
 
- 		</td>
- 		<td class="order_item_total"> ${{ '%0.2f' % subtotals[product.VariantSKU] }}</td>
+			{% endfor %}
+		</div>
+		<hr>
 
-
- 	</tr>
- 	{% endfor %}
-
-
- 	</tbody>
-  </table>	
-
-
-
-
+	</div>
+</div>
 
 
