@@ -2097,8 +2097,24 @@ top:-1px;
 @media(min-width:992px){
 
 }
-@media(min-width:1200px){
 
+@media(min-width:1200px){
+    .order-details-container{
+        width:75%;
+    }
+
+
+    .order-fulfillment-container{
+        width:75%;
+    }
+
+    .product-editor-container{
+        width:75%;
+    }
+
+    .customer-editor-container{
+         width:75%;
+    }
 }
 
 
