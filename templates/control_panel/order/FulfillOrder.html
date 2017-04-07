@@ -51,7 +51,7 @@
 							<div class="row">
 								<hr>
 								<div class="col-xs-12">
-									<button type="button" class="btn btn-primary disabled"> Add to shipment </button>
+									<button type="button" class="btn btn-primary disabled" data-toggle="modal" data-target="#modal_createShipment"> Create new shipment &nbsp;<span class="glyphicon glyphicon-plus"></span> </button>
 									<button type="button" class="btn btn-success disabled"> Mark as fulfilled </button>
 
 								</div>
@@ -62,6 +62,12 @@
 						<!-- begin order products table -->
 						<div class="col-xs-12">
 							{{ control_data.table_orderProducts | safe }}
+
+							<!-- populate shipment data for this order -->
+							{% for shipment_id, shipment_data in control_data.shipping_data.iteritems() %}
+								<input type="text" class="shipment-data" data-shipmentID="{{shipment_id}}" value="{{shipment_data}}">
+							{% endfor %}
+
 						</div>
 						<!-- end order products table -->
 					</div>

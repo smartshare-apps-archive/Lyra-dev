@@ -10,16 +10,16 @@
           </a>
             <div class="order_product_fulfillment_status">
 
-              <div class="order_product_fulfillment hvr-float" data-productID="{{product_id}}" style="background-image:url('{{product_thumbnails[product_id]}}');">
+              <div class="order_product_fulfillment hvr-float" data-productID="{{product_id}}" data-productSKU="{{product.VariantSKU}}" style="background-image:url('{{product_thumbnails[product_id]}}');">
                   
-                  <div class="order-fulfillment-glyph" data-productID="{{product_id}}"> 
+                  <div class="order-fulfillment-glyph" data-productID="{{product_id}}" data-productSKU="{{product.VariantSKU}}"> 
                     
                   </div>
               </div>
             </div>
          
 
-          <div class="order_product_info" data-productID="{{product_id}}">
+          <div class="order_product_info" data-productID="{{product_id}}" data-productSKU="{{product.VariantSKU}}">
               SKU: {{product.VariantSKU}} <br>
               Quantity: {{ product.quantity }} <br>
               Price/Unit: ${{ '%0.2f' % product.VariantPrice }} <br>
@@ -27,7 +27,11 @@
           </div>
         </div>
         <hr class="hidden-sm hidden-md hidden-lg hidden-xl">
-
+        
+        <!-- begin data containers for order products -->
+          <input type="hidden" class="order-product-qty" data-productSKU="{{product.VariantSKU}}" value="{{product.quantity}}">
+        <!-- end data containers for order products -->
+      
       {% endfor %}
     </div>
     <hr>

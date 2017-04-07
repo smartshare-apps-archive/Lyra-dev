@@ -607,7 +607,7 @@ class ControlPanel(object):
 		subtotals = {product["VariantSKU"]: int(product["quantity"])*float(product["VariantPrice"]) for product_id, product in products.iteritems()}	
 
 		self.control_data["table_orderProducts"] = render_template("control_panel/order/table_orderProducts_fulfillment.html", products=products, product_thumbnails=product_thumbnails, subtotals=subtotals)
-		self.control_data["fulfillment_editor_modals"] = [render_template("control_panel/order/modal_fulfillmentEditor.html", customer_data = customerData, order_data = orderData)]
+		self.control_data["fulfillment_editor_modals"] = [render_template("control_panel/order/modal_createShipment.html"), render_template("control_panel/order/modal_fulfillmentEditor.html", customer_data = customerData, order_data = orderData)]
 
 		self.control_data["customer_data"] = customerData
 		self.control_data["order_data"] = orderData

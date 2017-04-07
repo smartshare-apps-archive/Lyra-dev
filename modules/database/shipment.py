@@ -8,6 +8,7 @@ import product
 from product_util import *
 from order_util import *
 
+import shippo
 
 def loadOrderShipments(orderID, database):
 	currentQuery = "SELECT shipment_id,order_id,TrackingNumber,ShipmentDate,Carrier,SKU_List FROM shipping WHERE order_id=%s;"
@@ -17,13 +18,16 @@ def loadOrderShipments(orderID, database):
 	except Exception as e:
 		return None
 
-	order = database.fetchone()
+	order_shipments = database.fetchall()
 
-	
-	if order:
+	if order_shipments:
 		formattedShipmentData = {}
-		for i in range(len(shipmentColumnMappings)):
-			formattedShipmentData[shipmentColumnMappings[i]] = order[i]
-		return formattedShipmentData
+		for i in range(len(order_shipments)):
+			currentShipmentID = str(order_shipments[i][0])
+			formattedShipmentData[currentShipmentID] = {}
+
+			for j in range(len(shipmentColumnMappings)):
+				formattedShipmentData[currentShipmentID][shipmentColumnMappings[j]] = order_shipments[i][j]
+			return formattedShipmentData	
 	else:
 		return None

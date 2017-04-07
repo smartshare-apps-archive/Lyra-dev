@@ -12,12 +12,15 @@ var fulfillmentMethod = "mark_fulfilled"
 
 // store shipping info in case of updates
 var shippingInfo = {}
-var fulfillmentData;
+var fulfillmentData = {};
+var shippingData = {};
 
 
 $(document).ready(function(){
 	bindElements();
 	bindEvents();
+
+	parseShippingData();
 	updateItemFulfillmentState();
 });
 
@@ -49,20 +52,71 @@ function bindEvents(){
 }
 
 
+
+
+// parses the shipment data for this order to allow for the viewing of tracking info and shipping labels
+function parseShippingData(){
+	// go through each shipment linked to this order by order_id
+	$(".shipment-data").each(function(){
+
+		var shipment_id = $(this).attr('data-shipmentID');
+		var currentShipmentData = replaceAll($(this).val(),'u\'','\'');
+
+		// bunch of garbage cleanup for JSON parsing (replace later)
+		currentShipmentData = replaceAll(currentShipmentData, '\'', '\"');
+		currentShipmentData = replaceAll(currentShipmentData, 'L,', ',');
+		currentShipmentData = replaceAll(currentShipmentData, 'L}', '}');
+		currentShipmentData = JSON.parse(currentShipmentData);
+
+		shippingData[shipment_id] = currentShipmentData;
+	});
+
+	// go through each parcel to determine which products it contains
+	for (shipment_id in shippingData){
+		var shipment_products = shippingData[shipment_id]["SKU_List"].split(';');
+
+		shipment_products.pop();	// remove last empty element from list of products and their quantities
+
+		// extract current fulfillment data for each product 
+		for(var i=0;i<shipment_products.length;i++){
+			var currentProduct = shipment_products[i].split(':');
+			
+			var product_sku = currentProduct[0];
+			var product_qty = parseInt(currentProduct[1]);
+			
+			if(product_sku in fulfillmentData){
+				fulfillmentData[product_sku] += product_qty;
+			}
+			else{
+				fulfillmentData[product_sku] = product_qty;
+			}
+		}
+
+	}
+
+}
+
+
+
+
+
 function updateItemFulfillmentState(){
 	$(".order-fulfillment-glyph").each(function(){
-		var product_id = $(this).attr('data-productID');
+		var product_sku = $(this).attr('data-productSKU');
+		var selectorString = '[data-productSKU="' + product_sku + '"]';
+		var product_qty = parseInt($(".order-product-qty" + selectorString).val());
 
-		/*
-		console.log(fulfillmentData[product_id]);
+		console.log(fulfillmentData[product_sku]);
 
-		if(fulfillmentData[product_id] == 0){
+		if(fulfillmentData[product_sku] < product_qty || (!(product_sku in fulfillmentData))){
 			$(this).html("<span class=\"glyph-fulfilled glyphicon glyphicon-remove\"></span>");
 		}
+
 		else{
 			$(this).html("<span class=\"glyph-fulfilled glyphicon glyphicon-ok\"></span>");		
-			}
-		*/
+		}
+	
+
 	});
 }
 
