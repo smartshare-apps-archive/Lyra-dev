@@ -46,43 +46,28 @@
 					<h4> Items to fulfill: </h4>
 					<!-- begin order details -->
 					<div class="row">
+						<!-- begin fulfillment toolbar  -->
+						<div id="fulfullment-toolbar-container">
+							<div class="row">
+								<hr>
+								<div class="col-xs-12">
+									<button type="button" class="btn btn-primary disabled"> Add to shipment </button>
+									<button type="button" class="btn btn-success disabled"> Mark as fulfilled </button>
+
+								</div>
+							</div>
+						</div>
+						<!-- end fulfillment toolbar -->
 						<hr>
+						<!-- begin order products table -->
 						<div class="col-xs-12">
 							{{ control_data.table_orderProducts | safe }}
 						</div>
+						<!-- end order products table -->
 					</div>
 					<!-- begin order details -->
 
 					<br>
-
-					<!-- begin fulfillment option -> buy label -->
-					<div id="cont_buy_label">
-						<h4> Buy a label </h4>
-						<div class="row">
-							<hr>
-							<div class="col-xs-12">
-
-
-
-							</div>
-						</div>
-						
-					</div>
-					<!-- end fulfillment option -> buy label -->
-
-					<!-- begin fulfillment option -> mark fulfilled -->
-					<div id="cont_mark_fulfilled">
-						<h4> Shipment information: </h4>
-						<div class="row">
-							<hr>
-							<div class="col-xs-12">
-
-
-
-							</div>
-						</div>
-					</div>
-					<!-- end fulfillment option -> mark fulfilled -->
 					</div>
 						
 			</div>
@@ -142,12 +127,11 @@
 	</div>
 
 
-
-
-
 <input type="hidden" id="order_id" value="{{control_data.order_data.order_id}}">
 
 
-{{ control_data.fulfillment_editor_modals | safe }}
+{% for modal in control_data.fulfillment_editor_modals %}
+		{{ modal | safe }}
+{% endfor %}
 
 {% endblock page_content %}

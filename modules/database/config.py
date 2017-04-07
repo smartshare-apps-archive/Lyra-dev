@@ -30,6 +30,10 @@ orderColumnMappings = [
 	"BillingPostalCode","BillingCountry","BillingFirstName","BillingLastName", "BillingState","token_id","charge_id","order_creation_method"
 ]
 
+shipmentColumnMappings = [
+	"shipment_id","order_id","TrackingNumber","ShipmentDate","Carrier","SKU_List"
+]
+
 
 customerColumnMappings = [
 	"customer_id","user_id","Email","Phone","ShippingFirstName","ShippingLastName","ShippingAddress1","ShippingAddress2","ShippingCity","ShippingState","ShippingPostalCode","ShippingCountry","BillingFirstName","BillingLastName",
@@ -52,6 +56,7 @@ eventColumnMappings = [
 userColumnMappings = [
 	"user_id", "customer_id", "username", "level", "is_active", "last_login", "created_on", "order_list"
 ]
+
 
 
 collectionRuleMappings = {
@@ -158,6 +163,15 @@ orderFieldMapping = {
 	"charge_id":"TEXT"
 }
 
+
+shipmentFieldMapping = {
+	"shipment_id":"INTEGER",
+	"order_id":"INTEGER",
+	"TrackingNumber":"TEXT",
+	"ShipmentDate":"TEXT",
+	"Carrier":"TEXT",
+	"SKU_List":"TEXT"
+}
 
 
 customerFieldMapping = {

@@ -12,6 +12,7 @@ import database.order as order
 import database.store as store
 import database.customer as customer
 import database.plugins as plugins
+import database.shipment as shipment
 
 from database.product_util import *
 from database.order_util import *
@@ -595,6 +596,9 @@ class ControlPanel(object):
 		#load the products in this order
 		products = order.loadOrderProducts(orderData["SKU_List"], self.database)
 
+		#loads the shipping information for products in this order
+		shipping_data = shipment.loadOrderShipments(order_id, self.database)
+
 		product_thumbnails = {}
 		for product_id, product in products.iteritems():
 			imageURI = resources.loadResourceURI(product["ImageSrc"], self.database)
@@ -603,11 +607,12 @@ class ControlPanel(object):
 		subtotals = {product["VariantSKU"]: int(product["quantity"])*float(product["VariantPrice"]) for product_id, product in products.iteritems()}	
 
 		self.control_data["table_orderProducts"] = render_template("control_panel/order/table_orderProducts_fulfillment.html", products=products, product_thumbnails=product_thumbnails, subtotals=subtotals)
-		self.control_data["fulfillment_editor_modals"] = render_template("control_panel/order/modal_fulfillmentEditor.html", customer_data = customerData, order_data = orderData)
+		self.control_data["fulfillment_editor_modals"] = [render_template("control_panel/order/modal_fulfillmentEditor.html", customer_data = customerData, order_data = orderData)]
 
 		self.control_data["customer_data"] = customerData
 		self.control_data["order_data"] = orderData
 		self.control_data["product_data"] = products
+		self.control_data["shipping_data"] = shipping_data
 
 		return render_template("control_panel/order/FulfillOrder.html", control_data = self.control_data)
 
