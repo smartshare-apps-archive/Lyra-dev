@@ -154,11 +154,17 @@ function toggleProductSelection(event){
 	
 	if(nSelectedProducts > 0){
 		btn_createNewShipment.toggleClass("disabled",false);
+		btn_markFulfilled.toggleClass("disabled",false);
+
 		btn_createNewShipment.attr('data-toggle','modal');
+		btn_markFulfilled.attr('data-toggle','modal');
 	}
 	else{
 		btn_createNewShipment.toggleClass("disabled",true);
+		btn_markFulfilled.toggleClass("disabled",true);
+
 		btn_createNewShipment.removeAttr("data-toggle");
+		btn_markFulfilled.removeAttr("data-toggle");
 	}
 }
 

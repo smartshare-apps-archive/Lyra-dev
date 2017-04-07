@@ -23,27 +23,9 @@
 				
 				<!-- begin fulfillment details panel -->
 				<div class="panel panel-default" id="panel_fulfillment_details">
-					<h4> <a href="/control/orders/{{control_data.order_id}}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left"></span> &nbsp; Back to order </button></a> &nbsp;&nbsp; Fulfillment Method </h4>
-					<!-- begin fulfillment method choice -->
-					<div class="row">
-						<hr>
-						<div class="col-xs-12" id="fulfillmentMethod">
-							<div class="btn-group-vertical" id="btn_group_fulfillment">
-
-						        <label class="btn btn-default btn_fulfillment">
-   									<input type="checkbox" class="chk_fulfillment" id="btn_buyLabel"> <span class="span_fulfillment"> Buy and print a shipping label </span>
-								</label>
-
-								<label class="btn btn-default btn_fulfillment">
-   									<input type="checkbox"  class="chk_fulfillment" id="btn_markFulfilled" checked> <span class="span_fulfillment"> Mark as fulfilled </span>
-								</label>
-								
-							</div>
-						</div>
-					</div>
-					<!-- end fulfillment method choice -->
+					<h4> <a href="/control/orders/{{control_data.order_id}}"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left"></span> &nbsp; Back to order </button></a> &nbsp;&nbsp; Order Fulfillment </h4>
+					
 					<br>
-					<h4> Items to fulfill: </h4>
 					<!-- begin order details -->
 					<div class="row">
 						<!-- begin fulfillment toolbar  -->
@@ -52,7 +34,8 @@
 								<hr>
 								<div class="col-xs-12">
 									<button type="button" id="btn_createNewShipment" class="btn btn-primary disabled" data-target="#modal_createShipment"> Create new shipment &nbsp;<span class="glyphicon glyphicon-plus"></span> </button>
-									<button type="button" class="btn btn-success disabled"> Mark as fulfilled </button>
+									<button type="button" id="btn_markFulfilled" class="btn btn-success disabled" data-target="#modal_markFulfilled"> Mark as fulfilled 
+									&nbsp;<span class="glyphicon glyphicon-ok"></span></button>
 
 								</div>
 							</div>
@@ -99,21 +82,7 @@
 					<h4> Summary </h4>
 					<hr>
 
-					<div id="cont_summary_fulfill">
-						<h5> Mark fulfilled: </h5>
-						<hr>
-						<div class="row">
-								<div class="col-xs-12 text-center">
-									<button type="button" class="btn btn-success btn_fulfill" data-toggle="modal" data-target="#modal_markFulfilled"> Update order fulfillment </button>
-								</div>
-						</div>
-
-					</div>
-
-					<div id="cont_summary_buy_label">
-						<h4> Buy label </h4>
-
-					</div>
+					
 
 				</div>
 				<!-- end fulfillment summary panel -->
