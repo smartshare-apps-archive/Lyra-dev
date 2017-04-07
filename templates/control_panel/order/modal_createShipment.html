@@ -12,10 +12,21 @@
         <div id="shipment_products_table">
         </div>
         <div class="text-center" id="gen_shipment_cont">
+          <hr>
+          <h4> Select Carrier: </h4>
+          <select class="form-control" id="select_shipping_from_address"> </select>
+          <hr>
+          <h4> Ship from: </h4>
+          <select class="form-control" id="select_shipping_from_address"> </select>
+          <hr>
+          <h4> Ship to: </h4>
+          <select class="form-control" id="select_shipping_to_address"> </select>
+          <hr>
           <button class="btn btn-primary" id="btn_genShipmentObj"> Create New Shipment </button><br><br>
           
           <div id="wait-glyph">Generating shipping labels, please wait... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></div>
           <hr>
+
           <div id="shipment_output_cont"></div>
 
         </div>

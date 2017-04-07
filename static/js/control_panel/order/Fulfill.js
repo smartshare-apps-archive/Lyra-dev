@@ -28,6 +28,8 @@ $(document).ready(function(){
 	bindEvents();
 
 	populateProductData();
+	populateShippingInfo();
+
 	parseShippingData();
 	updateItemFulfillmentState();
 });
@@ -59,6 +61,9 @@ function bindEvents(){
 }
 
 
+function populateShippingInfo(){
+	
+}
 
 
 // parses the shipment data for this order to allow for the viewing of tracking info and shipping labels
@@ -237,7 +242,7 @@ function toggleProductSelection(event){
 		btn_markFulfilled.attr('data-toggle','modal');
 
 		populateProductTable();
-		
+
 		bindShipmentModalEvents();
 	}
 	else{
