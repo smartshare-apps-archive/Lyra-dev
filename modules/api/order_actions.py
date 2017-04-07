@@ -134,7 +134,7 @@ def createShipmentObject():
 
 	address_to = {
 		"name": "Mr Hippo",
-		"street1": "Broadway 1",
+		"street1": "1231 Broadway",
 		"city": "New York",
 		"state": "NY",
 		"zip": "10007",
@@ -158,6 +158,21 @@ def createShipmentObject():
 	    parcels = [parcel],
 	    async = False
 	)
+
+	rate = shipment.rates[0]
+
+	# Purchase the desired rate. 
+	transaction = shippo.Transaction.create( 
+	rate=rate.object_id, 
+	label_file_type="PDF", 
+	async=False )
+
+	# Retrieve label url and tracking number or error message
+	if transaction.status == "SUCCESS":
+		print transaction.label_url
+		print transaction.tracking_number
+	else:
+		print transaction.messages
 
 	db = db_handle()
 	database = db.cursor()

@@ -8,7 +8,7 @@ from product_util import *
 #load single product by product_id
 def loadProduct(product_id, productDatabase):
 	try:
-		productDatabase.execute("SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE product_id=%s;", [product_id] )
+		productDatabase.execute("SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE product_id=%s;", [product_id] )
 	except Exception as e:
 		print "Exception: ", e
 		return None
@@ -30,11 +30,11 @@ def loadProduct(product_id, productDatabase):
 def loadProductBySKU(variantSKU, productDatabase):
 	variantData = None 
 	if len(variantSKU.split('-')) == 1:
-		productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=%s;""",(variantSKU, ))
+		productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=%s;""",(variantSKU, ))
 	else:
 		product_id = variantSKU.split('-')[0]
 		variantData = loadProductVariantBySKU(variantSKU, productDatabase)
-		productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=%s;""",(product_id, ))
+		productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=%s;""",(product_id, ))
 
 	productData = productDatabase.fetchone()
 
@@ -55,7 +55,7 @@ def loadProductBySKU(variantSKU, productDatabase):
 
 def loadProductVariant(variant_id, productDatabase):
 	currentQuery = """SELECT variant_id, VariantSKU, product_id, VariantData, VariantPrice, VariantCompareAtPrice, VariantGrams, VariantWeightUnit, VariantInventoryQty,
-				      VariantImg, VariantTaxCode, VariantTaxable, VariantBarcode, VariantRequiresShipping FROM product_variants WHERE variant_id = %s;"""
+				      VariantImg, VariantTaxCode, VariantTaxable,VariantWeightUnit,VariantGrams, VariantBarcode, VariantRequiresShipping FROM product_variants WHERE variant_id = %s;"""
 	try:
 		productDatabase.execute(currentQuery, (variant_id, ))
 	except Exception as e:
@@ -77,7 +77,7 @@ def loadProductVariant(variant_id, productDatabase):
 
 def loadProductVariants(product_id, productDatabase):
 	currentQuery = """SELECT variant_id, VariantSKU, product_id, VariantData, VariantPrice, VariantCompareAtPrice, VariantGrams, VariantWeightUnit, VariantInventoryQty,
-				      VariantImg, VariantTaxCode, VariantTaxable, VariantBarcode, VariantRequiresShipping FROM product_variants WHERE product_id = %s;"""
+				      VariantImg, VariantTaxCode, VariantTaxable,VariantWeightUnit,VariantGrams, VariantBarcode, VariantRequiresShipping FROM product_variants WHERE product_id = %s;"""
 	try:
 		productDatabase.execute(currentQuery, (product_id, ))
 	except Exception as e:
@@ -105,7 +105,7 @@ def loadProductVariants(product_id, productDatabase):
 #loads a variant by it's SKU
 def loadProductVariantBySKU(VariantSKU, productDatabase):
 	currentQuery = """SELECT variant_id, VariantSKU, product_id, VariantData, VariantPrice, VariantCompareAtPrice, VariantGrams, VariantWeightUnit, VariantInventoryQty,
-				      VariantImg, VariantTaxCode, VariantTaxable, VariantBarcode, VariantRequiresShipping FROM product_variants WHERE VariantSKU = %s;"""
+				      VariantImg, VariantTaxCode, VariantTaxable,VariantWeightUnit,VariantGrams, VariantBarcode, VariantRequiresShipping FROM product_variants WHERE VariantSKU = %s;"""
 	try:
 		productDatabase.execute(currentQuery, (VariantSKU, ))
 	except Exception as e:
@@ -131,7 +131,7 @@ def loadAllProducts(productDatabase):
 	formattedProductList = collections.OrderedDict()
 
 	#select all products in database, including variants
-	productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products;""")
+	productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products;""")
 
 	productList = productDatabase.fetchall()
 

@@ -2059,7 +2059,57 @@ top:-1px;
     padding-left:20px;
 }
 
+#btn_genShipmentObj {
+    display:inline-block;
+}
 
+#shipment-gen-progress-cont{
+    display:inline-block;
+
+
+
+}
+
+.fa-spin-custom, .glyphicon-spin {
+    -webkit-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+
+#wait-glyph{
+    display:none;
+}
+
+#shipment-gen-progress-bar{
+
+}
+
+.valign {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
 
 /* end order products table  */
 

@@ -113,6 +113,8 @@ function bulkDeleteOrders(event){
 /* functions to deal with shipment generation and fulfillment */
 
 function createShipmentObject(event){
+	$("#wait-glyph").css("display","block");
+
 	$.ajax({
 	  method: "POST",
 	  url: "/actions/createShipmentObject",
@@ -121,7 +123,11 @@ function createShipmentObject(event){
 	  traditional: true
 	})
 	  .done(function( shipment_obj ) {
+
 	  		console.log(shipment_obj);
+	  		$("#wait-glyph").css("display","none");
+	  		$("#shipment_output_cont").html("Success.");
+
 	  });
 
 }

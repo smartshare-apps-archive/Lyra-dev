@@ -15,7 +15,7 @@ generalSettings = {
 
 
 productColumnMappings = [
-		"product_id","VariantSKU","VariantPrice","VariantCompareAtPrice","VariantInventoryQty","VariantTaxable","Title","BodyHTML","Vendor","Type","Tags","Published","ImageSrc","ImageAltText","VariantTypes","resources"
+		"product_id","VariantSKU","VariantPrice","VariantCompareAtPrice","VariantInventoryQty","VariantTaxable","VariantWeightUnit","VariantGrams","Title","BodyHTML","Vendor","Type","Tags","Published","ImageSrc","ImageAltText","VariantTypes","resources"
 ]
 
 
@@ -73,6 +73,7 @@ collectionRuleMappings = {
 productFieldMapping = {
 	"VariantSKU":"TEXT",
 	"VariantPrice":"REAL",
+	"VariantWeightUnit":"TEXT",
 	"VariantCompareAtPrice":"REAL",
 	"VariantTaxable":"INTEGER",
 	"VariantInventoryPolicy":"TEXT",
