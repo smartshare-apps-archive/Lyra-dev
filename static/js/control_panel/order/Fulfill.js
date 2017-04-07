@@ -14,6 +14,7 @@ var fulfillmentMethod = "mark_fulfilled"
 var shippingInfo = {}
 var fulfillmentData = {};
 var shippingData = {};
+var selectedProducts = {};
 
 
 $(document).ready(function(){
@@ -43,11 +44,6 @@ function bindEvents(){
 	//btn_buyLabel.click(toggle_fulfillmentMethod);
 	//btn_markFulfilled.click(toggle_fulfillmentMethod);
 
-
-	$(".order_product_fulfillment").each(function(){
-		var product_id = $(this).attr('data-productID');
-		$(this).click({product_id: product_id}, selectOrderProduct);
-	});
 
 }
 
@@ -106,14 +102,21 @@ function updateItemFulfillmentState(){
 		var selectorString = '[data-productSKU="' + product_sku + '"]';
 		var product_qty = parseInt($(".order-product-qty" + selectorString).val());
 
-		console.log(fulfillmentData[product_sku]);
-
+		// this item is not fulfilled, so it is clickable to allow adding to package
 		if(fulfillmentData[product_sku] < product_qty || (!(product_sku in fulfillmentData))){
 			$(this).html("<span class=\"glyph-fulfilled glyphicon glyphicon-remove\"></span>");
+				
+				// on click enabled
+				$(".order_product_fulfillment" + selectorString).click({product_sku: product_sku}, toggleProductSelection);		
 		}
 
+		// this item has been fulfilled
 		else{
-			$(this).html("<span class=\"glyph-fulfilled glyphicon glyphicon-ok\"></span>");		
+			$(this).html("<span class=\"glyph-fulfilled glyphicon glyphicon-ok\"></span>");	
+
+			// unbind any click events and reset the cursor to standard
+			$(".order_product_fulfillment" + selectorString).css('cursor','initial');
+			$(".order_product_fulfillment" + selectorString).unbind();
 		}
 	
 
@@ -122,16 +125,29 @@ function updateItemFulfillmentState(){
 
 
 
-function selectOrderProduct(event){
-	var product_id = event.data.product_id;
-	var selectorString = '[data-productID="' + product_id + '"]';
+function toggleProductSelection(event){
+	var product_sku = event.data.product_sku;
+	var selectorString = '[data-productSKU="' + product_sku + '"]';
 
 	var currentProductContainer = $(".order_product_fulfillment" + selectorString);
 
-	currentProductContainer.css({
-		'opacity':'1.0',
-		'border':'3px solid #5CB85C'
-	});
+	if(product_sku in selectedProducts){
+		delete selectedProducts[product_sku];
+
+		currentProductContainer.css({
+			'opacity':'1.0',
+			'border':'1px solid black'
+		});
+	}
+	else{
+		selectedProducts[product_sku] = product_sku;
+		
+		currentProductContainer.css({
+			'opacity':'1.0',
+			'border':'3px solid #5CB85C'
+		});
+	}
+	
 }
 
 
