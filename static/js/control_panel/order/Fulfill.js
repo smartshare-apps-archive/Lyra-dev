@@ -1,6 +1,7 @@
 var btn_buyLabel;
 var btn_markFulfilled;
 var btn_btn_fulfillItems;
+var btn_createNewShipment;
 
 var cont_buy_label;
 var cont_mark_fulfilled;
@@ -30,6 +31,7 @@ function bindElements(){
 	btn_buyLabel = $("#btn_buyLabel");
 	btn_markFulfilled = $("#btn_markFulfilled");
 	btn_fulfillItems = $("#btn_fulfillItems");
+	btn_createNewShipment = $("#btn_createNewShipment");
 
 	cont_buy_label = $("#cont_buy_label");
 	cont_mark_fulfilled = $("#cont_mark_fulfilled");
@@ -148,6 +150,16 @@ function toggleProductSelection(event){
 		});
 	}
 	
+	var nSelectedProducts = Object.keys(selectedProducts).length;
+	
+	if(nSelectedProducts > 0){
+		btn_createNewShipment.toggleClass("disabled",false);
+		btn_createNewShipment.attr('data-toggle','modal');
+	}
+	else{
+		btn_createNewShipment.toggleClass("disabled",true);
+		btn_createNewShipment.removeAttr("data-toggle");
+	}
 }
 
 
