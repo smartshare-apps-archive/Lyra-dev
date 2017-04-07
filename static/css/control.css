@@ -1925,6 +1925,8 @@ top:-1px;
 
 
 /* order products table */
+
+
 #order-details-row{
     
 }
@@ -2026,16 +2028,28 @@ top:-1px;
     
 }
 
+.product-editor-container{
+    width:75%;
+}
+
+.customer-editor-container{
+    width:75%;
+}
 
 .order_product_title{
     height:40px;
 
 }
 
+.order-details-container{
+    width:75%;
+}
 
 
 
-
+.order-fulfillment-container{
+    width:75%;
+}
 
 /* end order products table  */
 

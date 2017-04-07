@@ -31,7 +31,6 @@ def create_order(response, order_contents, customer_info):
 
 	order_details["Date"] = (datetime.date.today())
 	order_details["SKU_List"] = (formatted_sku_list[:-1])
-	order_details["SKU_Fulfilled"] = formatted_sku_fulfillment[:-1]
 
 	order_details["SubTotal"] = float(subtotal)
 	order_details["TaxTotal"] = 0.00

@@ -15,7 +15,7 @@
 
 	<div class="col-xs-12 tab_content">
 
-		<div class="container-fluid">
+		<div class="container-fluid order-fulfillment-container">
 
 		<div class="row">
 		<!-- begin fulfillment editor left panel -->
@@ -49,7 +49,6 @@
 						<hr>
 						<div class="col-xs-12">
 							{{ control_data.table_orderProducts | safe }}
-							<input type="hidden" id="sku_fulfillment" value="{{control_data.order_data.SKU_Fulfilled}}">
 						</div>
 					</div>
 					<!-- begin order details -->
@@ -73,7 +72,7 @@
 
 					<!-- begin fulfillment option -> mark fulfilled -->
 					<div id="cont_mark_fulfilled">
-						<h4> Order tracking </h4>
+						<h4> Shipment information: </h4>
 						<div class="row">
 							<hr>
 							<div class="col-xs-12">

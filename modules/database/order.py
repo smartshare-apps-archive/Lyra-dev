@@ -9,7 +9,7 @@ from product_util import *
 from order_util import *
 
 def loadOrder(orderID, database):
-	currentQuery = """SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,SKU_Fulfilled,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
+	currentQuery = """SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
 					ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE order_id = %s;"""
 	
 	try:
@@ -32,7 +32,7 @@ def loadOrder(orderID, database):
 
 
 def loadOrderByToken(tokenID, database):
-	currentQuery = "SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,SKU_Fulfilled,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE token_id = %s;"
+	currentQuery = "SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE token_id = %s;"
 	
 	try:
 		database.execute(currentQuery,(tokenID,))
@@ -51,7 +51,7 @@ def loadOrderByToken(tokenID, database):
 
 
 def loadOrderByCharge(chargeID, database):
-	currentQuery = "SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,SKU_Fulfilled,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE charge_id = %s;"
+	currentQuery = "SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE charge_id = %s;"
 	
 	try:
 		database.execute(currentQuery,(chargeID,))
@@ -91,7 +91,7 @@ def loadOrderProducts(SKU_List, database):
 def loadAllOrders(database):
 	formattedOrderList = collections.OrderedDict()
 
-	currentQuery = """SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,SKU_Fulfilled,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
+	currentQuery = """SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
 					ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName, BillingState,token_id,charge_id,order_creation_method FROM orders ORDER BY order_id DESC;"""
 	
 	try:
@@ -118,7 +118,7 @@ def loadAllOrders(database):
 def loadAllDraftOrders(database):
 	formattedOrderList = collections.OrderedDict()
 
-	currentQuery = """SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,SKU_Fulfilled,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
+	currentQuery = """SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
 					ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName, BillingState,token_id,charge_id,order_creation_method FROM orders WHERE order_creation_method="manual" ORDER BY order_id DESC;"""
 	
 	try:
@@ -144,7 +144,7 @@ def loadAllDraftOrders(database):
 def loadCustomerOrders(customer_id, database):
 	formattedOrderList = collections.OrderedDict()
 
-	currentQuery = """SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,SKU_Fulfilled,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
+	currentQuery = """SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
 	ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE customer_id = %s ORDER BY order_id DESC; """
 	
 
@@ -255,26 +255,6 @@ def deleteOrder(database, token_id):
 		print e
 
 
-
-def updateOrderFulfillment(SKU_Fulfilled, order_id, database):
-	order_data = loadOrder(order_id, database)
-
-	if (order_data["SKU_List"] == SKU_Fulfilled):
-		currentQuery = """UPDATE orders SET SKU_Fulfilled=%s, FulfillmentStatus="fulfilled" WHERE order_id=%s;"""
-		try:
-			database.execute(currentQuery, (SKU_Fulfilled, order_id, ))
-		except Exception as e:
-			print "Error: ", e
-			return False
-	else:
-		currentQuery = """UPDATE orders SET SKU_Fulfilled=%s, FulfillmentStatus="unfulfilled" WHERE order_id=%s;"""
-		try:
-			database.execute(currentQuery, (SKU_Fulfilled, str(order_id), ))
-		except Exception as e:
-			print "Error: ", e
-			return False
-
-	return True
 
 
 

@@ -41,12 +41,12 @@ function markOrderFulfillment(event){
 
 	for (key in fulfillmentData){
 		var sku = key;
+		
 		var quantity = String(fulfillmentData[sku]);
-
-		formattedFulfillmentData += (sku + ";" + quantity + ",")
+		formattedFulfillmentData += (sku + ";" + quantity + ",");
 	}
-	formattedFulfillmentData = formattedFulfillmentData.slice(0,-1);
 
+	formattedFulfillmentData = formattedFulfillmentData.slice(0,-1);
 	
 	$.ajax({
 	  method: "POST",
@@ -58,15 +58,11 @@ function markOrderFulfillment(event){
 	  .done(function( order_id ) {
 	  	location.href = "/control/orders/" + order_id;
 	  });
-	 
-
-
 }
 
 
 
 // bulk functions
-
 function bulkMarkFulfillment(event){
 	var order_id_list = [];
 

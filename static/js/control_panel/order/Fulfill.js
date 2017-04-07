@@ -18,8 +18,7 @@ var fulfillmentData;
 $(document).ready(function(){
 	bindElements();
 	bindEvents();
-	loadProductThumbnails();
-	getFulfillmentData();
+	updateItemFulfillmentState();
 });
 
 
@@ -40,58 +39,51 @@ function bindElements(){
 function bindEvents(){
 	btn_buyLabel.click(toggle_fulfillmentMethod);
 	btn_markFulfilled.click(toggle_fulfillmentMethod);
-	btn_fulfillItems.click(markOrderFulfillment);
 
-	// for the shipping address change modal
-	$("#modal_editShippingAddress").find('.form-control').each(function(){
-		field = $(this).attr('id').split('_')[0];
-		shippingInfo[field] = $(this).val();
-		$(this).change(registerShippingChange);
-	});
 
-	$(".product_row").each(function(){
+	$(".order_product_fulfillment").each(function(){
 		var product_id = $(this).attr('data-productID');
-		var product_sku = $(this).attr('data-productSKU');
+		$(this).click({product_id: product_id}, selectOrderProduct);
+	});
 
-		var product_quantity = $(this).find(".product_quantity").val();
-		var select_quantity = $(this).find(".select_product_quantity");
-		//select_quantity.val(product_quantity);
+}
 
-		select_quantity.change({product_sku:product_sku}, updateFulfillmentData);
+
+function updateItemFulfillmentState(){
+	$(".order-fulfillment-glyph").each(function(){
+		var product_id = $(this).attr('data-productID');
+
+		/*
+		console.log(fulfillmentData[product_id]);
+
+		if(fulfillmentData[product_id] == 0){
+			$(this).html("<span class=\"glyph-fulfilled glyphicon glyphicon-remove\"></span>");
+		}
+		else{
+			$(this).html("<span class=\"glyph-fulfilled glyphicon glyphicon-ok\"></span>");		
+			}
+		*/
 	});
 }
 
 
 
-function updateFulfillmentData(event){
-	var product_sku = event.data.product_sku;
-	var selectorString = '[data-productSKU="' + product_sku + '"]';
+function selectOrderProduct(event){
+	var product_id = event.data.product_id;
+	var selectorString = '[data-productID="' + product_id + '"]';
 
-	var select_quantity = $("select" + selectorString);
-	var fulfillment_quantity = parseInt(select_quantity.val());
+	var currentProductContainer = $(".order_product_fulfillment" + selectorString);
 
-	fulfillmentData[product_sku] = fulfillment_quantity;
+	currentProductContainer.css({
+		'opacity':'1.0',
+		'border':'3px solid #5CB85C'
+	});
 }
 
 
-function getFulfillmentData(){
-	fulfillmentData = {}
-	var raw_fulfillmentData = $("#sku_fulfillment").val();
-	
-	raw_fulfillmentData = raw_fulfillmentData.split(',');
 
-	for(var i=0;i<raw_fulfillmentData.length;i++){
-		var current_item = raw_fulfillmentData[i].split(';');
-		fulfillmentData[current_item[0]] = current_item[1];
-	}
-}
 
-function registerShippingChange(event){
-	var element = $(event.target);
-	var newValue = $(element).val();
-	var field = event.target.id.split('_')[0];
-	shippingInfo[field] = newValue;
-}
+
 
 
 
@@ -130,10 +122,4 @@ function toggle_fulfillmentMethodPanels(){
 
 
 
-function loadProductThumbnails(){
-	$(".thumbnail_product_40").each(function(){
-		var currentImageURL = $(this).find('.product_img_src').val();
-		$(this).css('background-image',"url('"+currentImageURL+"')");
-	});
 
-}
