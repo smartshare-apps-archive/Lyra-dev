@@ -35,31 +35,6 @@ function req_filterOrders(searchTerm, currentSearchFilter, orderData){
 
 
 
-function markOrderFulfillment(event){
-	var formattedFulfillmentData = ""; 
-	var order_id = $("#order_id").val();
-
-	for (key in fulfillmentData){
-		var sku = key;
-		
-		var quantity = String(fulfillmentData[sku]);
-		formattedFulfillmentData += (sku + ";" + quantity + ",");
-	}
-
-	formattedFulfillmentData = formattedFulfillmentData.slice(0,-1);
-	
-	$.ajax({
-	  method: "POST",
-	  url: "/actions/markOrderFulfillment",
-	  dataType: "json",
-	  data: { sku_fulfilled: JSON.stringify(formattedFulfillmentData), order_id: JSON.stringify(order_id) },
-	  traditional: true
-	})
-	  .done(function( order_id ) {
-	  	location.href = "/control/orders/" + order_id;
-	  });
-}
-
 
 
 // bulk functions
@@ -133,3 +108,20 @@ function bulkDeleteOrders(event){
 	 
 }
 
+
+
+/* functions to deal with shipment generation and fulfillment */
+
+function createShipmentObject(event){
+	$.ajax({
+	  method: "POST",
+	  url: "/actions/createShipmentObject",
+	  dataType: "json",
+	  data: { order_id: JSON.stringify(order_id) },
+	  traditional: true
+	})
+	  .done(function( shipment_obj ) {
+	  		console.log(shipment_obj);
+	  });
+
+}

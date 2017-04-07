@@ -170,13 +170,8 @@ function populateProductTable(){
 }
 
 
-function range(start, end, inc){
-	var a = [];
-	for(var i=start;i<=end;i+=inc){
-		a.push(i);
-	}
-	return a
-}
+
+
 
 
 
@@ -242,6 +237,8 @@ function toggleProductSelection(event){
 		btn_markFulfilled.attr('data-toggle','modal');
 
 		populateProductTable();
+		
+		bindShipmentModalEvents();
 	}
 	else{
 		btn_createNewShipment.toggleClass("disabled",true);
@@ -253,12 +250,20 @@ function toggleProductSelection(event){
 }
 
 
+function bindShipmentModalEvents(){
+	var btn_genShipmentObj = $("#btn_genShipmentObj");
+	btn_genShipmentObj.unbind();
+	btn_genShipmentObj.click({order_id: 2}, createShipmentObject);
+
+}
 
 
 
 
-
-
-
-
-
+function range(start, end, inc){
+	var a = [];
+	for(var i=start;i<=end;i+=inc){
+		a.push(i);
+	}
+	return a
+}

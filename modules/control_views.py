@@ -18,7 +18,6 @@ from database.product_util import *
 from database.order_util import *
 
 
-
 from db import *
 
 import sys, ast, imp

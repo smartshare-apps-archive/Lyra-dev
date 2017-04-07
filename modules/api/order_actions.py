@@ -10,10 +10,12 @@ import modules.database.product as product
 import modules.database.resources as resources
 import modules.database.customer as customer
 import modules.database.order as order
+import modules.database.shipment as shipment
 
 from modules.decorators import *
 from modules.auth.login import *
 
+import shippo
 
 orderActions = Blueprint('orderActions', __name__, template_folder='templates')
 
@@ -107,3 +109,61 @@ def bulkDeleteOrders():
 
 	return json.dumps("success")
 
+
+
+#order fulfillment routes
+
+@orderActions.route('/actions/createShipmentObject', methods=['POST'])
+#@admin_required(current_app, session, login_redirect)
+def createShipmentObject():
+	order_id = request.form['order_id']
+	order_id = json.loads(order_id)
+
+	shippo.api_key = "shippo_test_0c91f05a81b1168a9e24f494b064a3ff5be3ebff"
+
+	address_from = {
+		"name": "Shawn Ippotle",
+		"street1": "215 Clayton St.",
+		"city": "San Francisco",
+		"state": "CA",
+		"zip": "94117",
+		"country": "US",
+		"phone": "+1 555 341 9393",
+		"email": "shippotle@goshippo.com"
+	}
+
+	address_to = {
+		"name": "Mr Hippo",
+		"street1": "Broadway 1",
+		"city": "New York",
+		"state": "NY",
+		"zip": "10007",
+		"country": "US",
+		"phone": "+1 555 341 9393",
+		"email": "mrhippo@goshippo.com"
+	}
+
+	parcel = {
+		"length": "5",
+		"width": "5",
+		"height": "5",
+		"distance_unit": "in",
+		"weight": "2",
+		"mass_unit": "lb"
+	}
+
+	shipment = shippo.Shipment.create(
+	    address_from = address_from,
+	    address_to = address_to,
+	    parcels = [parcel],
+	    async = False
+	)
+
+	db = db_handle()
+	database = db.cursor()
+	
+
+	db.commit()
+	db.close()
+
+	return json.dumps(shipment)
