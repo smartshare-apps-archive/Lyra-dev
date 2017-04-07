@@ -8,20 +8,26 @@ var cont_mark_fulfilled;
 
 var cont_summary_buy_label;
 var cont_summary_fulfill;
+var shipment_products_table;
 
 var fulfillmentMethod = "mark_fulfilled"
 
+
 // store shipping info in case of updates
 var shippingInfo = {}
+
 var fulfillmentData = {};
 var shippingData = {};
 var selectedProducts = {};
+var productData = {};
+
 
 
 $(document).ready(function(){
 	bindElements();
 	bindEvents();
 
+	populateProductData();
 	parseShippingData();
 	updateItemFulfillmentState();
 });
@@ -39,12 +45,15 @@ function bindElements(){
 	cont_summary_buy_label = $("#cont_summary_buy_label");
 
 
+	shipment_products_table = $("#shipment_products_table");
 }
 
 
+
+// why is this empty dumby
 function bindEvents(){
-	//btn_buyLabel.click(toggle_fulfillmentMethod);
-	//btn_markFulfilled.click(toggle_fulfillmentMethod);
+
+
 
 
 }
@@ -94,6 +103,51 @@ function parseShippingData(){
 
 }
 
+// loads product metadata from the page to allow for table data population later on
+function populateProductData(){
+	$(".product-data").each(function(){
+		var product_sku = $(this).attr('data-productSKU');
+		var fieldID = $(this).attr('data-fieldID');
+
+		if(product_sku in productData){
+			productData[product_sku][fieldID] = $(this).val();
+		}
+		else{
+			productData[product_sku] = {}
+			productData[product_sku][fieldID] = $(this).val();
+		}
+	});
+}
+
+
+
+// pushs selected product data into shipping label generation modal or manual fulfillment modal
+function populateProductTable(){
+	shipment_products_table.html("");
+	var tableTemplateHTML = "<table class=\"table table-bordered table-hover\" id=\"shipment_products\">";
+	tableTemplateHTML += "<thead>";
+	tableTemplateHTML += "<th> Product </th>";
+	tableTemplateHTML += "<th> Variant SKU </th>";
+	tableTemplateHTML += "<th> Weight </th>";
+	tableTemplateHTML += "<th> Quantity </th>";
+	tableTemplateHTML += "</thead>";
+	tableTemplateHTML += "<tbody>";
+
+	for(product_sku in selectedProducts){
+		var productQtyDropdown = "<select class=\"form-control\"> <option value=1></option> </select>";
+
+		tableTemplateHTML += "<tr>";
+		tableTemplateHTML += "<td>" + productData[product_sku]["Title"] + "</td>";
+		tableTemplateHTML += "<td>" + product_sku + "</td>";
+		tableTemplateHTML += "<td>" + productData[product_sku]["Weight"] + "</td>";
+		tableTemplateHTML += "<td>" + productQtyDropdown + "</td>";
+		tableTemplateHTML += "</tr>";
+	}
+
+	tableTemplateHTML += "</tbody></table>";
+
+	shipment_products_table.append(tableTemplateHTML);
+}
 
 
 
@@ -158,6 +212,8 @@ function toggleProductSelection(event){
 
 		btn_createNewShipment.attr('data-toggle','modal');
 		btn_markFulfilled.attr('data-toggle','modal');
+
+		populateProductTable();
 	}
 	else{
 		btn_createNewShipment.toggleClass("disabled",true);

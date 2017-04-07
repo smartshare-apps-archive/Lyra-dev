@@ -30,6 +30,10 @@
         
         <!-- begin data containers for order products -->
           <input type="hidden" class="order-product-qty" data-productSKU="{{product.VariantSKU}}" value="{{product.quantity}}">
+          
+          <input type="hidden" class="product-data" data-fieldID="Title" data-productSKU="{{product.VariantSKU}}" value="{{product.Title}}">
+          <input type="hidden" class="product-data" data-fieldID="Weight" data-productSKU="{{product.VariantSKU}}" value="{{product.VariantGrams}}">
+
         <!-- end data containers for order products -->
       
       {% endfor %}
