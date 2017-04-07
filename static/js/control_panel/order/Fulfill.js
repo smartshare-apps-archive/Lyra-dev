@@ -124,6 +124,7 @@ function populateProductData(){
 // pushs selected product data into shipping label generation modal or manual fulfillment modal
 function populateProductTable(){
 	shipment_products_table.html("");
+
 	var tableTemplateHTML = "<table class=\"table table-bordered table-hover\" id=\"shipment_products\">";
 	tableTemplateHTML += "<thead>";
 	tableTemplateHTML += "<th> Product </th>";
@@ -134,7 +135,26 @@ function populateProductTable(){
 	tableTemplateHTML += "<tbody>";
 
 	for(product_sku in selectedProducts){
-		var productQtyDropdown = "<select class=\"form-control\"> <option value=1></option> </select>";
+		var totalQty = parseInt(productData[product_sku]["Quantity"]);
+
+		if(!(product_sku in fulfillmentData)){
+			var remainingQty = totalQty;
+		}
+		else{
+			var fulfilledQty = fulfillmentData[product_sku];
+			var remainingQty = totalQty - fulfilledQty;
+
+		}
+		
+		var quantity_range = range(1, remainingQty, 1);
+	
+		var productQtyDropdown = "<select class=\"shipment-product-qty form-control\" data-productSKU=\"" + product_sku + "\">"; 
+
+		for(var i=0;i<quantity_range.length;i++){
+			productQtyDropdown += "<option value=\""+quantity_range[i] + "\">" + quantity_range[i] + "</option>";
+		}
+
+		productQtyDropdown += "</select>";
 
 		tableTemplateHTML += "<tr>";
 		tableTemplateHTML += "<td>" + productData[product_sku]["Title"] + "</td>";
@@ -144,11 +164,19 @@ function populateProductTable(){
 		tableTemplateHTML += "</tr>";
 	}
 
-	tableTemplateHTML += "</tbody></table>";
+	tableTemplateHTML += "</tbody></table><hr>";
 
 	shipment_products_table.append(tableTemplateHTML);
 }
 
+
+function range(start, end, inc){
+	var a = [];
+	for(var i=start;i<=end;i+=inc){
+		a.push(i);
+	}
+	return a
+}
 
 
 
