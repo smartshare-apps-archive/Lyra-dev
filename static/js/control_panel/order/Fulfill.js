@@ -466,7 +466,7 @@ function updateItemFulfillmentState(){
 
 		// this item is not fulfilled, so it is clickable to allow adding to package
 		if(fulfillmentData[product_sku] < product_qty || (!(product_sku in fulfillmentData))){
-			$(this).html("<span class=\"glyph-fulfilled glyphicon glyphicon-remove\"></span>");
+			$(this).html("<span class=\"glyph-fulfilled glyphicon red glyphicon-remove\"></span>");
 				
 				// on click enabled
 				$(".order_product_fulfillment" + selectorString).click({product_sku: product_sku}, toggleProductSelection);		
@@ -474,10 +474,13 @@ function updateItemFulfillmentState(){
 
 		// this item has been fulfilled
 		else{
-			$(this).html("<span class=\"glyph-fulfilled glyphicon glyphicon-ok\"></span>");	
+			$(this).html("<span class=\"glyph-fulfilled glyphicon green glyphicon-ok\"></span> &nbsp;<b>Shipped</b>");	
 
 			// unbind any click events and reset the cursor to standard
-			$(".order_product_fulfillment" + selectorString).css('cursor','initial');
+			$(".order_product_fulfillment" + selectorString).css({
+				'cursor':'initial',
+				'opacity':'0.7'
+			});
 			$(".order_product_fulfillment" + selectorString).unbind();
 		}
 	
