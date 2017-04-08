@@ -13,10 +13,8 @@ var shipment_products_table;
 var fulfillmentMethod = "mark_fulfilled"
 
 
-// store shipping info in case of updates
-var shippingInfo = {}
-
 var fulfillmentData = {};
+var shippingAddress = {}
 var shippingData = {};
 var selectedProducts = {};
 var productData = {};
@@ -28,7 +26,7 @@ $(document).ready(function(){
 	bindEvents();
 
 	populateProductData();
-	populateShippingInfo();
+	populateShippingAddress();
 
 	parseShippingData();
 	updateItemFulfillmentState();
@@ -61,8 +59,14 @@ function bindEvents(){
 }
 
 
-function populateShippingInfo(){
-	
+function populateShippingAddress(){
+	$(".shipping-address-data").each(function(){
+		var fieldID = $(this).attr('data-fieldID');
+		shippingAddress[fieldID] = $(this).val();
+	});
+
+	console.log(shippingAddress);
+
 }
 
 
@@ -176,6 +180,29 @@ function populateProductTable(){
 
 
 
+function modal_loadShippingAddressTo(){
+	var shippingAddressTo = $("#shippingAddressTo");
+
+	shippingAddressTo.html("");
+
+	var addressHTML = "";
+
+	addressHTML += shippingAddress["ShippingFirstName"] + " " + shippingAddress["ShippingLastName"] + "<br>";
+	addressHTML += shippingAddress["ShippingAddress"] + "<br>";
+
+	if(shippingAddress["ShippingAddress2"] != ""){
+		addressHTML += shippingAddress["ShippingAddress2"] + "<br>";
+	}
+
+	addressHTML += shippingAddress["ShippingCity"] + ",&nbsp;" + shippingAddress["ShippingState"] + "&nbsp;&nbsp;" + shippingAddress["ShippingPostalCode"] + "<br>";
+
+	addressHTML += shippingAddress["ShippingCountry"] + "<br>";
+
+
+
+	shippingAddressTo.append(addressHTML);	
+
+}
 
 
 
@@ -242,6 +269,9 @@ function toggleProductSelection(event){
 		btn_markFulfilled.attr('data-toggle','modal');
 
 		populateProductTable();
+
+		// load shipping address into modal
+		modal_loadShippingAddressTo();
 
 		bindShipmentModalEvents();
 	}

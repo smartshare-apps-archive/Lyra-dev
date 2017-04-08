@@ -7,33 +7,36 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Create a new shipment </h4>
       </div>
+
       <!-- begin shipment label creation body -->
       <div class="modal-body">
         <div id="shipment_products_table">
         </div>
-        <div class="text-center" id="gen_shipment_cont">
-          <hr>
-          <h4> Select Carrier: </h4>
-          <select class="form-control" id="select_shipping_from_address"> </select>
-          <hr>
-          <h4> Ship from: </h4>
-          <select class="form-control" id="select_shipping_from_address"> </select>
-          <hr>
-          <h4> Ship to: </h4>
-          <select class="form-control" id="select_shipping_to_address"> </select>
-          <hr>
-          <button class="btn btn-primary" id="btn_genShipmentObj"> Create New Shipment </button><br><br>
+
+          <!-- this container 'gen_shipment_cont' stores parameters that are passed to the shippo API. this determines carriers rates and the like -->
+          <div class="text-center" id="gen_shipment_cont">
+            <h4> Ship from: </h4>
+              <!-- container to store shipping address "from", loaded dynamically -->
+              <div id="shippingAddressFrom"></div>
+            <hr>
+            <h4> Ship to: </h4>
+              <!-- container to store shipping address "to", loaded dynamically -->
+              <div id="shippingAddressTo"></div>
+            <hr>
+            <button class="btn btn-primary" id="btn_genShipmentObj"> Create New Shipment </button><br><br>
           
-          <div id="wait-glyph">Generating shipping labels, please wait... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></div>
-          <hr>
+            <!-- this is just a spinning glyph when the API call is being made (call is made synchronously) -->
+            <div id="wait-glyph">Generating shipping labels, please wait... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></div>
+            <hr>
+          </div>
 
+          <!-- this container 'shipment_output_cont' stores output that is received from the shippo api -->
           <div id="shipment_output_cont"></div>
-
-        </div>
-
 
       </div>
       <!-- end shipment label creation body -->
+
+
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal" id="btn_addNewSection"> Generate Label </button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
