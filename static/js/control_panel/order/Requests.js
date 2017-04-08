@@ -113,7 +113,9 @@ function bulkDeleteOrders(event){
 /* functions to deal with shipment generation and fulfillment */
 
 function createShipmentObject(){
-	$("#wait-glyph").css("display","block");
+	shipment_obj = null;
+
+	$("#wait-glyph-01").css("display","block");
 
 
 	$.ajax({
@@ -123,15 +125,52 @@ function createShipmentObject(){
 	  data: { order_id: JSON.stringify(order_id), shipping_address_to: JSON.stringify(shippingAddress_to), shipping_address_from: JSON.stringify(shippingAddress_from), parcel_data: JSON.stringify(parcelData) },
 	  traditional: true
 	})
-	  .done(function( carrier_rates ) {
+	  .done(function( response ) {
+
+	  		shipment_obj = response; // store shipment object for later use
 
 	  		currentCarrierRates = [];
-	  		currentCarrierRates = carrier_rates;
+	  		currentCarrierRates = response.rates;
 
 	  		parseShippingRates();
 
-	  		$("#wait-glyph").css("display","none");
-	  		$("#shipment_output_cont").html("Success.");
+	  		$("#wait-glyph-01").css("display","none");
+	  		//$("#shipment_output_cont").html("Success.");
+
+	  });
+
+}
+
+
+function generateShippingLabel(event){
+	var selected_option = event.data.selected_option;
+
+	$("#wait-glyph-02").css("display","block");
+
+	$.ajax({
+	  method: "POST",
+	  url: "/actions/generateShippingLabel",
+	  dataType: "json",
+	  data: { order_id: JSON.stringify(order_id), shipment_obj: JSON.stringify(shipment_obj), selected_option: JSON.stringify(selected_option) },
+	  traditional: true
+	})
+	  .done(function( response ) {
+	  		$("#wait-glyph-02").css("display","none");
+
+	  		if("error_messages" in response){
+	  			console.log("Error generating label.");
+	  		}
+	  		else{
+	  			generated_label_data.html("");
+	  			var labelHTML = "";
+	  			labelHTML += "Tracking number: &nbsp;&nbsp;<b>" + response["tracking_number"] + "</b><br><br>";
+	  			labelHTML += "<a href=\"" + response["label_url"] + "\" target=\"" + "_blank\"><button type=\"button\" class=\"btn btn-primary btn-lg\"> <span class=\"glyphicon glyphicon-barcode\"></span> &nbsp;&nbsp; Click for label </button></a>";
+
+	  			generated_label_data.append(labelHTML);
+
+
+	  		}
+	  		
 
 	  });
 

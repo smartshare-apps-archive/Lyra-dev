@@ -171,28 +171,49 @@ def createShipmentObject():
 	    async = False
 	)
 
-	carrier_rates = shipment.rates
 
-	'''
+	return json.dumps(shipment)
+
+
+
+
+#order fulfillment routes
+
+@orderActions.route('/actions/generateShippingLabel', methods=['POST'])
+#@admin_required(current_app, session, login_redirect)
+def generateShippingLabel():
+	order_id = request.form['order_id']
+	order_id = json.loads(order_id)
+
+	shipment_obj = request.form['shipment_obj']
+	shipment_obj = json.loads(shipment_obj)
+
+	selected_option = request.form['selected_option']
+	selected_option = int(json.loads(selected_option))
+
+	
+
+	shippo.api_key = "shippo_test_0c91f05a81b1168a9e24f494b064a3ff5be3ebff"
+
+	#select the rate specified by the user
+	rate = shipment_obj["rates"][selected_option]
+
 	# Purchase the desired rate. 
 	transaction = shippo.Transaction.create( 
-	rate=rate.object_id, 
+	rate=rate["object_id"], 
 	label_file_type="PDF", 
 	async=False )
 
 	# Retrieve label url and tracking number or error message
+
+	shipping_label = {}
+
 	if transaction.status == "SUCCESS":
-		print transaction.label_url
-		print transaction.tracking_number
+		shipping_label["label_url"] = transaction.label_url
+		shipping_label["tracking_number"] = transaction.tracking_number
 	else:
-		print transaction.messages
-	'''
+		shipping_label["error_messages"] = transaction.messages
 
-	db = db_handle()
-	database = db.cursor()
-	
 
-	db.commit()
-	db.close()
 
-	return json.dumps(carrier_rates)
+	return json.dumps(shipping_label)

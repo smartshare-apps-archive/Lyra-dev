@@ -2099,11 +2099,24 @@ top:-1px;
 }
 
 
-#wait-glyph{
+#wait-glyph-01{
+    display:none;
+}
+
+#wait-glyph-02{
+    display:none;
+}
+
+.hidden-hr{
     display:none;
 }
 
 #shipment-gen-progress-bar{
+
+}
+
+
+#btn_generateShippingLabel{
 
 }
 

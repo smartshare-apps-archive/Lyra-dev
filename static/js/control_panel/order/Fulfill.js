@@ -12,6 +12,9 @@ var cont_summary_fulfill;
 // various table handles
 var shipment_products_table;
 var shipment_details_table;
+var generated_label_data;
+var shipment_options_table;
+var selected_shipping_method;
 
 
 
@@ -27,6 +30,10 @@ var productData = {};
 var parcelData = {};
 
 var currentCarrierRates = [];
+var parsedCarrierRates = [];
+
+//store shipment obj response from shippo locally
+var shipment_obj;
 
 $(document).ready(function(){
 	bindElements();
@@ -54,6 +61,10 @@ function bindElements(){
 
 	shipment_products_table = $("#shipment_products_table");
 	shipment_details_table = $("#shipment_details_table");
+	shipment_options_table = $("#shipment_options_table");
+	selected_shipping_method = $("#selected_shipping_method");
+
+	generated_label_data = $("#generated_label_data");
 
 }
 
@@ -205,8 +216,11 @@ function populateProductTable(){
 	calculateParcelData();
 
 	var shipment_options_table = $("#shipment_options_table");
-	shipment_options_table.html("");
+	var selected_shipping_method = $("#selected_shipping_method");
 
+	shipment_options_table.html("");
+	selected_shipping_method.html("");
+	generated_label_data.html("");
 }
 
 
@@ -297,7 +311,7 @@ function calculateParcelData(){
 		var product_qty = parcelData[product_sku];
 
 		var totalWeight = product_qty * productUnitWeight;
-		console.log(productUnitWeight + ":" + totalWeight);
+		//console.log(productUnitWeight + ":" + totalWeight);
 
 		totalItemCount += product_qty;
 		totalParcelWeight += totalWeight;
@@ -308,12 +322,16 @@ function calculateParcelData(){
 	parcelData["ItemCount"] = totalItemCount;
 
 	populateShipmentDetailsTable();
+
+	shipment_options_table.html("");
+	selected_shipping_method.html("");
+	generated_label_data.html("");
 }
 
 
 
 function parseShippingRates(){
-	var parsedCarrierRates = [];
+	parsedCarrierRates = [];
 
 	for(var i=0;i<currentCarrierRates.length;i++){
 		var currentRate = currentCarrierRates[i];
@@ -336,12 +354,12 @@ function parseShippingRates(){
 
 	//console.log(parsedCarrierRates);
 
-	populateShippingOptionsTable(parsedCarrierRates);
+	populateShippingOptionsTable();
 
 }
 
 
-function populateShippingOptionsTable(parsedCarrierRates){
+function populateShippingOptionsTable(){
 	var shipment_options_table = $("#shipment_options_table");
 	shipment_options_table.html("");
 
@@ -357,7 +375,7 @@ function populateShippingOptionsTable(parsedCarrierRates){
 
 	for(var i=0;i<parsedCarrierRates.length;i++){
 		tableTemplateHTML += "<tr>";
-		tableTemplateHTML += "<td><label class=\"btn btn-default select_container\"><input type=\"checkbox\" class=\"selectTableItem\"></label></td>";
+		tableTemplateHTML += "<td><label class=\"btn btn-default select_container\"><input type=\"checkbox\" data-optionID=\"" + String(i) + "\"class=\"selectTableItem btn-select-shipment-option\"></label></td>";
 		tableTemplateHTML += "<td>" + parsedCarrierRates[i]["provider"] + "</td>";
 		tableTemplateHTML += "<td>" + parsedCarrierRates[i]["duration_terms"] + "</td>";
 		tableTemplateHTML += "<td>" + parsedCarrierRates[i]["days"] + "</td>";
@@ -368,13 +386,54 @@ function populateShippingOptionsTable(parsedCarrierRates){
 
 	//console.log(parcelData);
 
-	tableTemplateHTML += "</tbody></table><hr>";
+	tableTemplateHTML += "</tbody></table>";
 
 	shipment_options_table.append(tableTemplateHTML);
 
+	$(".btn-select-shipment-option").each(function(){
+		var option_id = parseInt($(this).attr('data-optionID'));
+		$(this).change({option_id: option_id}, selectShippingOption);
+	});
 
+}
 
+function selectShippingOption(event){
+	var option_id = event.data.option_id;
+	var selectorString = '[data-optionID="' + String(option_id) + '"]';  
+	var btn_selectedShippingOption = $(".btn-select-shipment-option" + selectorString);
 
+	var isSelected = btn_selectedShippingOption.is(":checked");
+
+	// deselect all the other shipping options 
+
+	$(".btn-select-shipment-option").each(function(){
+		$(this).prop('checked',false);
+	});
+	
+	btn_selectedShippingOption.prop('checked', true);
+
+	console.log("Selected: " + option_id);
+
+	var selected_shipping_method = $("#selected_shipping_method");
+
+	selected_shipping_method.html("");
+
+	shippingMethodHTML = "<div class=\"row\">";
+
+	shippingMethodHTML += "<div class=\"col-xs-6 text-center\">";
+	shippingMethodHTML += "Selected Provider:&nbsp;&nbsp;" + parsedCarrierRates[option_id]["provider"] + "<br>";
+	shippingMethodHTML += "Days to delivery:&nbsp;&nbsp;" + parsedCarrierRates[option_id]["days"] + "<br>";
+	shippingMethodHTML += "Total shipping cost:&nbsp;&nbsp;$" + parsedCarrierRates[option_id]["cost"] + "<br>";
+	shippingMethodHTML += "</div>";
+
+	shippingMethodHTML += "<div class=\"col-xs-6 text-center\">";
+	shippingMethodHTML += "<button type=\"button\" class=\"btn btn-lg btn-success\" id=\"btn_generateShippingLabel\"> Create Shipping Label </button>";
+	shippingMethodHTML += "</div></div>";
+
+	selected_shipping_method.append(shippingMethodHTML);
+
+	$("#btn_generateShippingLabel").unbind();
+	$("#btn_generateShippingLabel").click({selected_option: option_id}, generateShippingLabel);
 }
 
 
