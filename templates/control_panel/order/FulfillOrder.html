@@ -75,15 +75,25 @@
 						{{ control_data.order_data.ShippingCountry }}
 					</div>
 
-					<!-- containers to store shipping address upon template load -->
-					<input type="hidden" class="shipping-address-data" data-fieldID="ShippingFirstName" value="{{control_data.order_data.ShippingFirstName}}">
-					<input type="hidden" class="shipping-address-data" data-fieldID="ShippingLastName" value="{{control_data.order_data.ShippingLastName}}">
-					<input type="hidden" class="shipping-address-data" data-fieldID="ShippingAddress" value="{{control_data.order_data.ShippingAddress}}">
-					<input type="hidden" class="shipping-address-data" data-fieldID="ShippingAddress2" value="{{control_data.order_data.ShippingAddress2}}">
-					<input type="hidden" class="shipping-address-data" data-fieldID="ShippingCity" value="{{control_data.order_data.ShippingCity}}">
-					<input type="hidden" class="shipping-address-data" data-fieldID="ShippingState" value="{{control_data.order_data.ShippingState}}">
-					<input type="hidden" class="shipping-address-data" data-fieldID="ShippingPostalCode" value="{{control_data.order_data.ShippingPostalCode}}">
-					<input type="hidden" class="shipping-address-data" data-fieldID="ShippingCountry" value="{{control_data.order_data.ShippingCountry}}">
+			<!-- containers to store shipping addresses upon template load -->
+			<input type="hidden" class="shipping-address-to-data" data-fieldID="ShippingFirstName" value="{{control_data.order_data.ShippingFirstName}}">
+			<input type="hidden" class="shipping-address-to-data" data-fieldID="ShippingLastName" value="{{control_data.order_data.ShippingLastName}}">
+			<input type="hidden" class="shipping-address-to-data" data-fieldID="ShippingAddress" value="{{control_data.order_data.ShippingAddress}}">
+			<input type="hidden" class="shipping-address-to-data" data-fieldID="ShippingAddress2" value="{{control_data.order_data.ShippingAddress2}}">
+			<input type="hidden" class="shipping-address-to-data" data-fieldID="ShippingCity" value="{{control_data.order_data.ShippingCity}}">
+			<input type="hidden" class="shipping-address-to-data" data-fieldID="ShippingState" value="{{control_data.order_data.ShippingState}}">
+			<input type="hidden" class="shipping-address-to-data" data-fieldID="ShippingPostalCode" value="{{control_data.order_data.ShippingPostalCode}}">
+			<input type="hidden" class="shipping-address-to-data" data-fieldID="ShippingCountry" value="{{control_data.order_data.ShippingCountry}}">
+
+
+			<input type="hidden" class="shipping-address-from-data" data-fieldID="ShippingFirstName" value="{{control_data.shipping_address_from.ShippingFirstName}}">
+			<input type="hidden" class="shipping-address-from-data" data-fieldID="ShippingLastName" value="{{control_data.shipping_address_from.ShippingLastName}}">
+			<input type="hidden" class="shipping-address-from-data" data-fieldID="ShippingAddress1" value="{{control_data.shipping_address_from.ShippingAddress1}}">
+			<input type="hidden" class="shipping-address-from-data" data-fieldID="ShippingAddress2" value="{{control_data.shipping_address_from.ShippingAddress2}}">
+			<input type="hidden" class="shipping-address-from-data" data-fieldID="ShippingCity" value="{{control_data.shipping_address_from.ShippingCity}}">
+			<input type="hidden" class="shipping-address-from-data" data-fieldID="ShippingState" value="{{control_data.shipping_address_from.ShippingState}}">
+			<input type="hidden" class="shipping-address-from-data" data-fieldID="ShippingPostalCode" value="{{control_data.shipping_address_from.ShippingPostalCode}}">
+			<input type="hidden" class="shipping-address-from-data" data-fieldID="ShippingCountry" value="{{control_data.shipping_address_from.ShippingCountry}}">
 
 				</div>
 				<!-- end order customer panel -->

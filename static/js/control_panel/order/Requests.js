@@ -120,7 +120,7 @@ function createShipmentObject(){
 	  method: "POST",
 	  url: "/actions/createShipmentObject",
 	  dataType: "json",
-	  data: { order_id: JSON.stringify(order_id), shipping_address_to: JSON.stringify(shippingAddress) },
+	  data: { order_id: JSON.stringify(order_id), shipping_address_to: JSON.stringify(shippingAddress_to), shipping_address_from: JSON.stringify(shippingAddress_from) },
 	  traditional: true
 	})
 	  .done(function( shipment_obj ) {

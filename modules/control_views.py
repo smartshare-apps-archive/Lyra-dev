@@ -589,6 +589,9 @@ class ControlPanel(object):
 		self.control_data["page"] = "order_fulfill"
 		self.control_data["order_id"] = order_id
 
+		defaultShippingAddressFrom = config.getDefaultShippingAddress(self.database)
+
+
 		orderData = order.loadOrder(order_id, self.database)
 		customerData = loadCustomer(orderData["customer_id"], self.database)
 		
@@ -612,6 +615,7 @@ class ControlPanel(object):
 		self.control_data["order_data"] = orderData
 		self.control_data["product_data"] = products
 		self.control_data["shipping_data"] = shipping_data
+		self.control_data["shipping_address_from"] = defaultShippingAddressFrom
 
 		return render_template("control_panel/order/FulfillOrder.html", control_data = self.control_data)
 

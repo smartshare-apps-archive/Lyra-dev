@@ -16,7 +16,11 @@ var shipment_details_table;
 
 
 var fulfillmentData = {};
-var shippingAddress = {}
+
+
+var shippingAddress_to = {};
+var shippingAddress_from = {};
+
 var shippingData = {};
 var selectedProducts = {};
 var productData = {};
@@ -64,10 +68,17 @@ function bindEvents(){
 
 
 function populateShippingAddress(){
-	$(".shipping-address-data").each(function(){
+	$(".shipping-address-to-data").each(function(){
 		var fieldID = $(this).attr('data-fieldID');
-		shippingAddress[fieldID] = $(this).val();
+		shippingAddress_to[fieldID] = $(this).val();
 	});
+
+
+	$(".shipping-address-from-data").each(function(){
+		var fieldID = $(this).attr('data-fieldID');
+		shippingAddress_from[fieldID] = $(this).val();
+	});
+
 
 
 }
@@ -142,7 +153,7 @@ function populateProductTable(){
 	tableTemplateHTML += "<thead>";
 	tableTemplateHTML += "<th> Product </th>";
 	tableTemplateHTML += "<th> Variant SKU </th>";
-	tableTemplateHTML += "<th> Weight </th>";
+	tableTemplateHTML += "<th> Weight (kg) </th>";
 	tableTemplateHTML += "<th> Quantity </th>";
 	tableTemplateHTML += "</thead>";
 	tableTemplateHTML += "<tbody>";
@@ -172,7 +183,7 @@ function populateProductTable(){
 		tableTemplateHTML += "<tr>";
 		tableTemplateHTML += "<td>" + productData[product_sku]["Title"] + "</td>";
 		tableTemplateHTML += "<td>" + product_sku + "</td>";
-		tableTemplateHTML += "<td>" + productData[product_sku]["Weight"] + "</td>";
+		tableTemplateHTML += "<td>" + (productData[product_sku]["Weight"]/1000) + "</td>";
 		tableTemplateHTML += "<td>" + productQtyDropdown + "</td>";
 		tableTemplateHTML += "</tr>";
 	}
@@ -221,26 +232,43 @@ function populateShipmentDetailsTable(){
 
 
 function modal_loadShippingAddressTo(){
-	var shippingAddressTo = $("#shippingAddressTo");
+	var shippingAddressToContainer = $("#shippingAddressTo");
+	var shippingAddressFromContainer = $("#shippingAddressFrom");
 
-	shippingAddressTo.html("");
+	shippingAddressFromContainer.html("");
+	shippingAddressToContainer.html("");
 
 	var addressHTML = "";
 
-	addressHTML += shippingAddress["ShippingFirstName"] + " " + shippingAddress["ShippingLastName"] + "<br>";
-	addressHTML += shippingAddress["ShippingAddress"] + "<br>";
+	addressHTML += shippingAddress_to["ShippingFirstName"] + " " + shippingAddress_to["ShippingLastName"] + "<br>";
+	addressHTML += shippingAddress_to["ShippingAddress"] + "<br>";
 
-	if(shippingAddress["ShippingAddress2"] != ""){
-		addressHTML += shippingAddress["ShippingAddress2"] + "<br>";
+	if(shippingAddress_to["ShippingAddress2"] != ""){
+		addressHTML += shippingAddress_to["ShippingAddress2"] + "<br>";
 	}
 
-	addressHTML += shippingAddress["ShippingCity"] + ",&nbsp;" + shippingAddress["ShippingState"] + "&nbsp;&nbsp;" + shippingAddress["ShippingPostalCode"] + "<br>";
+	addressHTML += shippingAddress_to["ShippingCity"] + ",&nbsp;" + shippingAddress_to["ShippingState"] + "&nbsp;&nbsp;" + shippingAddress_to["ShippingPostalCode"] + "<br>";
 
-	addressHTML += shippingAddress["ShippingCountry"] + "<br>";
+	addressHTML += shippingAddress_to["ShippingCountry"] + "<br>";
+	
+	shippingAddressToContainer.append(addressHTML);	
 
 
 
-	shippingAddressTo.append(addressHTML);	
+	var addressHTML = "";
+
+	addressHTML += shippingAddress_from["ShippingFirstName"] + " " + shippingAddress_from["ShippingLastName"] + "<br>";
+	addressHTML += shippingAddress_from["ShippingAddress1"] + "<br>";
+
+	if(shippingAddress_from["ShippingAddress2"] != ""){
+		addressHTML += shippingAddress_from["ShippingAddress2"] + "<br>";
+	}
+
+	addressHTML += shippingAddress_from["ShippingCity"] + ",&nbsp;" + shippingAddress_from["ShippingState"] + "&nbsp;&nbsp;" + shippingAddress_from["ShippingPostalCode"] + "<br>";
+
+	addressHTML += shippingAddress_from["ShippingCountry"] + "<br>";
+	shippingAddressFromContainer.append(addressHTML);	
+
 
 }
 

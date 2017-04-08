@@ -220,6 +220,30 @@ productDisplayOptions = {
 
 #payment settings functions
 
+
+def getDefaultShippingAddress(database):
+	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='DefaultShippingAddress';"
+
+	try:
+		database.execute(currentQuery)
+	except Exception as e:
+		print "Error: ", e
+
+	address = database.fetchone()
+	if address:
+		address = filter(lambda a: a != "", address[0].split(';'))
+		formattedAddress = {}
+
+		print address
+		for field in address:
+			field = field.split(':')
+			formattedAddress[field[0]] = field[1]
+
+		return formattedAddress
+	else:
+		return None
+
+
 #gets the stripe api keys to allow for payment with credit cards directly on the store
 def getStripeAPIKeys(database):
 	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='stripe_api_keys';"
