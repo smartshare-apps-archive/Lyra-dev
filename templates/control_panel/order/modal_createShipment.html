@@ -10,9 +10,11 @@
 
       <!-- begin shipment label creation body -->
       <div class="modal-body">
-        <div id="shipment_products_table">
-        </div>
-
+        <!-- container to store shipment products -->
+        <div id="shipment_products_table"></div>
+        <!-- container to store shipment details, e.g. total weight -->
+        <div id="shipment_details_table"></div>
+        
           <!-- this container 'gen_shipment_cont' stores parameters that are passed to the shippo API. this determines carriers rates and the like -->
           <div class="text-center" id="gen_shipment_cont">
             <h4> Ship from: </h4>

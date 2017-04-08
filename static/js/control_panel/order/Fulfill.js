@@ -8,9 +8,11 @@ var cont_mark_fulfilled;
 
 var cont_summary_buy_label;
 var cont_summary_fulfill;
-var shipment_products_table;
 
-var fulfillmentMethod = "mark_fulfilled"
+// various table handles
+var shipment_products_table;
+var shipment_details_table;
+
 
 
 var fulfillmentData = {};
@@ -18,7 +20,7 @@ var shippingAddress = {}
 var shippingData = {};
 var selectedProducts = {};
 var productData = {};
-
+var parcelData = {};
 
 
 $(document).ready(function(){
@@ -46,6 +48,8 @@ function bindElements(){
 
 
 	shipment_products_table = $("#shipment_products_table");
+	shipment_details_table = $("#shipment_details_table");
+
 }
 
 
@@ -65,7 +69,6 @@ function populateShippingAddress(){
 		shippingAddress[fieldID] = $(this).val();
 	});
 
-	console.log(shippingAddress);
 
 }
 
@@ -111,6 +114,7 @@ function parseShippingData(){
 	}
 
 }
+
 
 // loads product metadata from the page to allow for table data population later on
 function populateProductData(){
@@ -176,6 +180,42 @@ function populateProductTable(){
 	tableTemplateHTML += "</tbody></table><hr>";
 
 	shipment_products_table.append(tableTemplateHTML);
+
+	$(".shipment-product-qty").each(function(){
+		var product_sku = $(this).attr('data-productSKU');
+
+		$(this).unbind();
+		$(this).change(calculateParcelData);
+		
+	});
+
+	//calculates initial parcel data
+	calculateParcelData();
+
+}
+
+
+function populateShipmentDetailsTable(){
+	shipment_details_table.html("");
+
+	var tableTemplateHTML = "<table class=\"table table-bordered table-hover\" id=\"shipment_details\">";
+	tableTemplateHTML += "<thead>";
+	tableTemplateHTML += "<th> Number of items </th>";
+	tableTemplateHTML += "<th> Total Weight (kg) </th>";
+	tableTemplateHTML += "</thead>";
+	tableTemplateHTML += "<tbody>";
+
+	tableTemplateHTML += "<tr>";
+	tableTemplateHTML += "<td>" + parcelData["ItemCount"] + "</td>";
+	tableTemplateHTML += "<td>" + parcelData["Weight"] + "</td>";
+	tableTemplateHTML += "</tr>";
+
+	//console.log(parcelData);
+
+	tableTemplateHTML += "</tbody></table><hr>";
+
+	shipment_details_table.append(tableTemplateHTML);
+
 }
 
 
@@ -205,6 +245,38 @@ function modal_loadShippingAddressTo(){
 }
 
 
+
+function calculateParcelData(){
+	parcelData = {};
+
+	$(".shipment-product-qty").each(function(){
+		var product_sku = $(this).attr('data-productSKU');
+		var product_qty = $(this).val();
+
+		//console.log(product_sku + ":" + product_qty);
+		parcelData[product_sku] = parseInt(product_qty);
+	});
+
+	var totalItemCount = 0;
+	var totalParcelWeight = 0.00; //total weight in grams, can be converted later if necessary
+
+	for(product_sku in parcelData){
+		var productUnitWeight = productData[product_sku]["Weight"];
+		var product_qty = parcelData[product_sku];
+
+		var totalWeight = product_qty * productUnitWeight;
+		console.log(productUnitWeight + ":" + totalWeight);
+
+		totalItemCount += product_qty;
+		totalParcelWeight += totalWeight;
+
+	}
+
+	parcelData["Weight"] = (totalParcelWeight/1000);
+	parcelData["ItemCount"] = totalItemCount;
+
+	populateShipmentDetailsTable();
+}
 
 
 function updateItemFulfillmentState(){
@@ -269,9 +341,11 @@ function toggleProductSelection(event){
 		btn_markFulfilled.attr('data-toggle','modal');
 
 		populateProductTable();
-
+		populateShipmentDetailsTable();
 		// load shipping address into modal
 		modal_loadShippingAddressTo();
+
+
 
 		bindShipmentModalEvents();
 	}

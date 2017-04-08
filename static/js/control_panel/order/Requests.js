@@ -112,14 +112,15 @@ function bulkDeleteOrders(event){
 
 /* functions to deal with shipment generation and fulfillment */
 
-function createShipmentObject(event){
+function createShipmentObject(){
 	$("#wait-glyph").css("display","block");
+
 
 	$.ajax({
 	  method: "POST",
 	  url: "/actions/createShipmentObject",
 	  dataType: "json",
-	  data: { order_id: JSON.stringify(order_id) },
+	  data: { order_id: JSON.stringify(order_id), shipping_address_to: JSON.stringify(shippingAddress) },
 	  traditional: true
 	})
 	  .done(function( shipment_obj ) {

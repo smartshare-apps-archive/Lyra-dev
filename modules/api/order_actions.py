@@ -119,6 +119,11 @@ def createShipmentObject():
 	order_id = request.form['order_id']
 	order_id = json.loads(order_id)
 
+	shipping_address_to = request.form['shipping_address_to']
+	shipping_address_to = json.loads(shipping_address_to)
+
+	print "HEY LOADED: ", shipping_address_to
+
 	shippo.api_key = "shippo_test_0c91f05a81b1168a9e24f494b064a3ff5be3ebff"
 
 	address_from = {
@@ -133,12 +138,12 @@ def createShipmentObject():
 	}
 
 	address_to = {
-		"name": "Mr Hippo",
-		"street1": "1231 Broadway",
-		"city": "New York",
-		"state": "NY",
-		"zip": "10007",
-		"country": "US",
+		"name": shipping_address_to["ShippingFirstName"] + " " + shipping_address_to["ShippingLastName"],
+		"street1": shipping_address_to["ShippingAddress"],
+		"city": shipping_address_to["ShippingCity"],
+		"state": shipping_address_to["ShippingState"],
+		"zip": shipping_address_to["ShippingPostalCode"],
+		"country": shipping_address_to["ShippingCountry"],
 		"phone": "+1 555 341 9393",
 		"email": "mrhippo@goshippo.com"
 	}
