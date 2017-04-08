@@ -159,6 +159,10 @@ function generateShippingLabel(event){
 
 	  		if("error_messages" in response){
 	  			console.log("Error generating label.");
+
+	  			btn_saveShipment.toggleClass("disabled",true);
+	  			btn_saveShipment.unbind();
+	  			btn_saveShipment.removeAttr("data-dismiss");
 	  		}
 	  		else{
 	  			generated_label_data.html("");
@@ -166,12 +170,37 @@ function generateShippingLabel(event){
 	  			labelHTML += "Tracking number: &nbsp;&nbsp;<b>" + response["tracking_number"] + "</b><br><br>";
 	  			labelHTML += "<a href=\"" + response["label_url"] + "\" target=\"" + "_blank\"><button type=\"button\" class=\"btn btn-primary btn-lg\"> <span class=\"glyphicon glyphicon-barcode\"></span> &nbsp;&nbsp; Click for label </button></a>";
 
+	  			currentShipmentDetails = {};
+
+	  			currentShipmentDetails["tracking_number"] = response["tracking_number"];
+	  			currentShipmentDetails["label_url"] = response["label_url"];
+	  			currentShipmentDetails["parcel_data"] = parcelData;
+
 	  			generated_label_data.append(labelHTML);
 
+	  			btn_saveShipment.toggleClass("disabled",false);
+	  			btn_saveShipment.unbind();
+	  			btn_saveShipment.attr("data-dismiss","modal");
+	  			btn_saveShipment.click(saveOrderShipment);
 
 	  		}
 	  		
 
 	  });
 
+}
+
+
+// saves the current order to the 
+function saveOrderShipment(){
+	$.ajax({
+	  method: "POST",
+	  url: "/actions/saveOrderShipment",
+	  dataType: "json",
+	  data: { order_id: JSON.stringify(order_id), shipment_data: JSON.stringify(currentShipmentDetails) },
+	  traditional: true
+	})
+	.done(function( response ) {
+	  	window.location.reload();
+	 });
 }

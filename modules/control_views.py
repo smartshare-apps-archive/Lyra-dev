@@ -614,6 +614,8 @@ class ControlPanel(object):
 		self.control_data["customer_data"] = customerData
 		self.control_data["order_data"] = orderData
 		self.control_data["product_data"] = products
+
+		
 		self.control_data["shipping_data"] = shipping_data
 		self.control_data["shipping_address_from"] = defaultShippingAddressFrom
 

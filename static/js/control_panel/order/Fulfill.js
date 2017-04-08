@@ -2,6 +2,7 @@ var btn_buyLabel;
 var btn_markFulfilled;
 var btn_btn_fulfillItems;
 var btn_createNewShipment;
+var btn_saveShipment;
 
 var cont_buy_label;
 var cont_mark_fulfilled;
@@ -32,8 +33,11 @@ var parcelData = {};
 var currentCarrierRates = [];
 var parsedCarrierRates = [];
 
+var currentShipmentDetails;
+
 //store shipment obj response from shippo locally
 var shipment_obj;
+var order_id;
 
 $(document).ready(function(){
 	bindElements();
@@ -52,6 +56,7 @@ function bindElements(){
 	btn_markFulfilled = $("#btn_markFulfilled");
 	btn_fulfillItems = $("#btn_fulfillItems");
 	btn_createNewShipment = $("#btn_createNewShipment");
+	btn_saveShipment = $("#btn_saveShipment");
 
 	cont_buy_label = $("#cont_buy_label");
 	cont_mark_fulfilled = $("#cont_mark_fulfilled");
@@ -66,6 +71,7 @@ function bindElements(){
 
 	generated_label_data = $("#generated_label_data");
 
+	order_id = parseInt($("#order_id").val());
 }
 
 
@@ -521,7 +527,7 @@ function toggleProductSelection(event){
 function bindShipmentModalEvents(){
 	var btn_genShipmentObj = $("#btn_genShipmentObj");
 	btn_genShipmentObj.unbind();
-	btn_genShipmentObj.click({order_id: 2}, createShipmentObject);
+	btn_genShipmentObj.click({order_id: order_id}, createShipmentObject);
 
 }
 

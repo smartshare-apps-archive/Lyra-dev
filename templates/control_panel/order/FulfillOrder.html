@@ -47,9 +47,12 @@
 							{{ control_data.table_orderProducts | safe }}
 
 							<!-- populate shipment data for this order -->
-							{% for shipment_id, shipment_data in control_data.shipping_data.iteritems() %}
-								<input type="hidden" class="shipment-data" data-shipmentID="{{shipment_id}}" value="{{shipment_data}}">
-							{% endfor %}
+							{% if control_data.shipping_data %}
+
+								{% for shipment_id, shipment_data in control_data.shipping_data.iteritems() %}
+									<input type="hidden" class="shipment-data" data-shipmentID="{{shipment_id}}" value="{{shipment_data}}">
+								{% endfor %}
+							{% endif %}
 
 						</div>
 						<!-- end order products table -->

@@ -217,3 +217,41 @@ def generateShippingLabel():
 
 
 	return json.dumps(shipping_label)
+
+
+
+@orderActions.route('/actions/saveOrderShipment', methods=['POST'])
+#@admin_required(current_app, session, login_redirect)
+def saveOrderShipment():
+	order_id = request.form['order_id']
+	order_id = json.loads(order_id)
+
+	shipment_data = request.form['shipment_data']
+	shipment_data = json.loads(shipment_data)
+
+
+	db = db_handle()
+	database = db.cursor()
+	
+	parcelData = shipment_data["parcel_data"]
+
+	SKU_List = ""
+	for field, value in parcelData.iteritems():
+		if field == "Weight":
+			shipment_data["Weight"] = value
+		elif field == "ItemCount":
+			shipment_data["ItemCount"] = value
+		else:
+			SKU_List += field + ":" + str(value) + ";"
+
+	shipment_data["SKU_List"] = SKU_List
+
+	print shipment_data
+
+	shipment.createNewShipment(order_id, shipment_data, database)
+
+	db.commit()
+	db.close()
+
+
+	return json.dumps("success")

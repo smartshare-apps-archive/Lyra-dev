@@ -34,3 +34,15 @@ def loadOrderShipments(orderID, database):
 
 
 
+
+def createNewShipment(orderID, shipment_data, database):
+	currentQuery = "INSERT INTO shipping(order_id,ShipmentDate,TrackingNumber,Carrier,SKU_List,LabelURL) VALUES(%s,%s,%s,%s,%s,%s);"
+
+	print "Order ID:", orderID
+	try:
+		database.execute(currentQuery, (orderID, 'today', shipment_data["tracking_number"], 'USPS', shipment_data["SKU_List"], shipment_data["label_url"]))
+	except Exception as e:
+		print "Error creating new shipment record: ", e
+		return None
+
+	return True
