@@ -46,6 +46,15 @@
 						<div class="col-xs-12">
 							{{ control_data.table_orderProducts | safe }}
 
+						</div>
+						<!-- end order products table -->
+					
+					<!-- begin order shipments viewer -->
+						<div class="col-xs-12">
+							<h4> Order shipments </h4>
+							<hr>
+							<div id="order_shipment_details">
+							</div>
 							<!-- populate shipment data for this order -->
 							{% if control_data.shipping_data %}
 
@@ -55,7 +64,7 @@
 							{% endif %}
 
 						</div>
-						<!-- end order products table -->
+						<!-- begin order shipments viewer -->
 					</div>
 					<!-- begin order details -->
 

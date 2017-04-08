@@ -16,7 +16,7 @@ var shipment_details_table;
 var generated_label_data;
 var shipment_options_table;
 var selected_shipping_method;
-
+var order_shipment_details;
 
 
 var fulfillmentData = {};
@@ -63,7 +63,7 @@ function bindElements(){
 	cont_summary_fulfill = $("#cont_summary_fulfill");
 	cont_summary_buy_label = $("#cont_summary_buy_label");
 
-
+	order_shipment_details = $("#order_shipment_details");
 	shipment_products_table = $("#shipment_products_table");
 	shipment_details_table = $("#shipment_details_table");
 	shipment_options_table = $("#shipment_options_table");
@@ -142,7 +142,18 @@ function parseShippingData(){
 
 	}
 
-	console.log(shippingData);
+	//console.log(shippingData);
+	order_shipment_details.html("");
+
+
+	for(shipment_id in shippingData){
+		var shipmentDetailsHTML = "";
+		shipmentDetailsHTML += "Tracking number: " + shippingData[shipment_id]["TrackingNumber"] + "<br>";
+		shipmentDetailsHTML += "Carrier: " + shippingData[shipment_id]["Carrier"] + "<br><br>";
+	  	shipmentDetailsHTML += "<a href=\"" + shippingData[shipment_id]["LabelURL"] + "\" target=\"" + "_blank\"><button type=\"button\" class=\"btn btn-primary btn-lg\"> <span class=\"glyphicon glyphicon-barcode\"></span> &nbsp;&nbsp; Click for label </button></a><br>";
+		shipmentDetailsHTML += "<hr>";
+		order_shipment_details.append(shipmentDetailsHTML);
+	}
 
 }
 
@@ -356,7 +367,7 @@ function parseShippingRates(){
 		parsedCarrierRates[i]["cost"] = cost;
 		parsedCarrierRates[i]["currency"] = currency;
 		parsedCarrierRates[i]["duration_terms"] = duration_terms;
-		console.log(currentRate);
+		//console.log(currentRate);
 
 	}
 
@@ -420,7 +431,7 @@ function selectShippingOption(event){
 	
 	btn_selectedShippingOption.prop('checked', true);
 
-	console.log("Selected: " + option_id);
+	//console.log("Selected: " + option_id);
 
 	var selected_shipping_method = $("#selected_shipping_method");
 
@@ -447,7 +458,7 @@ function selectShippingOption(event){
 
 
 function updateItemFulfillmentState(){
-	console.log(fulfillmentData);
+	//console.log(fulfillmentData);
 	$(".order-fulfillment-glyph").each(function(){
 		var product_sku = $(this).attr('data-productSKU');
 		var selectorString = '[data-productSKU="' + product_sku + '"]';

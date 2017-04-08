@@ -31,7 +31,7 @@ orderColumnMappings = [
 ]
 
 shipmentColumnMappings = [
-	"shipment_id","order_id","TrackingNumber","ShipmentDate","Carrier","SKU_List"
+	"shipment_id","order_id","TrackingNumber","LabelURL", "ShipmentDate","Carrier","SKU_List"
 ]
 
 
@@ -169,6 +169,7 @@ shipmentFieldMapping = {
 	"shipment_id":"INTEGER",
 	"order_id":"INTEGER",
 	"TrackingNumber":"TEXT",
+	"LabelURL":"TEXT",
 	"ShipmentDate":"TEXT",
 	"Carrier":"TEXT",
 	"SKU_List":"TEXT"

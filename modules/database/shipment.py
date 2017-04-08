@@ -11,7 +11,7 @@ from order_util import *
 import shippo
 
 def loadOrderShipments(orderID, database):
-	currentQuery = "SELECT shipment_id,order_id,TrackingNumber,ShipmentDate,Carrier,SKU_List FROM shipping WHERE order_id=%s;"
+	currentQuery = "SELECT shipment_id,order_id,TrackingNumber,LabelURL,ShipmentDate,Carrier,SKU_List FROM shipping WHERE order_id=%s;"
 
 	try:
 		database.execute(currentQuery, (orderID,) )
