@@ -120,12 +120,16 @@ function createShipmentObject(){
 	  method: "POST",
 	  url: "/actions/createShipmentObject",
 	  dataType: "json",
-	  data: { order_id: JSON.stringify(order_id), shipping_address_to: JSON.stringify(shippingAddress_to), shipping_address_from: JSON.stringify(shippingAddress_from) },
+	  data: { order_id: JSON.stringify(order_id), shipping_address_to: JSON.stringify(shippingAddress_to), shipping_address_from: JSON.stringify(shippingAddress_from), parcel_data: JSON.stringify(parcelData) },
 	  traditional: true
 	})
-	  .done(function( shipment_obj ) {
+	  .done(function( carrier_rates ) {
 
-	  		console.log(shipment_obj);
+	  		currentCarrierRates = [];
+	  		currentCarrierRates = carrier_rates;
+
+	  		parseShippingRates();
+
 	  		$("#wait-glyph").css("display","none");
 	  		$("#shipment_output_cont").html("Success.");
 

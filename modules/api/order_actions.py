@@ -125,9 +125,12 @@ def createShipmentObject():
 	shipping_address_from = request.form['shipping_address_from']
 	shipping_address_from = json.loads(shipping_address_from)
 
+	parcel_data = request.form['parcel_data']
+	parcel_data = json.loads(parcel_data)
 
 	shippo.api_key = "shippo_test_0c91f05a81b1168a9e24f494b064a3ff5be3ebff"
 
+	print parcel_data
 
 	address_from = {
 		"name": shipping_address_from["ShippingFirstName"] + " " + shipping_address_from["ShippingLastName"],
@@ -151,13 +154,14 @@ def createShipmentObject():
 		"email": "mrhippo@goshippo.com"
 	}
 
+
 	parcel = {
 		"length": "5",
 		"width": "5",
 		"height": "5",
 		"distance_unit": "in",
-		"weight": "2",
-		"mass_unit": "lb"
+		"weight": parcel_data["Weight"],
+		"mass_unit": "kg"
 	}
 
 	shipment = shippo.Shipment.create(
@@ -167,8 +171,9 @@ def createShipmentObject():
 	    async = False
 	)
 
-	rate = shipment.rates[0]
+	carrier_rates = shipment.rates
 
+	'''
 	# Purchase the desired rate. 
 	transaction = shippo.Transaction.create( 
 	rate=rate.object_id, 
@@ -181,6 +186,7 @@ def createShipmentObject():
 		print transaction.tracking_number
 	else:
 		print transaction.messages
+	'''
 
 	db = db_handle()
 	database = db.cursor()
@@ -189,4 +195,4 @@ def createShipmentObject():
 	db.commit()
 	db.close()
 
-	return json.dumps(shipment)
+	return json.dumps(carrier_rates)

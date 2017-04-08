@@ -14,26 +14,31 @@
         <div id="shipment_products_table"></div>
         <!-- container to store shipment details, e.g. total weight -->
         <div id="shipment_details_table"></div>
-        
+
           <!-- this container 'gen_shipment_cont' stores parameters that are passed to the shippo API. this determines carriers rates and the like -->
           <div class="text-center" id="gen_shipment_cont">
-            <h4> Ship from: </h4>
-              <!-- container to store shipping address "from", loaded dynamically -->
-              <div id="shippingAddressFrom"></div>
+             
+              <div class="row">
+                   <!-- container to store shipping address "from", loaded dynamically -->
+                   
+                  <div class="col-xs-6" id="shippingAddressFrom" ></div>
+          
+                <!-- container to store shipping address "to", loaded dynamically -->
+                <div class="col-xs-6" id="shippingAddressTo"></div>
+              </div>
             <hr>
-            <h4> Ship to: </h4>
-              <!-- container to store shipping address "to", loaded dynamically -->
-              <div id="shippingAddressTo"></div>
-            <hr>
-            <button class="btn btn-primary" id="btn_genShipmentObj"> Create New Shipment </button><br><br>
+            <button class="btn btn-primary btn-lg" id="btn_genShipmentObj"> <span class="glyphicon glyphicon-usd"></span> &nbsp; Calculate shipping rates</button><br><br>
           
             <!-- this is just a spinning glyph when the API call is being made (call is made synchronously) -->
-            <div id="wait-glyph">Generating shipping labels, please wait... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></div>
+            <div id="wait-glyph">Calculating shipping costs, please wait... <span class="glyphicon glyphicon-refresh glyphicon-spin"></span></div>
             <hr>
           </div>
 
+          <div id="shipment_options_table"></div>
+
           <!-- this container 'shipment_output_cont' stores output that is received from the shippo api -->
           <div id="shipment_output_cont"></div>
+
 
       </div>
       <!-- end shipment label creation body -->

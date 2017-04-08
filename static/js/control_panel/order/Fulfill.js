@@ -26,6 +26,7 @@ var selectedProducts = {};
 var productData = {};
 var parcelData = {};
 
+var currentCarrierRates = [];
 
 $(document).ready(function(){
 	bindElements();
@@ -203,6 +204,9 @@ function populateProductTable(){
 	//calculates initial parcel data
 	calculateParcelData();
 
+	var shipment_options_table = $("#shipment_options_table");
+	shipment_options_table.html("");
+
 }
 
 
@@ -235,8 +239,8 @@ function modal_loadShippingAddressTo(){
 	var shippingAddressToContainer = $("#shippingAddressTo");
 	var shippingAddressFromContainer = $("#shippingAddressFrom");
 
-	shippingAddressFromContainer.html("");
-	shippingAddressToContainer.html("");
+	shippingAddressFromContainer.html("<h4>Ship from:</h4>");
+	shippingAddressToContainer.html("<h4>Ship to:</h4>");
 
 	var addressHTML = "";
 
@@ -305,6 +309,74 @@ function calculateParcelData(){
 
 	populateShipmentDetailsTable();
 }
+
+
+
+function parseShippingRates(){
+	var parsedCarrierRates = [];
+
+	for(var i=0;i<currentCarrierRates.length;i++){
+		var currentRate = currentCarrierRates[i];
+		parsedCarrierRates.push({});
+
+		var provider = currentRate["provider"];
+		var nDaysToDest = currentRate["days"];
+		var cost = currentRate["amount"];
+		var currency = currentRate["currency"];
+		var duration_terms = currentRate["duration_terms"];
+		
+		parsedCarrierRates[i]["provider"] = provider;
+		parsedCarrierRates[i]["days"] = nDaysToDest;
+		parsedCarrierRates[i]["cost"] = cost;
+		parsedCarrierRates[i]["currency"] = currency;
+		parsedCarrierRates[i]["duration_terms"] = duration_terms;
+		console.log(currentRate);
+
+	}
+
+	//console.log(parsedCarrierRates);
+
+	populateShippingOptionsTable(parsedCarrierRates);
+
+}
+
+
+function populateShippingOptionsTable(parsedCarrierRates){
+	var shipment_options_table = $("#shipment_options_table");
+	shipment_options_table.html("");
+
+	var tableTemplateHTML = "<table class=\"table table-bordered table-hover\" id=\"shipment_options\">";
+	tableTemplateHTML += "<thead>";
+	tableTemplateHTML += "<th class=\"th_select\"> </th>";
+	tableTemplateHTML += "<th> Provider </th>";
+	tableTemplateHTML += "<th> Duration Terms </th>";
+	tableTemplateHTML += "<th> # of Days </th>";
+	tableTemplateHTML += "<th> Total Cost </th>";
+	tableTemplateHTML += "</thead>";
+	tableTemplateHTML += "<tbody>";
+
+	for(var i=0;i<parsedCarrierRates.length;i++){
+		tableTemplateHTML += "<tr>";
+		tableTemplateHTML += "<td><label class=\"btn btn-default select_container\"><input type=\"checkbox\" class=\"selectTableItem\"></label></td>";
+		tableTemplateHTML += "<td>" + parsedCarrierRates[i]["provider"] + "</td>";
+		tableTemplateHTML += "<td>" + parsedCarrierRates[i]["duration_terms"] + "</td>";
+		tableTemplateHTML += "<td>" + parsedCarrierRates[i]["days"] + "</td>";
+		tableTemplateHTML += "<td>" + parsedCarrierRates[i]["cost"] + "&nbsp;" + parsedCarrierRates[i]["currency"] + "</td>";
+		tableTemplateHTML += "</tr>";
+	}
+
+
+	//console.log(parcelData);
+
+	tableTemplateHTML += "</tbody></table><hr>";
+
+	shipment_options_table.append(tableTemplateHTML);
+
+
+
+
+}
+
 
 
 function updateItemFulfillmentState(){
