@@ -142,6 +142,8 @@ function parseShippingData(){
 
 	}
 
+	console.log(shippingData);
+
 }
 
 
@@ -445,6 +447,7 @@ function selectShippingOption(event){
 
 
 function updateItemFulfillmentState(){
+	console.log(fulfillmentData);
 	$(".order-fulfillment-glyph").each(function(){
 		var product_sku = $(this).attr('data-productSKU');
 		var selectorString = '[data-productSKU="' + product_sku + '"]';

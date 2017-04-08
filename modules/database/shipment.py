@@ -14,11 +14,12 @@ def loadOrderShipments(orderID, database):
 	currentQuery = "SELECT shipment_id,order_id,TrackingNumber,ShipmentDate,Carrier,SKU_List FROM shipping WHERE order_id=%s;"
 
 	try:
-		database.execute(currentQuery,(orderID,))
+		database.execute(currentQuery, (orderID,) )
 	except Exception as e:
 		return None
 
 	order_shipments = database.fetchall()
+
 
 	if order_shipments:
 		formattedShipmentData = {}
@@ -28,7 +29,8 @@ def loadOrderShipments(orderID, database):
 
 			for j in range(len(shipmentColumnMappings)):
 				formattedShipmentData[currentShipmentID][shipmentColumnMappings[j]] = order_shipments[i][j]
-			return formattedShipmentData	
+		
+		return formattedShipmentData	
 	else:
 		return None
 
