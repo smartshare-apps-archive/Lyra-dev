@@ -130,7 +130,7 @@ def createShipmentObject():
 
 	shippo.api_key = "shippo_test_0c91f05a81b1168a9e24f494b064a3ff5be3ebff"
 
-	print parcel_data
+	#print parcel_data
 
 	address_from = {
 		"name": shipping_address_from["ShippingFirstName"] + " " + shipping_address_from["ShippingLastName"],
@@ -191,8 +191,6 @@ def generateShippingLabel():
 	selected_option = request.form['selected_option']
 	selected_option = int(json.loads(selected_option))
 
-	
-
 	shippo.api_key = "shippo_test_0c91f05a81b1168a9e24f494b064a3ff5be3ebff"
 
 	#select the rate specified by the user
@@ -211,12 +209,14 @@ def generateShippingLabel():
 	if transaction.status == "SUCCESS":
 		shipping_label["label_url"] = transaction.label_url
 		shipping_label["tracking_number"] = transaction.tracking_number
+		shipping_label["carrier"] = rate["provider"]
+		#shipping_label["carrier"] = transaction.provider
 	else:
 		shipping_label["error_messages"] = transaction.messages
 
 
-
 	return json.dumps(shipping_label)
+
 
 
 

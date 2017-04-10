@@ -138,7 +138,25 @@
         <h4 class="modal-title"> Mark items as fulfilled </h4>
       </div>
       <div class="modal-body">
-        <p>Are you sure wish to mark these items as fulfilled? </p>
+        <div id="shipment_products_table_manual"></div>
+        <div id="manual_fulfillment_cont">
+        <h4> Enter a shipping label, or leave blank. </h4>
+        <hr>
+        <div class="input-group">
+          <span class="input-group-addon" id="inventory-addon">Carrier</span>
+          <input type="text" class="form-control" id="input_carrier" placeholder="e.g. USPS, FedEx">
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" id="inventory-addon" >Tracking #</span>
+          <input type="text" class="form-control" id="input_tracking_number">
+        </div>
+
+
+        </div>
+
+
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" id="btn_fulfillItems" data-dismiss="modal">Fulfill Items</button>

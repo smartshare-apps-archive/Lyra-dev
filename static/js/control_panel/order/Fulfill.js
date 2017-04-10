@@ -1,6 +1,6 @@
 var btn_buyLabel;
 var btn_markFulfilled;
-var btn_btn_fulfillItems;
+var btn_fulfillItems;
 var btn_createNewShipment;
 var btn_saveShipment;
 
@@ -76,12 +76,11 @@ function bindElements(){
 
 
 
-// why is this empty dumby
 function bindEvents(){
 
 
 
-
+	btn_fulfillItems.click(fulfillManually);
 }
 
 
@@ -149,8 +148,18 @@ function parseShippingData(){
 	for(shipment_id in shippingData){
 		var shipmentDetailsHTML = "";
 		shipmentDetailsHTML += "Tracking number: " + shippingData[shipment_id]["TrackingNumber"] + "<br>";
-		shipmentDetailsHTML += "Carrier: " + shippingData[shipment_id]["Carrier"] + "<br><br>";
-	  	shipmentDetailsHTML += "<a href=\"" + shippingData[shipment_id]["LabelURL"] + "\" target=\"" + "_blank\"><button type=\"button\" class=\"btn btn-primary btn-lg\"> <span class=\"glyphicon glyphicon-barcode\"></span> &nbsp;&nbsp; Click for label </button></a><br>";
+		shipmentDetailsHTML += "Carrier: " + shippingData[shipment_id]["Carrier"] + "<br>";
+
+		if(shippingData[shipment_id]["FulfillmentMethod"] == "manual"){
+			shipmentDetailsHTML += "Fulfillment method: " + shippingData[shipment_id]["FulfillmentMethod"] + "<br><br>";
+		}
+		else{
+			shipmentDetailsHTML += "Fulfillment method: " + shippingData[shipment_id]["FulfillmentMethod"] + "<br><br>";
+			shipmentDetailsHTML += "<a href=\"" + shippingData[shipment_id]["LabelURL"] + "\" target=\"" + "_blank\"><button type=\"button\" class=\"btn btn-primary\"> <span class=\"glyphicon glyphicon-barcode\"></span> &nbsp;&nbsp; Click for label </button></a>";
+		}
+
+		shipmentDetailsHTML += "<button type=\"button\" class=\"btn btn-default btn-view-shipment-products\"> <span class=\"glyphicon glyphicon-tag\"></span> &nbsp;&nbsp; View products </button><br>";
+
 		shipmentDetailsHTML += "<hr>";
 		order_shipment_details.append(shipmentDetailsHTML);
 	}
@@ -177,8 +186,10 @@ function populateProductData(){
 
 
 // pushs selected product data into shipping label generation modal or manual fulfillment modal
-function populateProductTable(){
-	shipment_products_table.html("");
+function populateProductTable(containerID){
+	var containerToPopulate = $("#"+containerID);
+
+	containerToPopulate.html("");
 
 	var tableTemplateHTML = "<table class=\"table table-bordered table-hover\" id=\"shipment_products\">";
 	tableTemplateHTML += "<thead>";
@@ -221,7 +232,7 @@ function populateProductTable(){
 
 	tableTemplateHTML += "</tbody></table><hr>";
 
-	shipment_products_table.append(tableTemplateHTML);
+	containerToPopulate.append(tableTemplateHTML);
 
 	$(".shipment-product-qty").each(function(){
 		var product_sku = $(this).attr('data-productSKU');
@@ -345,6 +356,8 @@ function calculateParcelData(){
 	shipment_options_table.html("");
 	selected_shipping_method.html("");
 	generated_label_data.html("");
+
+	console.log(parcelData);
 }
 
 
@@ -522,7 +535,10 @@ function toggleProductSelection(event){
 		btn_createNewShipment.attr('data-toggle','modal');
 		btn_markFulfilled.attr('data-toggle','modal');
 
-		populateProductTable();
+		// populate product table containers 
+		populateProductTable("shipment_products_table_ship");
+		populateProductTable("shipment_products_table_manual");
+
 		populateShipmentDetailsTable();
 		// load shipping address into modal
 		modal_loadShippingAddressTo();

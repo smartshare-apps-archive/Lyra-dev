@@ -31,7 +31,7 @@ orderColumnMappings = [
 ]
 
 shipmentColumnMappings = [
-	"shipment_id","order_id","TrackingNumber","LabelURL", "ShipmentDate","Carrier","SKU_List"
+	"shipment_id","order_id","TrackingNumber","LabelURL", "ShipmentDate","Carrier","SKU_List", "FulfillmentMethod"
 ]
 
 
@@ -172,7 +172,8 @@ shipmentFieldMapping = {
 	"LabelURL":"TEXT",
 	"ShipmentDate":"TEXT",
 	"Carrier":"TEXT",
-	"SKU_List":"TEXT"
+	"SKU_List":"TEXT",
+	"FulfillmentMethod": "TEXT"
 }
 
 

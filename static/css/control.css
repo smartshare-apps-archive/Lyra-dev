@@ -2111,6 +2111,13 @@ top:-1px;
     transform: translateY(-50%);
 }
 
+.btn-view-shipment-products{
+    margin-left:5px;
+}
+#order_shipment_details{
+    font-size:14px;
+}
+
 /* end order products table  */
 
 

@@ -11,7 +11,7 @@ from order_util import *
 import shippo
 
 def loadOrderShipments(orderID, database):
-	currentQuery = "SELECT shipment_id,order_id,TrackingNumber,LabelURL,ShipmentDate,Carrier,SKU_List FROM shipping WHERE order_id=%s;"
+	currentQuery = "SELECT shipment_id,order_id,TrackingNumber,LabelURL,ShipmentDate,Carrier,SKU_List,FulfillmentMethod FROM shipping WHERE order_id=%s;"
 
 	try:
 		database.execute(currentQuery, (orderID,) )
@@ -38,11 +38,11 @@ def loadOrderShipments(orderID, database):
 
 
 def createNewShipment(orderID, shipment_data, database):
-	currentQuery = "INSERT INTO shipping(order_id,ShipmentDate,TrackingNumber,Carrier,SKU_List,LabelURL) VALUES(%s,%s,%s,%s,%s,%s);"
+	currentQuery = "INSERT INTO shipping(order_id,ShipmentDate,TrackingNumber,Carrier,SKU_List,LabelURL,FulfillmentMethod) VALUES(%s,%s,%s,%s,%s,%s,%s);"
 
 	print "Order ID:", orderID
 	try:
-		database.execute(currentQuery, (orderID, 'today', shipment_data["tracking_number"], 'USPS', shipment_data["SKU_List"], shipment_data["label_url"]))
+		database.execute(currentQuery, (orderID, 'today', shipment_data["tracking_number"], shipment_data["carrier"], shipment_data["SKU_List"], shipment_data["label_url"], shipment_data["fulfillment_method"]))
 	except Exception as e:
 		print "Error creating new shipment record: ", e
 		return None

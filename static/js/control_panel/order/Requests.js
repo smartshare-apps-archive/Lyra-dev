@@ -164,7 +164,7 @@ function generateShippingLabel(event){
 	  			btn_saveShipment.unbind();
 	  			btn_saveShipment.removeAttr("data-dismiss");
 	  		}
-	  		else{
+	  		else {
 	  			generated_label_data.html("");
 	  			var labelHTML = "";
 	  			labelHTML += "Tracking number: &nbsp;&nbsp;<b>" + response["tracking_number"] + "</b><br><br>";
@@ -172,8 +172,10 @@ function generateShippingLabel(event){
 
 	  			currentShipmentDetails = {};
 
+	  			currentShipmentDetails["carrier"] = response["carrier"];
 	  			currentShipmentDetails["tracking_number"] = response["tracking_number"];
 	  			currentShipmentDetails["label_url"] = response["label_url"];
+	  			currentShipmentDetails["fulfillment_method"] = "shippo";
 	  			currentShipmentDetails["parcel_data"] = parcelData;
 
 	  			generated_label_data.append(labelHTML);
@@ -190,6 +192,18 @@ function generateShippingLabel(event){
 
 }
 
+
+function fulfillManually(){
+	currentShipmentDetails = {};
+
+	currentShipmentDetails["carrier"] = $("#input_carrier").val();
+	currentShipmentDetails["tracking_number"] =  $("#input_tracking_number").val();
+	currentShipmentDetails["label_url"] = "None";
+	currentShipmentDetails["fulfillment_method"] = "manual";
+	currentShipmentDetails["parcel_data"] = parcelData;
+
+	saveOrderShipment();
+}
 
 // saves the current order to the 
 function saveOrderShipment(){

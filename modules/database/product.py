@@ -16,7 +16,6 @@ def loadProduct(product_id, productDatabase):
 	productData = productDatabase.fetchone()
 
 	if productData:
-		print "Product data:", productData
 		formattedProductData = {}
 		for i in range(len(productColumnMappings)):
 			formattedProductData[productColumnMappings[i]] = productData[i]
