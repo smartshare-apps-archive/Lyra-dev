@@ -459,7 +459,7 @@ h4 {
 }
 
 #btn_confirmCollectionChanges {
-    margin-left:20px;
+    margin-left:10px;
 }
 
 /* inventory list styles */
@@ -2547,6 +2547,11 @@ top:-1px;
         width:75%;
     }
 
+    .collection-editor-container{
+         width:75%;
+    }
+
+
     .customer-editor-container{
          width:75%;
     }
@@ -2566,6 +2571,12 @@ top:-1px;
     .product-editor-container{
         width:100%;
     }
+
+    .collection-editor-container{
+         width:100%;
+    }
+
+
 
     .customer-editor-container{
          width:100%;
