@@ -556,8 +556,18 @@ h4 {
 
 
 .table.table-bordered.table-hover th{
-    font-family: 'Nunito Sans', sans-serif;
-    font-size:16px;
+    font-family: "Roboto", "Arial", sans-serif;
+    font-size:14px;
+    font-weight:normal;
+    height:40px;
+    border:0px solid black;
+    padding-left:20px;
+    vertical-align:middle;
+}
+
+.table.table-responsive.table-hover th{
+    font-family: "Roboto", "Arial", sans-serif;
+    font-size:14px;
     font-weight:normal;
     height:40px;
     border:0px solid black;
