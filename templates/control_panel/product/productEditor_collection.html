@@ -33,16 +33,28 @@
 				</div>
 
 			<div class="panel panel-default" id="panel_collection_visibility">
-				<h4> Conditions </h4>
-					Products are required to match: 
-					<label class="radio-inline"><input type="radio" name="optradio" id="radio_Strict">Any conditions</label>
-					<label class="radio-inline"><input type="radio" name="optradio" id="radio_Lax">All conditions</label>
-					<hr>
+				
+					<div class="btn-group select_container pull-right" role="group">
+						<label class="btn btn-default">
+							Products are required to match all conditions 
+						</label>
+				 		<label class="btn btn-default">
+							<input type='checkbox' class="collection-input-field selectTableItem" data-fieldID="Strict" data-fieldValue="1" {% if control_data.collection_data.Strict == 1 %}checked{% endif %}>
+							
+				        </label>
+				 
 
+					</div>
+
+
+					<hr>
+					<br>
 				<!-- Begin condition form editor -->
 				<div class="form-group" id="form_collection_conditions">
 					{% for condition_id, condition in control_data.formattedCollectionConditions.iteritems() %}
+						
 						<input type="hidden" id="condition_{{condition_id}}" value="{{condition}}" class="collection_condition">
+						
 					{% endfor %}
 				</div>
 
@@ -79,9 +91,9 @@
 
        				 			<label class="btn btn-default">
 									{% if control_data.collection_data.Published %}
-										<input type='checkbox' id="chk_collection_{{control_data.collection_data.collection_id}}" checked> 
+										<input type='checkbox' class="collection-input-field" data-fieldID="Published" data-collectionID="{{control_data.collection_data.collection_id}}" checked> 
 									{% else %}
-										<input type='checkbox' id="chk_collection_{{control_data.collection_data.collection_id}}"> 
+										<input type='checkbox' class="collection-input-field" data-fieldID="Published" data-collectionID="{{control_data.collection_data.collection_id}}"> 
 									{% endif %}
 						        </label>
 						 

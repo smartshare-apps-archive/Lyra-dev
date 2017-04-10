@@ -162,7 +162,7 @@ def loadAllProductVariants(formattedProductList, productDatabase):
 
 def loadCollection(collectionID, productDatabase):	
 	try:
-		productDatabase.execute("""SELECT collection_id,Title,BodyHTML,CollectionImageSrc,Published,Conditions,Strict,URL,Meta,PageTitle,Template,resources FROM collections WHERE collection_id=%s;""",(collectionID,));
+		productDatabase.execute("SELECT collection_id,Title,BodyHTML,CollectionImageSrc,Published,Conditions,Strict,URL,Meta,PageTitle,Template,resources FROM collections WHERE collection_id=%s;",(collectionID,));
 	except Exception as e:
 		return None
 	
@@ -201,9 +201,14 @@ def loadCollections(productDatabase):
 
 
 #load products meeting certain conditions
-def loadProductsInCollection(conditions, productDatabase):
+def loadProductsInCollection(collectionData, productDatabase):
+	print collectionData
+
+	conditions = collectionData["Conditions"]
+
 	formattedConditions = ""
 	conditions = conditions.split(";")
+
 	for i in range(len(conditions)):
 		currentCondition = conditions[i].split(":")
 
@@ -218,25 +223,26 @@ def loadProductsInCollection(conditions, productDatabase):
 				rule = " LIKE "
 			
 			if rule == " LIKE ":
-				value = "%" + value + "%"
-			
+				value = "'%" + value + "%'"
 
-			if productFieldMapping[field] == "TEXT":
-				value = "\"" + value + "\""
-			elif productFieldMapping[field] == "INTEGER" or productFieldMapping[field] == "REAL":
-				value = value
-			else:
-				value = "\"" + value + "\""
 
 			currentCondition = field + rule + value
 			formattedConditions += currentCondition
-			formattedConditions += " AND "
+
+			if(i != len(conditions)-2):
+				#print "I: ", i, ":", len(conditions)-2
+				if(collectionData["Strict"] == 0):
+					formattedConditions += " OR "
+				else:
+					formattedConditions += " AND "
+			
 		else:
 			del conditions[i]
 
-	formattedConditions = formattedConditions[:-5]
-	currentQuery = 'SELECT product_id FROM products WHERE %s;' % formattedConditions
-	
+
+	currentQuery = "SELECT product_id FROM products WHERE %s;" % formattedConditions
+	print "Collection query: ", currentQuery
+
 	try:
 		productDatabase.execute(currentQuery)
 	except Exception as e:
@@ -539,6 +545,7 @@ def saveProductInventoryData(variantData, productDatabase):
 
 #update collection data, including conditions
 def saveCollectionData(collectionData, productDatabase):
+	orderedFields = collections.OrderedDict()
 	fieldUpdates = ""
 	
 	for field, value in collectionData.iteritems():
@@ -546,23 +553,24 @@ def saveCollectionData(collectionData, productDatabase):
 		if field == "collection_id":
 			collection_id = int(value)
 			continue
-		if collectionFieldMapping[field] == "TEXT":
-			fieldUpdates += (field + "=\"" + value + "\",")
-		elif collectionFieldMapping[field] == "INTEGER":
-			fieldUpdates += (field + "=" + str(value) + ",")
-		elif collectionFieldMapping[field] == "REAL":
-			fieldUpdates += (field + "=" + str(value) + ",")
-		else:
-			fieldUpdates += (field + "=\"" + value + "\",")
+		else:	
+			orderedFields[field] = value
+			fieldUpdates += field + "=%s," 
 
-	fieldUpdates = fieldUpdates[:-1] 	#remove the last comma
-	currentQuery = "UPDATE collections SET %s WHERE collection_id = %s;" % (fieldUpdates,collection_id)	#pop in the fieldUpdates for this query
-			
+	fieldUpdates = fieldUpdates[:-1]
+
+	valueList = [value for field, value in orderedFields.iteritems()]
+	valueList.append(collection_id)
+
+	currentQuery = "UPDATE collections SET %s WHERE collection_id =" % fieldUpdates	#pop in the fieldUpdates for this query
+	currentQuery += " %s;" 
+
+	print currentQuery,":", valueList
+
 	try:
-		productDatabase.execute(currentQuery)		#run current query
+		productDatabase.execute(currentQuery, valueList)		#run current query
 	except Exception as e:
 		print "Exception:", e
-
 
 
 def setDefaultProductImage(product_id, resource_id, productDatabase):

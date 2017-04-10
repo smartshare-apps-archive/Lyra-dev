@@ -60,6 +60,8 @@ userColumnMappings = [
 
 
 collectionRuleMappings = {
+	">":">",
+	"<":"<",
 	">=":">=",
 	"<=":"<=",
 	"c":" LIKE ",

@@ -229,7 +229,7 @@ class ControlPanel(object):
 		for i in range(len(collectionConditions)):
 			formattedCollectionConditions[str(i)] = collectionConditions[i]
 		
-		products = loadProductsInCollection(collectionData["Conditions"], self.database)	
+		products = loadProductsInCollection(collectionData, self.database)	
 		
 		self.control_data["collectionProductsTable"] = render_template("control_panel/product/productEditor_productsInCollection.html", products = products)	
 

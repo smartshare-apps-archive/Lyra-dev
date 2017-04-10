@@ -65,6 +65,10 @@ function bindEvents(){
 		$("#collection_description").val($('#collection_description_editor').summernote('code'));
 	});
 
+	$(".collection-input-field").each(function(){
+		$(this).change(updateCollectionData);
+	});
+
 }
 
 
@@ -103,6 +107,7 @@ function setupInitialConditions(){
 		var currentCondition = $(this).val();
 
 		currentCondition = replaceAll(currentCondition,' ','');
+		currentCondition = replaceAll(currentCondition,'u\'','\'');
 
 		var currentConditionID = $(this).attr('id').split('_')[1];
 
@@ -342,9 +347,25 @@ function addCondition(conditionID, conditionTemplate, condition=defaultCondition
 
 
 function updateCollectionData(){
+
+	$(".collection-input-field").each(function(){
+		var field = $(this).attr('data-fieldID');
+
+		if(field == 'Published'){
+			var value = $(this).prop('checked');
+		}
+		else if(field == 'Strict'){
+			var value = $(this).prop('checked');
+		}
+		else{
+			var value = $(this).val();
+		}
+
+		collectionData[field] = value;
+	});
+
 	collectionData["collection_id"] = collectionID;
 	collectionData["Conditions"] = currentConditions;
-	collectionData["Published"] = 1;
 	collectionData["Title"] = $("#input_collection_title").val();
 	collectionData["BodyHTML"] = $("#collection_description").val();
 	console.log(collectionData);
