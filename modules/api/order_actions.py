@@ -255,3 +255,26 @@ def saveOrderShipment():
 
 
 	return json.dumps("success")
+
+
+
+@orderActions.route('/actions/deleteOrderShipment', methods=['POST'])
+#@admin_required(current_app, session, login_redirect)
+def deleteOrderShipment():
+	order_id = request.form['order_id']
+	order_id = json.loads(order_id)
+
+	shipment_id = request.form['shipment_id']
+	shipment_id = json.loads(shipment_id)
+
+
+	db = db_handle()
+	database = db.cursor()
+	
+	print "shipment_id:", shipment_id
+	shipment.deleteShipment(order_id, shipment_id, database)
+
+	db.commit()
+	db.close()
+
+	return json.dumps("success")

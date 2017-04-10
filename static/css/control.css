@@ -2114,8 +2114,17 @@ top:-1px;
 .btn-view-shipment-products{
     margin-left:5px;
 }
+
+.btn-delete-shipment{
+   
+}
+
 #order_shipment_details{
     font-size:14px;
+}
+
+.shipment-product-table{
+    display:none;
 }
 
 /* end order products table  */

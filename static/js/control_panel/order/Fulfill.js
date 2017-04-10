@@ -147,6 +147,9 @@ function parseShippingData(){
 
 	for(shipment_id in shippingData){
 		var shipmentDetailsHTML = "";
+
+
+
 		shipmentDetailsHTML += "Tracking number: " + shippingData[shipment_id]["TrackingNumber"] + "<br>";
 		shipmentDetailsHTML += "Carrier: " + shippingData[shipment_id]["Carrier"] + "<br>";
 
@@ -158,10 +161,45 @@ function parseShippingData(){
 			shipmentDetailsHTML += "<a href=\"" + shippingData[shipment_id]["LabelURL"] + "\" target=\"" + "_blank\"><button type=\"button\" class=\"btn btn-primary\"> <span class=\"glyphicon glyphicon-barcode\"></span> &nbsp;&nbsp; Click for label </button></a>";
 		}
 
-		shipmentDetailsHTML += "<button type=\"button\" class=\"btn btn-default btn-view-shipment-products\"> <span class=\"glyphicon glyphicon-tag\"></span> &nbsp;&nbsp; View products </button><br>";
 
+		shipmentDetailsHTML += "<button type=\"button\" class=\"btn btn-default btn-view-shipment-products\" data-shipmentID=\"" + shipment_id + "\"> <span class=\"glyphicon glyphicon-tag\"></span> &nbsp;&nbsp; Show products </button>";
+		shipmentDetailsHTML += "<button type=\"button\" class=\"btn btn-danger pull-right btn-delete-shipment\" data-shipmentID=\"" + shipment_id + "\"> <span class=\"glyphicon glyphicon-remove\"></span> &nbsp;&nbsp; Delete Shipment </button><br>";
+
+		shipmentDetailsHTML += "<div class=\"shipment-product-table\" data-shipmentID=\"" + shipment_id + "\"> </div>";
+		
 		shipmentDetailsHTML += "<hr>";
+
 		order_shipment_details.append(shipmentDetailsHTML);
+		
+		var selectorString = '[data-shipmentID="' + shipment_id + '"]';
+		
+		populateProductTable_shipment(shipment_id);
+
+		$(".btn-view-shipment-products" + selectorString).click({shipment_id: shipment_id}, toggleShipmentProductTable);
+		$(".btn-delete-shipment" + selectorString).click({shipment_id: shipment_id}, deleteOrderShipment);
+	}
+
+
+}
+
+function toggleShipmentProductTable(event){
+	var shipment_id = event.data.shipment_id;
+
+	var selectorString = '[data-shipmentID="' + String(shipment_id) + '"]';  
+	var containerToToggle = $(".shipment-product-table" + selectorString);
+	var toggleBtn = $(".btn-view-shipment-products" + selectorString);
+
+
+	var currentDisplayMode = containerToToggle.css('display');
+
+	if(currentDisplayMode == 'none'){
+		containerToToggle.css('display','initial');
+		toggleBtn.html("<span class=\"glyphicon glyphicon-tag\"></span> &nbsp;&nbsp; Hide products </button>");
+
+	}	
+	else{
+		containerToToggle.css('display','none');
+		toggleBtn.html("<span class=\"glyphicon glyphicon-tag\"></span> &nbsp;&nbsp; Show products </button>");
 	}
 
 }
@@ -191,7 +229,7 @@ function populateProductTable(containerID){
 
 	containerToPopulate.html("");
 
-	var tableTemplateHTML = "<table class=\"table table-bordered table-hover\" id=\"shipment_products\">";
+	var tableTemplateHTML = "<table class=\"table table-bordered table-hover\">";
 	tableTemplateHTML += "<thead>";
 	tableTemplateHTML += "<th> Product </th>";
 	tableTemplateHTML += "<th> Variant SKU </th>";
@@ -213,8 +251,13 @@ function populateProductTable(containerID){
 		}
 		
 		var quantity_range = range(1, remainingQty, 1);
-	
-		var productQtyDropdown = "<select class=\"shipment-product-qty form-control\" data-productSKU=\"" + product_sku + "\">"; 
+
+		if(containerID == "shipment_products_table_manual"){
+			var productQtyDropdown = "<select class=\"shipment-product-qty  manual form-control\" data-productSKU=\"" + product_sku + "\">"; 
+		}
+		else if(containerID == "shipment_products_table_ship"){
+			var productQtyDropdown = "<select class=\"shipment-product-qty shippo form-control\" data-productSKU=\"" + product_sku + "\">"; 
+		}
 
 		for(var i=0;i<quantity_range.length;i++){
 			productQtyDropdown += "<option value=\""+quantity_range[i] + "\">" + quantity_range[i] + "</option>";
@@ -234,13 +277,27 @@ function populateProductTable(containerID){
 
 	containerToPopulate.append(tableTemplateHTML);
 
-	$(".shipment-product-qty").each(function(){
-		var product_sku = $(this).attr('data-productSKU');
 
-		$(this).unbind();
-		$(this).change(calculateParcelData);
-		
-	});
+	if(containerID == "shipment_products_table_manual"){
+
+		$(".shipment-product-qty.manual").each(function(){
+			var product_sku = $(this).attr('data-productSKU');
+
+			$(this).unbind();
+			$(this).change({fulfillment_method: "manual"} ,calculateParcelData);
+			
+		});
+	}
+	else if(containerID == "shipment_products_table_ship"){
+
+		$(".shipment-product-qty.shippo").each(function(){
+			var product_sku = $(this).attr('data-productSKU');
+
+			$(this).unbind();
+			$(this).change({fulfillment_method: "shippo"} ,calculateParcelData);
+			
+		});
+	}
 
 	//calculates initial parcel data
 	calculateParcelData();
@@ -251,6 +308,49 @@ function populateProductTable(containerID){
 	shipment_options_table.html("");
 	selected_shipping_method.html("");
 	generated_label_data.html("");
+}
+
+
+
+// 
+function populateProductTable_shipment(shipment_id){
+	var selectorString = '[data-shipmentID="' + String(shipment_id) + '"]';  
+	var containerToPopulate = $(".shipment-product-table" + selectorString);
+
+	containerToPopulate.html("");
+
+	var tableTemplateHTML = "<hr><table class=\"table table-bordered table-hover\">";
+	tableTemplateHTML += "<thead>";
+	tableTemplateHTML += "<th> Product </th>";
+	tableTemplateHTML += "<th> Variant SKU </th>";
+	tableTemplateHTML += "<th> Weight (kg) </th>";
+	tableTemplateHTML += "<th> Quantity </th>";
+	tableTemplateHTML += "</thead>";
+	tableTemplateHTML += "<tbody>";
+
+	var shipment_products = shippingData[shipment_id]["SKU_List"].split(';');
+
+	shipment_products.pop();	// remove last empty element from list of products and their quantities
+
+	// extract current fulfillment data for each product 
+	for(var i=0;i<shipment_products.length;i++){
+		var currentProduct = shipment_products[i].split(':');
+		
+		var product_sku = currentProduct[0];
+		var product_qty = currentProduct[1];
+
+		tableTemplateHTML += "<tr>";
+		tableTemplateHTML += "<td>" + productData[product_sku]["Title"] + "</td>";
+		tableTemplateHTML += "<td>" + product_sku + "</td>";
+		tableTemplateHTML += "<td>" + (productData[product_sku]["Weight"]/1000) + "</td>";
+		tableTemplateHTML += "<td>" + product_qty +  "</td>";
+		tableTemplateHTML += "</tr>";
+	}
+
+	tableTemplateHTML += "</tbody></table><hr>";
+
+	containerToPopulate.append(tableTemplateHTML);
+
 }
 
 
@@ -322,16 +422,37 @@ function modal_loadShippingAddressTo(){
 
 
 
-function calculateParcelData(){
+function calculateParcelData(event){
+	if(typeof event == 'undefined'){
+		var fulfillment_method = "shippo";
+	}
+	else{
+		var fulfillment_method = event.data.fulfillment_method;
+	}
+
+	console.log(fulfillment_method);
+
 	parcelData = {};
 
-	$(".shipment-product-qty").each(function(){
-		var product_sku = $(this).attr('data-productSKU');
-		var product_qty = $(this).val();
+	if(fulfillment_method == "shippo"){
+		$(".shipment-product-qty.shippo").each(function(){
+			var product_sku = $(this).attr('data-productSKU');
+			var product_qty = $(this).val();
 
-		//console.log(product_sku + ":" + product_qty);
-		parcelData[product_sku] = parseInt(product_qty);
-	});
+			//console.log(product_sku + ":" + product_qty);
+			parcelData[product_sku] = parseInt(product_qty);
+		});
+	}
+	else if(fulfillment_method == "manual"){
+		$(".shipment-product-qty.manual").each(function(){
+			var product_sku = $(this).attr('data-productSKU');
+			var product_qty = $(this).val();
+
+			//console.log(product_sku + ":" + product_qty);
+			parcelData[product_sku] = parseInt(product_qty);
+		});
+	}
+
 
 	var totalItemCount = 0;
 	var totalParcelWeight = 0.00; //total weight in grams, can be converted later if necessary

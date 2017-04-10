@@ -48,3 +48,17 @@ def createNewShipment(orderID, shipment_data, database):
 		return None
 
 	return True
+
+
+
+def deleteShipment(orderID, shipment_id, database):
+	currentQuery = "DELETE FROM shipping WHERE order_id=%s AND shipment_id=%s;"
+
+	print "Order ID:", orderID
+	try:
+		database.execute(currentQuery, (orderID, shipment_id, ))
+	except Exception as e:
+		print "Error deleting shipment record: ", e
+		return None
+
+	return True

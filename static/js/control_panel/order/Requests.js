@@ -205,7 +205,9 @@ function fulfillManually(){
 	saveOrderShipment();
 }
 
-// saves the current order to the 
+
+
+// saves the current order shipment
 function saveOrderShipment(){
 	$.ajax({
 	  method: "POST",
@@ -218,3 +220,21 @@ function saveOrderShipment(){
 	  	window.location.reload();
 	 });
 }
+
+
+// deletes the current order shipment
+function deleteOrderShipment(event){
+	var shipment_id = event.data.shipment_id;
+
+	$.ajax({
+	  method: "POST",
+	  url: "/actions/deleteOrderShipment",
+	  dataType: "json",
+	  data: { order_id: JSON.stringify(order_id), shipment_id: JSON.stringify(shipment_id) },
+	  traditional: true
+	})
+	.done(function( response ) {
+	  	window.location.reload();
+	 });
+}
+
