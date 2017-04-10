@@ -193,12 +193,12 @@ function toggleShipmentProductTable(event){
 	var currentDisplayMode = containerToToggle.css('display');
 
 	if(currentDisplayMode == 'none'){
-		containerToToggle.css('display','initial');
+		containerToToggle.slideToggle();
 		toggleBtn.html("<span class=\"glyphicon glyphicon-tag\"></span> &nbsp;&nbsp; Hide products </button>");
 
 	}	
 	else{
-		containerToToggle.css('display','none');
+		containerToToggle.slideToggle();
 		toggleBtn.html("<span class=\"glyphicon glyphicon-tag\"></span> &nbsp;&nbsp; Show products </button>");
 	}
 
