@@ -249,11 +249,20 @@ def saveOrderShipment():
 	print shipment_data
 
 	shipment.createNewShipment(order_id, shipment_data, database)
+	db.commit()
+
+	orderFulfillmentState = refreshFulfillmentState(order_id, database)
+
+	
+
+	if(orderFulfillmentState == True):
+		order.set_OrderFulfillmentStatus(database, order_id,'fulfilled')
+	else:
+		order.set_OrderFulfillmentStatus(database, order_id,'unfulfilled')
 
 	db.commit()
 	db.close()
-
-
+	
 	return json.dumps("success")
 
 
@@ -271,10 +280,46 @@ def deleteOrderShipment():
 	db = db_handle()
 	database = db.cursor()
 	
-	print "shipment_id:", shipment_id
 	shipment.deleteShipment(order_id, shipment_id, database)
 
 	db.commit()
 	db.close()
 
 	return json.dumps("success")
+
+
+
+def refreshFulfillmentState(order_id, database):
+	orderShipments = shipment.loadOrderShipments(order_id, database)
+	orderData = order.loadOrder(order_id, database)
+
+	fulfillmentData = {}
+
+	for shipment_id, shipment_data in orderShipments.iteritems():
+		sku_list = filter(lambda s: s != '', shipment_data["SKU_List"].split(';'))
+		for product_sku in sku_list:
+			productSplit = product_sku.split(':')
+
+			current_sku = productSplit[0]
+			product_qty = int(productSplit[1])
+
+			if current_sku in fulfillmentData:
+				fulfillmentData[current_sku] += product_qty
+			else:
+				fulfillmentData[current_sku] = product_qty
+
+	order_products = filter(lambda s: s!='', orderData["SKU_List"].split(','))
+
+	fulfillmentState = True
+
+	for product in order_products:
+		productSplit = product.split(';')
+		
+		current_sku = productSplit[0]
+		product_qty = int(productSplit[1])
+
+		if(fulfillmentData[current_sku] != product_qty):
+			fulfillmentState = False
+			return fulfillmentState
+
+	return fulfillmentState

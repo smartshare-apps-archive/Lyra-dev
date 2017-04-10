@@ -20,7 +20,7 @@ var order_shipment_details;
 
 
 var fulfillmentData = {};
-
+var orderFulfilled;
 
 var shippingAddress_to = {};
 var shippingAddress_from = {};
@@ -48,6 +48,7 @@ $(document).ready(function(){
 
 	parseShippingData();
 	updateItemFulfillmentState();
+	
 });
 
 
@@ -593,6 +594,9 @@ function selectShippingOption(event){
 
 function updateItemFulfillmentState(){
 	//console.log(fulfillmentData);
+
+	orderFulfilled = true;
+
 	$(".order-fulfillment-glyph").each(function(){
 		var product_sku = $(this).attr('data-productSKU');
 		var selectorString = '[data-productSKU="' + product_sku + '"]';
@@ -603,7 +607,8 @@ function updateItemFulfillmentState(){
 			$(this).html("<span class=\"glyph-fulfilled glyphicon red glyphicon-remove\"></span>");
 				
 				// on click enabled
-				$(".order_product_fulfillment" + selectorString).click({product_sku: product_sku}, toggleProductSelection);		
+				$(".order_product_fulfillment" + selectorString).click({product_sku: product_sku}, toggleProductSelection);
+				orderFulfilled = false;		
 		}
 
 		// this item has been fulfilled

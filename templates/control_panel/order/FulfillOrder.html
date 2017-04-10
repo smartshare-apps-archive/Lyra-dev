@@ -24,7 +24,13 @@
 				<!-- begin fulfillment details panel -->
 				<div class="panel panel-default" id="panel_fulfillment_details">
 					<h4> <a href="/control/orders/{{control_data.order_id}}"><button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-chevron-left"></span> &nbsp; Back to order </button></a>
-					
+
+					{% if control_data.order_data.FulfillmentStatus == "fulfilled" %}
+						<button type="button" class="btn btn-success btn-lg pull-right"><span class="glyphicon glyphicon-ok"></span>&nbsp; This order is fulfilled </button>
+					{% elif control_data.order_data.FulfillmentStatus == "unfulfilled" %}
+						<button type="button" class="btn btn-danger btn-lg pull-right"><span class="glyphicon glyphicon-warning-sign"></span>&nbsp; This order is not Fulfilled </button>
+					{% endif %}
+
 					<br>
 					<!-- begin order details -->
 					<div class="row">

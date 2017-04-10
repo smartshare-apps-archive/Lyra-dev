@@ -225,6 +225,15 @@ def set_OrderPaymentStatus(database, token_id, payment_status):
 		print e
 
 
+def set_OrderFulfillmentStatus(database, order_id, fulfillment_status):
+	currentQuery = "UPDATE orders SET FulfillmentStatus=%s WHERE order_id=%s;"
+
+	try:
+		database.execute(currentQuery, (fulfillment_status, order_id, ))
+	except Exception as e:
+		print e
+
+
 
 def set_OrderChargeID(database, token_id, charge_id):
 	currentQuery = "UPDATE orders SET charge_id=%s WHERE token_id=%s;"

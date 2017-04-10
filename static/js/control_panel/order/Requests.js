@@ -209,6 +209,8 @@ function fulfillManually(){
 
 // saves the current order shipment
 function saveOrderShipment(){
+	
+
 	$.ajax({
 	  method: "POST",
 	  url: "/actions/saveOrderShipment",
