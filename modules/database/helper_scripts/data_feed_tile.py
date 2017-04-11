@@ -34,7 +34,7 @@ class data_feed_tile(object):
 	def load_data_sources(self, source_handles):
 		self.source_handles = source_handles
 		
-
+	
 	def run_script(self):
 		self.parse_query_file()	#cycle through file and parse out data source ids and the queries 
 		self.run_query_list()	#run all the queries in the lsql file associated with this tile
@@ -42,8 +42,9 @@ class data_feed_tile(object):
 
 		self.register_operations()	#registers the list of operations to be performed on the data
 		self.run_operations()	# runs the data operations
-		
 
+
+	# runs all the queries stored in the corresponding "lsql" file
 	def run_query_list(self):
 		self.data = {}
 
@@ -61,7 +62,7 @@ class data_feed_tile(object):
 					self.data[query_name][i] = list(temp_data)
 				
 
-
+	# fills unmodified data from queries 
 	def populate_template_data(self):
 		self.template_data = {}
 
@@ -71,10 +72,12 @@ class data_feed_tile(object):
 		return self.template_data
 
 
+	#runs a specific operation on the data
 	def run(self, op):
 		return self.possible_operations[op]()
 
 
+	#runs all registered data operations
 	def run_operations(self):
 		for op, fn in self.possible_operations.iteritems():
 			self.run(op)

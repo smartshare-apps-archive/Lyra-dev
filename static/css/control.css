@@ -2522,7 +2522,9 @@ top:-1px;
 
 /* dashboard styles */
 
-
+.bokeh-plot-container {
+    padding:0px;
+}
 
 
 

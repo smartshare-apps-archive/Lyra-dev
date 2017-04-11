@@ -19,6 +19,10 @@
 							{{ rendered_tile | safe }}
 					{% endfor %}
 
+					{% for tile_id, rendered_plot in control_data.rendered_plots.iteritems() %}
+							{{ rendered_plot | safe }}
+					{% endfor %}
+
 				</div>
 
 

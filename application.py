@@ -22,6 +22,7 @@ from modules.api import store_actions
 from modules.api import order_actions
 from modules.api import customer_actions
 from modules.api import search_actions
+from modules.api import data_actions
 
 #control panel rendering sections, which route to specific parts of the control panel
 from modules.control_panel import products
@@ -66,6 +67,8 @@ application.register_blueprint(order_actions.orderActions)
 application.register_blueprint(customer_actions.customerActions)
 application.register_blueprint(resource_actions.resourceActions)
 application.register_blueprint(search_actions.searchActions)
+application.register_blueprint(data_actions.dataActions)
+
 
 #register control panel blueprints
 application.register_blueprint(products.product_routes)

@@ -1,2 +1,2 @@
-order_data<query_split>SELECT COUNT(*) FROM orders;
+order_count<query_split>SELECT COUNT(*) FROM orders;
 order_totals<query_split>SELECT OrderTotal FROM orders;

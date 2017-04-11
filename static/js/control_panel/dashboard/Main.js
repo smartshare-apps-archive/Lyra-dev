@@ -3,6 +3,10 @@ $(document).ready(function(){
 bindElements();
 bindEvents();
 
+
+	
+
+
 });
 
 
@@ -18,4 +22,3 @@ function run_PyUtil(event){
 
 function bindEvents(){
 
-}

@@ -939,6 +939,7 @@ class ControlPanel(object):
 		dashboard_tiles = dashboard.loadAllDashboardTiles(self.database)
 
 		rendered_tiles = {}
+		rendered_plots = {}
 
 		for tile_id, tile_data in dashboard_tiles.iteritems():
 			if tile_data["tile_type"] == "data-feed":
@@ -948,7 +949,7 @@ class ControlPanel(object):
 
 				print "Loaded requirements:", tile_data["requirements"]
 
-				tile_data["helper_script"] = loadHelperScript(tile_data["requirements"]["helper_script"])
+				tile_data["helper_script"] = load_FeedHelperScript(tile_data["requirements"]["helper_script"])
 
 				print "Loaded a helper object: ", tile_data["helper_script"]
 
@@ -980,33 +981,38 @@ class ControlPanel(object):
 				rendered_tiles[tile_id] = tile_template
 
 
-		self.control_data["rendered_tiles"] = rendered_tiles	
+
+			# bokeh tile type dashboard element	
+			elif tile_data["tile_type"] == "data-plot":
+
+				tile_data["requirements"] = parsePlot_requirements(tile_data)
+
+				tile_data["helper_script"] = load_PlotHelperScript(tile_data["requirements"]["helper_script"])
+
+				helper_instance = tile_data["helper_script"](tile_data["requirements"]["data_endpoint"], tile_data["requirements"]["template_file"], tile_data["requirements"]["data_sources"])
+				
+				data_sources = set(helper_instance.data_sources.split(','))
+
+				source_handles = {}
+				
+				
+				helper_instance.set_database(self.database)	#point the helper instance at the data source for query file
+				helper_instance.load_data_sources(source_handles)	#load local db functions, if necessary
+			
+				helper_instance.run_script()
+
+				
+				template_data = helper_instance.template_data
+
+				tile_template = render_template("control_panel/dashboard/tile_templates/"+helper_instance.template_file, template_data = template_data)
+				
+				rendered_plots[tile_id] = tile_template
+
+
+
+		self.control_data["rendered_tiles"] = rendered_tiles
+		self.control_data["rendered_plots"] = rendered_plots	
 
 		return render_template("control_panel/dashboard/Main.html", control_data = self.control_data)
 
 
-
-
-
-'''
-
-Lyra dashboard:
-
-A responsive dashboard API should consist of several parts. First, there should be restful endpoints that can stream requested data in a plot-ready format. 
-Included in these endpoints should be metadata describing the type of plot as well as other relevant information, such as axes labels and the like. 
-In addition to these endpoints, a dynamic container page that can add and remove these plots in realtime is necessary for the dashboard. 
-
-Several database tables will need to be added to accomodate these new features:
-
-	1. The dashboard plots will be maintained by a database table called 'dashboard_plots' which will contain several key fields:
-
-	'plot_id', 'plot_type', 'plot_label', and 'plot_data'
-
-
-	2. Dashboard statistics will be maintained by a table called 'dashboard_stats' which will contain the following fields:
-
-	'stat_id', 'stat_type', 'stat_label', and 'stat_data'
-
-
-
-'''
