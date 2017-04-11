@@ -8,6 +8,7 @@ import product
 from product_util import *
 from order_util import *
 
+
 def loadOrder(orderID, database):
 	currentQuery = """SELECT order_id,Date,customer_id,PaymentInfo,PaymentStatus,FulfillmentStatus,SKU_List,OrderTotal,TaxTotal,ShippingTotal,SubTotal,OrderEvents,Currency,ShippingAddress,ShippingAddress2,ShippingCity,ShippingPostalCode,ShippingCountry,Company,
 					ShippingFirstName,ShippingLastName,Email,ShippingState,PhoneNumber,Note,BillingAddress,BillingAddress2,BillingCity,BillingPostalCode,BillingCountry,BillingFirstName,BillingLastName,BillingState,token_id,charge_id,order_creation_method FROM orders WHERE order_id = %s;"""

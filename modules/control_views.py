@@ -17,6 +17,7 @@ import database.dashboard as dashboard
 
 from database.product_util import *
 from database.order_util import *
+from database.dashboard_util import *
 
 
 from db import *
@@ -935,8 +936,47 @@ class ControlPanel(object):
 
 	def dashboard_Main(self):
 		self.control_data["page"] = "dashboard"
+		dashboard_tiles = dashboard.loadAllDashboardTiles(self.database)
+
+		rendered_tiles = {}
+
+		for tile_id, tile_data in dashboard_tiles.iteritems():
+			if tile_data["tile_type"] == "data-feed":
+				print "Detected data feed tile, loading requirements..."
+
+				tile_data["requirements"] = parseDataFeed_requirements(tile_data)
+
+				print "Loaded requirements:", tile_data["requirements"]
+
+				tile_data["helper_script"] = loadHelperScript(tile_data["requirements"]["helper_script"])
+
+				print "Loaded a helper object: ", tile_data["helper_script"]
+
+				helper_instance = tile_data["helper_script"](tile_data["requirements"]["query_file"], tile_data["requirements"]["template_file"], tile_data["requirements"]["data_sources"])
+				
+				data_sources = set(helper_instance.data_sources.split(','))
+
+				source_handles = {}
+				
+				for source_id in data_sources:
+					if source_id == "order":
+						source_handles["order"] = order
+					elif source_id == "config":
+						source_handles["config"] = config
+
+				helper_instance.set_database(self.database)
+				helper_instance.load_data_sources(source_handles)
+			
+				helper_instance.parse_query_file()
+				helper_instance.run_query_list()
+				template_data = helper_instance.populate_template_data()
+
+				tile_template = render_template("control_panel/dashboard/tile_templates/"+helper_instance.template_file, template_data = template_data)
+				
+				rendered_tiles[tile_id] = tile_template
 
 
+		self.control_data["rendered_tiles"] = rendered_tiles	
 
 		return render_template("control_panel/dashboard/Main.html", control_data = self.control_data)
 

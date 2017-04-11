@@ -57,6 +57,10 @@ userColumnMappings = [
 	"user_id", "customer_id", "username", "level", "is_active", "last_login", "created_on", "order_list"
 ]
 
+dashboardColumnMappings = [
+	"tile_id", "tile_type", "requirements", "resources"
+]
+
 
 
 collectionRuleMappings = {
@@ -176,6 +180,13 @@ shipmentFieldMapping = {
 	"Carrier":"TEXT",
 	"SKU_List":"TEXT",
 	"FulfillmentMethod": "TEXT"
+}
+
+dashboardFieldMapping = {
+	"tile_id": "INTEGER",
+	"tile_type": "TEXT",
+	"requirements": "TEXT",
+	"resources": "TEXT"
 }
 
 
