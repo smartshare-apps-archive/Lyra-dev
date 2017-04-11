@@ -2522,13 +2522,8 @@ top:-1px;
 
 /* dashboard styles */
 
-.dashboard-widget{
-    border-radius:5px;
-    border:1px solid rgba(53,53,53,0.4);
-    padding:20px;
-    width:100%;
 
-}
+
 
 
 
@@ -2556,6 +2551,9 @@ top:-1px;
          width:75%;
     }
 
+    .dashboard-container {
+        width:75%;
+    }
 
 
 @media screen and (max-width: 1824px){
@@ -2581,6 +2579,11 @@ top:-1px;
     .customer-editor-container{
          width:100%;
     }
+
+    .dashboard-container {
+        width:100%;
+    }
+
 
 }
 

@@ -363,17 +363,13 @@ class Store(object):
 
 	def LoadCollection(self, collection_id):
 		collectionData = loadCollection(collection_id, self.database)
-		products = loadProductsInCollection(collectionData["Conditions"], self.database)	
-		products = filter(lambda p: p["Published"]=="true", products)
-		productDict = {}
-
-		for product in products:
-			productDict[product["product_id"]] = product
+		products = loadProductsInCollection(collectionData, self.database)	
+		products = filter(lambda p: p["Published"]==True, products)
 
 		rows = formatProductRows(products)
 
 		self.store_data["collection_title"] = collectionData["Title"]
-		self.store_data["product_rows"] = render_template("store/product_row.html", products=productDict, rows=rows)
+		self.store_data["product_rows"] = render_template("store/product_row.html", products=products, rows=rows)
 
 		return self.store_data
 
