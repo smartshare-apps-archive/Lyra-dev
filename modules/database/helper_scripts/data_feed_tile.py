@@ -4,14 +4,15 @@
 	so long as the basic structure and flow remains the same 
 
 """
+import collections
 
 class data_feed_tile(object):
 	
-	def __init__(self, query_file, template_file, data_sources, data_operations):
+	def __init__(self, query_file, template_file, data_sources):
 		self.query_file = query_file
 		self.template_file = template_file
 		self.data_sources = data_sources
-		self.possible_operations = {}
+		self.possible_operations = collections.OrderedDict()
 
 
 	def parse_query_file(self):
@@ -34,6 +35,14 @@ class data_feed_tile(object):
 		self.source_handles = source_handles
 		
 
+	def run_script(self):
+		self.parse_query_file()	#cycle through file and parse out data source ids and the queries 
+		self.run_query_list()	#run all the queries in the lsql file associated with this tile
+		self.populate_template_data() #grabs all of the initial template data, before operations are performed on it
+
+		self.register_operations()	#registers the list of operations to be performed on the data
+		self.run_operations()	# runs the data operations
+		
 
 	def run_query_list(self):
 		self.data = {}

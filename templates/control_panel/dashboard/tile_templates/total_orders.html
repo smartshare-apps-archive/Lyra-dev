@@ -9,12 +9,12 @@
 			</div>
 	</div>
 
-<div class="col-lg-6">
+	<div class="col-lg-6">
 			<div class="panel panel-default">
-				<div class="panel-heading">Total products</div>
+				<div class="panel-heading">Total sales</div>
 
 				<div class="panel-body">
-					 {{template_data["n_products"][0][0] }}
+					 ${{ '%0.2f' % template_data["sum_order_totals"] | float }}
 				</div>
 			</div>
 	</div>
