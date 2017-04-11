@@ -1,1 +1,2 @@
 order_data<query_split>SELECT COUNT(*) FROM orders;
+n_products<query_split>SELECT COUNT(*) FROM products;

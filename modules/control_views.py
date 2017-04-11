@@ -952,7 +952,7 @@ class ControlPanel(object):
 
 				print "Loaded a helper object: ", tile_data["helper_script"]
 
-				helper_instance = tile_data["helper_script"](tile_data["requirements"]["query_file"], tile_data["requirements"]["template_file"], tile_data["requirements"]["data_sources"])
+				helper_instance = tile_data["helper_script"](tile_data["requirements"]["query_file"], tile_data["requirements"]["template_file"], tile_data["requirements"]["data_sources"], tile_data["requirements"]["data_operations"])
 				
 				data_sources = set(helper_instance.data_sources.split(','))
 
@@ -961,15 +961,24 @@ class ControlPanel(object):
 				for source_id in data_sources:
 					if source_id == "order":
 						source_handles["order"] = order
+					elif source_id == "product":
+						source_handles["product"] = product
 					elif source_id == "config":
 						source_handles["config"] = config
+					elif source_id == "store":
+						source_handles["store"] = store
 
-				helper_instance.set_database(self.database)
-				helper_instance.load_data_sources(source_handles)
+				helper_instance.set_database(self.database)	#point the helper instance at the data source for query file
+				helper_instance.load_data_sources(source_handles)	#load local db functions, if necessary
 			
-				helper_instance.parse_query_file()
-				helper_instance.run_query_list()
-				template_data = helper_instance.populate_template_data()
+				helper_instance.parse_query_file()	#cycle through file and parse out data source ids and the queries 
+				helper_instance.run_query_list()	#run all the queries in the lsql file associated with this tile
+				helper_instance.populate_template_data()
+
+				helper_instance.register_operations()
+				helper_instance.run_operations()
+
+				template_data = helper_instance.template_data
 
 				tile_template = render_template("control_panel/dashboard/tile_templates/"+helper_instance.template_file, template_data = template_data)
 				

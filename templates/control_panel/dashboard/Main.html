@@ -14,18 +14,14 @@
 			<div class="row">
 				
 			<!-- begin dashboard column containers -->
-				<div class="col-lg-6 flex-panel">
+				<div class="col-lg-12 flex-panel">
 					{% for tile_id, rendered_tile in control_data.rendered_tiles.iteritems() %}
-						<div class="panel panel-default padded-panel">
 							{{ rendered_tile | safe }}
-						</div>
 					{% endfor %}
 
 				</div>
 
-				<div class="col-lg-6 flex-panel">
-					
-				</div>
+
 			<!-- end dashboard column containers -->
 
 

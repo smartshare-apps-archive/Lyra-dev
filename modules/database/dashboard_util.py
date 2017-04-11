@@ -19,11 +19,14 @@ def parseDataFeed_requirements(tile_data):
 			formattedRequirementResources["helper_script"] = req_uri
 		elif req_type == "data_sources":
 			formattedRequirementResources["data_sources"] = req_uri
+		elif req_type == "data_operations":
+			formattedRequirementResources["data_operations"] = req_uri
+
 
 	return formattedRequirementResources
 
 
-	
+
 
 
 

@@ -1,11 +1,17 @@
+"""
+	basic data feed tile class, any extra functionality can be added to the helper script that inherits from this
+	the basic gist is that any post processing of requirement data/data sourcing can be added into a helper script class 
+	so long as the basic structure and flow remains the same 
 
+"""
 
 class data_feed_tile(object):
 	
-	def __init__(self, query_file, template_file, data_sources):
+	def __init__(self, query_file, template_file, data_sources, data_operations):
 		self.query_file = query_file
 		self.template_file = template_file
 		self.data_sources = data_sources
+		self.possible_operations = {}
 
 
 	def parse_query_file(self):
@@ -40,7 +46,11 @@ class data_feed_tile(object):
 
 			results = self.database.fetchall()
 			if results:
-				self.data[query_name] = results
+				self.data[query_name] = list(results)
+				for i in range(len(list(results))):
+					temp_data = self.data[query_name][i]
+					self.data[query_name][i] = list(temp_data)
+				
 
 
 	def populate_template_data(self):
@@ -50,3 +60,14 @@ class data_feed_tile(object):
 			self.template_data[query_name] = result
 
 		return self.template_data
+
+
+	def run(self, op):
+		return self.possible_operations[op]()
+
+
+	def run_operations(self):
+		for op, fn in self.possible_operations.iteritems():
+			self.run(op)
+
+
