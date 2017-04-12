@@ -1,5 +1,6 @@
 import imp
 import numpy as np
+
 from datetime import datetime as dt
 
 from bokeh.plotting import figure
@@ -7,7 +8,6 @@ from bokeh.embed import components
 from bokeh.models import HoverTool, BoxSelectTool
 from bokeh.models import CustomJS, ColumnDataSource
 
-from bokeh.models.sources import AjaxDataSource
 
 TOOLS = [BoxSelectTool(), HoverTool()]
 
@@ -26,17 +26,16 @@ class sample_plot(data_plot_tile):
 		self.formatted_plot_data["y"] = map(lambda u: int(u), self.plot_data[1])
 
 
+
 	# a data operation must be registered here in order for it to run, they execute in the order they are inserted into the dictionary
 	def register_operations(self):
 		self.flags = {}
 
 
 
-
-
 	def create_plot(self):
 
-		plot = figure(plot_width=960, plot_height=300, responsive=True, x_axis_type='datetime', tools=TOOLS)
+		plot = figure(plot_width=960, plot_height=300, responsive=True, x_axis_type='datetime', tools=TOOLS, webgl=True)
 
 		plot.logo = None #removes bokeh logo
 
@@ -44,6 +43,10 @@ class sample_plot(data_plot_tile):
 			plot.yaxis.axis_label = 'Total sessions'
 		elif self.plot_params["metric"] == "ga:newUsers":
 			plot.yaxis.axis_label = 'New users'
+		elif self.plot_params["metric"] == "ga:users":
+			plot.yaxis.axis_label = 'Users'
+		elif self.plot_params["metric"] == "ga:pageviews":
+			plot.yaxis.axis_label = 'Page views'
 
 		plot.xaxis.axis_label = 'Date'
 			

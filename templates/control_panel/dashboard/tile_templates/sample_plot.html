@@ -2,8 +2,6 @@
 <div class="row">
 	<div class="col-lg-12">
 			<div class="panel panel-default">
-				
-
 				<div class="panel-heading">Analytics</div>
 
 				<div class="panel-body text-center bokeh-plot-container" style="height:420px;">
@@ -11,20 +9,35 @@
 				</div>
 				<div class="panel-footer">
 					<div class="row">
+						
 						<div class="col-xs-3 text-center">
 
 							<div class="input-group">
-								<span class="input-group-addon">Start date: </span>
-								<input type="text" class="form-control plot_edit datepicker" data-fieldID="start_date"> 
+								<span class="input-group-addon">Select metric: </span>
+								<select class="form-control plot_edit edit_metric" data-fieldID="metric"> 
+									<option value="ga:sessions"> Sessions </option>
+									<option value="ga:users"> Users </option>
+									<option value="ga:newUsers"> New users </option>
+									<option value="ga:pageviews"> Page views </option>
+								</select>
+							</div>
+						</div>
+							<div class="col-xs-3 text-center">
+
+								<div class="input-group">
+									<span class="input-group-addon">Start date: </span>
+									<input type="text" class="form-control plot_edit datepicker" data-fieldID="start_date"> 
+								</div>
+
+								<div class="input-group">
+									<span class="input-group-addon">End date: </span>
+									<input type="text" class="form-control plot_edit datepicker" data-fieldID="end_date">
+								</div>
+								<hr>
+								<button type="button" class="btn btn-primary btn-refresh-plot" data-tileID="{{tile_data.tile_id}}"> Update date range </button>
 							</div>
 
-							<div class="input-group">
-								<span class="input-group-addon">End date: </span>
-								<input type="text" class="form-control plot_edit datepicker" data-fieldID="end_date">
-							</div>
-							<hr>
-							<button type="button" class="btn btn-primary btn-refresh-plot" data-tileID="{{tile_data.tile_id}}"> Update date range </button>
-						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -54,7 +67,16 @@
 
 		});
 
-		
+		$(".plot_edit.edit_metric").each(function(){
+			var field_id = $(this).attr('data-fieldID');
+			
+			$(this).change(function(){
+				btn_refreshPlot.trigger( "click" );
+			});
+			
+		});
+
+
    		 $( ".datepicker" ).datepicker();
 
 	});

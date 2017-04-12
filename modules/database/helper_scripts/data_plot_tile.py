@@ -22,8 +22,7 @@ class data_plot_tile(object):
 
 	def get_plot_data(self):
 		r = requests.get(self.data_endpoint, params = self.plot_params)
-		print "sending: ", self.plot_params
-		
+
 		if r.status_code == 200:
 			plot_data = json.loads(r.text)
 			formatted_plot_data = np.array(plot_data)
