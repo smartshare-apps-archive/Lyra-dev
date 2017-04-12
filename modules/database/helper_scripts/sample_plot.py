@@ -22,10 +22,7 @@ class sample_plot(data_plot_tile):
 
 		self.formatted_plot_data["x"] = map(lambda d: dt(int(d[:4]), int(d[4:6]), int(d[6:8])), self.plot_data[0])
 		self.formatted_plot_data["y"] = map(lambda u: int(u), self.plot_data[1])
-
-		print "formatted x plot data:", self.formatted_plot_data["x"]
-		print "formatted y plot data:", self.formatted_plot_data["y"]
-
+		
 	# a data operation must be registered here in order for it to run, they execute in the order they are inserted into the dictionary
 	def register_operations(self):
 		self.flags = {}
@@ -41,7 +38,7 @@ class sample_plot(data_plot_tile):
 		plot.logo = None #removes bokeh logo
 
 		plot.xaxis.axis_label = 'Date'
-		plot.yaxis.axis_label = 'Users'
+		plot.yaxis.axis_label = 'Site visitors'
 
 		x_data = self.formatted_plot_data["x"]
 		y_data = self.formatted_plot_data["y"]
