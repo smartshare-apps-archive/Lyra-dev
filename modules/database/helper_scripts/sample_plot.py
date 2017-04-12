@@ -35,6 +35,7 @@ class sample_plot(data_plot_tile):
 
 
 	def create_plot(self):
+
 		plot = figure(plot_width=960, plot_height=300, responsive=True, x_axis_type='datetime', tools=TOOLS)
 
 		plot.logo = None #removes bokeh logo

@@ -25,8 +25,6 @@ import json
 
 
 
-
-
 plotActions = Blueprint('plotActions', __name__, template_folder='templates')
 
 
@@ -45,8 +43,12 @@ def setup_session():
 @plotActions.route('/actions/plot/<int:tile_id>', methods=['GET'])
 #@admin_required(current_app, session, login_redirect)
 def generate_plot(tile_id):
+	plot_params = request.args 
+	
+
 	db = db_handle()
 	database = db.cursor()
+
 
 	tile_data = dashboard.loadDashboardTile(tile_id, database)
 	tile_data["requirements"] = parsePlot_requirements(tile_data)
@@ -71,7 +73,7 @@ def generate_plot(tile_id):
 	helper_instance.set_database(database)	#point the helper instance at the data source for query file
 	helper_instance.load_data_sources(source_handles)	#load local db functions, if necessary
 
-	helper_instance.run_script()
+	helper_instance.run_script(plot_params)
 	
 	template_data = helper_instance.template_data
 

@@ -48,12 +48,22 @@ def setup_session():
 
 
 
-@dataActions.route('/actions/get_user_count', methods=['GET'])
+@dataActions.route('/actions/get_analytics_data', methods=['GET'])
 #@admin_required(current_app, session, login_redirect)
-def getSampleData():
+def getAnalyticsData():
+	plot_args = request.args
+	plot_params = {}
 
-	analytics = initialize_google_analytics()
-	response = analytics_getUsers(analytics)
+	for param in plot_args:
+		plot_params[param] = request.args.get(param)
+
+	print plot_params
+
+
+	analytics = initialize_google_analytics() 
+
+	response = get_analytics(analytics, plot_params)
+
 	analytics_data = parse_analytics_response(response)
 
 	a = np.array(analytics_data)
@@ -78,15 +88,16 @@ def initialize_google_analytics():
 
 
 
-def analytics_getUsers(analytics):
+def get_analytics(analytics, plot_params):
+
 	return analytics.reports().batchGet(
 			body={
 			'reportRequests': [
 			{
 			'viewId': VIEW_ID,
-			'dateRanges': [{'startDate': '7daysAgo', 'endDate': 'today'}],
+			'dateRanges': [{'startDate': plot_params["start_date"], 'endDate': plot_params["end_date"]}],
 			'metrics': [
-						{'expression': 'ga:users'}, 
+						{'expression': plot_params["metric"]}, 
 						],
 			'dimensions': [{'name': 'ga:date'}],
 			"includeEmptyRows": True,

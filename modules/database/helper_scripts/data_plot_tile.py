@@ -21,8 +21,9 @@ class data_plot_tile(object):
 
 
 	def get_plot_data(self):
-		r = requests.get(self.data_endpoint)
-
+		r = requests.get(self.data_endpoint, params = self.plot_params)
+		print "sending: ", self.plot_params
+		
 		if r.status_code == 200:
 			plot_data = json.loads(r.text)
 			formatted_plot_data = np.array(plot_data)
@@ -39,7 +40,9 @@ class data_plot_tile(object):
 		self.source_handles = source_handles
 		
 	
-	def run_script(self):
+	def run_script(self, plot_params = None):
+		self.plot_params = plot_params
+
 		self.get_plot_data()	
 		self.format_plot_data()
 		self.register_operations()	#registers the list of operations to be performed on the data

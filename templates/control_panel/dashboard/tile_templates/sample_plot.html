@@ -5,7 +5,7 @@
 				<div class="panel-heading">Site visitors <button type="button" class="btn btn-default pull-right btn-refresh-plot" data-tileID="{{tile_data.tile_id}}"> Refresh </button></div>
 
 				<div class="panel-body text-center bokeh-plot-container" style="height:420px;">
-					<iframe src="/actions/plot/{{tile_data.tile_id}}" class="plot-frame" data-tileID="{{tile_data.tile_id}}"></iframe>
+					<iframe src="/actions/plot/{{tile_data.tile_id}}?metric=ga:newUsers&start_date=7daysAgo&end_date=today" class="plot-frame" data-tileID="{{tile_data.tile_id}}"></iframe>
 				</div>
 			</div>
 	</div>
@@ -20,7 +20,9 @@
 		var plot_frame = $(".plot-frame" + selectorString);
 		var btn_refreshPlot = $(".btn-refresh-plot" + selectorString);
 
-		btn_refreshPlot.click({tile_id: tile_id}, refreshPlot);
+		var plot_params = { "x_data": "ga_newUsers" };
+
+		btn_refreshPlot.click({tile_id: tile_id, plot_params: plot_params}, refreshPlot);
 		
 		
 
