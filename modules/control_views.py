@@ -979,37 +979,12 @@ class ControlPanel(object):
 
 			# bokeh tile type dashboard element	
 			elif tile_data["tile_type"] == "data-plot":
+				tile_data["requirements"] = parseDataFeed_requirements(tile_data)
 
-				tile_data["requirements"] = parsePlot_requirements(tile_data)
+				template_file_uri = tile_data["requirements"]["template_file"]
 
-				tile_data["helper_script"] = load_PlotHelperScript(tile_data["requirements"]["helper_script"])
+				tile_template = render_template("control_panel/dashboard/tile_templates/"+ template_file_uri , tile_data = tile_data)
 
-				helper_instance = tile_data["helper_script"](tile_data["requirements"]["data_endpoint"], tile_data["requirements"]["template_file"], tile_data["requirements"]["data_sources"])
-				
-				data_sources = set(helper_instance.data_sources.split(','))
-
-				source_handles = {}
-								
-				for source_id in data_sources:
-					if source_id == "order":
-						source_handles["order"] = order
-					elif source_id == "product":
-						source_handles["product"] = product
-					elif source_id == "config":
-						source_handles["config"] = config
-					elif source_id == "store":
-						source_handles["store"] = store
-				
-				helper_instance.set_database(self.database)	#point the helper instance at the data source for query file
-				helper_instance.load_data_sources(source_handles)	#load local db functions, if necessary
-			
-				helper_instance.run_script()
-
-				
-				template_data = helper_instance.template_data
-
-				tile_template = render_template("control_panel/dashboard/tile_templates/"+helper_instance.template_file, template_data = template_data)
-				
 				rendered_plots[tile_id] = tile_template
 
 

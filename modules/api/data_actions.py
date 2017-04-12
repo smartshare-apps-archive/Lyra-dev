@@ -51,6 +51,7 @@ def setup_session():
 @dataActions.route('/actions/get_user_count', methods=['GET'])
 #@admin_required(current_app, session, login_redirect)
 def getSampleData():
+
 	analytics = initialize_google_analytics()
 	response = analytics_getUsers(analytics)
 	analytics_data = parse_analytics_response(response)
@@ -83,7 +84,7 @@ def analytics_getUsers(analytics):
 			'reportRequests': [
 			{
 			'viewId': VIEW_ID,
-			'dateRanges': [{'startDate': '2016-11-10', 'endDate': 'today'}],
+			'dateRanges': [{'startDate': '7daysAgo', 'endDate': 'today'}],
 			'metrics': [
 						{'expression': 'ga:users'}, 
 						],

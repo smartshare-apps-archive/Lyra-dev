@@ -2,6 +2,7 @@ import sys,csv,json,collections
 
 from product_util import *
 from order_util import *
+from dashboard_util import *
 
 import config
 import product
@@ -31,3 +32,23 @@ def loadAllDashboardTiles(database):
 		return formattedDashboardTiles
 
 
+
+
+def loadDashboardTile(tile_id, database):
+	currentQuery = "SELECT tile_id, tile_type, requirements, resources FROM dashboard_tiles WHERE tile_id=%s;"
+
+	try:
+		database.execute(currentQuery,(tile_id,))
+	except Exception as e:
+		print "Error loading dashboard tile: ",e
+		return None
+
+	dashboard_tile = database.fetchone()
+
+	if dashboard_tile:	
+		formattedDashboardTile = {}
+
+		for i in range(len(dashboardColumnMappings)):
+			formattedDashboardTile[dashboardColumnMappings[i]] = dashboard_tile[i]
+		
+		return formattedDashboardTile

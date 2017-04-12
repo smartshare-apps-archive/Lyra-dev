@@ -1,0 +1,17 @@
+
+{% block bokeh_includes %}
+
+	<link
+	href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css"
+	rel="stylesheet" type="text/css">
+
+	<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js"></script>
+
+{% endblock bokeh_includes %}
+
+{% block bokeh_plot %}
+
+					 {{ template_data.plot_script | safe }}
+					 {{ template_data.plot_div | safe }}
+
+{% endblock  bokeh_plot %}

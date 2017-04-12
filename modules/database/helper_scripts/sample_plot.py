@@ -5,6 +5,9 @@ from datetime import datetime as dt
 from bokeh.plotting import figure
 from bokeh.embed import components
 from bokeh.models import HoverTool, BoxSelectTool
+from bokeh.models import CustomJS, ColumnDataSource
+
+from bokeh.models.sources import AjaxDataSource
 
 TOOLS = [BoxSelectTool(), HoverTool()]
 
@@ -19,14 +22,13 @@ class sample_plot(data_plot_tile):
 
 	def format_plot_data(self):
 		self.formatted_plot_data = {}
-
 		self.formatted_plot_data["x"] = map(lambda d: dt(int(d[:4]), int(d[4:6]), int(d[6:8])), self.plot_data[0])
 		self.formatted_plot_data["y"] = map(lambda u: int(u), self.plot_data[1])
-		
+
+
 	# a data operation must be registered here in order for it to run, they execute in the order they are inserted into the dictionary
 	def register_operations(self):
 		self.flags = {}
-
 
 
 
@@ -43,10 +45,12 @@ class sample_plot(data_plot_tile):
 		x_data = self.formatted_plot_data["x"]
 		y_data = self.formatted_plot_data["y"]
 		
+		data_source = ColumnDataSource(data=dict(x=x_data, y=y_data))
+
 
 		#plot.line(x_data, y_data)
 
-		plot.line(x=x_data,y=y_data)
+		plot.line(x='x',y='y', source=data_source)
 
 		script, div = components(plot)
 
