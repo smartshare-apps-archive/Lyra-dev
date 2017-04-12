@@ -2,10 +2,30 @@
 <div class="row">
 	<div class="col-lg-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">Site visitors <button type="button" class="btn btn-default pull-right btn-refresh-plot" data-tileID="{{tile_data.tile_id}}"> Refresh </button></div>
+				
+
+				<div class="panel-heading">Analytics</div>
 
 				<div class="panel-body text-center bokeh-plot-container" style="height:420px;">
 					<iframe src="/actions/plot/{{tile_data.tile_id}}?metric=ga:newUsers&start_date=7daysAgo&end_date=today" class="plot-frame" data-tileID="{{tile_data.tile_id}}"></iframe>
+				</div>
+				<div class="panel-footer">
+					<div class="row">
+						<div class="col-xs-3 text-center">
+
+							<div class="input-group">
+								<span class="input-group-addon">Start date: </span>
+								<input type="text" class="form-control plot_edit datepicker" data-fieldID="start_date"> 
+							</div>
+
+							<div class="input-group">
+								<span class="input-group-addon">End date: </span>
+								<input type="text" class="form-control plot_edit datepicker" data-fieldID="end_date">
+							</div>
+							<hr>
+							<button type="button" class="btn btn-primary btn-refresh-plot" data-tileID="{{tile_data.tile_id}}"> Update date range </button>
+						</div>
+					</div>
 				</div>
 			</div>
 	</div>
@@ -14,19 +34,50 @@
 
 <script type="text/javascript">
 
+	var tile_id = {{tile_data.tile_id}};
+	var selectorString = '[data-tileID="' + String({{tile_data.tile_id}}) + '"]';
+
+	var btn_refreshPlot = $(".btn-refresh-plot" + selectorString);
+
+	var plot_params = {
+		"metric": "ga:newUsers",
+		"start_date": "7daysAgo",
+		"end_date": "today"
+	}
+
 	$(document).ready(function(){
-		var tile_id = {{tile_data.tile_id}};
-		var selectorString = '[data-tileID="' + String({{tile_data.tile_id}}) + '"]';
 		var plot_frame = $(".plot-frame" + selectorString);
-		var btn_refreshPlot = $(".btn-refresh-plot" + selectorString);
 
-		var plot_params = { "x_data": "ga_newUsers" };
+		$(".plot_edit").each(function(){
+			var field_id = $(this).attr('data-fieldID');
+			$(this).change({field_id: field_id}, updatePlotParams);
 
-		btn_refreshPlot.click({tile_id: tile_id, plot_params: plot_params}, refreshPlot);
+		});
+
 		
-		
+   		 $( ".datepicker" ).datepicker();
 
 	});
+
+
+	function updatePlotParams(event){
+		var field_id = event.data.field_id;
+		var field_value = $(".plot_edit" + '[data-fieldID="' + field_id + '"]').val();
+
+		if(field_id == "start_date" || field_id == "end_date"){
+			field_value = field_value.split('/')
+			field_value = field_value[2] + '-' + field_value[0] + '-' + field_value[1]
+		}
+
+		plot_params[field_id] = field_value;
+
+		var formatted_plot_params = $.param( plot_params );
+
+		btn_refreshPlot.unbind();
+		btn_refreshPlot.click({tile_id: tile_id, plot_params: formatted_plot_params}, refreshPlot);
+		
+
+	}
 
 
 

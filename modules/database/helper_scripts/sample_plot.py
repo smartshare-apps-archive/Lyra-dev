@@ -40,8 +40,13 @@ class sample_plot(data_plot_tile):
 
 		plot.logo = None #removes bokeh logo
 
+		if self.plot_params["metric"] == "ga:sessions":
+			plot.yaxis.axis_label = 'Total sessions'
+		elif self.plot_params["metric"] == "ga:newUsers":
+			plot.yaxis.axis_label = 'New users'
+
 		plot.xaxis.axis_label = 'Date'
-		plot.yaxis.axis_label = 'Site visitors'
+			
 
 		x_data = self.formatted_plot_data["x"]
 		y_data = self.formatted_plot_data["y"]
