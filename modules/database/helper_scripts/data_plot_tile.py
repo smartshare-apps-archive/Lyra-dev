@@ -49,8 +49,6 @@ class data_plot_tile(object):
 		self.populate_template_data()
 
 
-	
-
 
 	def populate_template_data(self):
 		self.template_data = {}

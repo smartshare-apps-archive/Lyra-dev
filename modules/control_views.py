@@ -943,16 +943,11 @@ class ControlPanel(object):
 
 		for tile_id, tile_data in dashboard_tiles.iteritems():
 			if tile_data["tile_type"] == "data-feed":
-				print "Detected data feed tile, loading requirements..."
 
 				tile_data["requirements"] = parseDataFeed_requirements(tile_data)
 
-				print "Loaded requirements:", tile_data["requirements"]
-
 				tile_data["helper_script"] = load_FeedHelperScript(tile_data["requirements"]["helper_script"])
-
-				print "Loaded a helper object: ", tile_data["helper_script"]
-
+				
 				helper_instance = tile_data["helper_script"](tile_data["requirements"]["query_file"], tile_data["requirements"]["template_file"], tile_data["requirements"]["data_sources"])
 				
 				data_sources = set(helper_instance.data_sources.split(','))
@@ -994,7 +989,16 @@ class ControlPanel(object):
 				data_sources = set(helper_instance.data_sources.split(','))
 
 				source_handles = {}
-				
+								
+				for source_id in data_sources:
+					if source_id == "order":
+						source_handles["order"] = order
+					elif source_id == "product":
+						source_handles["product"] = product
+					elif source_id == "config":
+						source_handles["config"] = config
+					elif source_id == "store":
+						source_handles["store"] = store
 				
 				helper_instance.set_database(self.database)	#point the helper instance at the data source for query file
 				helper_instance.load_data_sources(source_handles)	#load local db functions, if necessary

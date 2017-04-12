@@ -4,18 +4,33 @@ from flask import Blueprint, render_template, abort, current_app, session, reque
 
 
 #ecomm module imports
-from modules.db import *
-import modules.database.config as config
-import modules.database.product as product
-import modules.database.resources as resources
-import modules.database.customer as customer
-import modules.database.order as order
+if __name__ != "__main__":
 
-from modules.decorators import *
-from modules.auth.login import *
+	from modules.db import *
+	import modules.database.config as config
+	import modules.database.product as product
+	import modules.database.resources as resources
+	import modules.database.customer as customer
+	import modules.database.order as order
+
+	from modules.decorators import *
+	from modules.auth.login import *
 
 import numpy as np
 import json 
+
+
+
+#google analytics api inclusions
+
+from apiclient.discovery import build
+from oauth2client.service_account import ServiceAccountCredentials
+
+
+SCOPES = ['https://www.googleapis.com/auth/analytics.readonly']
+KEY_FILE_LOCATION = 'modules/api/My Project-4a4e3894caff.json'
+VIEW_ID = '129134234'
+
 
 
 dataActions = Blueprint('dataActions', __name__, template_folder='templates')
@@ -33,14 +48,83 @@ def setup_session():
 
 
 
-@dataActions.route('/actions/test_endpoint', methods=['GET'])
+@dataActions.route('/actions/get_user_count', methods=['GET'])
 #@admin_required(current_app, session, login_redirect)
 def getSampleData():
+	analytics = initialize_google_analytics()
+	response = analytics_getUsers(analytics)
+	analytics_data = parse_analytics_response(response)
+
+	a = np.array(analytics_data)
+	b = a.tolist()
 	
-	a = np.arange(10).reshape(2,5) # a 2 by 5 array
-	b = a.tolist() # nested lists with same data, indices
-	
+	#b = a.tolist() # nested lists with same data, indices
+
 	return json.dumps(b)
 
 
 
+
+
+def initialize_google_analytics():
+	credentials = ServiceAccountCredentials.from_json_keyfile_name(
+	KEY_FILE_LOCATION, SCOPES)
+
+	analytics = build('analytics', 'v4', credentials=credentials)
+	return analytics
+
+
+
+
+
+def analytics_getUsers(analytics):
+	return analytics.reports().batchGet(
+			body={
+			'reportRequests': [
+			{
+			'viewId': VIEW_ID,
+			'dateRanges': [{'startDate': '2016-11-10', 'endDate': 'today'}],
+			'metrics': [
+						{'expression': 'ga:users'}, 
+						],
+			'dimensions': [{'name': 'ga:date'}],
+			"includeEmptyRows": True,
+			}]
+
+			}
+			).execute()
+
+
+
+
+
+
+def parse_analytics_response(response):
+	x_data = []
+	y_data = []
+
+	for report in response.get('reports', []):
+		columnHeader = report.get('columnHeader', {})
+		dimensionHeaders = columnHeader.get('dimensions', [])
+		metricHeaders = columnHeader.get('metricHeader', {}).get('metricHeaderEntries', [])
+
+		for row in report.get('data', {}).get('rows', []):
+			dimensions = row.get('dimensions', [])
+			dateRangeValues = row.get('metrics', [])
+
+			x_data.append(dimensions[0])
+			y_data.append(dateRangeValues[0]["values"][0])
+
+			#print dateRangeValues
+
+	return [x_data, y_data]
+
+
+
+def main():
+	analytics = initialize_analyticsreporting()
+	response = get_report(analytics)
+	parse_analytics_response(response)
+
+
+if __name__ == "__main__":main()
