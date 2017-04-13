@@ -2522,6 +2522,13 @@ top:-1px;
 
 /* dashboard styles */
 
+.panel.dashboard-panel > .panel-heading {
+    background-image: none;
+    background-color: rgba(53,53,53,0.8);
+    color: white;
+
+}
+
 .bokeh-plot-container {
     padding:0px;
 
@@ -2536,6 +2543,10 @@ top:-1px;
     height:100%;
 }
 
+.btn-refresh-plot{
+
+    width:100%;
+}
 
 /* media queries */
 
