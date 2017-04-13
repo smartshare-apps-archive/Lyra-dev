@@ -303,6 +303,9 @@ def refreshFulfillmentState(order_id, database):
 
 	fulfillmentData = {}
 
+	if orderShipments is None:
+		return False
+
 	for shipment_id, shipment_data in orderShipments.iteritems():
 		sku_list = filter(lambda s: s != '', shipment_data["SKU_List"].split(';'))
 		for product_sku in sku_list:
@@ -326,8 +329,11 @@ def refreshFulfillmentState(order_id, database):
 		current_sku = productSplit[0]
 		product_qty = int(productSplit[1])
 
-		if(fulfillmentData[current_sku] != product_qty):
-			fulfillmentState = False
-			return fulfillmentState
+		if current_sku in fulfillmentData:
+			if(fulfillmentData[current_sku] != product_qty):
+				fulfillmentState = False
+				return fulfillmentState
+		else:
+			return False
 
 	return fulfillmentState
