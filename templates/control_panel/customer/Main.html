@@ -18,39 +18,43 @@
 <div class="row">
 	<div class="col-xs-12 tab_content">
 	<!-- Begin order main content div -->
-		<br>
-		<!-- Begin: main order list div (left aligned) -->
-		<div class="col-xs-12" id="order_main_panel">
-			<ul class="nav nav-tabs">
-			  <li class="active"><a data-toggle="tab" href="#all_customers">All customers</a></li>
-			  <li><a data-toggle="tab" href="#marketing_customers">Accepts marketing</a></li>
-			  <li><a data-toggle="tab" href="#repeat_customers">Repeat Customers</a></li>
-			  <li><a data-toggle="tab" href="#prospective_customers">Prospects</a></li>
-			</ul>
+		<div class="container-fluid main-content-container-sm">
+			<div class="row">
+				<br>
+				<!-- Begin: main order list div (left aligned) -->
+				<div class="col-xs-12 main_panel">
+					<ul class="nav nav-tabs">
+					  <li class="active"><a data-toggle="tab" href="#all_customers">All customers</a></li>
+					  <li><a data-toggle="tab" href="#marketing_customers">Accepts marketing</a></li>
+					  <li><a data-toggle="tab" href="#repeat_customers">Repeat Customers</a></li>
+					  <li><a data-toggle="tab" href="#prospective_customers">Prospects</a></li>
+					</ul>
 
-			<div class="tab-content">
-  				<div id="all_customers" class="tab-pane fade in active">
-  				<br>
-   					{{ control_data.table_allCustomers | safe }}
-  				</div>
-  
-  				<div id="marketing_customers" class="tab-pane fade">
-  				 <br>
-    				
-  				</div>
+					<div class="tab-content">
+		  				<div id="all_customers" class="tab-pane fade in active">
+		  				<br>
+		   					{{ control_data.table_customersAll | safe }}
+		  				</div>
+		  
+		  				<div id="marketing_customers" class="tab-pane fade">
+		  				 <br>
+		    				{{ control_data.table_customersAcceptMarketing | safe }}
+		  				</div>
 
-  				<div id="repeat_customers" class="tab-pane fade">
-  				<br>
-   					{{ control_data.table_repeatCustomers | safe }}
-  				</div>
+		  				<div id="repeat_customers" class="tab-pane fade">
+		  				<br>
+		   					{{ control_data.table_customersRepeat | safe }}
+		  				</div>
 
-  				<div id="prospective_customers" class="tab-pane fade">
-  				<br>
-   					
-  				</div>
+		  				<div id="prospective_customers" class="tab-pane fade">
+		  				<br>
+		   					
+		  				</div>
 
-		   </div>
- 		</div>
+				   </div>
+		 		</div>
+			</div>
+		</div>
 	</div>
 </div>
 

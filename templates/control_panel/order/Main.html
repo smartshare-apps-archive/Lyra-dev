@@ -20,38 +20,42 @@
 	<div class="col-xs-12 tab_content">
 	<!-- Begin order main content div -->
 		<br>
-		<!-- Begin: main order list div (left aligned) -->
-		<div class="col-xs-12" id="order_main_panel">
-			<ul class="nav nav-tabs">
-			  <li class="active"><a data-toggle="tab" href="#all_orders">All orders</a></li>
-			  <li><a data-toggle="tab" href="#open_orders">Open</a></li>
-			  <li><a data-toggle="tab" href="#unfulfilled_orders">Unfulfilled</a></li>
-			  <li><a data-toggle="tab" href="#unpaid_orders">Unpaid</a></li>
-			</ul>
+		<div class="container-fluid main-content-container-sm">
+			<div class="row">
+				<!-- Begin: main order list div (left aligned) -->
+				<div class="col-xs-12" id="order_main_panel">
+					<ul class="nav nav-tabs">
+					  <li class="active"><a data-toggle="tab" href="#all_orders">All orders</a></li>
+					  <li><a data-toggle="tab" href="#open_orders">Open</a></li>
+					  <li><a data-toggle="tab" href="#unfulfilled_orders">Unfulfilled</a></li>
+					  <li><a data-toggle="tab" href="#unpaid_orders">Unpaid</a></li>
+					</ul>
 
-			<div class="tab-content">
-  				<div id="all_orders" class="tab-pane fade in active">
-  				<br>
-   					{{ control_data.table_allOrders  | safe }}
-  				</div>
-  
-  				<div id="open_orders" class="tab-pane fade">
-  				 <br>
-    				{{ control_data.table_openOrders  | safe }}
-  				</div>
+					<div class="tab-content">
+		  				<div id="all_orders" class="tab-pane fade in active">
+		  				<br>
+		   					{{ control_data.table_allOrders  | safe }}
+		  				</div>
+		  
+		  				<div id="open_orders" class="tab-pane fade">
+		  				 <br>
+		    				{{ control_data.table_openOrders  | safe }}
+		  				</div>
 
-  				<div id="unfulfilled_orders" class="tab-pane fade">
-  				<br>
-   					{{ control_data.table_unfulfilledOrders  | safe }}
-  				</div>
+		  				<div id="unfulfilled_orders" class="tab-pane fade">
+		  				<br>
+		   					{{ control_data.table_unfulfilledOrders  | safe }}
+		  				</div>
 
-  				<div id="unpaid_orders" class="tab-pane fade">
-  				<br>
-   					{{ control_data.table_unpaidOrders  | safe }}
-  				</div>
+		  				<div id="unpaid_orders" class="tab-pane fade">
+		  				<br>
+		   					{{ control_data.table_unpaidOrders  | safe }}
+		  				</div>
 
-		   </div>
- 		</div>
+				   </div>
+			 	</div>
+			</div>
+		</div>
 	</div>
 </div>
 

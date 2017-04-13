@@ -1,0 +1,47 @@
+  {% if customers %}
+
+  <table class="table table-bordered table-hover" id="table_all_customers">
+ 	<thead>
+ 	<th class="th_select">  </th>
+ 	<th> Name </th>
+ 	<th> Location </th>
+ 	<th> Last order </th>
+ 	<th> Total Spent</th>
+
+ 	</thead>
+ 	<tbody>
+ 	{% for customer_id, customer in customers.iteritems() %}
+ 	<tr class="row_customer" data-customerID="{{customer_id}}">
+ 		<td> 	
+ 			<label class="btn btn-default select_container">
+           		<input type="checkbox" class="selectTableItem" data-customerID="{{customer_id}}">
+        	</label> 
+        </td>
+ 		
+ 		<td> 
+ 			<a href="/control/customers/{{customer.customer_id}}" class="customer_link">{{ customer.ShippingFirstName }} {{ customer.ShippingLastName }}</a> 
+ 		</td>
+ 		<td> {{customer.ShippingState}}, {{customer.ShippingCountry}} </td>
+ 		
+ 		<td> <a href="/control/orders/{{customer.LastOrder}}">#{{ customer.LastOrder }}  </a></td>
+
+ 		<td> $&nbsp; {{ "%0.2f" % customer.TotalSpent }}</td>
+ 	</tr>
+ 	{% endfor %}
+
+
+ 	</tbody>
+  </table>	
+
+  <div id="customer_data_container">
+    <input type="hidden" id="customerIDList" value="{% for customer_id, customer in customers.iteritems() %}{{customer_id}},{% endfor %}">
+  {% for customer_id, customer in customers.iteritems() %}
+    <input type="hidden" class="customer_data" data-customerID="{{customer_id}}" value="{{customer}}">
+  {% endfor %}
+  </div>
+
+{% else %}
+		<div id="no_customers" class="text-center">
+			<h4> You don't have any customers yet. </h4><hr>
+		</div>
+{% endif %}

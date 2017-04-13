@@ -637,11 +637,13 @@ class ControlPanel(object):
 		self.control_data["customerSearchPanel"] = self.customer_SearchPanel()
 		self.control_data["customerActionPanel"] = self.customer_MainActionPanel()
 
-		allCustomers = customer.loadAllCustomers(self.database)
-		repeatCustomers = {k: v for k, v in allCustomers.items() if v["user_id"] != None}
+		customersAll = customer.loadAllCustomers(self.database)
+		customersAcceptMarketing = {k: v for k, v in customersAll.items() if v["accepts_marketing"] == "true"}
+		customerRepeat = {k: v for k, v in customersAll.items() if v["user_id"] != None}
 
-		self.control_data["table_allCustomers"] = render_template("control_panel/customer/table_allCustomers.html", allCustomers = allCustomers)
-		self.control_data["table_repeatCustomers"] = render_template("control_panel/customer/table_repeatCustomers.html", repeatCustomers = repeatCustomers) 
+		self.control_data["table_customersAll"] = render_template("control_panel/customer/table_customersAll.html", customers = customersAll)
+		self.control_data["table_customersAcceptMarketing"] = render_template("control_panel/customer/table_customersAcceptMarketing.html", customers = customersAcceptMarketing)
+		self.control_data["table_customersRepeat"] = render_template("control_panel/customer/table_customersRepeat.html", customers = customerRepeat) 
 		
 		return render_template("control_panel/customer/Main.html", control_data = self.control_data)
 	

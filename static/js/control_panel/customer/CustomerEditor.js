@@ -114,6 +114,7 @@ function toggleAllOrders(){
 	var nOrders = Object.keys(selectedOrders).length;
 
 	if (nOrders > 0){
+		$("#order_action_bar").css("display","block");
 		$("#n_orders_selected").css("display","inline");
 		
 		if(nOrders == 1){
@@ -127,6 +128,7 @@ function toggleAllOrders(){
 	}
 	else if (nOrders == 0){
 		$("#n_orders_selected").css("display","none");
+		$("#order_action_bar").css("display","none");
 	}
 
 	selectAll = !selectAll;
@@ -151,6 +153,8 @@ function selectOrder(event){
 	var nOrders = Object.keys(selectedOrders).length;
 
 	if (nOrders > 0){
+
+		$("#order_action_bar").css("display","block");
 		$("#n_orders_selected").css("display","inline");
 		
 		if(nOrders == 1){
@@ -163,7 +167,8 @@ function selectOrder(event){
 
 	}
 	else if (nOrders == 0){
-	 $("#n_orders_selected").css("display", "none");
+		 $("#n_orders_selected").css("display", "none");
+		 $("#order_action_bar").css("display","none");
 	}
 
 }

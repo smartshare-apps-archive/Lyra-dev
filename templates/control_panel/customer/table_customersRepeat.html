@@ -1,4 +1,4 @@
-  {% if repeatCustomers %}
+  {% if customers %}
 
   <table class="table table-bordered table-hover">
  	<thead>
@@ -10,7 +10,7 @@
 
  	</thead>
  	<tbody>
- 	{% for customer_id, customer in repeatCustomers.iteritems() %}
+ 	{% for customer_id, customer in customers.iteritems() %}
  	<tr class="row_customer" data-customerID="{{customer_id}}">
  		<td> 
  		 	<label class="btn btn-default select_container">
@@ -38,6 +38,5 @@
 {% else %}
 		<div id="no_customers" class="text-center">
 			<h4> You don't have any repeat customers yet. </h4><hr>
-			<button type="button" class="btn btn-link btn-lg"><a href="/control/customers/"> Kill yourself </a></button>
 		</div>
 {% endif %}

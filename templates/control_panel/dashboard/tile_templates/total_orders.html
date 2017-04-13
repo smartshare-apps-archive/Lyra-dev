@@ -1,22 +1,66 @@
 <div class="row">
-	<div class="col-lg-6">
+	<div class="col-lg-2">
 			<div class="panel panel-primary dashboard-panel">
 				<div class="panel-heading">Total orders</div>
 
-				<div class="panel-body">
-					 {{template_data["order_count"][0][0] }}
+				<div class="panel-body dashboard-panel-body">
+					 <div class="tile-text text-center"> {{template_data["order_count"][0][0] }} </div>
+					 <div class="tile-image" style="background-image:url('/static/images/order_icon.png');"></div>
 				</div>
 			</div>
 	</div>
 
-	<div class="col-lg-6">
+	<div class="col-lg-2">
 			<div class="panel panel-primary dashboard-panel">
-				<div class="panel-heading">Total sales</div>
+				<div class="panel-heading">Lifetime sales</div>
 
-				<div class="panel-body">
-					 ${{ '%0.2f' % template_data["sum_order_totals"] | float }}
+				<div class="panel-body dashboard-panel-body">
+					 <div class="tile-text text-center">  ${{ '%0.2f' % template_data["sum_order_totals"] | float }} </div>
+					 <div class="tile-image" style="background-image:url('/static/images/sales_icon.png');"></div>
 				</div>
 			</div>
 	</div>
+
+	<div class="col-lg-2">
+			<div class="panel panel-primary dashboard-panel">
+				<div class="panel-heading">Total orders</div>
+
+				<div class="panel-body dashboard-panel-body">
+					 <div class="tile-text text-center">  ${{ '%0.2f' % template_data["sum_order_totals"] | float }} </div>
+					 <div class="tile-image" style="background-image:url('/static/images/order_icon.png');"></div>
+				</div>
+			</div>
+	</div>
+
+
+	<div class="col-lg-2">
+			<div class="panel panel-primary dashboard-panel">
+				<div class="panel-heading">Total orders</div>
+
+				<div class="panel-body dashboard-panel-body">
+					 <div class="tile-text text-center">  ${{ '%0.2f' % template_data["sum_order_totals"] | float }} </div>
+					 <div class="tile-image" style="background-image:url('/static/images/order_icon.png');"></div>
+				</div>
+			</div>
+	</div>
+
+	<div class="col-lg-4">
+			<div class="panel panel-primary dashboard-panel">
+				<div class="panel-heading">Conversions</div>
+
+				<div class="panel-body dashboard-panel-body">
+					<div class="row">
+						<div class="col-xs-4 conversions-tile text-center"><h3> Added to cart </h3> <hr class="hr-sm-margin"> 0.00%</div>
+						<div class="col-xs-4 conversions-tile text-center"><h3> Reached checkout </h3> <hr class="hr-sm-margin"> 0.00%</div>
+						<div class="col-xs-4 conversions-tile text-center"><h3> Purchased </h3> <hr class="hr-sm-margin"> 0.00%</div>
+					</div>
+					 
+				</div>
+			</div>
+	</div>
+
+
+
+
 
 </div>

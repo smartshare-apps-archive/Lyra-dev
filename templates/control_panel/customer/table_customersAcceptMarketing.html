@@ -1,6 +1,6 @@
-  {% if allCustomers %}
+  {% if customers %}
 
-  <table class="table table-bordered table-hover" id="table_all_customers">
+  <table class="table table-bordered table-hover">
  	<thead>
  	<th class="th_select">  </th>
  	<th> Name </th>
@@ -10,13 +10,13 @@
 
  	</thead>
  	<tbody>
- 	{% for customer_id, customer in allCustomers.iteritems() %}
+ 	{% for customer_id, customer in customers.iteritems() %}
  	<tr class="row_customer" data-customerID="{{customer_id}}">
- 		<td> 	
- 			<label class="btn btn-default select_container">
+ 		<td> 
+ 		 	<label class="btn btn-default select_container">
            		<input type="checkbox" class="selectTableItem" data-customerID="{{customer_id}}">
         	</label> 
-        </td>
+ 		</td>
  		
  		<td> 
  			<a href="/control/customers/{{customer.customer_id}}" class="customer_link">{{ customer.ShippingFirstName }} {{ customer.ShippingLastName }}</a> 
@@ -33,16 +33,10 @@
  	</tbody>
   </table>	
 
-  <div id="customer_data_container">
-    <input type="hidden" id="customerIDList" value="{% for customer_id, customer in allCustomers.iteritems() %}{{customer_id}},{% endfor %}">
-  {% for customer_id, customer in allCustomers.iteritems() %}
-    <input type="hidden" class="customer_data" data-customerID="{{customer_id}}" value="{{customer}}">
-  {% endfor %}
-  </div>
+
 
 {% else %}
 		<div id="no_customers" class="text-center">
-			<h4> You don't have any customers yet. </h4><hr>
-			<button type="button" class="btn btn-link btn-lg"><a href="/control/customers/"> Kill yourself </a></button>
+			<h4> You don't have any customers that accept marketing. </h4><hr>
 		</div>
 {% endif %}
