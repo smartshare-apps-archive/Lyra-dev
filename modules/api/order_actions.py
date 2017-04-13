@@ -282,6 +282,14 @@ def deleteOrderShipment():
 	
 	shipment.deleteShipment(order_id, shipment_id, database)
 
+	orderFulfillmentState = refreshFulfillmentState(order_id, database)
+
+
+	if(orderFulfillmentState == True):
+		order.set_OrderFulfillmentStatus(database, order_id,'fulfilled')
+	else:
+		order.set_OrderFulfillmentStatus(database, order_id,'unfulfilled')
+
 	db.commit()
 	db.close()
 
