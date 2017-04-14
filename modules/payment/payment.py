@@ -31,7 +31,9 @@ def setup_session():
 @payment_routes.route('/charge/', methods=['POST'])
 @with_user_data(current_app, session)
 def chargeCard(user_data = None):
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+	
 	db_cursor = db.cursor()
 
 	token = request.form['token_id']

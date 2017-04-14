@@ -7,7 +7,7 @@ import modules.database.config as config
 
 from modules.db import *
 
-db = db_handle()
+db = instance_handle()
 
 #grab stripe api key settings from database
 stripe_keys = config.getStripeAPIKeys(db.cursor())
@@ -66,7 +66,8 @@ def create_order(response, order_contents, customer_info):
 	order_details["Currency"] = "USD"
 	order_details["order_creation_method"] = "customer"
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 
 	order_id = order.createOrder(db.cursor(), order_details)
 
@@ -78,7 +79,10 @@ def create_order(response, order_contents, customer_info):
 
 
 def submit_charge(token_id):
-	db = db_handle()
+
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	order_details = loadOrderByToken(token_id, db.cursor())
 
 	subtotal = int(order_details["SubTotal"] * 100)
@@ -105,7 +109,10 @@ def submit_charge(token_id):
 
 
 def calculate_subtotal(order_contents):
-	db = db_handle()
+	
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	total_cost = 0.00
 
 	for item_sku, quantity in order_contents.iteritems():

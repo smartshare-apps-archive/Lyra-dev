@@ -59,7 +59,9 @@ def productEditor(product_id):
 	data["current_page_content"] = ctl.render_tab("product_editor", data=product_id)
 	data["ts"] = int(time.time())
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+	
 	product_data = loadProduct(product_id, db.cursor())
 
 	if product_data["Tags"]:

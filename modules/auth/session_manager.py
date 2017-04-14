@@ -11,29 +11,35 @@ import redis
 from modules.db import *
 from modules.decorators import *
 from modules.database.store import *
+
 import modules.database.order
 
+import modules.database.config as config
 
-#REDIS_SERVER = "127.0.0.1"
-REDIS_SERVER = "redis-14464.c10.us-east-1-4.ec2.cloud.redislabs.com"
 
-#PORT = 6379
-PORT = 14464
+
+db = instance_handle()
+
+redis_config = config.getRedisSettings(db.cursor())
+
+
+REDIS_SERVER = redis_config["host"]
+REDIS_PORT = int(redis_config["port"])
+REDIS_PASSWORD = redis_config["password"]
+
 
 SESSION_DURATION = 3000
 
 
 class SessionManager(object):
 	def __init__(self):
-		self.r = redis.StrictRedis(host=REDIS_SERVER,port=PORT, password="S0v1ndiv!#!")
+		self.r = redis.StrictRedis(host=REDIS_SERVER,port=REDIS_PORT, password=REDIS_PASSWORD)
 		try:
 			client_name = self.r.client_list()
-			print "Client: ", client_name
 		except redis.exceptions.ConnectionError as e:
 			self.r = None
 
 		
-	
 	def open_session(self, app, session):
 		auth_id = app.config['session_cookie_id']
 			

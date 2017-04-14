@@ -33,8 +33,12 @@ class ControlPanel(object):
 
 
 	def render_tab(self, tab, data=None):
-		db = db_handle()
-		self.database = db.cursor()
+		instance_db = instance_handle()
+		store_db = db_handle(instance_db)
+
+	
+		self.database = store_db.cursor()
+		self.instance_db = instance_db.cursor()
 
 		#products section
 		if tab == "products":
@@ -84,6 +88,8 @@ class ControlPanel(object):
 			return self.settings_Main()
 		elif tab == "settings_payment":
 			return self.settings_Payment()
+		elif tab == "settings_advanced":
+			return self.settings_Advanced()
 
 
 		#store settings section
@@ -367,7 +373,7 @@ class ControlPanel(object):
 		
 		self.control_data["product_data"] = products
 
-		selectedFields = config.BulkProductEditorSettings(self.database)			#grab user settings for bulk editor
+		selectedFields = config.BulkProductEditorSettings(self.instance_db)			#grab user settings for bulk editor
 		selectedFields = sorted(selectedFields.split(','))
 
 		self.control_data["selectedFields"] = selectedFields
@@ -405,7 +411,7 @@ class ControlPanel(object):
 
 		self.control_data["collection_data"] = collections
 
-		selectedFields = config.BulkCollectionEditorSettings(self.database)			#grab user settings for bulk editor
+		selectedFields = config.BulkCollectionEditorSettings(self.instance_db)			#grab user settings for bulk editor
 		selectedFields = sorted(selectedFields.split(','))
 		self.control_data["selectedFields"] = selectedFields
 
@@ -681,10 +687,16 @@ class ControlPanel(object):
 
 	def settings_Payment(self):
 		self.control_data["page"] = "settings_payment"
-		stripe_api_keys = config.getStripeAPIKeys(self.database)
+		stripe_api_keys = config.getStripeAPIKeys(self.instance_db)
 		self.control_data["stripe_api_keys"] = stripe_api_keys
 
 		return render_template("control_panel/settings/Payment.html", control_data = self.control_data)
+
+
+	def settings_Advanced(self):
+		self.control_data["page"] = "settings_advanced"
+
+		return render_template("control_panel/settings/Advanced.html", control_data = self.control_data)
 
 
 

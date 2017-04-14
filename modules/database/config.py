@@ -237,7 +237,7 @@ productDisplayOptions = {
 
 
 def getDefaultShippingAddress(database):
-	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='DefaultShippingAddress';"
+	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="DefaultShippingAddress";"""
 
 	try:
 		database.execute(currentQuery)
@@ -261,7 +261,7 @@ def getDefaultShippingAddress(database):
 
 #gets the stripe api keys to allow for payment with credit cards directly on the store
 def getStripeAPIKeys(database):
-	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='stripe_api_keys';"
+	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="stripe_api_keys";"""
 
 	try:
 		database.execute(currentQuery)
@@ -283,7 +283,7 @@ def getStripeAPIKeys(database):
 
 #sets the stripe api keys to allow for payment with credit cards directly on the store
 def setStripeAPIKeys(stripe_api_keys, database):
-	currentQuery = "UPDATE settings SET FieldList=? WHERE setting_id='stripe_api_keys';"
+	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="stripe_api_keys";"""
 
 	try:
 		database.execute(currentQuery, (stripe_api_keys,))
@@ -296,7 +296,7 @@ def setStripeAPIKeys(stripe_api_keys, database):
 
 
 def BulkProductEditorSettings(database):
-	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='BulkProductEditorFields';"
+	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="BulkProductEditorFields";"""
 	
 	try:
 		database.execute(currentQuery)
@@ -312,17 +312,17 @@ def BulkProductEditorSettings(database):
 
 
 def setBulkProductEditorSettings(selectedFields, database):
-	currentQuery = "UPDATE settings SET FieldList=%s WHERE setting_id='BulkProductEditorFields';" % selectedFields
+	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="BulkProductEditorFields";""" 
 
 	try:
-		database.execute(currentQuery)
+		database.execute(currentQuery, (selectedFields, ))
 	except Exception as e:
 		print e
 
 
 
 def BulkInventoryEditorSettings(database):
-	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='BulkInventoryEditorFields';"
+	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="BulkInventoryEditorFields";"""
 	
 	try:
 		database.execute(currentQuery)
@@ -338,17 +338,17 @@ def BulkInventoryEditorSettings(database):
 
 
 def setBulkInventoryEditorSettings(selectedFields, database):
-	currentQuery = "UPDATE settings SET FieldList=%s WHERE setting_id='BulkInventoryEditorFields';" % selectedFields
+	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="BulkInventoryEditorFields";""" 
 
 	try:
-		database.execute(currentQuery)
+		database.execute(currentQuery, (selectedFields, ))
 	except Exception as e:
 		print e
 
 
 
 def BulkCollectionEditorSettings(database):
-	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='BulkCollectionEditorFields';"
+	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="BulkCollectionEditorFields";"""
 	
 	try:
 		database.execute(currentQuery)
@@ -363,10 +363,10 @@ def BulkCollectionEditorSettings(database):
 
 
 def setBulkCollectionEditorSettings(selectedFields, database):
-	currentQuery = "UPDATE settings SET FieldList=%s WHERE setting_id='BulkCollectionEditorFields';" % selectedFields
-	print currentQuery
+	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="BulkCollectionEditorFields";""" 
+	
 	try:
-		database.execute(currentQuery)
+		database.execute(currentQuery, (selectedFields, ))
 	except Exception as e:
 		print "Error: ", e
 
@@ -386,3 +386,46 @@ def CountryList(database):
 		countryList = [country.split(':') for country in countryList[0].split(',')]
 		return countryList
 		
+
+
+def getRedisSettings(database):
+	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="RedisConfig";"""
+	try:
+		database.execute(currentQuery)
+	except Exception as e:
+		print "Error: ", e
+		return None
+
+	redisConfig = database.fetchone()
+	if redisConfig:
+		redisConfig = [field.split('=') for field in redisConfig[0].split('<redis_split>')]
+		
+		formattedRedisConfig = {}
+
+		for field in redisConfig:
+			formattedRedisConfig[field[0]] = field[1]
+
+		return formattedRedisConfig
+
+
+
+def getDatabaseSettings(database):
+	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="DatabaseConfig";"""
+
+	try:
+		database.execute(currentQuery)
+	except Exception as e:
+		print "Error: ", e
+		return None
+
+	databaseConfig = database.fetchone()
+
+	if databaseConfig:
+		databaseConfig = [field.split('=') for field in databaseConfig[0].split('<database_split>')]
+		
+		formattedDatabaseConfig = {}
+
+		for field in databaseConfig:
+			formattedDatabaseConfig[field[0]] = field[1]
+
+		return formattedDatabaseConfig

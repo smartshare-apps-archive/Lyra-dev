@@ -45,8 +45,8 @@ def setup_session():
 def generate_plot(tile_id):
 	plot_params = request.args 
 	
-
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 	database = db.cursor()
 
 

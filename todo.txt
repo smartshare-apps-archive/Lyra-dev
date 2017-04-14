@@ -6,7 +6,6 @@ backend:
 
 2. order section
 - field updates when customer information is updated
-- some solution for buying shipping labels (no clue)
 
 3. product section
 - dont forget to save your work dialog in product, inventory, and collection

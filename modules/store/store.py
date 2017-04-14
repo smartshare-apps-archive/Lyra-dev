@@ -270,7 +270,9 @@ def popupMessage(user_data=None):
 
 	item_sku = message[0]
 	quantity = message[1]
-	db = db_handle()
+
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 
 	productData = loadProductBySKU(item_sku, db.cursor())
 	
@@ -300,7 +302,8 @@ def checkout(user_data=None):
 
 	if user_data: 
 		if("customer_id" in user_data):	#this checks if this use has a customer_id associated with their account, if so, try to get saved address data
-			db = db_handle()
+			instance_db = instance_handle()
+			db = db_handle(instance_db)
 			#get saved customer info
 			customer_info = customer.loadCustomer(user_data["customer_id"], db.cursor())
 
@@ -352,7 +355,9 @@ def order_success(user_data=None):
 	charge_id = request.args.get('ch','')
 
 	if charge_id != '':
-		db = db_handle()
+		instance_db = instance_handle()
+		db = db_handle(instance_db)
+
 		order_details = loadOrderByCharge(charge_id, db.cursor())	#loads order from db, so no session is required for persistance
 		print "CHARGE ID: ", charge_id
 		if order_details:

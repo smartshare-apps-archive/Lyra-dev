@@ -41,6 +41,26 @@ def settings():
 	return render_template("control_panel/control.html", data=data)
 
 
+@settings_routes.route('/control/settings/advanced')
+@settings_routes.route('/control/settings/advanced/')
+#@admin_required(current_app, session, login_redirect)
+def advanced_settings():
+	ctl = current_app.config["ctl"]
+	data = {}
+
+	data["current_page"] = "settings_advanced"
+	data["current_class_js"] = "control_panel/settings/Core.js"
+	data["current_page_js"] = "control_panel/settings/AdvancedSettings.js"
+	data["current_requests_js"] = "control_panel/settings/Requests.js"
+	
+	data["current_page_content"] = ctl.render_tab("settings_advanced")
+	data["ts"] = int(time.time())
+	data["modal"] = Markup(render_template("control_panel/modal.html"))
+	data["submenu"] = Markup(render_template("control_panel/subMenu_settings.html"))
+
+	return render_template("control_panel/control.html", data=data)
+
+
 
 @settings_routes.route('/control/settings/payment')
 @settings_routes.route('/control/settings/payment/')

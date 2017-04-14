@@ -39,7 +39,9 @@ def markOrderFulfillment():
 	sku_fulfilled = request.form['sku_fulfilled']
 	sku_fulfilled = json.loads(sku_fulfilled)
 	
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	database = db.cursor()
 	
 	order.updateOrderFulfillment(sku_fulfilled, order_id, database)
@@ -60,7 +62,9 @@ def bulkMarkOrderFulfillment():
 	fulfillment_status = json.loads(fulfillment_status)
 	
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	database = db.cursor()
 	
 	order.bulkMarkFulfillment(fulfillment_status, order_id_list, database)
@@ -81,7 +85,9 @@ def bulkMarkOrderPaymentStatus():
 	payment_status = request.form['payment_status']
 	payment_status = json.loads(payment_status)
 	
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	database = db.cursor()
 	
 	order.bulkMarkPaymentStatus(payment_status, order_id_list, database)
@@ -99,7 +105,9 @@ def bulkDeleteOrders():
 	order_id_list = request.form['order_id_list']
 	order_id_list = json.loads(order_id_list)
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	database = db.cursor()
 	
 	order.bulkDeleteOrders(order_id_list, database)
@@ -230,7 +238,9 @@ def saveOrderShipment():
 	shipment_data = json.loads(shipment_data)
 
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	database = db.cursor()
 	
 	parcelData = shipment_data["parcel_data"]
@@ -277,7 +287,9 @@ def deleteOrderShipment():
 	shipment_id = json.loads(shipment_id)
 
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+	
 	database = db.cursor()
 	
 	shipment.deleteShipment(order_id, shipment_id, database)

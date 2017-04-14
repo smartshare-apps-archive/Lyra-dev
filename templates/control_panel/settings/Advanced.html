@@ -1,0 +1,44 @@
+{% block page_content %}
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-usd"></span> &nbsp;  <a href="/control/settings/">Settings</a> / <a href="/control/settings/advanced"> Advanced </a> </h4>
+
+		<button type="button" class="btn btn-default btn-floated" id="btn_saveAdvancedSettings">Save settings &nbsp;<span class="glyphicon glyphicon-floppy-disk off_black"></span></button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 tab_content">
+	<!-- Begin payment settings content div -->
+		<div class="row">
+		<!-- Begin: payment settings column (left aligned) -->
+
+			<div class="col-lg-6 flex-panel">
+				<div class="panel panel-default padded-panel">
+					<h4 class="h4-inline"> <span class="glyphicon glyphicon-lock off_black"></span> &nbsp; Stripe API settings </h4>
+
+					<button type="button" class="btn btn-primary" id="btn_saveStripeAPIKey"> Save &nbsp; <span class="glyphicon glyphicon-floppy-disk"></span></button>
+
+
+
+				</div>
+			</div>
+
+			<div class="col-lg-6 flex-panel">
+				<div class="panel panel-default padded-panel">
+				
+				
+				</div>
+			</div>
+
+		</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">			
+	</div>
+</div>
+
+
+{% endblock page_content %}

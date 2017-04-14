@@ -23,7 +23,9 @@ class Store(object):
 		self.store_data = {}
 
 	def render_tab(self, tab, data=None):
-		db = db_handle()
+		instance_db = instance_handle()
+		db = db_handle(instance_db)
+		
 		self.database = db.cursor()
 
 		#store views: gotta think of a way to add these in a better way

@@ -2529,7 +2529,9 @@ top:-1px;
 
 }
 
-
+.dashboard-panel {
+    width:100%;
+}
 
 .bokeh-plot-container {
     padding:0px;
