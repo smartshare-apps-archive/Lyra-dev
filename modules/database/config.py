@@ -1,5 +1,11 @@
 import sqlite3
 
+
+ERROR_CODES = {
+	"NO_DB": "There was an issue connecting to the store database. Please verify your configuration below."
+}
+
+
 def admin_names():
 	return ["admin", "joe"]
 
@@ -462,3 +468,35 @@ def setDatabaseConfig(database_config, database):
 		return None
 
 	return True
+
+
+
+def loadProductTags(database):
+	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="Tags";""";
+	
+	try:
+		database.execute(currentQuery);
+	except Exception as e:
+		return None
+
+	tags = database.fetchone()
+	if tags:
+		tags = set(filter(lambda t: t != '', sorted(tags[0].split(','))))
+		print "all:", tags
+		return tags
+
+
+
+
+def loadProductTypes(database):
+	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="Types";""";
+	try:
+		database.execute(currentQuery);
+	except Exception as e:
+		return None
+
+	types = database.fetchone()
+	if types:
+		types = set(filter(lambda t: t != '', sorted(types[0].split(','))))
+		print "all:", types
+		return types

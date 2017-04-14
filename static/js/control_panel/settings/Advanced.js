@@ -12,7 +12,7 @@ var databaseConfig = {};
 $(document).ready(function(){
 	bindElements();
 	bindEvents();
-
+	console.log("Loaded script.");
 });
 
 
@@ -51,7 +51,7 @@ function bindEvents(){
 function updateSettingData(event){
 	var setting_id = event.data.setting_id;
 	var field_id = event.data.field_id;
-	
+
 	var selectorString_field = '[data-fieldID="' + field_id + '"]';
 	var selectorString_setting = '[data-settingID="' + setting_id + '"]';
 
@@ -60,10 +60,13 @@ function updateSettingData(event){
 
 	if(setting_id == "redis"){
 			redisConfig[field_id] = field_value;
+
  	}
 	else if(setting_id == "database"){
 			databaseConfig[field_id] = field_value;
 	}
+
+
 }
 
 
@@ -79,6 +82,7 @@ function confirmSettings(event){
 	}
 
 	else if(setting_id == "database"){
+		console.log('ok');
 		btn_saveSetting.click(saveDatabaseConfig);
 	}
 	

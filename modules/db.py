@@ -25,7 +25,7 @@ def db_handle(instance_db):
 	print db_settings
 
 	try:
-		conn=MySQLdb.connect(host=db_settings["host"],port=int(db_settings["port"]),user=db_settings["username"],passwd=db_settings["password"], db=db_settings["default_db"], use_unicode=True, charset="utf8")
+		conn=MySQLdb.connect(host=db_settings["host"],port=int(db_settings["port"]),user=db_settings["username"],passwd=db_settings["password"], db=db_settings["default_db"], use_unicode=True, charset="utf8", connect_timeout=1)
 	except Exception as e:
 		print "Exception connecting: ", e
 		return None

@@ -4,10 +4,11 @@ from flask import Blueprint, render_template, abort, current_app, session, reque
 
 #ecomm module imports
 from modules.db import *
+
 from modules.decorators import *
 from modules.auth.login import *
 import modules.database.order as order
-
+import modules.database.config as config
 
 dashboard_routes = Blueprint('dashboard_routes', __name__, template_folder='templates')		#blueprint definition
 
@@ -33,8 +34,12 @@ def dashboard_main():
 	data["current_page_js"] = "control_panel/dashboard/Main.js"
 	data["current_requests_js"] = "control_panel/dashboard/Requests.js"
 
-	data["current_page_content"] = ctl.render_tab("dashboard")
+	response = ctl.render_tab("dashboard")
 
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
 
 	data["ts"] = int(time.time())
 	data["modal"] = Markup(render_template("control_panel/modal.html"))

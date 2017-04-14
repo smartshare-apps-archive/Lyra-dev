@@ -20,8 +20,6 @@ function saveStripeAPIKeys(event){
 
 
 function saveRedisConfig(event){
-	console.log("Updating redis config;");
-
 	//host=redis-14464.c10.us-east-1-4.ec2.cloud.redislabs.com<redis_split>port=14464<redis_split>password=S0v1ndiv!#!
 	var formatted_redis_config = "";
 
@@ -40,7 +38,7 @@ function saveRedisConfig(event){
 	  traditional: true
 	})
 	  .done(function(msg) {
-	  	window.location.reload();
+	  	window.location.href = '/control/settings/advanced/';
 	  });
 	
 	
@@ -65,6 +63,6 @@ function saveDatabaseConfig(event){
 	  traditional: true
 	})
 	  .done(function(msg) {
-	  	window.location.reload();
+	  	window.location.href = '/control/settings/advanced/';
 	  });
 }

@@ -43,8 +43,9 @@ def settings():
 
 @settings_routes.route('/control/settings/advanced')
 @settings_routes.route('/control/settings/advanced/')
+@settings_routes.route('/control/settings/advanced/?flag=<string:flag>')
 #@admin_required(current_app, session, login_redirect)
-def advanced_settings():
+def advanced_settings(flag = None):
 	ctl = current_app.config["ctl"]
 	data = {}
 
@@ -52,8 +53,17 @@ def advanced_settings():
 	data["current_class_js"] = "control_panel/settings/Core.js"
 	data["current_page_js"] = "control_panel/settings/Advanced.js"
 	data["current_requests_js"] = "control_panel/settings/Requests.js"
-	
-	data["current_page_content"] = ctl.render_tab("settings_advanced")
+
+
+	response = ctl.render_tab("settings_advanced")
+
+
+	if flag != None:
+		data["current_page_content"] = ctl.render_tab("settings_advanced", flag)
+	else:
+		data["current_page_content"] = ctl.render_tab("settings_advanced")
+
+
 	data["ts"] = int(time.time())
 	data["modal"] = Markup(render_template("control_panel/modal.html"))
 	data["submenu"] = Markup(render_template("control_panel/subMenu_settings.html"))

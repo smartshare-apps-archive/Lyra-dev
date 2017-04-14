@@ -33,7 +33,13 @@ def customers():
 	data["current_page_js"] = "control_panel/customer/Main.js"
 	data["current_requests_js"] = "control_panel/customer/Requests.js"
 
-	data["current_page_content"] = ctl.render_tab("customers")
+	response = ctl.render_tab("customers")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modal"] = Markup(render_template("control_panel/modal.html"))
 	data["submenu"] = Markup(render_template("control_panel/subMenu_customers.html"))
@@ -52,12 +58,18 @@ def customerEditor(customer_id):
 	ctl = current_app.config["ctl"]
 	data = {}
 
-	data["current_page"] = "order_editor"
+	data["current_page"] = "customer_editor"
 	data["current_class_js"] = "control_panel/customer/Core.js"
 	data["current_page_js"] = "control_panel/customer/CustomerEditor.js"
 	data["current_requests_js"] = "control_panel/customer/Requests.js"
 
-	data["current_page_content"] = ctl.render_tab("customer_editor", data=customer_id)
+	response = ctl.render_tab("customer_editor", data=customer_id)
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modals"] = [render_template("control_panel/modal.html")]
 	data["submenu"] = Markup(render_template("control_panel/subMenu_customers.html"))

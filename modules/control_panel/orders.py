@@ -38,7 +38,14 @@ def orders():
 	data["current_requests_js"] = "control_panel/order/Requests.js"
 
 
-	data["current_page_content"] = ctl.render_tab("orders")
+	response = ctl.render_tab("orders")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
+
 	data["ts"] = int(time.time())
 	data["modals"] = [render_template("control_panel/modal.html")]
 	data["submenu"] = Markup(render_template("control_panel/subMenu_orders.html"))
@@ -60,7 +67,13 @@ def orders_drafts():
 	data["current_requests_js"] = "control_panel/order/Requests.js"
 
 
-	data["current_page_content"] = ctl.render_tab("orders_drafts")
+	response = ctl.render_tab("orders_drafts")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modals"] = [render_template("control_panel/modal.html")]
 	data["submenu"] = Markup(render_template("control_panel/subMenu_orders.html"))
@@ -82,7 +95,13 @@ def orderEditor(order_id):
 	data["current_page_js"] = "control_panel/order/OrderEditor.js"
 	data["current_requests_js"] = "control_panel/order/Requests.js"
 
-	data["current_page_content"] = ctl.render_tab("order_editor", data=order_id)
+	response = ctl.render_tab("order_editor", data=order_id)
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modals"] = [render_template("control_panel/modal.html")]
 	data["submenu"] = Markup(render_template("control_panel/subMenu_orders.html"))
@@ -103,7 +122,13 @@ def addDraft():
 	data["current_page_js"] = "control_panel/order/DraftEditorNew.js"
 	data["current_requests_js"] = "control_panel/order/Requests.js"
 
-	data["current_page_content"] = ctl.render_tab("order_editor_draft_new")
+	response = ctl.render_tab("order_editor_draft_new")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modals"] = [render_template("control_panel/modal.html")]
 	data["submenu"] = Markup(render_template("control_panel/subMenu_orders.html"))
@@ -124,7 +149,14 @@ def fulfillOrder(order_id):
 	data["current_page_js"] = "control_panel/order/Fulfill.js"
 	data["current_requests_js"] = "control_panel/order/Requests.js"
 
-	data["current_page_content"] = ctl.render_tab("order_fulfill", data=order_id)
+	response = ctl.render_tab("order_fulfill", data=order_id)
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
+
 	data["ts"] = int(time.time())
 	data["modals"] = [render_template("control_panel/modal.html")]
 	data["submenu"] = Markup(render_template("control_panel/subMenu_orders.html"))

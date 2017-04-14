@@ -291,34 +291,6 @@ def saveProductTypes(product_types, productDatabase):
 
 
 
-def loadProductTags(productDatabase):
-	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='Tags';";
-	
-	try:
-		productDatabase.execute(currentQuery);
-	except Exception as e:
-		return None
-
-	tags = productDatabase.fetchone()
-	if tags:
-		tags = set(filter(lambda t: t != '', sorted(tags[0].split(','))))
-		print "all:", tags
-		return tags
-
-
-
-def loadProductTypes(productDatabase):
-	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='Types';"	
-	try:
-		productDatabase.execute(currentQuery);
-	except Exception as e:
-		return None
-
-	types = productDatabase.fetchone()
-	if types:
-		types = set(filter(lambda t: t != '', sorted(types[0].split(','))))
-		print "all:", types
-		return types
 
 
 

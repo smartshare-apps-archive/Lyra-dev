@@ -7,6 +7,9 @@ from modules.db import *
 from modules.decorators import *
 from modules.auth.login import *
 import modules.database.product
+
+import modules.database.config as config
+
 from modules.database.product_util import *
 
 
@@ -36,7 +39,13 @@ def products():
 	data["current_page_js"] = "control_panel/product/Main.js"
 	data["current_requests_js"] = "control_panel/product/Requests.js"
 
-	data["current_page_content"] = ctl.render_tab("products")
+	response = ctl.render_tab("products")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modals"] = [render_template("control_panel/modal.html")]
 	data["submenu"] = Markup(render_template("control_panel/subMenu_products.html"))
@@ -56,7 +65,15 @@ def productEditor(product_id):
 
 	data["current_page"] = "product_editor"
 	data["product_id"] = product_id
-	data["current_page_content"] = ctl.render_tab("product_editor", data=product_id)
+
+	response = ctl.render_tab("product_editor", data=product_id)
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
+
 	data["ts"] = int(time.time())
 
 	instance_db = instance_handle()
@@ -69,9 +86,10 @@ def productEditor(product_id):
 	else:
 		product_tags = []
 
-	all_tags = loadProductTags(db.cursor())
-	all_types = loadProductTypes(db.cursor())
+	all_tags = config.loadProductTags(instance_db.cursor())
+	all_types = config.loadProductTypes(instance_db.cursor())
 
+	print "ALL TAGS: ", all_tags
 
 	db.close()
 
@@ -90,6 +108,7 @@ def productEditor(product_id):
 	return render_template("control_panel/control.html", data=data)
 
 
+
 #route to single collection editor
 @product_routes.route('/control/products/collections/<collection_id>/')
 @product_routes.route('/control/products/collections/<collection_id>')
@@ -100,7 +119,16 @@ def collectionEditor(collection_id):
 
 	data["current_page"] = "collection_editor"
 	data["product_id"] = collection_id
-	data["current_page_content"] = ctl.render_tab("collection_editor", data=collection_id)
+
+
+	response = ctl.render_tab("collection_editor", data=collection_id)
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
+
 	data["ts"] = int(time.time())
 	data["modals"] = [render_template("control_panel/modal.html"), render_template("control_panel/modal_image_upload.html", collection_id=collection_id)]
 	data["submenu"] = Markup(render_template("control_panel/subMenu_products.html"))
@@ -121,7 +149,15 @@ def productEditor_newCollection():
 	data = {}
 
 	data["current_page"] = "collection_editor_new"
-	data["current_page_content"] = ctl.render_tab("collection_editor_new")
+
+	response = ctl.render_tab("collection_editor_new")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
+
 	data["ts"] = int(time.time())
 	data["modals"] = [render_template("control_panel/modal.html")]
 	data["submenu"] = Markup(render_template("control_panel/subMenu_products.html"))
@@ -148,7 +184,13 @@ def productBulkCollectionEditor():
 
 	data["current_page"] = "product_bulk_collection_editor"
 
-	data["current_page_content"] = ctl.render_tab("product_bulk_collection_editor", data["collectionIDList"])
+	response = ctl.render_tab("product_bulk_collection_editor", data["collectionIDList"])
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["current_class_js"] = "control_panel/product/Core.js"
 	data["current_page_js"] = "control_panel/product/BulkCollectionEditor.js"
 	data["current_requests_js"] = "control_panel/product/Requests.js"
@@ -172,9 +214,14 @@ def productBulkEditor():
 
 	data = {}
 	data["productIdList"] = productIdList
-
 	data["current_page"] = "product_bulk_editor"
-	data["current_page_content"] = ctl.render_tab("product_bulk_editor", data["productIdList"])
+
+	response = ctl.render_tab("product_bulk_editor", data["productIdList"])
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
 	
 	data["current_class_js"] = "control_panel/product/Core.js"
 	data["current_page_js"] = "control_panel/product/BulkProductEditor.js"
@@ -197,7 +244,14 @@ def productInventory():
 	data = {}
 
 	data["current_page"] = "product_inventory"
-	data["current_page_content"] = ctl.render_tab(data["current_page"])
+
+	response = ctl.render_tab(data["current_page"])
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 
 	data["current_class_js"] = "control_panel/product/Core.js"
 	data["current_page_js"] = "control_panel/product/Inventory.js"
@@ -220,7 +274,14 @@ def productInventoryEditor(product_id):
 	data = {}
 
 	data["current_page"] = "product_inventory_editor"
-	data["current_page_content"] = ctl.render_tab(data["current_page"], data=product_id)
+
+	response = ctl.render_tab(data["current_page"], data=product_id)
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 
 	data["current_class_js"] = "control_panel/product/Core.js"
 	data["current_page_js"] = "control_panel/product/InventoryEditor.js"
@@ -247,7 +308,14 @@ def productBulkInventoryEditor():
 	data["variantIdList"] = variantIdList
 
 	data["current_page"] = "product_bulk_inventory_editor"
-	data["current_page_content"] = ctl.render_tab("product_bulk_inventory_editor", data["variantIdList"])
+
+	response = ctl.render_tab(data["current_page"], data["variantIdList"])
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	
 	data["current_class_js"] = "control_panel/product/Core.js"
 	data["current_page_js"] = "control_panel/product/BulkInventoryEditor.js"
@@ -268,8 +336,14 @@ def productCollections():
 	data = {}
 
 	data["current_page"] = "product_collections"
-	data["current_page_content"] = ctl.render_tab(data["current_page"])
 	
+	response = ctl.render_tab(data["current_page"])
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["current_class_js"] = "control_panel/product/Core.js"
 	data["current_page_js"] = "control_panel/product/Collections.js"
 	data["current_requests_js"] = "control_panel/product/Requests.js"

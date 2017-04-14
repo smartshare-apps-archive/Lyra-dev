@@ -33,7 +33,9 @@ def addProduct():
 	productData = request.form['productData']
 	productData = json.loads(productData)
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 
 	product_id = product.saveNewProductData(productData, productDatabase)
@@ -53,7 +55,9 @@ def addProductVariant():
 	product_id = request.form['product_id'];
 	product_id = json.loads(product_id);
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 	
 	product.saveNewVariantData(product_id, variantData, productDatabase)
@@ -72,7 +76,10 @@ def addProductVariant():
 def addCollection():
 	collectionData = request.form['collectionData']
 	collectionData = json.loads(collectionData)
-	db = db_handle()
+	
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 
 	collection_id = product.saveNewCollectionData(collectionData, productDatabase)
@@ -90,7 +97,9 @@ def addCollection():
 def deleteSingleProduct():
 	product_id = request.form['product_id']
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 
 	product_id = product.deleteProduct(product_id, productDatabase)
@@ -106,7 +115,9 @@ def deleteSingleProduct():
 def deleteSingleCollection():
 	collection_id = request.form['collection_id']
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 
 	collection_id = product.deleteCollection(collection_id, productDatabase)
@@ -124,7 +135,9 @@ def deleteSingleCollection():
 def deleteSingleVariant():
 	variant_id = request.form['variant_id']
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 
 	product.deleteVariant(variant_id, productDatabase)
@@ -142,7 +155,9 @@ def updateProductData():
 	product_data = request.form['product_data']
 	product_data = json.loads(product_data)
 
-	db = db_handle()	#grab handle to database file to write changes
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	
 	productDatabase = db.cursor()
 	product.saveProductData(product_data, productDatabase)
@@ -163,7 +178,9 @@ def updateProductInventory():
 	product_id = request.form['product_id'];
 	product_id = json.loads(product_id);
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 	
 	product.updateProductInventory(product_id, inventory_qty, productDatabase)
@@ -182,9 +199,9 @@ def updateCustomerData():
 	customer_data = request.form['customer_data']
 	customer_data = json.loads(customer_data)
 
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 
-	db = db_handle()	#grab handle to database file to write changes
-	
 	db_cursor = db.cursor()
 	customer.saveCustomerData(customer_data, db_cursor)
 
@@ -205,7 +222,9 @@ def updateProductTags():
 	product_tags = request.form['product_tags']
 	product_tags = json.loads(product_tags)
 
-	db = db_handle()	#grab handle to database file to write changes
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 
 	result = product.saveProductTags(product_id, product_tags, productDatabase)
@@ -223,8 +242,10 @@ def updateProductTypes():
 	print "got this far fucker"
 	product_types = request.form['product_types']
 	product_types = json.loads(product_types)
+	
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 
-	db = db_handle()	#grab handle to database file to write changes
 	productDatabase = db.cursor()
 
 	result = product.saveProductTypes(product_types, productDatabase)
@@ -249,7 +270,9 @@ def deleteProductResource():
 	resource_type = request.form['resource_type']
 	resource_type = json.loads(resource_type)
 
-	db = db_handle()	#grab handle to database file to write changes
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 	result = resources.deleteProductResource(product_id, resource_id, resource_type, productDatabase)
 
@@ -268,7 +291,9 @@ def setDefaultProductImage():
 	resource_id = request.form['resource_id']
 	resource_id = json.loads(resource_id)
 
-	db = db_handle()	#grab handle to database file to write changes
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 	result = product.setDefaultProductImage(product_id, resource_id, productDatabase)
 
@@ -290,7 +315,9 @@ def updateProductVariantTypes():
 	product_id = request.form['product_id']
 	product_id = json.loads(product_id)
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	
 	productDatabase = db.cursor()
 	product.saveProductVariantTypes(product_id, variantTypes, productDatabase)
@@ -319,7 +346,9 @@ def updateProductInventoryData():
 
 
 
-	db = db_handle()	#grab handle to database file to write changes
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	
 	productDatabase = db.cursor()
 	product.saveProductInventoryData(variantData, productDatabase)
@@ -335,7 +364,9 @@ def updateProductInventoryData():
 def updateBulkProductEditorFields():
 	selectedFields = request.form['selectedFields']
 
-	db = db_handle()	
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 
 	modules.database.config.setBulkProductEditorSettings(selectedFields, productDatabase)
@@ -352,7 +383,9 @@ def updateBulkProductEditorFields():
 def updateBulkInventoryEditorFields():
 	selectedFields = request.form['selectedFields']
 
-	db = db_handle()	
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 
 	modules.database.config.setBulkInventoryEditorSettings(selectedFields, productDatabase)
@@ -368,7 +401,9 @@ def updateBulkInventoryEditorFields():
 def updateBulkCollectionEditorFields():
 	selectedFields = request.form['selectedFields']
 
-	db = db_handle()	
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+	
 	productDatabase = db.cursor()
 
 	modules.database.config.setBulkCollectionEditorSettings(selectedFields, productDatabase)
@@ -388,7 +423,9 @@ def updateCollectionData():
 	collection_data = request.form['collection_data']
 	collection_data = json.loads(collection_data)
 
-	db = db_handle()	#grab handle to database file to write changes
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	
 	productDatabase = db.cursor()
 	product.saveCollectionData(collection_data, productDatabase)
@@ -411,7 +448,9 @@ def bulkAction_Publish():
 	product_id_list = request.form['product_id_list']
 	product_id_list = json.loads(product_id_list)
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 
 	bulkPublish(value, product_id_list, productDatabase)
@@ -430,7 +469,9 @@ def bulkAction_Delete():
 	product_id_list = request.form['product_id_list']
 	product_id_list = json.loads(product_id_list)
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 
 	bulkDelete(product_id_list, productDatabase)
@@ -451,7 +492,9 @@ def bulkAction_Update():
 	variantData = request.form['variantData']
 	variantData = json.loads(variantData)
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 
 	bulkUpdateProducts(productData, productDatabase)
@@ -470,7 +513,9 @@ def bulkAction_UpdateCollections():
 	collectionData = request.form['collectionData']
 	collectionData = json.loads(collectionData)
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	productDatabase = db.cursor()
 
 	bulkUpdateCollections(collectionData, productDatabase)

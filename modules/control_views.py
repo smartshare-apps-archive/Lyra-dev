@@ -24,9 +24,7 @@ from db import *
 
 import sys, ast, imp
 
-ERROR_FLAG = {
-	"NO_DB":"An error occured while trying to connect to the store database, please check your database configuration."
-}
+ERROR_CODES = config.ERROR_CODES
 
 class ControlPanel(object):
 	def __init__(self):
@@ -40,10 +38,15 @@ class ControlPanel(object):
 		instance_db = instance_handle()
 		self.instance_db = instance_db.cursor()
 		
+		if data in config.ERROR_CODES:
+			return self.settings_Advanced(flag=data)
+
 		store_db = db_handle(instance_db)
 
-		if store_db is None:
-			return self.settings_Advanced(flag=ERROR_FLAG["NO_DB"])
+		if store_db is None and tab != "settings_advanced":
+			return "NO_DB"
+		elif store_db is None and tab == "settings_advanced":
+			return self.settings_Advanced(flag="NO_DB")
 		else:
 			self.database = store_db.cursor()
 		
@@ -708,7 +711,7 @@ class ControlPanel(object):
 		self.control_data["database_config"] = config.getDatabaseSettings(self.instance_db)
 
 		if flag != None:
-			self.control_data["error_message"] = flag
+			self.control_data["error_message"] = ERROR_CODES[flag]
 		else:
 			self.control_data["error_message"] = None
 
