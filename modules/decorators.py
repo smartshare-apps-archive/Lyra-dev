@@ -8,7 +8,8 @@ from modules.database import config
 def db_required(f):
 	@wraps(f)
 	def wrapper(*args, **kwargs):
-		db = db_handle()
+		instance_db = instance_handle()
+		db = db_handle(instance_db)
 		db_cursor = db.cursor()
 		return f(db)
 	return wrapper

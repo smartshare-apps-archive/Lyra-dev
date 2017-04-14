@@ -23,8 +23,10 @@ class Auth(object):
 
 
 	def render_tab(self, tab, data=None):
-		db = db_handle()
-		self.productDatabase = db.cursor()
+		instance_db = instance_handle()
+		db = db_handle(instance_db)
+
+		self.database = db.cursor()
 
 		#store sections
 		if tab == "login":
@@ -32,7 +34,7 @@ class Auth(object):
 		elif tab == "nav_bar":
 			return self.NavBar(data)
 
-		self.productDatabase = None
+		self.database = None
 		db.close()	
 
 
