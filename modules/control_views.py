@@ -169,7 +169,7 @@ class ControlPanel(object):
 	def product_ProductEditor(self, product_id):
 		self.control_data["page"] = "product_editor"
 		self.control_data["product_id"] = product_id
-		self.control_data["product_types"] = loadProductTypes(self.database);
+		self.control_data["product_types"] = config.loadProductTypes(self.instance_db);
 
 		#pull product types from settings table for updating product type dropdown selection
 

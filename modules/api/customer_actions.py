@@ -36,7 +36,8 @@ def bulkDeleteCustomers():
 	customer_id_list = request.form['customer_id_list']
 	customer_id_list = json.loads(customer_id_list)
 	
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 	database = db.cursor()
 	
 	customer.bulkDeleteCustomers(customer_id_list, database)

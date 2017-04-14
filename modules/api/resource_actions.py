@@ -59,7 +59,9 @@ def upload_image_file():
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(current_app.config['IMAGE_UPLOAD_FOLDER'], filename))
             
-			db = db_handle()
+			instance_db = instance_handle()
+			db = db_handle(instance_db)
+
 			database = db.cursor()
 			imageURL = url_for('resourceActions.uploaded_image',
                                     filename=filename)
@@ -102,7 +104,9 @@ def upload_resource_file():
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(current_app.config['FILE_UPLOAD_FOLDER'], filename))
             
-			db = db_handle()
+			instance_db = instance_handle()
+			db = db_handle(instance_db)
+
 			database = db.cursor()
 			fileURL = url_for('resourceActions.uploaded_file',
                                     filename=filename)
@@ -120,7 +124,9 @@ def upload_resource_file():
 #deletes a stored resource file from both the table and local filesystem
 @resourceActions.route('/actions/deleteResource/<int:resourceID>', methods=['GET', 'POST'])
 def delete_resource_file(resourceID):
-	db = db_handle()
+
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 	database = db.cursor()
 
 	resource_uri = resources.loadResourceURI(resourceID, database)
@@ -145,7 +151,8 @@ def bulkDeleteResources():
 	resource_id_list = request.form['resource_id_list']
 	resource_id_list = json.loads(resource_id_list)
 	
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 	database = db.cursor()
 	
 	resources.bulkDeleteResources(resource_id_list, database)

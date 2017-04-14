@@ -239,19 +239,16 @@ def updateProductTags():
 @productActions.route('/actions/updateProductTypes', methods=['POST'])
 #@admin_required(current_app, session, login_redirect)
 def updateProductTypes():
-	print "got this far fucker"
 	product_types = request.form['product_types']
 	product_types = json.loads(product_types)
 	
 	instance_db = instance_handle()
-	db = db_handle(instance_db)
+	database = instance_db.cursor()
 
-	productDatabase = db.cursor()
+	result = config.saveProductTypes(product_types, database)
 
-	result = product.saveProductTypes(product_types, productDatabase)
-
-	db.commit()
-	db.close()
+	instance_db.commit()
+	instance_db.close()
 
 	return json.dumps("success");
 

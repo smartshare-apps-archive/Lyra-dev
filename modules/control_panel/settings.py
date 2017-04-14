@@ -33,7 +33,13 @@ def settings():
 	data["current_page_js"] = "control_panel/settings/Main.js"
 	data["current_requests_js"] = "control_panel/settings/Requests.js"
 
-	data["current_page_content"] = ctl.render_tab("settings")
+	response = ctl.render_tab("settings")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modal"] = Markup(render_template("control_panel/modal.html"))
 	data["submenu"] = Markup(render_template("control_panel/subMenu_settings.html"))
@@ -84,7 +90,13 @@ def payment_settings():
 	data["current_page_js"] = "control_panel/settings/PaymentSettings.js"
 	data["current_requests_js"] = "control_panel/settings/Requests.js"
 	
-	data["current_page_content"] = ctl.render_tab("settings_payment")
+	response = ctl.render_tab("settings_payment")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modal"] = Markup(render_template("control_panel/modal.html"))
 	data["submenu"] = Markup(render_template("control_panel/subMenu_settings.html"))

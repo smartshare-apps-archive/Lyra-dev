@@ -277,21 +277,6 @@ def saveProductTags(product_id, product_tags, productDatabase):
 
 
 
-def saveProductTypes(product_types, productDatabase):
-	currentQuery = "UPDATE settings SET FieldList=%s WHERE setting_id='Types';"
-
-	try:
-		productDatabase.execute(currentQuery, (product_types, ))
-	except Exception as e:
-		print "Error: ", e
-		return None
-
-	return True
-
-
-
-
-
 
 
 #returns a list of product variants given a product id 

@@ -500,3 +500,19 @@ def loadProductTypes(database):
 		types = set(filter(lambda t: t != '', sorted(types[0].split(','))))
 		print "all:", types
 		return types
+
+
+
+
+
+
+def saveProductTypes(product_types, database):
+	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="Types";"""
+
+	try:
+		database.execute(currentQuery, (product_types, ))
+	except Exception as e:
+		print "Error: ", e
+		return None
+
+	return True

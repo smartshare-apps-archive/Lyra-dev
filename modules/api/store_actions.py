@@ -35,7 +35,8 @@ def saveNavigationSettings():
 	nav_data = request.form['nav_data']
 	nav_data = json.loads(nav_data)
 	
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 	database = db.cursor()
 
 	store.updateNavData(nav_data, database)
@@ -54,8 +55,9 @@ def saveFooterSettings():
 	footer_data = request.form['footer_data']
 	footer_data = json.loads(footer_data)
 	
-	print "footer: ", footer_data
-	db = db_handle()
+
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 	database = db.cursor()
 
 	store.updateFooterData(footer_data, database)
@@ -73,7 +75,9 @@ def savePageData():
 	page_data = request.form['page_data']
 	page_data = json.loads(page_data)
 	
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
 	database = db.cursor()
 
 	store.updatePageData(page_data, database)
@@ -94,7 +98,8 @@ def savePageSectionData():
 	page_section_data = request.form['page_section_data']
 	page_section_data = json.loads(page_section_data)
 	
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 	database = db.cursor()
 
 	store.updatePageSectionData(page_section_data, page_id, database)
@@ -115,7 +120,8 @@ def savePageThemes():
 	page_id_list = request.form['page_id_list']
 	page_id_list = json.loads(page_id_list)
 
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 	database = db.cursor()
 
 	for page_id in page_id_list:
@@ -135,7 +141,8 @@ def createNewPage():
 	new_page_data = request.form['new_page_data']
 	new_page_data = json.loads(new_page_data)
 	
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 	database = db.cursor()
 
 	store.createNewPage(new_page_data, database)
@@ -155,7 +162,8 @@ def deletePage():
 	page_id = request.form['page_id']
 	page_id = json.loads(page_id)
 	
-	db = db_handle()
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
 	database = db.cursor()
 
 	store.deletePage(page_id, database)

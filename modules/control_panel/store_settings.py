@@ -33,7 +33,13 @@ def store_settings():
 	data["current_page_js"] = "control_panel/store/Main.js"
 	data["current_requests_js"] = "control_panel/store/Requests.js"
 
-	data["current_page_content"] = ctl.render_tab("store_settings")
+	response = ctl.render_tab("store_settings")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modal"] = Markup(render_template("control_panel/modal.html"))
 	data["submenu"] = Markup(render_template("control_panel/subMenu_store_settings.html"))
@@ -55,7 +61,13 @@ def store_settings_navigation():
 	data["current_page_js"] = "control_panel/store/Navigation.js"
 	data["current_requests_js"] = "control_panel/store/Requests.js"
 	
-	data["current_page_content"] = ctl.render_tab("store_settings_navigation")
+	response = ctl.render_tab("store_settings_navigation")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modal"] = Markup(render_template("control_panel/modal.html"))
 	data["submenu"] = Markup(render_template("control_panel/subMenu_store_settings.html"))
@@ -75,8 +87,14 @@ def store_settings_footer():
 	data["current_class_js"] = "control_panel/store/Core.js"
 	data["current_page_js"] = "control_panel/store/Footer.js"
 	data["current_requests_js"] = "control_panel/store/Requests.js"
-	
-	data["current_page_content"] = ctl.render_tab("store_settings_footer")
+
+	response = ctl.render_tab("store_settings_footer")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modal"] = Markup(render_template("control_panel/modal.html"))
 	data["submenu"] = Markup(render_template("control_panel/subMenu_store_settings.html"))
@@ -96,8 +114,14 @@ def store_settings_pages():
 	data["current_class_js"] = "control_panel/store/Core.js"
 	data["current_page_js"] = "control_panel/store/Pages.js"
 	data["current_requests_js"] = "control_panel/store/Requests.js"
-	
-	data["current_page_content"] = ctl.render_tab("store_settings_pages")
+		
+	response = ctl.render_tab("store_settings_pages")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modal"] = Markup(render_template("control_panel/modal.html"))
 	data["submenu"] = Markup(render_template("control_panel/subMenu_store_settings.html"))
@@ -118,7 +142,14 @@ def store_settings_page_editor(page_id):
 	data["current_page_js"] = "control_panel/store/PageEditor.js"
 	data["current_requests_js"] = "control_panel/store/Requests.js"
 	
-	data["current_page_content"] = ctl.render_tab("store_settings_page_editor", page_id)
+	response = ctl.render_tab("store_settings_page_editor", page_id)
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
+
 	data["ts"] = int(time.time())
 	data["modal"] = Markup(render_template("control_panel/modal.html"))
 	data["submenu"] = Markup(render_template("control_panel/subMenu_store_settings.html"))
@@ -139,7 +170,13 @@ def store_settings_file_manager():
 	data["current_page_js"] = "control_panel/store/FileManager.js"
 	data["current_requests_js"] = "control_panel/store/Requests.js"
 	
-	data["current_page_content"] = ctl.render_tab("store_settings_file_manager")
+	response = ctl.render_tab("store_settings_file_manager")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modal"] = Markup(render_template("control_panel/modal.html"))
 	data["submenu"] = Markup(render_template("control_panel/subMenu_store_settings.html"))
@@ -159,7 +196,13 @@ def store_settings_theme_manager():
 	data["current_page_js"] = "control_panel/store/ThemeManager.js"
 	data["current_requests_js"] = "control_panel/store/Requests.js"
 	
-	data["current_page_content"] = ctl.render_tab("store_settings_theme_manager")
+	response = ctl.render_tab("store_settings_theme_manager")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
 	data["ts"] = int(time.time())
 	data["modal"] = Markup(render_template("control_panel/modal.html"))
 	data["submenu"] = Markup(render_template("control_panel/subMenu_store_settings.html"))
