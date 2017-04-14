@@ -333,7 +333,7 @@ class ControlPanel(object):
 			self.control_data["product_data"].append(currentProductData)
 
 
-		selectedFields = config.BulkInventoryEditorSettings(self.database)			#grab user settings for bulk editor
+		selectedFields = config.BulkInventoryEditorSettings(self.instance_db)			#grab user settings for bulk editor
 		selectedFields = sorted(selectedFields.split(','))
 		self.control_data["selectedFields"] = selectedFields
 
@@ -597,7 +597,7 @@ class ControlPanel(object):
 		self.control_data["page"] = "order_fulfill"
 		self.control_data["order_id"] = order_id
 
-		defaultShippingAddressFrom = config.getDefaultShippingAddress(self.database)
+		defaultShippingAddressFrom = config.getDefaultShippingAddress(self.instance_db)
 
 
 		orderData = order.loadOrder(order_id, self.database)
