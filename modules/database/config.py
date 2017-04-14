@@ -397,8 +397,9 @@ def getRedisSettings(database):
 		return None
 
 	redisConfig = database.fetchone()
+
 	if redisConfig:
-		redisConfig = [field.split('=') for field in redisConfig[0].split('<redis_split>')]
+		redisConfig = [field.split('=') for field in filter(lambda i: i != '', redisConfig[0].split('<redis_split>')) ]
 		
 		formattedRedisConfig = {}
 
@@ -406,6 +407,23 @@ def getRedisSettings(database):
 			formattedRedisConfig[field[0]] = field[1]
 
 		return formattedRedisConfig
+
+
+
+def setRedisConfig(redis_config, database):
+	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="RedisConfig";"""
+
+	print currentQuery
+
+	print "REDIS CONFIG:", redis_config
+
+	try:
+		database.execute(currentQuery, (redis_config, ) )
+	except Exception as e:
+		print "Error: ", e
+		return None
+
+	return True
 
 
 
@@ -421,7 +439,7 @@ def getDatabaseSettings(database):
 	databaseConfig = database.fetchone()
 
 	if databaseConfig:
-		databaseConfig = [field.split('=') for field in databaseConfig[0].split('<database_split>')]
+		databaseConfig = [field.split('=') for field in  filter(lambda i: i != '', databaseConfig[0].split('<database_split>'))]
 		
 		formattedDatabaseConfig = {}
 
@@ -429,3 +447,18 @@ def getDatabaseSettings(database):
 			formattedDatabaseConfig[field[0]] = field[1]
 
 		return formattedDatabaseConfig
+
+
+
+def setDatabaseConfig(database_config, database):
+	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="DatabaseConfig";"""
+
+	print "DATABASE CONFIG:", database_config
+
+	try:
+		database.execute(currentQuery, (database_config, ) )
+	except Exception as e:
+		print "Error: ", e
+		return None
+
+	return True

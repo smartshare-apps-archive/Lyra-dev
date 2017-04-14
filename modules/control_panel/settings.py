@@ -50,7 +50,7 @@ def advanced_settings():
 
 	data["current_page"] = "settings_advanced"
 	data["current_class_js"] = "control_panel/settings/Core.js"
-	data["current_page_js"] = "control_panel/settings/AdvancedSettings.js"
+	data["current_page_js"] = "control_panel/settings/Advanced.js"
 	data["current_requests_js"] = "control_panel/settings/Requests.js"
 	
 	data["current_page_content"] = ctl.render_tab("settings_advanced")

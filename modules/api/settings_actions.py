@@ -34,14 +34,52 @@ def saveStripeAPIKeys():
 	stripe_api_keys = request.form['stripe_api_keys']
 	stripe_api_keys = json.loads(stripe_api_keys)
 	
-	db = db_handle()
-	productDatabase = db.cursor()
+	instance_db = instance_handle()
 	
-	config.setStripeAPIKeys(stripe_api_keys, productDatabase)
+	config.setStripeAPIKeys(stripe_api_keys, instance_db.cursor())
 
-	db.commit()
-	db.close()
+	instance_db.commit()
+	instance_db.close()
 
 	return json.dumps("success")
+
+
+
+@settingsActions.route('/actions/saveRedisConfig', methods=['POST'])
+#@admin_required(current_app, session, login_redirect)
+def saveRedisConfig():
+	redis_config = request.form['redis_config']
+	redis_config = json.loads(redis_config)
+	
+	instance_db = instance_handle()
+
+	config.setRedisConfig(redis_config, instance_db.cursor())
+
+	instance_db.commit()
+	instance_db.close()
+
+
+	return json.dumps("success")
+
+
+
+@settingsActions.route('/actions/saveDatabaseConfig', methods=['POST'])
+#@admin_required(current_app, session, login_redirect)
+def saveDatabaseConfig():
+	database_config = request.form['database_config']
+	database_config = json.loads(database_config)
+	
+	instance_db = instance_handle()
+
+	config.setDatabaseConfig(database_config, instance_db.cursor())
+
+	instance_db.commit()
+	instance_db.close()
+
+
+	return json.dumps("success")
+
+
+
 
 

@@ -24,6 +24,10 @@ from db import *
 
 import sys, ast, imp
 
+ERROR_FLAG = {
+	"NO_DB":"An error occured while trying to connect to the store database, please check your database configuration."
+}
+
 class ControlPanel(object):
 	def __init__(self):
 		self.setupVariables()
@@ -34,11 +38,15 @@ class ControlPanel(object):
 
 	def render_tab(self, tab, data=None):
 		instance_db = instance_handle()
+		self.instance_db = instance_db.cursor()
+		
 		store_db = db_handle(instance_db)
 
-	
-		self.database = store_db.cursor()
-		self.instance_db = instance_db.cursor()
+		if store_db is None:
+			return self.settings_Advanced(flag=ERROR_FLAG["NO_DB"])
+		else:
+			self.database = store_db.cursor()
+		
 
 		#products section
 		if tab == "products":
@@ -693,8 +701,19 @@ class ControlPanel(object):
 		return render_template("control_panel/settings/Payment.html", control_data = self.control_data)
 
 
-	def settings_Advanced(self):
+	def settings_Advanced(self, flag=None):
 		self.control_data["page"] = "settings_advanced"
+
+		self.control_data["redis_config"] = config.getRedisSettings(self.instance_db)
+		self.control_data["database_config"] = config.getDatabaseSettings(self.instance_db)
+
+		if flag != None:
+			self.control_data["error_message"] = flag
+		else:
+			self.control_data["error_message"] = None
+
+
+		self.control_data["modals"] = [render_template("control_panel/settings/modal_confirm_settings.html")]
 
 		return render_template("control_panel/settings/Advanced.html", control_data = self.control_data)
 
