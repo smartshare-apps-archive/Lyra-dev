@@ -45,7 +45,10 @@ customerColumnMappings = [
 	"customer_id","user_id","Email","Phone","ShippingFirstName","ShippingLastName","ShippingAddress1","ShippingAddress2","ShippingCity","ShippingState","ShippingPostalCode","ShippingCountry","BillingFirstName","BillingLastName",
 	"BillingAddress1","BillingAddress2","BillingCity","BillingState","BillingPostalCode","BillingCountry","Company", "TotalSpent","LastOrder","accepts_marketing"]
 
+vendorColumnMappings = [
+	"vendor_id", "Name", "URL", "Phone", "Email"
 
+]
 
 collectionColumnMappings = [
 		"collection_id","Title","BodyHTML","CollectionImageSrc","Published","Conditions","Strict","URL","Meta","PageTitle","Template","resources"
@@ -103,6 +106,14 @@ productFieldMapping = {
 	"ImageSrc":"TEXT"
 }
 
+
+vendorFieldMapping = {
+	"vendor_id":"INTEGER", 
+	"Name":"TEXT",
+	"URL":"TEXT",
+	"Phone":"TEXT",
+	"Email": "TEXT"
+}
 
 variantFieldMapping = {
 	"VariantSKU":"TEXT",
