@@ -9,7 +9,7 @@
 	<div id="theme_toolbar">
 	<h4> Theme editor &nbsp; <span class="glyphicon glyphicon-pencil"> </span> </h4>
 	<hr>
-		<div class="input-group">
+		<div class="input-group select-theme-editor">
 		 		<span class="input-group-addon" id="type-addon">Page </span>
 			<select class="form-control" id="select_page_id">
 				{% for page_id, page in control_data.pages.iteritems() %}
@@ -18,7 +18,7 @@
 			</select>					
 		</div>
 		<br>
-		<div class="input-group">
+		<div class="input-group select-theme-editor">
 		 		<span class="input-group-addon" id="type-addon">Type</span>
 			<input type="text" class="form-control" id="label_page_type" readonly>					
 		</div>
@@ -31,7 +31,7 @@
 		<hr>
 		<h4> Add a new section: </h4><br>
 
-		<div class="input-group">
+		<div class="input-group select-theme-editor">
 		 		<span class="input-group-addon" id="type-addon">Section </span>
 				<select class="form-control" id="select_section_snippet">
 					{% for section_id, section_data in control_data.section_templates.iteritems() %}
