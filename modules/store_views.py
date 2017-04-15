@@ -27,7 +27,7 @@ class Store(object):
 		db = db_handle(instance_db)
 		
 		self.database = db.cursor()
-
+		self.instance_db = instance_db.cursor()
 		#store views: gotta think of a way to add these in a better way
 		if tab == "home":
 			return self.Home()
@@ -329,7 +329,7 @@ class Store(object):
 				
 			self.store_data["cart_details"] = render_template("store/cart_details_checkout.html", products=products, product_thumbnail=product_thumbnail)
 				
-		country_list = config.CountryList(self.database)
+		country_list = config.CountryList(self.instance_db)
 		country_options = render_template("store/country_list.html", country_list=country_list, saved_customer_data=data["saved_customer_data"])
 
 		self.store_data["table_checkout"] = render_template("store/table_checkout.html", products=products, country_options=country_options, saved_customer_data = data["saved_customer_data"]) 

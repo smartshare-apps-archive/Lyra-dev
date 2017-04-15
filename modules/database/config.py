@@ -380,7 +380,7 @@ def setBulkCollectionEditorSettings(selectedFields, database):
 
 
 def CountryList(database):
-	currentQuery = "SELECT FieldList FROM settings WHERE setting_id='CountryList';"
+	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="CountryList";"""
 
 	try:
 		database.execute(currentQuery)
@@ -388,6 +388,7 @@ def CountryList(database):
 		print "Error: ", e
 
 	countryList = database.fetchone()
+	print countryList
 	if countryList:
 		countryList = [country.split(':') for country in countryList[0].split(',')]
 		return countryList
