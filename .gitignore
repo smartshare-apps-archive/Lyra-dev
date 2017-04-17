@@ -3,3 +3,4 @@ flask-env/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+static/uploaded_files/*

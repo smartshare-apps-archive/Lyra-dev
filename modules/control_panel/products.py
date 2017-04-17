@@ -9,6 +9,7 @@ from modules.auth.login import *
 import modules.database.product
 
 import modules.database.config as config
+import modules.database.vendor as vendor
 
 from modules.database.product_util import *
 
@@ -88,15 +89,16 @@ def productEditor(product_id):
 
 	all_tags = config.loadProductTags(instance_db.cursor())
 	all_types = config.loadProductTypes(instance_db.cursor())
+	all_vendors = vendor.loadAllVendors(db.cursor());
 
-	print "ALL TAGS: ", all_tags
 
 	db.close()
 
 	data["modals"] = [render_template("control_panel/modal.html"), 
 					  render_template("control_panel/modal_image_upload.html", product_id=product_id), 
 					  render_template("control_panel/modal_edit_tags.html", product_id=product_id, product_tags=product_tags, all_tags=all_tags),
-					  render_template("control_panel/modal_edit_types.html", product_id=product_id, all_types=all_types, product_type=product_data["Type"])
+					  render_template("control_panel/modal_edit_types.html", product_id=product_id, all_types=all_types, product_type=product_data["Type"]),
+					  render_template("control_panel/modal_edit_vendors.html", product_id=product_id, vendors=all_vendors)
 					  ]
 
 	data["submenu"] = Markup(render_template("control_panel/subMenu_products.html"))

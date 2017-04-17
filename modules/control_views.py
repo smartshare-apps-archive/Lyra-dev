@@ -171,9 +171,7 @@ class ControlPanel(object):
 		self.control_data["page"] = "product_editor"
 		self.control_data["product_id"] = product_id
 		self.control_data["product_types"] = config.loadProductTypes(self.instance_db);
-		self.control_data["vendors"] = vendor.loadAllVendors(self.database);
-
-		print "Vendors:", self.control_data["vendors"]
+		
 		#pull product types from settings table for updating product type dropdown selection
 
 		productData = loadProduct(product_id, self.database)
