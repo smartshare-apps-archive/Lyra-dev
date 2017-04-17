@@ -3,7 +3,6 @@
 	$(document).ready(function(){
 		$("#btn_demoSignUp").click(submit_email);
 
-
 	});
 
 
@@ -27,7 +26,13 @@
 	}
 
 	function updateAndShowModal(response){
-		console.log(response);
+		if(response != "\"invalid\""){
+			console.log(response);
+			$("#modal_emailSignup").modal('show');
+			$("#input_emailSignup").val("");
+		}
 	}
 
 </script>
+
+
