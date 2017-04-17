@@ -21,9 +21,13 @@
 	
 		})
 		  .done(function(response) {
-		  		console.log(response);
+		  		updateAndShowModal(response);
 		  });
 
+	}
+
+	function updateAndShowModal(response){
+		console.log(response);
 	}
 
 </script>

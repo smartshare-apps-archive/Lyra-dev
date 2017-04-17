@@ -72,7 +72,7 @@ def store_message():
 		return json.dumps(message_data["ttl"])
 
 
-	return json.dumps("Invalid message format.")
+	return json.dumps("invalid")
 
 	
 
