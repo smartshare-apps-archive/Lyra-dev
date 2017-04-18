@@ -115,6 +115,9 @@ function loadChatWindow(event){
 function sendMessage(event){
 	var session_id = event.data.session_id;
 	var message = input_liveChatMessage.val();
+	if(message == ""){
+		return;
+	}
 
 	$.ajax({
 	  method: "GET",

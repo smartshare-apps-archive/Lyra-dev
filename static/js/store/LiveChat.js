@@ -29,7 +29,7 @@ function bindChatElements(){
 
 
 function bindChatEvents(){
-	
+
 	$('#input_liveChatMessage').keypress(function (e) {
 		 var key = e.which;
 		 if(key == 13)  // the enter key code
@@ -81,6 +81,11 @@ function initLiveChat(){
 
 function sendMessage(){
 	var message = input_liveChatMessage.val();
+
+	if(message == ""){
+		return;
+	}
+
 
 	$.ajax({
 	  method: "GET",
