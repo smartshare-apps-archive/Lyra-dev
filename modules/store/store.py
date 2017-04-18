@@ -37,6 +37,10 @@ def setup_session():
 @store_routes.route('/')
 @with_user_data(current_app, session)
 def Home(user_data=None):
+	s_id = current_app.config['session_cookie_id']
+	session_id = session[s_id]
+	ts = int(time.time())
+
 	page_id = "Home"
 	ctl = current_app.config["store_ctl"]
 	cart = current_app.config['CartManager']
@@ -61,7 +65,9 @@ def Home(user_data=None):
 
 		
 	data["page"] = ctl.render_tab("page",page_id)
-	data["ts"] = int(time.time())
+
+	data["live_chat_window"] = render_template("store/live_chat_window.html", ts=ts, session_id=session_id)
+	data["ts"] = ts
 
 	return render_template("store/page.html", data=data)
 
@@ -69,6 +75,10 @@ def Home(user_data=None):
 @store_routes.route('/page/<string:page_id>')
 @with_user_data(current_app, session)
 def Page(page_id, user_data=None):
+	s_id = current_app.config['session_cookie_id']
+	session_id = session[s_id]
+	ts = int(time.time())
+
 	ctl = current_app.config["store_ctl"]
 	cart = current_app.config['CartManager']
 	cartContents = cart.getCartContents(session)
@@ -92,6 +102,9 @@ def Page(page_id, user_data=None):
 
 		
 	data["page"] = ctl.render_tab("page",page_id)
+
+	data["live_chat_window"] = render_template("store/live_chat_window.html", ts=ts, session_id=session_id)
+
 	data["ts"] = int(time.time())
 
 	return render_template("store/page.html", data=data)
@@ -102,6 +115,10 @@ def Page(page_id, user_data=None):
 @store_routes.route('/products')
 @with_user_data(current_app, session)
 def AllProducts(user_data=None):
+	s_id = current_app.config['session_cookie_id']
+	session_id = session[s_id]
+	ts = int(time.time())
+
 	ctl = current_app.config["store_ctl"]
 	cart = current_app.config['CartManager']
 	cartContents = cart.getCartContents(session)
@@ -124,8 +141,11 @@ def AllProducts(user_data=None):
 
 
 	data["page_content"] = ctl.render_tab("all_products")
+
+	data["live_chat_window"] = render_template("store/live_chat_window.html", ts=ts, session_id=session_id)
+
 	data["common_libraries"] = render_template("store/common_libraries.html")
-	data["ts"] = int(time.time())
+	data["ts"] = ts
 
 	return render_template("store/all_products.html", data=data)
 
@@ -135,6 +155,10 @@ def AllProducts(user_data=None):
 @store_routes.route('/collection/<collection_id>')
 @with_user_data(current_app, session)
 def loadCollection(collection_id, user_data=None):
+	s_id = current_app.config['session_cookie_id']
+	session_id = session[s_id]
+	ts = int(time.time())
+
 	ctl = current_app.config["store_ctl"]
 	cart = current_app.config['CartManager']
 	cartContents = cart.getCartContents(session)
@@ -157,8 +181,11 @@ def loadCollection(collection_id, user_data=None):
 
 
 	data["page_content"] = ctl.render_tab("load_collection", collection_id)
+
+	data["live_chat_window"] = render_template("store/live_chat_window.html", ts=ts, session_id=session_id)
+
 	data["common_libraries"] = render_template("store/common_libraries.html")
-	data["ts"] = int(time.time())
+	data["ts"] = ts
 
 	return render_template("store/collection.html", data=data)
 
@@ -171,15 +198,14 @@ def viewProduct(product_id, user_data=None):
 
 	s_id = current_app.config['session_cookie_id']
 	session_id = session[s_id]
+	ts = int(time.time())
 
-	
 	ctl = current_app.config["store_ctl"]
 	cart = current_app.config['CartManager']
 
 	cartContents = cart.getCartContents(session)
 
 
-	ts = int(time.time())
 
 	data = {}
 
@@ -217,6 +243,10 @@ def viewProduct(product_id, user_data=None):
 @store_routes.route('/cart')
 @with_user_data(current_app, session)
 def cart(user_data=None):
+	s_id = current_app.config['session_cookie_id']
+	session_id = session[s_id]
+	ts = int(time.time())
+
 	cart = current_app.config['CartManager']
 	cartContents = cart.getCartContents(session)
 	
@@ -239,8 +269,10 @@ def cart(user_data=None):
 
 
 	data["page_content"] = ctl.render_tab("cart", cartContents)
+	data["live_chat_window"] = render_template("store/live_chat_window.html", ts=ts, session_id=session_id)
+
 	data["common_libraries"] = render_template("store/common_libraries.html")
-	data["ts"] = int(time.time())
+	data["ts"] = ts
 
 	return render_template("store/cart.html", data=data)
 
@@ -305,6 +337,10 @@ def popupMessage(user_data=None):
 @store_routes.route('/checkout')
 @with_user_data(current_app, session)
 def checkout(user_data=None):
+	s_id = current_app.config['session_cookie_id']
+	session_id = session[s_id]
+	ts = int(time.time())
+
 	data = {}
 
 	cart = current_app.config['CartManager']
@@ -347,8 +383,10 @@ def checkout(user_data=None):
 
 
 	data["page_content"] = ctl.render_tab("checkout", data)
+	data["live_chat_window"] = render_template("store/live_chat_window.html", ts=ts, session_id=session_id)
+
 	data["common_libraries"] = render_template("store/common_libraries.html")
-	data["ts"] = int(time.time())
+	data["ts"] = ts
 
 	return render_template("store/checkout.html", data=data)
 
@@ -357,6 +395,10 @@ def checkout(user_data=None):
 @store_routes.route('/order_success', methods=['GET'])
 @with_user_data(current_app, session)
 def order_success(user_data=None):
+	s_id = current_app.config['session_cookie_id']
+	session_id = session[s_id]
+	ts = int(time.time())
+	
 	ctl = current_app.config["store_ctl"]
 	sm = current_app.config['SessionManager']
 
@@ -399,8 +441,10 @@ def order_success(user_data=None):
 		data["footer"] = ctl.render_tab("footer", user_data)
 
 
+	data["live_chat_window"] = render_template("store/live_chat_window.html", ts=ts, session_id=session_id)
+
 	data["common_libraries"] = render_template("store/common_libraries.html")
-	data["ts"] = int(time.time())
+	data["ts"] = ts
 
 	return render_template("store/order_success.html", data=data)
 
