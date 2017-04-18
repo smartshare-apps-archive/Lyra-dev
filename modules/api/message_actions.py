@@ -142,6 +142,10 @@ def store_message(user_data=None):
 		if(message_data["type"] != "live_chat_toUser" and message_data["type"] != "live_chat_fromUser"):
 			message_data["session_id"] = session_token
 		
+		if(message_data["type"] == "live_chat_init"):
+			initCount = message.getMessagesByTypeAndID("live_chat_init", message_data["session_id"], database)
+			if initCount > 0:
+				return json.dumps("initialized");
 
 	
 		message_data["ttl"] = get_ttl(message_data)

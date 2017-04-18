@@ -168,9 +168,18 @@ def loadCollection(collection_id, user_data=None):
 @store_routes.route('/product/<int:product_id>')
 @with_user_data(current_app, session)
 def viewProduct(product_id, user_data=None):
+
+	s_id = current_app.config['session_cookie_id']
+	session_id = session[s_id]
+
+	
 	ctl = current_app.config["store_ctl"]
 	cart = current_app.config['CartManager']
+
 	cartContents = cart.getCartContents(session)
+
+
+	ts = int(time.time())
 
 	data = {}
 
@@ -191,8 +200,12 @@ def viewProduct(product_id, user_data=None):
 
 	data["page_content"] = ctl.render_tab("product", product_id)
 
+
+
+	data["live_chat_window"] = render_template("store/live_chat_window.html", ts=ts, session_id=session_id)
+
 	data["common_libraries"] = render_template("store/common_libraries.html")
-	data["ts"] = int(time.time())
+	data["ts"] = ts
 
 	return render_template("store/product.html", data=data)
 
@@ -256,6 +269,9 @@ def updateCartItem(user_data=None):
 
 	cart.updateItem(session, item)
 	return json.dumps("success")
+
+
+
 
 
 

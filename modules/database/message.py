@@ -26,6 +26,20 @@ def saveMessage(data, database):
 
 
 
+def getMessagesByTypeAndID(message_type, session_id, database):
+	q = "SELECT COUNT(*) FROM messages WHERE type=%s AND session_id=%s;"
+	
+	try:
+		database.execute(q, (message_type, session_id, ))
+	except Exception as e:
+		print "Error retreiving messages: ", e
+		return None
+
+	count = database.fetchone()
+	if count:
+		count = count[0]
+		return count
+
 
 def getMessagesBySessionID(session_id, database):
 	q = """SELECT type,body,timestamp,session_id,ttl FROM messages WHERE session_id=%s;"""
@@ -38,7 +52,7 @@ def getMessagesBySessionID(session_id, database):
 
 	messages = database.fetchall()
 	messages = list(messages)
-	
+
 	if messages:
 		for i, message in enumerate(messages):
 			messages[i] = list(message)

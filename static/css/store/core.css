@@ -719,3 +719,78 @@ h3{
 
 	height:100px;
 }
+
+
+/* live chat styles */
+
+#live_chat_panel{
+    
+    width:300px;
+    right:0px;
+    bottom:0px;
+    position:fixed;
+    overflow-x:hidden;
+    z-index:2000;
+}
+
+#live_chat_panel_row{
+    height:100%;
+}
+
+#live_chat_panel_body{
+    height:500px;
+    padding:20px;
+}
+
+
+#live_chat_guests{
+    height:100%;
+    overflow-y:scroll;
+}
+
+#live_chat_window{
+    height:100%;
+    overflow-y:scroll;
+}
+
+.btn-chat-user{
+    width:100%;
+}
+
+.chat_toolbar{
+
+}
+
+#input_liveChatMessage{
+
+}
+
+#h4_live_chat{
+	display:inline;
+	color:white;
+}
+
+.toUser-message{
+    float:left;
+    clear:both;
+    border:1px solid rgba(53,53,53,0.1);
+    margin-bottom:10px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size:12px;
+    padding:5px;
+    border-radius:5px;
+    background-color:rgba(53,53,53,0.2);
+}
+
+.fromUser-message{
+    float:right;
+    clear:both;
+    border:1px solid rgba(53,53,53,0.1);
+    margin-bottom:10px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size:12px;
+    padding:5px;
+    border-radius:5px;
+    background-color:rgba(53,53,53,0.2);
+}
+

@@ -1,0 +1,46 @@
+<script src="/static/js/store/LiveChat.js?v={{ts}}"> </script>
+
+
+			<div class="panel panel-primary dashboard-panel" id="live_chat_panel">
+				<div class="panel-heading">
+					<div class="panel-title"> 
+					<h4 id="h4_live_chat"> Live chat </h4> 
+					<a data-toggle="collapse" href="#collapse1"><span class="glyphicon glyphicon-chevron-up"></span></a>
+					</div>
+				 	
+
+				</div>
+
+				<!-- collapsable container for live chat -->
+				<div id="collapse1" class="panel-collapse collapse">
+
+					<!-- live chat panel contents -->
+					<div class="panel-body" id="live_chat_panel_body">
+						 <div class="row" id="live_chat_panel_row">
+						 	<div class="col-xs-12" id="live_chat_window"> 
+							 	
+							 		
+
+							 	
+						 	</div>
+						 </div>
+					</div>
+					<div class="panel-footer">
+						<div class="chat_toolbar">
+							<div class="input-group input-group">
+							  <input type="text" class="form-control" placeholder="Enter a message..." id="input_liveChatMessage">
+
+					        	<span class="input-group-btn">
+									<button class="btn btn-primary" type="button" id="btn_sendLiveMessage">Send</button>
+								 </span>
+
+							</div>
+						</div>
+					</div>
+					<!-- end livechat panel contents -->
+
+				</div>
+				<!-- end collapsable live chat container -->
+			</div>
+
+<input type="hidden" id="current_sessionID" value="{{session_id}}">
