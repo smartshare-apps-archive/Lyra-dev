@@ -15,6 +15,7 @@ import database.plugins as plugins
 import database.shipment as shipment
 import database.dashboard as dashboard
 import database.vendor as vendor
+import database.message as message
 
 from database.product_util import *
 from database.order_util import *
@@ -1000,6 +1001,8 @@ class ControlPanel(object):
 						source_handles["config"] = config
 					elif source_id == "store":
 						source_handles["store"] = store
+					elif source_id == "message":
+						source_handles["message"] = message
 
 				helper_instance.set_database(self.database)	#point the helper instance at the data source for query file
 				helper_instance.load_data_sources(source_handles)	#load local db functions, if necessary

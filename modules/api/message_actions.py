@@ -23,6 +23,14 @@ import json
 from datetime import datetime
 import re
 
+
+#constants
+ACCEPTED_MESSAGES = ["email_signup", "live_chat", "contact_form"]
+EMAIL_TTL = 1000000
+LIVECHAT_TTL = 3000
+
+
+
 messageActions = Blueprint('messageActions', __name__, template_folder='templates')
 
 
@@ -36,9 +44,77 @@ def setup_session():
 		print "Created: ", session[s_id]
 
 
-ACCEPTED_MESSAGES = ["email_signup", "live_chat", "contact_form"]
-EMAIL_TTL = 1000000
-LIVECHAT_TTL = 3000
+
+
+@messageActions.route('/actions/get_message', methods=['GET'])
+def get_message():
+	s_id = current_app.config['session_cookie_id']
+	session_token = session[s_id]
+
+	args = request.args
+
+	message_data = {}
+	for arg in args:
+		message_data[arg] = request.args.get(arg)
+
+	if "type" in message_data:
+		instance_db = instance_handle()
+		db = db_handle(instance_db)
+		database = db.cursor()
+
+		if message_data["type"] == "live_chat_init":
+			users = message.getLiveChatUsers(database)
+			db.close()
+			return json.dumps(users)
+
+		else:
+			db.close()
+			return "ok"
+
+
+
+	return json.dumps("invalid")
+
+
+
+
+
+@messageActions.route('/actions/get_live_chat_messages', methods=['GET'])
+def get_live_chat_messages():
+	s_id = current_app.config['session_cookie_id']
+	session_token = session[s_id]
+
+	args = request.args
+
+	data = {}
+
+	for arg in args:
+		data[arg] = request.args.get(arg)
+
+	if "session_id" in data:
+		instance_db = instance_handle()
+		db = db_handle(instance_db)
+		database = db.cursor()
+
+		messages = message.getMessagesBySessionID(data["session_id"], database)
+		print messages
+		db.close()
+
+		return json.dumps(messages)
+
+	else:
+		print "data:", data
+
+
+	return json.dumps("invalid")
+
+
+
+
+
+
+
+
 
 @messageActions.route('/actions/store_message', methods=['GET'])
 #@admin_required(current_app, session, login_redirect)
@@ -61,20 +137,23 @@ def store_message():
 		ts = datetime.now()
 
 		message_data["timestamp"] = ts
-		message_data["session_id"] = session_token
+
+		if(message_data["type"] != "live_chat_toUser" and message_data["type"] != "live_chat_fromUser"):
+			message_data["session_id"] = session_token
+		
+
+	
 		message_data["ttl"] = get_ttl(message_data)
 
-		
 		message.saveMessage(message_data, database)
 
 		db.commit()
 		db.close()
-		return json.dumps(message_data["ttl"])
 
+		return json.dumps(message_data["ttl"])
 
 	return json.dumps("invalid")
 
-	
 
 
 def get_ttl(data):
@@ -83,7 +162,12 @@ def get_ttl(data):
 			return EMAIL_TTL
 		elif data["type"] == "live_chat":
 			return LIVECHAT_TTL
-
+		elif data["type"] == "live_chat_init":
+			return LIVECHAT_TTL
+		elif data["type"] == "live_chat_toUser":
+			return LIVECHAT_TTL
+		elif data["type"] == "live_chat_fromUser":
+			return LIVECHAT_TTL
 
 
 def valid_message(data):
@@ -98,14 +182,14 @@ def valid_message(data):
 			else:
 				return False
 
-		if data["type"] == "live_chat":
-			if "body" in data:
+		if data["type"] == "live_chat_init":
 				return True
-			else:
-				return False
 
+		if data["type"] == "live_chat_toUser":
+				return True
 
-
+		if data["type"] == "live_chat_fromUser":
+				return True
 
 	else:
 		return False
@@ -126,8 +210,6 @@ def validate_email(body):
 		return True
 	else:
 		return False
-
-
 
 
 
