@@ -97,7 +97,7 @@ def get_live_chat_messages():
 		database = db.cursor()
 
 		messages = message.getMessagesBySessionID(data["session_id"], database)
-		print messages
+		#print messages
 		db.close()
 
 		return json.dumps(messages)
@@ -126,6 +126,7 @@ def store_message(user_data=None):
 	args = request.args
 
 	message_data = {}
+
 	for arg in args:
 		message_data[arg] = request.args.get(arg)
 

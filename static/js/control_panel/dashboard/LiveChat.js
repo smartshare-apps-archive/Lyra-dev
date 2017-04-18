@@ -189,7 +189,7 @@ function createChatLog(session_id){
 		else if(combinedList[i]["type"] == "fromUser"){
 			live_chat_window.append("<div class=\"fromUser-message\">" + combinedList[i]["body"] + "</div>");
 		}
-		
+
 	}
 
 	var trueDivHeight = live_chat_window[0].scrollHeight;
@@ -197,7 +197,7 @@ function createChatLog(session_id){
 	var trueBottom = trueDivHeight - divHeight;
 
 
-	live_chat_window.animate({ scrollTop: trueBottom }, "slow");
+	live_chat_window.stop().animate({ scrollTop: trueBottom }, "slow");
 
 		
 }
