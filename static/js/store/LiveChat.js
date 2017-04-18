@@ -30,6 +30,15 @@ function bindChatElements(){
 
 function bindChatEvents(){
 	
+	$('#input_liveChatMessage').keypress(function (e) {
+		 var key = e.which;
+		 if(key == 13)  // the enter key code
+		  {
+		    btn_sendLiveMessage.trigger("click");
+		    return false;  
+		  }
+		});   
+
 	btn_sendLiveMessage.unbind();
 	btn_sendLiveMessage.click({session_id: session_id}, sendMessage);
 
@@ -192,6 +201,26 @@ function retrieveChatLog(){
 }
 
 
+
+var entityMap = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+  '/': '&#x2F;',
+  '`': '&#x60;',
+  '=': '&#x3D;'
+};
+
+
+function escapeHtml (string) {
+  return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+    return entityMap[s];
+  });
+}
+
+
 function populateChatLog(messages){
 	live_chat_window.html("");
 	//live_chat_window.append("Chatting with: " + session + "<hr>");
@@ -201,7 +230,7 @@ function populateChatLog(messages){
 	// loop through messages in chat log
 	for(var i=0;i<messages.length;i++){
 		var message_type = messages[i][0];
-		var message_body = messages[i][1];
+		var message_body = escapeHtml(messages[i][1]);
 		var message_timestamp = messages[i][2];
 		var message_sessionID = messages[i][3];
 		var message_ttl = messages[i][4];

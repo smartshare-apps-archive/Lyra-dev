@@ -96,6 +96,14 @@ function loadChatWindow(event){
 
 	retrieveChatLog(user_sessionID);
 
+	$('#input_liveChatMessage').keypress(function (e) {
+		 var key = e.which;
+		 if(key == 13)  // the enter key code
+		  {
+		    btn_sendLiveMessage.trigger("click");
+		    return false;  
+		  }
+	});   
 
 	btn_sendLiveMessage.unbind();
 	btn_sendLiveMessage.click({session_id: user_sessionID}, sendMessage);
