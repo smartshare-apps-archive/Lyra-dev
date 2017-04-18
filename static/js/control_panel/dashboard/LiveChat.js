@@ -1,3 +1,5 @@
+
+
 var live_chat_guests;
 var btn_sendLiveMessage;
 
@@ -133,26 +135,69 @@ function createChatLog(session_id){
 
 	var message_index = 0;
 	var messages = 1;
+	var combinedList = [];
 
 	while(messages >= 1){
 		messages = 0;
 
 		if("toUser" in chatLog[session_id]){
 			if(message_index < chatLog[session_id]["toUser"].length){
-				live_chat_window.append("<div class=\"toUser-message\">" + chatLog[session_id]["toUser"][message_index]["body"] + "</div>");
+
+				var parsed_timestamp = Date.parse(chatLog[session_id]["toUser"][message_index]["timestamp"]);
+
+				//live_chat_window.append("<div class=\"toUser-message\">" + chatLog[session_id]["toUser"][message_index]["body"] + "</div>");
+
+				chatLog[session_id]["toUser"][message_index]["type"] = "toUser";
+				chatLog[session_id]["toUser"][message_index]["unix_timestamp"] = parsed_timestamp;
+
+				combinedList.push(chatLog[session_id]["toUser"][message_index]);
 				messages += 1;
 			}
 		}
-	
+
+
 		if("fromUser" in chatLog[session_id]){
 			if(message_index < chatLog[session_id]["fromUser"].length){
-				live_chat_window.append("<div class=\"fromUser-message\">" + chatLog[session_id]["fromUser"][message_index]["body"] + "</div>");
+
+				var parsed_timestamp = Date.parse(chatLog[session_id]["fromUser"][message_index]["timestamp"]);
+				
+				chatLog[session_id]["fromUser"][message_index]["type"] = "fromUser";
+				chatLog[session_id]["fromUser"][message_index]["unix_timestamp"] = parsed_timestamp;
+
+				combinedList.push(chatLog[session_id]["fromUser"][message_index]);
+
+				//live_chat_window.append("<div class=\"fromUser-message\">" + chatLog[session_id]["fromUser"][message_index]["body"] + "</div>");
 				messages += 1;
 			}
 		}
 
 		message_index++;
 	}
+
+
+	combinedList = combinedList.sort(function(x, y){
+	    return x.unix_timestamp - y.unix_timestamp;
+	})
+
+
+	for(var i=0;i<combinedList.length;i++){
+
+		if(combinedList[i]["type"] == "toUser"){
+			live_chat_window.append("<div class=\"toUser-message\">" + combinedList[i]["body"] + "</div>");
+
+		}
+		else if(combinedList[i]["type"] == "fromUser"){
+			live_chat_window.append("<div class=\"fromUser-message\">" + combinedList[i]["body"] + "</div>");
+		}
+		
+	}
+
+	var trueDivHeight = live_chat_window[0].scrollHeight;
+	var divHeight = live_chat_window.height();
+	var trueBottom = trueDivHeight - divHeight;
+
+
+	live_chat_window.animate({ scrollTop: trueBottom }, "slow");
 
 		
 }

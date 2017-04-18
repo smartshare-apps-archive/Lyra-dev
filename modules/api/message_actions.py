@@ -119,7 +119,7 @@ def get_live_chat_messages():
 @messageActions.route('/actions/store_message', methods=['GET'])
 #@admin_required(current_app, session, login_redirect)
 @with_user_data(current_app, session)
-def store_message():
+def store_message(user_data=None):
 	s_id = current_app.config['session_cookie_id']
 	session_token = session[s_id]
 
