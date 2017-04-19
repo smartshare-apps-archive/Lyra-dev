@@ -1,5 +1,34 @@
 <div class="row">
 
+<div id="top_nav_menu_lulu_mobile">
+			<nav class="navbar navbar-default navbar-inverse" role="navigation">
+						       <div class="navbar-header">
+						           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+						               <span class="sr-only">Toggle navigation</span>
+						               <span class="icon-bar"></span>
+						               <span class="icon-bar"></span>
+						               <span class="icon-bar"></span>
+						            </button>
+						            
+						       </div>
+						       <div class="collapse navbar-collapse" id="navigationbar">
+						           <ul class="nav navbar-nav">
+											{% for category, data in nav_data.iteritems() %} 
+												{% if data["type"] == "dropdown_list" %}
+													<li><a href="/" class="nav_main_link_mobile dropdown"> {{category}} </a> </li> 
+													{{data["resource"]}}
+													
+												{% elif data["type"] == "single_link" %}
+													<li> <a href="{{data.resource}}" class="nav_main_link_mobile"> {{category}} </a> </li>  
+
+												{% endif %}
+											{% endfor %}
+						           </ul>
+						      </div><!-- /.navbar-collapse -->	
+			</nav>
+</div>
+
+
 	<div class="col-sm-12 text-center" id="top_nav_menu_lulu">
 		{% for category, data in nav_data.iteritems() %} 
 			{% if data["type"] == "dropdown_list" %}

@@ -7,6 +7,10 @@
 	padding-top:30px;
 }
 
+#top_nav_menu_lulu_mobile{
+	display:none;
+}
+
 .nav_main_link {
 	float:left;
 	display:inline-block;
@@ -42,6 +46,41 @@
     color: rgba(242, 242, 242, 0.9);
     padding-bottom:7px;
 }
+
+
+@media only screen and (max-device-width: 568px) {
+	#top_nav_menu_lulu{
+		display:none;
+	}
+
+	#top_nav_menu_lulu_mobile{
+		display:block;
+		height:100%;
+	}
+	.navbar{
+		margin:0;
+		height:100%;
+	}
+
+	.nav_main_link_mobile {
+		display:block;
+		margin-left:10px;
+		text-decoration: none;
+	    text-transform: uppercase;
+	    font-family: "Roboto", "Arial", sans-serif;
+	    font-size: 13px;
+	    font-weight: 600;
+	    letter-spacing: 0.14em;
+	    color: rgba(242, 242, 242, 0.9);
+
+	}
+
+
+
+
+}
+/* end mobile navbar */
+
 
 
 
@@ -259,6 +298,14 @@
 
 }
 
+@media only screen and (max-device-width: 568px) {
+	.inner-container .h3-header{
+		font-size:26px;
+	}
+}
+
+
+
 .h3-feature{
 	display:inline-block;
 	margin-top:0px;
@@ -269,6 +316,8 @@
     letter-spacing: 0.14em;
 
 }
+
+
 
 #btn_reserveSeat{
 	margin-top:10px;
@@ -742,10 +791,7 @@ h4{
 	height:120px;
 }
 
-#demo-signup-bar {
-	width:30%;
-	margin:0 auto;
-}
+
 
 .input_email{
 	border:1px solid #e3bd32;
@@ -765,6 +811,19 @@ h4{
 	height:40px;
 
 }
+
+#demo-signup-bar {
+	width:30%;
+	margin:0 auto;
+}
+
+@media only screen and (max-device-width: 568px) {
+	    #demo-signup-bar {
+		width:90%;
+		margin:0 auto;
+	}
+}
+
 
 .heading_cont{
 	height:70px;

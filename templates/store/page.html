@@ -36,7 +36,7 @@
 	</div>	
 	
 	<div class="container-fluid">
-		
+		<div class="row">
 			{% block page_content %}
 
 				{% for sectionID in data.page.page_sections %}
@@ -53,6 +53,7 @@
 			{{ data.live_chat_window | safe }}
 			
 		<div id="message_container" class="text-center"></div>
+		</div>
 	</div>
 		
 		{% block footer %}
