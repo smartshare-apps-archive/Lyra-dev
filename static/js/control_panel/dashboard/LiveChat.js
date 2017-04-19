@@ -115,7 +115,7 @@ function loadChatWindow(event){
 
 	intervalID = window.setInterval(function(){
 	 	retrieveChatLog(user_sessionID);
-	}, 2000);
+	}, 1000);
 
 }
 

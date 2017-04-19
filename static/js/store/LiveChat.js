@@ -45,7 +45,7 @@ function bindChatEvents(){
 	
 	window.setInterval(function(){
 	 	retrieveChatLog(session_id);
-	}, 2000);
+	}, 1000);
 	
 }
 
