@@ -48,6 +48,7 @@ def setup_session():
 
 @messageActions.route('/actions/get_message', methods=['GET'])
 def get_message():
+	sm = current_app.config['SessionManager']
 	s_id = current_app.config['session_cookie_id']
 	session_token = session[s_id]
 
@@ -64,17 +65,34 @@ def get_message():
 
 		if message_data["type"] == "live_chat_init":
 			users = message.getLiveChatUsers(database)
-			db.close()
-			return json.dumps(users)
+			usersToList = filterUserList(sm, users)
+			usersToDelete = filter(lambda u: u not in usersToList, users)
+
+			removed = message.deleteLiveChatLogs(usersToDelete, database)
+			
+			if removed:
+				db.commit()
+				db.close()
+				return json.dumps(usersToList)
+			else:
+				db.close()
+				return json.dumps(users)
+
+			
 
 		else:
 			db.close()
-			return "ok"
-
+			return json.dumps("invalid type")
 
 
 	return json.dumps("invalid")
 
+
+
+def filterUserList(sm, users):
+	keys = sm.get_session_keys(current_app, session)
+	users = filter(lambda u: u[0] in keys, users)
+	return users
 
 
 

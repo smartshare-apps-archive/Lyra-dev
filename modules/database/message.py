@@ -101,6 +101,22 @@ def getLiveChatUsers(database):
 
 
 
+def deleteLiveChatLogs(usersToDelete, database):
+	usersToDelete = [user[0] for user in usersToDelete]
+
+	placeholders = ','.join(['%s' for _ in usersToDelete])
+	
+	q = "DELETE FROM messages WHERE session_id IN(%s)" % placeholders
+	
+	try:
+		database.execute(q, usersToDelete)
+	except Exception as e:
+		print "Error deleting chat logs: ", e
+		return False
+
+	return True
+
+
 
 
 def json_serial(obj):

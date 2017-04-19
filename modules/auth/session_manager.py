@@ -57,6 +57,16 @@ class SessionManager(object):
 
 	#redis calls 
 
+
+	@session_required
+	def get_session_keys(self, app, session):
+		all_keys = self.r.keys('*')
+		for idx, key in enumerate(all_keys):
+			#print idx,":", key
+			pass
+		return all_keys
+
+
 	@session_required
 	def update_session_key(self, app, session, data):
 		return self.r.setex(data['key'], int(SESSION_DURATION), data['value'])
