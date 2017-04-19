@@ -459,14 +459,14 @@ class ControlPanel(object):
 
 	def product_MainTable(self):
 		formattedProductList = loadAllProducts(self.database)
-		
+		allVendors = vendor.loadAllVendors(self.database)
 		product_thumbnail = {}
 
 		for product_id, product in formattedProductList.iteritems():
 			imageURI = resources.loadResourceURI(product["ImageSrc"], self.database)
 			product_thumbnail[product_id] = imageURI 
 
-		table = render_template("control_panel/product/MainTable.html", productList = formattedProductList, product_thumbnail = product_thumbnail)	
+		table = render_template("control_panel/product/MainTable.html", productList = formattedProductList, product_thumbnail = product_thumbnail, vendors = allVendors)	
 		return table
 
 

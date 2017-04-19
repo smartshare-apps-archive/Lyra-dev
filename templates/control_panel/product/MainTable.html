@@ -51,7 +51,7 @@
 							 	</button> 
 									 <button type="button" class="btn btn-default btn_info_cell">
 									 <b class="info_field">Vendor:</b> 
-									 <span class="info_value">{{ product.Vendor }} </span>
+									 <span class="info_value">{% if product.Vendor %} {{ vendors[product.Vendor].Name }} {% else %} No vendor specified {% endif %}</span>
 								 </button>
 
 								 </button> 

@@ -8,6 +8,7 @@ import modules.database.config
 import modules.database.product as product
 import modules.database.resources as resources
 import modules.database.customer
+import modules.database.vendor as vendor
 from modules.decorators import *
 from modules.auth.login import *
 
@@ -51,6 +52,13 @@ def filterProducts():
 		searchRE = re.compile('.?'+searchTerm+'.?', flags = re.DOTALL)
 	elif searchFilter == "Vendor":
 		searchRE = re.compile('.?'+searchTerm+'.?', flags = re.DOTALL)
+		
+		instance_db = instance_handle()
+		store_db = db_handle(instance_db)
+		vendors = vendor.loadAllVendors(store_db.cursor())
+		
+		store_db.close()
+		instance_db.close()
 
 
 	matchIDList = []
@@ -67,7 +75,7 @@ def filterProducts():
 				continue
 		elif searchFilter == "Vendor":
 			if product["Vendor"]:
-				search_field = product["Vendor"].lower()
+				search_field = vendors[product["Vendor"]]["Name"].lower()
 			else:
 				continue
 			
