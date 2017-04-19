@@ -1,0 +1,58 @@
+
+<section class="section testimonials">
+    <div class="container">
+        <h2 class="title text-center">What are people saying about Lyra?</h2>
+        <div id="testimonials-carousel" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#testimonials-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#testimonials-carousel" data-slide-to="1"></li>
+                <li data-target="#testimonials-carousel" data-slide-to="2"></li>
+            </ol><!--//carousel-indicators-->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <figure class="profile">
+                        <div class="anchor image-resource" data-anchorID="pic_1" {% if section_data %} 
+                            style="background-image:url('{{section_data["pic_1"]["anchor_value"]}}');"
+                        {% endif %}> </div>
+                    </figure>
+                   <div class="content anchor text-resource" data-anchorID="quote_1">
+
+                        {% if section_data  %}
+                                {{ section_data["quote_1"]["anchor_value"] | safe }}
+                        {% endif %}
+
+                    </div><!--//content-->                         
+                </div><!--//item-->                        
+                <div class="item">
+                    <figure class="profile">
+                        <div class="anchor image-resource" data-anchorID="pic_2" {% if section_data %} 
+                            style="background-image:url('{{section_data["pic_2"]["anchor_value"]}}');"
+                        {% endif %}> </div>
+                    </figure>
+                    <div class="content anchor text-resource" data-anchorID="quote_2">
+                        {% if section_data  %}
+                                {{ section_data["quote_2"]["anchor_value"] | safe }}
+                        {% endif %}
+
+
+                    </div><!--//content-->                         
+                </div><!--//item-->  
+                <div class="item">
+                <figure class="profile">
+                        <div class="anchor image-resource" data-anchorID="pic_3" {% if section_data %} 
+                            style="background-image:url('{{section_data["pic_3"]["anchor_value"]}}');"
+                        {% endif %}> </div>
+                </figure>
+                    <div class="content anchor text-resource" data-anchorID="quote_3">
+                        
+                        {% if section_data  %}
+                                {{ section_data["quote_3"]["anchor_value"] | safe }}
+                        {% endif %}
+
+                    </div><!--//content-->                         
+                </div><!--//item-->                                         
+            </div><!--//carousel-inner-->
+            
+        </div><!--//carousel-->
+    </div><!--//container-->
+</section> 
