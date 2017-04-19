@@ -42,6 +42,11 @@ function bindChatEvents(){
 	btn_sendLiveMessage.unbind();
 	btn_sendLiveMessage.click({session_id: session_id}, sendMessage);
 
+	
+	window.setInterval(function(){
+	 	retrieveChatLog(session_id);
+	}, 2000);
+	
 }
 
 
@@ -64,7 +69,6 @@ function initLiveChat(){
 	  .done(function(response) {
 	  	if (response != "\"invalid\""){
 	  		retrieveChatLog(session_id);
-	  		console.log(response);
 	  	} 
 	 
 	  });
@@ -100,7 +104,7 @@ function sendMessage(){
 	})
 	  .done(function(response) {
 	  	if (response != "\"invalid\""){
-	  		retrieveChatLog(session_id);
+	  		//retrieveChatLog(session_id);
 
 	  	} 
 	 

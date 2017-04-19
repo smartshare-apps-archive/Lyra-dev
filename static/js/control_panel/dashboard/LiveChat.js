@@ -4,7 +4,7 @@ var live_chat_guests;
 var btn_sendLiveMessage;
 
 var chatLog = {};
-
+var intervalID;
 
 $(document).ready(function(){
 	bindChatElements();
@@ -64,6 +64,8 @@ function getUserList(){
 	  
 	  });
 
+
+
 }
 
 
@@ -94,7 +96,6 @@ function loadChatWindow(event){
 	user_sessionID = event.data.user_sessionID;
 	
 
-	retrieveChatLog(user_sessionID);
 
 	$('#input_liveChatMessage').keypress(function (e) {
 		 var key = e.which;
@@ -107,14 +108,25 @@ function loadChatWindow(event){
 
 	btn_sendLiveMessage.unbind();
 	btn_sendLiveMessage.click({session_id: user_sessionID}, sendMessage);
+
+	retrieveChatLog(user_sessionID);
+
+	clearInterval(intervalID);
+
+	intervalID = window.setInterval(function(){
+	 	retrieveChatLog(user_sessionID);
+	}, 2000);
+
 }
 
 
 
 
 function sendMessage(event){
+
 	var session_id = event.data.session_id;
 	var message = input_liveChatMessage.val();
+
 	if(message == ""){
 		return;
 	}
@@ -132,7 +144,7 @@ function sendMessage(event){
 	})
 	  .done(function(response) {
 	  	if (response != "\"invalid\""){
-	  		retrieveChatLog(session_id);
+	  		
 
 	  	} 
 	 
