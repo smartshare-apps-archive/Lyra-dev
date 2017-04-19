@@ -68,8 +68,6 @@ class ControlPanel(object):
 			return self.product_BulkInventoryEditor(data)
 		elif tab == "product_collections":
 			return self.product_Collections()
-		elif tab == "collection_editor_new":
-			return self.product_addCollection()
 		elif tab == "collection_editor":
 			return self.product_CollectionEditor(data)
 		elif tab == "product_bulk_collection_editor":
@@ -160,13 +158,6 @@ class ControlPanel(object):
 		self.control_data["productSearchPanel"] = self.product_SearchPanel()
 		return render_template("control_panel/product/Collections.html", control_data = self.control_data)
 
-
-
-	#create a new product
-	def product_addCollection(self):
-		self.control_data["page"] = "collection_editor_new"
-		self.control_data["product_tags"] = loadProductTags(self.database);
-		return render_template("control_panel/product/productEditor_addCollection.html", control_data = self.control_data)
 
 
 
@@ -260,7 +251,7 @@ class ControlPanel(object):
 		self.control_data["collection_data"] = collectionData
 		self.control_data["formattedCollectionConditions"] = formattedCollectionConditions
 		self.control_data["product_tags"] = config.loadProductTags(self.instance_db)
-		
+
 		print "product tags:!!!!", self.control_data["product_tags"]
 
 		collection_image_src = resources.loadResourceURI(collectionData["CollectionImageSrc"], self.database)

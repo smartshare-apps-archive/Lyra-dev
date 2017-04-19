@@ -37,6 +37,8 @@ body {
     padding-left: 180px;
 }
 
+
+
 #sidebar-wrapper {
     z-index: 1000;
     position: fixed;
@@ -151,6 +153,46 @@ body {
 
 .sidebar-nav li:hover {
     cursor:pointer;
+}
+
+.sidebar-nav-mobile{
+    display:none;
+}
+
+@media only screen and (max-device-width: 568px) {
+
+    #wrapper {
+        padding-left: 0px;
+    }
+
+    #a_backToStore{
+        display:none;
+    }
+
+
+    .sidebar-nav{
+        display:none;
+        padding-left:0px;
+    }
+
+    .sidebar-nav-mobile{
+        display:block;
+    }
+
+    .nav_main_link_mobile {
+        display:block;
+        margin-left:10px;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-family: "Roboto", "Arial", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        color: rgba(242, 242, 242, 0.9);
+
+    }
+
+
 }
 
 

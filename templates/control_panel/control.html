@@ -50,13 +50,37 @@
 		<!-- <li id="li_plugins" class="hvr-float-shadow">  </li> -->
 	</ul>
 
-	<a href="/">
+	<nav class="navbar navbar-default navbar-inverse sidebar-nav-mobile" role="navigation">
+			       <div class="navbar-header">
+			           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+			               <span class="sr-only">Toggle navigation</span>
+			               <span class="icon-bar"></span>
+			               <span class="icon-bar"></span>
+			               <span class="icon-bar"></span>
+			            </button>
+			            
+			       </div>
+			       <div class="collapse navbar-collapse" id="navigationbar">
+			           <ul class="nav navbar-nav">
+							<li><a href="/control/products" class="nav_main_link_mobile"> Products</a> </li> 
+							<li><a href="/control/orders" class="nav_main_link_mobile"> Orders</a> </li> 
+							<li><a href="/control/customers" class="nav_main_link_mobile"> Customers</a> </li> 
+							<li><a href="/control/settings" class="nav_main_link_mobile"> Settings</a> </li> 
+							<li><a href="/control/store" class="nav_main_link_mobile"> Store</a> </li> 
+
+
+						
+			           </ul>
+			      </div><!-- /.navbar-collapse -->	
+	</nav>
+
+	<a href="/" id="a_backToStore">
 	<button type="button" class="btn btn-default" id="btn_backToStore"><span class="glyphicon glyphicon-globe"> </span></button>
 	</a>
 	
 </div>
 <div id="wrapper">
-	<div id="sidebar-wrapper">
+	<div id="sidebar-wrapper" class="hidden-sm hidden-xs">
 		{{ data.submenu }}
 	</div>
 
