@@ -276,10 +276,18 @@
 							<hr>
 							<h5> Vendor </h5>
 							<div class="btn-group editor_btn_group" role="group" aria-label="product_vendor">
-								<select class="form-control">
-									<option>allenlake</option>
+								<select class="form-control editor_input_field" id="input_Vendor">
+									{% for vendor_id, vendor in control_data.product_vendors.iteritems() %}
+									<option value="{{vendor_id}}"
+									{% if control_data.product_data.Vendor == vendor_id %} selected {% endif %}>
+									 {{vendor.Name}} </option>
+									{% endfor %}
+
+									<option value="" {% if control_data.product_data.Vendor == None %} selected {% endif %}> 
+											No vendor specified.
+									</option>
 								</select>
-								<button type="button" class="btn btn-default form-control" data-toggle="modal" data-target="#modal_editProductVendors"> Change vendor&nbsp;&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span></button>
+								<button type="button" class="btn btn-default form-control" data-toggle="modal" data-target="#modal_editProductVendors"> Updates vendors&nbsp;&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span></button>
 							</div>
 							
 

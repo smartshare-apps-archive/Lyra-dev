@@ -8,22 +8,42 @@
         <h4 class="modal-title"> Edit product vendors </h4>
       </div>
       <div class="modal-body">
-      <!-- begin type edit form -->
-      <div id="product_vendor_buttons">
-        {% for vendor_id, vendor in vendors.iteritems() %} 
-              <button type="button" class="btn btn-default btn-vendor" data-ptype="{{vendor_id}}">{{vendor}}&nbsp;&nbsp;<span class="glyphicon glyphicon-minus-sign"></span></button>
-        {% endfor %}
 
-      </div>
+          <select class="form-control" id="select_productVendor">
+            {% for vendor_id, vendor in vendors.iteritems() %} 
+                  <option value="{{vendor_id}}"> {{vendor.Name}} </option>
+                  
+            {% endfor %}
+          </select>
 
-        <hr>
-            
-          
-      <!-- end tag edit form -->
+                 {% for vendor_id, vendor in vendors.iteritems() %} 
+                      <input type="hidden" class="vendor-data" value="{{vendor.URL}}" data-vendorField="URL" data-vendorID="{{vendor_id}}">
+                      <input type="hidden" class="vendor-data" value="{{vendor.Name}}" data-vendorField="Name" data-vendorID="{{vendor_id}}">
+                      <input type="hidden" class="vendor-data" value="{{vendor.Phone}}" data-vendorField="Phone" data-vendorID="{{vendor_id}}">
+                      <input type="hidden" class="vendor-data" value="{{vendor.Email}}" data-vendorField="Email" data-vendorID="{{vendor_id}}">
+                 {% endfor %}
+            <hr>
 
-       
+          <div class="input-group">
+            <span class="input-group-addon"> Name </span>
+            <input type="text" class="form-control vendor-edit" data-vendorField="Name">
+         </div>
 
-      </div>
+          <div class="input-group">
+            <span class="input-group-addon"> Email </span>
+            <input type="text" class="form-control vendor-edit" data-vendorField="Email">
+         </div>
+
+          <div class="input-group">
+            <span class="input-group-addon" > URL </span>
+            <input type="text" class="form-control vendor-edit" data-vendorField="URL">
+         </div>
+
+          <div class="input-group">
+            <span class="input-group-addon"> Phone # </span>
+            <input type="text" class="form-control vendor-edit" data-vendorField="Phone">
+         </div>
+
 
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-dismiss="modal" id="btn_updateProductVendors">Save product vendors</button>

@@ -253,6 +253,31 @@ def updateProductTypes():
 	return json.dumps("success");
 
 
+@productActions.route('/actions/updateProductVendors', methods=['POST'])
+#@admin_required(current_app, session, login_redirect)
+def updateProductVendors():
+	product_vendors = request.form['product_vendors']
+	product_vendors = json.loads(product_vendors)
+	
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+	database = db.cursor()
+
+	result = product.saveProductVendors(product_vendors, database)
+
+	if result:
+		db.commit()
+		db.close()
+		return json.dumps("success");
+	else:
+		db.close()
+		return json.dumps("error saving vendors");
+
+
+
+	
+
+
 
 
 @productActions.route('/actions/deleteProductResource', methods=['POST'])

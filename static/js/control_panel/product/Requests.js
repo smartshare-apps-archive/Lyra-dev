@@ -145,6 +145,24 @@ function saveProductTypes(event){
 }
 
 
+// updates global product vendor list
+function saveProductVendors(){
+
+	$.ajax({
+		method: "POST",
+		url: "/actions/updateProductVendors",
+		dataType: "json",
+		data: {product_vendors: JSON.stringify(vendorData)},
+		traditional: true
+	})
+	.done(function(msg) {
+		location.reload();
+	});
+
+}
+
+
+
 //  request action for deleting a single product 
 function deleteProduct(event){
 	product_id = event.data.product_id;

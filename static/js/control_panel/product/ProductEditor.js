@@ -13,6 +13,9 @@ var newVariantType = {};
 var newVariantData = {};
 var variantTypes = {};
 
+// vendor management objects
+var vendorData = {};
+
 var newVariantType_input;
 var newVariantValue_input;
 
@@ -141,7 +144,67 @@ function bindEvents(){
 		$(this).click({typeID: typeID}, deleteProductType);
 
 	});
+
+
+
+	// vendor management details
+	populateVendorData();
+
+	$("#select_productVendor").change(function(){
+		var currentVendor = $(this).val();
+		loadVendorDetails(currentVendor);
+	});
+
+	$("#btn_updateProductVendors").click(saveProductVendors);
+
 }
+
+function populateVendorData(){
+
+	$(".vendor-data").each(function(){
+		var vendorID = $(this).attr('data-vendorID');
+		var field = $(this).attr('data-vendorField');
+
+		if (vendorID in vendorData){
+			vendorData[vendorID][field] = $(this).val();
+		} 
+		else{
+			vendorData[vendorID] = {};
+			vendorData[vendorID][field] = $(this).val();
+		}
+	});
+
+	for(vendorID in vendorData){
+		loadVendorDetails(vendorID);
+		break;
+	}
+
+}
+
+function loadVendorDetails(currentVendor){
+	$(".vendor-edit").each(function(){
+		var currentField = $(this).attr('data-vendorField');
+		var currentValue = vendorData[currentVendor][currentField];
+		$(this).val(currentValue);
+		$(this).unbind();
+		$(this).change({vendorID:currentVendor}, updateVendorData);
+	});
+
+}
+
+function updateVendorData(event){
+	var vendorID = event.data.vendorID;
+	var targetFieldContainer = $(event.currentTarget);
+	var vendorField = targetFieldContainer.attr('data-vendorField');
+
+	var newValue = targetFieldContainer.val();
+
+	vendorData[vendorID][vendorField] = newValue;
+
+	//console.log("updating: " + vendorID);
+
+}
+
 
 // update the container that stores new variant data 
 function updateNewVariantData(event){
@@ -189,7 +252,7 @@ function updateProductTags(event){
 
 	$("#currentProductTags").val(newTags);
 	$("#current_tag_label").html(replaceAll(newTags,",",", "));
-	console.log(newTags);
+	//console.log(newTags);
 }
 
 

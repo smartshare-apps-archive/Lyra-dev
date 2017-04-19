@@ -276,7 +276,24 @@ def saveProductTags(product_id, product_tags, productDatabase):
 
 
 
+def saveProductVendors(vendorData, productDatabase):
+	print "Attempting to go through vendors"
 
+	for vendor_id, vendor in vendorData.iteritems():
+		print vendor_id, ":", vendor
+
+		# 
+		q = "INSERT INTO vendors(vendor_id, Name, Phone, URL, Email) VALUES(%s,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE vendor_id=%s, Name=%s, Phone=%s, URL=%s, Email=%s;"
+
+		
+		try:
+			productDatabase.execute(q, (vendor_id, vendor["Name"], vendor["Phone"], vendor["URL"], vendor["Email"], vendor_id, vendor["Name"], vendor["Phone"], vendor["URL"], vendor["Email"] ))
+		except Exception as e:
+			print "Error with: ", q
+			print "Error updating vendors: ", e
+			return False
+
+	return True
 
 
 #returns a list of product variants given a product id 
