@@ -43,6 +43,13 @@
 		{% block page_content %}
 		{% endblock page_content %}
 
+		{% block live_chat %}
+	
+		<div class="hidden-sm hidden-xs">
+			{{ data.live_chat_window | safe }}
+		</div>
+
+		{% endblock live_chat %}
 
 
 		<div id="message_container" class="text-center"></div>
