@@ -263,16 +263,6 @@ def loadProductsInCollection(collectionData, productDatabase):
 
 
 
-def saveProductTags(product_id, product_tags, productDatabase):
-	currentQuery = "UPDATE products SET Tags=%s WHERE product_id=%s;"
-
-	try:
-		productDatabase.execute(currentQuery, (product_tags, product_id,))
-	except Exception as e:
-		print "Error: ", e
-		return None
-
-	return True
 
 
 

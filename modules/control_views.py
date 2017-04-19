@@ -249,6 +249,7 @@ class ControlPanel(object):
 		collectionConditions = formatCollectionConditions(collectionData["Conditions"])
 
 		formattedCollectionConditions = {}
+
 		for i in range(len(collectionConditions)):
 			formattedCollectionConditions[str(i)] = collectionConditions[i]
 		
@@ -258,7 +259,9 @@ class ControlPanel(object):
 
 		self.control_data["collection_data"] = collectionData
 		self.control_data["formattedCollectionConditions"] = formattedCollectionConditions
-		self.control_data["product_tags"] = loadProductTags(self.database);
+		self.control_data["product_tags"] = config.loadProductTags(self.instance_db)
+		
+		print "product tags:!!!!", self.control_data["product_tags"]
 
 		collection_image_src = resources.loadResourceURI(collectionData["CollectionImageSrc"], self.database)
 

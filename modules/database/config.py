@@ -491,21 +491,35 @@ def setDatabaseConfig(database_config, database):
 
 
 
-def loadProductTags(database):
+
+
+def loadProductTags(productDatabase):
 	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="Tags";""";
 	
 	try:
-		database.execute(currentQuery);
+		productDatabase.execute(currentQuery);
 	except Exception as e:
+		print "Error getting product tags: ", e
 		return None
 
-	tags = database.fetchone()
+	tags = productDatabase.fetchone()
 	if tags:
 		tags = set(filter(lambda t: t != '', sorted(tags[0].split(','))))
 		print "all:", tags
 		return tags
 
 
+
+def saveProductTags(product_id, product_tags, productDatabase):
+	currentQuery = "UPDATE products SET Tags=? WHERE product_id=?;"
+
+	try:
+		productDatabase.execute(currentQuery, (product_tags, product_id,))
+	except Exception as e:
+		print "Error: ", e
+		return None
+
+	return True
 
 
 def loadProductTypes(database):
