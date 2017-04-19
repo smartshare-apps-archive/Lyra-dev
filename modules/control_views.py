@@ -128,6 +128,8 @@ class ControlPanel(object):
 
 		elif tab == "dashboard":
 			return self.dashboard_Main()
+		elif tab == "dashboard_live_chat":
+			return self.dashboard_LiveChat()
 
 		self.database = None
 		db.close()
@@ -983,7 +985,10 @@ class ControlPanel(object):
 			if tile_data["tile_type"] == "data-feed":
 
 				tile_data["requirements"] = parseDataFeed_requirements(tile_data)
-
+				
+				if tile_data["requirements"]["tile_page"] != "main":
+					continue
+				
 				tile_data["helper_script"] = load_FeedHelperScript(tile_data["requirements"]["helper_script"])
 				
 				helper_instance = tile_data["helper_script"](tile_data["requirements"]["query_file"], tile_data["requirements"]["template_file"], tile_data["requirements"]["data_sources"])
@@ -1019,7 +1024,11 @@ class ControlPanel(object):
 
 			# bokeh tile type dashboard element	
 			elif tile_data["tile_type"] == "data-plot":
+
 				tile_data["requirements"] = parseDataFeed_requirements(tile_data)
+
+				if tile_data["requirements"]["tile_page"] != "main":
+					continue
 
 				template_file_uri = tile_data["requirements"]["template_file"]
 
@@ -1033,5 +1042,78 @@ class ControlPanel(object):
 		self.control_data["rendered_plots"] = rendered_plots	
 
 		return render_template("control_panel/dashboard/Main.html", control_data = self.control_data)
+
+
+
+
+	def dashboard_LiveChat(self):
+		self.control_data["page"] = "dashboard_live_chat"
+		dashboard_tiles = dashboard.loadAllDashboardTiles(self.database)
+
+		rendered_tiles = {}
+		rendered_plots = {}
+
+		for tile_id, tile_data in dashboard_tiles.iteritems():
+			if tile_data["tile_type"] == "data-feed":
+
+				tile_data["requirements"] = parseDataFeed_requirements(tile_data)
+				
+				if tile_data["requirements"]["tile_page"] != "live_chat":
+					continue
+				
+				tile_data["helper_script"] = load_FeedHelperScript(tile_data["requirements"]["helper_script"])
+				
+				helper_instance = tile_data["helper_script"](tile_data["requirements"]["query_file"], tile_data["requirements"]["template_file"], tile_data["requirements"]["data_sources"])
+				
+				data_sources = set(helper_instance.data_sources.split(','))
+
+				source_handles = {}
+				
+				for source_id in data_sources:
+					if source_id == "order":
+						source_handles["order"] = order
+					elif source_id == "product":
+						source_handles["product"] = product
+					elif source_id == "config":
+						source_handles["config"] = config
+					elif source_id == "store":
+						source_handles["store"] = store
+					elif source_id == "message":
+						source_handles["message"] = message
+
+				helper_instance.set_database(self.database)	#point the helper instance at the data source for query file
+				helper_instance.load_data_sources(source_handles)	#load local db functions, if necessary
+			
+				helper_instance.run_script()
+
+				template_data = helper_instance.template_data
+
+				tile_template = render_template("control_panel/dashboard/tile_templates/"+helper_instance.template_file, template_data = template_data)
+				
+				rendered_tiles[tile_id] = tile_template
+
+
+
+			# bokeh tile type dashboard element	
+			elif tile_data["tile_type"] == "data-plot":
+
+				tile_data["requirements"] = parseDataFeed_requirements(tile_data)
+
+				if tile_data["requirements"]["tile_page"] != "live_chat":
+					continue
+
+				template_file_uri = tile_data["requirements"]["template_file"]
+
+				tile_template = render_template("control_panel/dashboard/tile_templates/"+ template_file_uri , tile_data = tile_data)
+
+				rendered_plots[tile_id] = tile_template
+
+
+
+		self.control_data["rendered_tiles"] = rendered_tiles
+		self.control_data["rendered_plots"] = rendered_plots	
+
+		return render_template("control_panel/dashboard/LiveChat.html", control_data = self.control_data)
+
 
 

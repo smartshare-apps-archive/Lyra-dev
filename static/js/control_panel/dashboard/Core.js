@@ -18,6 +18,10 @@ function goToLink(event){
 	if (page == "li_link_dashboard_main"){
 		window.location.replace("/control/");
 	}
+	
+	else if (page == "li_link_dashboard_live_chat"){
+		window.location.replace("/control/live_chat");
+	}
 
 	else{
 		alert('not ready yet');

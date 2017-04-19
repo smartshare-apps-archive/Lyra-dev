@@ -1,7 +1,7 @@
 import sys, ast, imp
 
 def parseDataFeed_requirements(tile_data):
-	requirements = tile_data["requirements"].split('<req_split>')
+	requirements = filter(lambda r: r != '', tile_data["requirements"].split('<req_split>') )
 	
 	formattedRequirementResources = {}
 
@@ -19,13 +19,15 @@ def parseDataFeed_requirements(tile_data):
 			formattedRequirementResources["helper_script"] = req_uri
 		elif req_type == "data_sources":
 			formattedRequirementResources["data_sources"] = req_uri
+		elif req_type == "tile_page":
+			formattedRequirementResources["tile_page"] = req_uri
 
 	return formattedRequirementResources
 
 
 
 def parsePlot_requirements(tile_data):
-	requirements = tile_data["requirements"].split('<req_split>')
+	requirements = filter(lambda r: r != '', tile_data["requirements"].split('<req_split>') )
 	
 	formattedRequirementResources = {}
 
@@ -43,7 +45,9 @@ def parsePlot_requirements(tile_data):
 			formattedRequirementResources["helper_script"] = req_uri
 		elif req_type == "data_sources":
 			formattedRequirementResources["data_sources"] = req_uri
-
+		elif req_type == "tile_page":
+			formattedRequirementResources["tile_page"] = req_uri
+			
 	return formattedRequirementResources
 
 
