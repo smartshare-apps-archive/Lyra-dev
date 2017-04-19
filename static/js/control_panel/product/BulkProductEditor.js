@@ -64,7 +64,9 @@ function bindTableEvents(){
 	});
 
 	$(".toggle_bulk_editor_field").each(function(){
-		$(this).click({id:$(this).attr('id')}, updateSelectedFields);
+		var fieldID = $(this).attr('data-fieldID');
+		console.log(fieldID);
+		$(this).click({id: fieldID}, updateSelectedFields);
 	});
 
 }
@@ -117,18 +119,19 @@ function updateVariantData(event){
 
 
 function updateSelectedFields(event){
+	
 	selectedFields = $("#selectedFields").val();
 	selectedFields = selectedFields.slice(0,-1).split(',');
 
-	field = event.data.id.split('_')[1];
-
-	var index = selectedFields.indexOf(field);
+	var fieldID = event.data.id;
+	console.log("toggle:" + fieldID);
+	var index = selectedFields.indexOf(fieldID);
 
 	if(index != -1) {
 		selectedFields.splice(index, 1);
 	}
 	else{
-		selectedFields.push(field)
+		selectedFields.push(fieldID)
 	}
 
 	selectedFields = selectedFields.join(',');

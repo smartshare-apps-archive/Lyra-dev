@@ -385,16 +385,14 @@ def updateProductInventoryData():
 #@admin_required(current_app, session, login_redirect)
 def updateBulkProductEditorFields():
 	selectedFields = request.form['selectedFields']
+	selectedFields = json.loads(selectedFields)
 
 	instance_db = instance_handle()
-	db = db_handle(instance_db)
 
-	productDatabase = db.cursor()
+	modules.database.config.setBulkProductEditorSettings(selectedFields, instance_db.cursor())
 
-	modules.database.config.setBulkProductEditorSettings(selectedFields, productDatabase)
-
-	db.commit()
-	db.close()
+	instance_db.commit()
+	instance_db.close()
 
 	return json.dumps("success")
 
@@ -404,16 +402,14 @@ def updateBulkProductEditorFields():
 #@admin_required(current_app, session, login_redirect)
 def updateBulkInventoryEditorFields():
 	selectedFields = request.form['selectedFields']
+	selectedFields = json.loads(selectedFields)
 
 	instance_db = instance_handle()
-	db = db_handle(instance_db)
 
-	productDatabase = db.cursor()
+	modules.database.config.setBulkInventoryEditorSettings(selectedFields, instance_db.cursor())
 
-	modules.database.config.setBulkInventoryEditorSettings(selectedFields, productDatabase)
-
-	db.commit()
-	db.close()
+	instance_db.commit()
+	instance_db.close()
 
 	return json.dumps("success")
 
@@ -422,16 +418,14 @@ def updateBulkInventoryEditorFields():
 #@admin_required(current_app, session, login_redirect)
 def updateBulkCollectionEditorFields():
 	selectedFields = request.form['selectedFields']
+	selectedFields = json.loads(selectedFields)
 
 	instance_db = instance_handle()
-	db = db_handle(instance_db)
-	
-	productDatabase = db.cursor()
 
-	modules.database.config.setBulkCollectionEditorSettings(selectedFields, productDatabase)
+	modules.database.config.setBulkCollectionEditorSettings(selectedFields, instance_db.cursor())
 
-	db.commit()
-	db.close()
+	instance_db.commit()
+	instance_db.close()
 
 	return json.dumps("success")
 
@@ -448,8 +442,8 @@ def updateCollectionData():
 	instance_db = instance_handle()
 	db = db_handle(instance_db)
 
-	
 	productDatabase = db.cursor()
+	
 	product.saveCollectionData(collection_data, productDatabase)
 
 	db.commit()

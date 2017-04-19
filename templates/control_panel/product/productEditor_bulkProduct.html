@@ -18,7 +18,7 @@
 			You are currently editing these fields:
 			<hr>
 			{% for field in control_data.selectedFields %}
-				<button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_{{field}}"> {{field}} <span class="glyphicon glyphicon-minus-sign"></span> </button>
+				<button type="button" class="btn btn-info toggle_bulk_editor_field" data-fieldID="{{field}}"> {{field}} <span class="glyphicon glyphicon-minus-sign"></span> </button>
 			{% endfor %}
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_addFields"> Add fields <span class="glyphicon glyphicon-plus-sign"> </span> </button>
 		</div>

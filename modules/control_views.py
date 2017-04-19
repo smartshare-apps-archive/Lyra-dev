@@ -40,7 +40,7 @@ class ControlPanel(object):
 		instance_db = instance_handle()
 		self.instance_db = instance_db.cursor()
 		
-		if data in config.ERROR_CODES:
+		if type(data) != list and data in config.ERROR_CODES:
 			return self.settings_Advanced(flag=data)
 
 		store_db = db_handle(instance_db)

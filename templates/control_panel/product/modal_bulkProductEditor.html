@@ -12,40 +12,36 @@
       <div class="modal-body">
 
           {% if selectedFields.VariantPrice %}
-          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantPrice" data-dismiss="modal">Price</button>
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" data-fieldID="VariantPrice" data-dismiss="modal">Price</button>
           {% else %}
-          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantPrice" data-dismiss="modal">Price</button>
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" data-fieldID="VariantPrice" data-dismiss="modal">Price</button>
           {% endif %}
 
           {% if selectedFields.VariantCompareAtPrice %}
-          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantCompareAtPrice" data-dismiss="modal">Compare at Price</button>
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" data-fieldID="VariantCompareAtPrice" data-dismiss="modal">Compare at Price</button>
           {% else %}
-          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantCompareAtPrice" data-dismiss="modal">Compare at Price</button>
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" data-fieldID="VariantCompareAtPrice" data-dismiss="modal">Compare at Price</button>
           {% endif %}
 
           {% if selectedFields.VariantTaxable %}
-          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantTaxable" data-dismiss="modal">Taxable</button>
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" data-fieldID="VariantTaxable" data-dismiss="modal">Taxable</button>
           {% else %}
-          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantTaxable" data-dismiss="modal">Taxable</button>
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" data-fieldID="VariantTaxable" data-dismiss="modal">Taxable</button>
           {% endif %}
 
           <hr>
 
           {% if selectedFields.VariantSKU %}
-          <button type="button" class="btn btn-primary toggle_bulk_editor_field" id="field_VariantSKU" data-dismiss="modal">SKU</button>
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" data-fieldID="VariantSKU" data-dismiss="modal">SKU</button>
           {% else %}
-          <button type="button" class="btn btn-info toggle_bulk_editor_field" id="field_VariantSKU" data-dismiss="modal">SKU</button>
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" data-fieldID="VariantSKU" data-dismiss="modal">SKU</button>
           {% endif %}
 
-          <button type="button" class="btn btn-info" id="field_Barcode" data-dismiss="modal">Barcode</button>
-          <button type="button" class="btn btn-info" id="field_Stock" data-dismiss="modal">Inventory Quantity</button>
-          <button type="button" class="btn btn-info" id="field_InventoryPolicy" data-dismiss="modal">Allow Overselling</button>
-          <hr>
-          <button type="button" class="btn btn-info" id="field_Weight" data-dismiss="modal">Weight</button>
-          <button type="button" class="btn btn-info" id="field_RequiresShipping" data-dismiss="modal">Requires Shipping</button>
-          <button type="button" class="btn btn-info" id="field_TariffCode" data-dismiss="modal">Tariff Code</button>
-          <button type="button" class="btn btn-info" id="field_FullfillmentService" data-dismiss="modal">Fullfillment Service</button>
-
+          {% if selectedFields.VariantInventoryQty %}
+          <button type="button" class="btn btn-primary toggle_bulk_editor_field" data-fieldID="VariantInventoryQty" data-dismiss="modal">Inventory</button>
+          {% else %}
+          <button type="button" class="btn btn-info toggle_bulk_editor_field" data-fieldID="VariantInventoryQty" data-dismiss="modal">Inventory</button>
+          {% endif %}
 
 
       </div>

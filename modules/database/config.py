@@ -331,10 +331,14 @@ def BulkProductEditorSettings(database):
 def setBulkProductEditorSettings(selectedFields, database):
 	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="BulkProductEditorFields";""" 
 
+
 	try:
-		database.execute(currentQuery, (selectedFields, ))
+		database.execute(currentQuery, (selectedFields,))
 	except Exception as e:
-		print e
+		print "Error saving bulk editor settings:", e
+		return False
+
+	return True
 
 
 
@@ -361,7 +365,9 @@ def setBulkInventoryEditorSettings(selectedFields, database):
 		database.execute(currentQuery, (selectedFields, ))
 	except Exception as e:
 		print e
+		return False
 
+	return True
 
 
 def BulkCollectionEditorSettings(database):
@@ -386,7 +392,9 @@ def setBulkCollectionEditorSettings(selectedFields, database):
 		database.execute(currentQuery, (selectedFields, ))
 	except Exception as e:
 		print "Error: ", e
+		return False
 
+	return True
 
 
 
