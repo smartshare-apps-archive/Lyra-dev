@@ -1,7 +1,7 @@
 {% block page_content %}
 <div class="row">
 	<div class="col-xs-12 banner">
-	<h4 id="h4_banner"> <span class="glyphicon glyphicon-tags"></span> &nbsp; <a href="/control/products/">Products</a> / <a href="/control/products/inventory">Inventory</a> / {{ control_data.product_data.Title }}{% for option,value in control_data.variant_data.VariantData.iteritems() %}/{{value}}{% endfor %}
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-tags"></span> &nbsp; <a href="/control/products/">Products</a> / <a href="/control/products/inventory">Inventory</a> / {{ control_data.product_data.Title }}{% for option,value in control_data.variant_data.VariantData.iteritems() %}&nbsp;/&nbsp;{{value}}{% endfor %}
 &nbsp;<span class="glyphicon glyphicon-pencil"></span> </h4>
 
 		<button type="button" class="btn btn-warning" id="btn_deleteVariant">Delete Variant  <span class="glyphicon glyphicon-trash"> </span> </button>
@@ -14,22 +14,28 @@
 <div class="row">
 	<!-- Begin product editor content div -->
 	<div class="col-xs-12 tab_content">
-		<div class="row">
-
+		<div class="container-fluid main-content-container-sm">
+				<div class="row">
 			<!-- Begin: main product editor column (left aligned) -->
-			<div class="col-md-6" id="product_editor_panel">
+			<div class="col-md-6 flex-panel">
  				<!-- Begin: product variant price editor -->
 				<div class="panel panel-default" id="panel_product_text_editor">
 					<div class="form-group">
 						<h4> Product Pricing </h4>
 						<hr>
-				  		<h5> Price: </h5>
-				  				<input type="text" class="form-control" id="input_VariantPrice" value="{{'%0.2f' % control_data.variant_data.VariantPrice | float }}">
-						<h5> Compare at price: </h5>
-				  			<input type="text" class="form-control" id="input_VariantCompareAtPrice" value="{{ '%0.2f' % control_data.variant_data.VariantCompareAtPrice | float }}">
 
-						<br>
+				  		<div class="input-group">
+							<span class="input-group-addon">Variant price</span>
+							  <input type="text" class="form-control editor_input_field" data-fieldID="VariantPrice" value="{{'%0.2f' % control_data.variant_data.VariantPrice | float }}">
+						</div>
+				  			
+				  		<br>
 
+						<div class="input-group">
+							<span class="input-group-addon">Compare at price</span>
+							  <input type="text" class="form-control editor_input_field" data-fieldID="VariantCompareAtPrice" value="{{ '%0.2f' % control_data.variant_data.VariantCompareAtPrice | float }}">
+						</div>
+				  				
 					</div>
 				</div>
 				<!-- End: product variant price editor -->
@@ -40,12 +46,22 @@
 				  		<h4> Inventory </h4>
 						<hr>
 				  		<div class="form-group">
-				  			<h5> Current inventory quantity: </h5>
-				  			<input type="text" class="form-control" id="input_VariantStock" value="{{control_data.variant_data.VariantInventoryQty}}">
-				  			<h5> SKU: </h5>
-				  			<input type="text" class="form-control" id="input_VariantSKU" value="{{control_data.variant_data.VariantSKU}}">
-				  			<h5> Barcode: </h5>
-				  			<input type="text" class="form-control" id="input_VariantBarcode" value="{{control_data.variant_data.VariantBarcode}}">
+				  			
+				  			<div class="input-group">
+							<span class="input-group-addon">Inventory Quantity</span>
+							  	<input type="text" class="form-control editor_input_field" data-fieldID="VariantInventoryQty" value="{{control_data.variant_data.VariantInventoryQty}}">
+							 </div>
+				  			
+				  			<div class="input-group">
+							<span class="input-group-addon">SKU</span>
+							  	<input type="text" class="form-control editor_input_field" data-fieldID="VariantSKU" value="{{control_data.variant_data.VariantSKU}}">
+							 </div>
+
+
+				  			<div class="input-group">
+							<span class="input-group-addon">Barcode</span>
+							  	<input type="text" class="form-control editor_input_field" data-fieldID="VariantBarcode" value="{{control_data.variant_data.VariantBarcode}}">
+							 </div>
 				  		
 
 				  		</div>
@@ -58,7 +74,7 @@
  			<!-- End: main product editor column (left aligned) -->
 
  			<!-- Begin: product attribute editor column (right aligned) -->
-			<div class="col-md-6" id="product_editor_attributes">
+			<div class="col-md-6 flex-panel">
 
 				<div class="panel panel-default" id="panel_product_options_editor">
 					<div class="form-group">

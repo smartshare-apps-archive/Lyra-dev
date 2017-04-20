@@ -12,7 +12,8 @@ $(document).ready(function(){
 	productData = {};
 	bindElements();
 	bindTableEvents();			// bind events to the product variants table
-	bindChangeEvents();
+	bindEvents();
+
 	setupVariantTable();			// bind events to the product variants table
 	loadImageResources();
 });
@@ -24,18 +25,22 @@ function bindElements(){
 	btn_deleteVariant = $("#btn_deleteVariant");
 }
 
-function bindChangeEvents(){
+function bindEvents(){
 	variant_id = $('#currentVariantID').val();
+	variantData["variant_id"] = variant_id;
 
 	btn_confirmProductChanges.click({variant_data: variantData}, saveProductInventoryChanges);
 	btn_saveProduct.click(updateVariantData);
 	btn_deleteVariant.click({variant_id: variant_id}, deleteVariant);
 
-	$("#input_VariantPrice").on('change', updateDataContainer);
-	$("#input_VariantCompareAtPrice").on('change', updateDataContainer);
-	$("#input_VariantBarcode").on('change', updateDataContainer);
-	$("#input_VariantSKU").on('change', updateDataContainer);
-	$("#input_VariantStock").on('change', updateDataContainer);
+
+	$(".editor_input_field").each(function(){
+		var fieldID = $(this).attr('data-fieldID');
+
+		$(this).change(function(){
+			variantData[fieldID] = $(this).val();
+		});
+	});
 
 	updateVariantData();
 }
@@ -45,37 +50,18 @@ function bindTableEvents(){
 
 }
 
+function updateVariantData(){
+	$(".editor_input_field").each(function(){
+		var fieldID = $(this).attr('data-fieldID');
+		variantData[fieldID] = $(this).val();
+	});
+}
+
 
 function goToProductInventoryEditor(event){
 	window.location.replace("/control/products/inventory/"+event.data.variant_id);
 }
 
-
-function updateDataContainer(){
-	$('#currentVariantPrice').val($("#input_VariantPrice").val());
-	$('#currentVariantCompareAtPrice').val($("#input_VariantCompareAtPrice").val());
-	$("#currentVariantBarcode").val($("#input_VariantBarcode").val());
-	$("#currentVariantSKU").val($("#input_VariantSKU").val());
-	$("#currentVariantStock").val($("#input_VariantStock").val());
-}
-
-
-
-function updateVariantData(event = null){
-	
-	var VariantPrice = $('#currentVariantPrice').val();
-	var VariantCompareAtPrice = $('#currentVariantCompareAtPrice').val();
-	var VariantBarcode = $("#currentVariantBarcode").val();
-	var VariantSKU = $("#currentVariantSKU").val();
-	var VariantStock = $("#currentVariantStock").val();
-
-	variantData["VariantPrice"] = VariantPrice;
-	variantData["VariantCompareAtPrice"] = VariantCompareAtPrice;
-	variantData["VariantSKU"] = VariantSKU;
-	variantData["VariantBarcode"] = VariantBarcode;
-	variantData["VariantInventoryQty"] = VariantStock;
-	variantData["variant_id"] = variant_id;
-}
 
 
 function loadImageResources(){

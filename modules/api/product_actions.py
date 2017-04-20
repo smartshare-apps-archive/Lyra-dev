@@ -352,33 +352,28 @@ def updateProductVariantTypes():
 
 
 
-@productActions.route('/actions/updateInventoryData', methods=['POST'])
+@productActions.route('/actions/updateVariantData', methods=['POST'])
 #@admin_required(current_app, session, login_redirect)
-def updateProductInventoryData():
-	variant_id = request.form['variant_id']
-
-	#this container is deprecated, gotta fix it later.
-	variantData = {}
-	variantData["variant_id"] = variant_id
-	variantData["VariantPrice"] = request.form['VariantPrice']
-	variantData["VariantCompareAtPrice"] = request.form['VariantCompareAtPrice']
-	variantData["VariantBarcode"] = request.form['VariantBarcode']
-	variantData["VariantSKU"] = request.form['VariantSKU']
-	variantData["VariantInventoryQty"] = request.form['VariantInventoryQty']
-
-
+def updateVariantData():
+	variant_data = request.form['variant_data']
+	variant_data = json.loads(variant_data)
 
 	instance_db = instance_handle()
 	db = db_handle(instance_db)
 
-	
 	productDatabase = db.cursor()
-	product.saveProductInventoryData(variantData, productDatabase)
 
-	db.commit()
-	db.close()
+	success = product.saveProductVariantData(variant_data, productDatabase)
+	
+	if success:
+		db.commit()
+		db.close()
+		return json.dumps("success")
+	else:
+		db.close()
+		return json.dumps("error")
 
-	return variant_id
+	
 
 
 @productActions.route('/actions/updateBulkProductEditorFields', methods=['POST'])

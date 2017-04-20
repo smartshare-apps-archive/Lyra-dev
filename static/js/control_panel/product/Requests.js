@@ -210,19 +210,14 @@ function deleteVariant(event){
 
 
 function saveProductInventoryChanges(event){
-	variantData = event.data.variant_data
-	console.log(variantData);
+	var variantData = event.data.variant_data;
+
 	$.ajax({
 	  method: "POST",
-	  url: "/actions/updateInventoryData",
-	  data: { 
-	  		  variant_id: variantData["variant_id"],
-	  		  VariantPrice: variantData["VariantPrice"], 
-	  	   	  VariantCompareAtPrice: variantData["VariantCompareAtPrice"], 
-	  		  VariantSKU: variantData["VariantSKU"], 
-	  		  VariantBarcode: variantData["VariantBarcode"], 
-	  		  VariantInventoryQty: variantData["VariantInventoryQty"]
-	  		}
+	  url: "/actions/updateVariantData",
+	  dataType: "json",
+	  data: { variant_data: JSON.stringify(variantData) },
+	  traditional:true
 	})
 	  .done(function( msg ) {
 		location.reload();

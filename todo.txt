@@ -11,7 +11,6 @@ backend:
 - dont forget to save your work dialog in product, inventory, and collection
 - dont allow empty collection conditions when saving 
 - bulk product editor bug fix (wtf is going on with that)
-- product vendor editor modal
 - product collection editor modal
 
 4. settings

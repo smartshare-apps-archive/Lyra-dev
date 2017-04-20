@@ -496,14 +496,37 @@ def saveNewCollectionData(collectionData, productDatabase):
 
 
 #save changes from product inventory editor
-def saveProductInventoryData(variantData, productDatabase):
-	currentQuery = """UPDATE product_variants SET VariantPrice = %s, VariantCompareAtPrice = %s, VariantBarcode = %s, VariantSKU = %s, VariantInventoryQty = %s WHERE variant_id=%s;"""
-	productTuple = (variantData["VariantPrice"], variantData["VariantCompareAtPrice"], variantData["VariantBarcode"], variantData["VariantSKU"], variantData["VariantInventoryQty"], variantData["variant_id"])
+def saveProductVariantData(variantData, productDatabase):
+	orderedFields = collections.OrderedDict()
+	fieldUpdates = ""
 	
+	for field, value in variantData.iteritems():
+		#ensures that data types are preserved properly
+		if field == "variant_id":
+			variant_id = int(value)
+			continue
+		else:	
+			orderedFields[field] = value
+			fieldUpdates += field + "=%s," 
+
+	fieldUpdates = fieldUpdates[:-1]
+
+	valueList = [value for field, value in orderedFields.iteritems()]
+	valueList.append(variant_id)
+
+	currentQuery = "UPDATE product_variants SET %s WHERE variant_id =" % fieldUpdates	#pop in the fieldUpdates for this query
+	currentQuery += " %s;" 
+
+	print currentQuery,":", valueList
+
 	try:
-		productDatabase.execute(currentQuery, productTuple)
+		productDatabase.execute(currentQuery, valueList)		#run current query
 	except Exception as e:
-		print "Exception: ", e
+		print "Exception:", e
+		return False
+
+	return True
+
 
 
 
@@ -656,7 +679,7 @@ def deleteVariant(variant_id, productDatabase):
 
 def bulkUpdateProducts(productData, productDatabase):
 	#iterates through a dictionary of product data and updates product db
-
+	print "attempting to bulk update products."
 	#product data is represented as a dictionary of dictionaries, with each field in the main dict representing a different product
 	for product_id, currentProductData in productData.iteritems():				
 		fieldUpdates = ""
@@ -676,7 +699,7 @@ def bulkUpdateProducts(productData, productDatabase):
 
 		fieldUpdates = fieldUpdates[:-1] 	#remove the last comma
 		currentQuery = "UPDATE products SET %s WHERE product_id = %s;" % (fieldUpdates, product_id)	#pop in the fieldUpdates for this query
-		
+		print "q: ", currentQuery
 		try:
 			productDatabase.execute(currentQuery)		#run current query
 		except Exception as e:
@@ -750,14 +773,15 @@ def bulkPublish(value, product_id_list, productDatabase):
 	product_id_list = map(int, product_id_list)
 
 	placeholder = "%s"
-	placeholders = ','.join(placeholder for unused in product_id_list)
+	placeholders = ','.join(placeholder for _ in product_id_list)
+
+	currentQuery = "UPDATE products SET Published=%s"
+	currentQuery += " WHERE product_id IN(%s)" % (placeholders)
 
 	values = [value] + product_id_list
-	
-	currentQuery = "UPDATE products SET Published = %s WHERE product_id IN (%s);" % (placeholders, values)
 
 	try:
-		productDatabase.execute(currentQuery)
+		productDatabase.execute(currentQuery, values)
 	except Exception as e:
 		print e
 

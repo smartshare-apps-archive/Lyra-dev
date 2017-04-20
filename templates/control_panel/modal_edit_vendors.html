@@ -44,7 +44,19 @@
             <input type="text" class="form-control vendor-edit" data-vendorField="Phone">
          </div>
 
+        <hr>
 
+        <!-- add new vendor group -->
+        <div class="input-group">
+            <span class="input-group-addon"> Vendor name </span>
+            <input type="text" class="form-control" id="input_newVendorName" placeholder="">
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="button" id="btn_addNewVendor">Add vendor</button>
+            </span>
+        </div>  
+        <!-- end add new vendor group -->
+
+        <hr>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-dismiss="modal" id="btn_updateProductVendors">Save product vendors</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
