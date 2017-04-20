@@ -194,11 +194,17 @@ class ControlPanel(object):
 		productVariants = []
 
 		if variantIDList:
+			self.control_data["variant_thumbnails"] = {}
+
 			for variant_id in variantIDList:
 				currentVariantProductData = loadProductVariant(variant_id, self.database)
 				currentVariantProductData["VariantData"] = formatVariantData(currentVariantProductData["VariantData"])
 
+				currentVariantThumbnail = resources.loadResourceURI(currentVariantProductData["VariantImg"], self.database)
+
+				self.control_data["variant_thumbnails"][str(variant_id)] = currentVariantThumbnail
 				self.control_data["variant_product_data"].append(currentVariantProductData)
+
 				productVariants.append(currentVariantProductData)
 
 
@@ -224,7 +230,7 @@ class ControlPanel(object):
 			self.control_data["variant_types"] = formattedVariantTypes
 	
 
-		self.control_data["productVariantTable"] = render_template("control_panel/product/productEditor_variantTable.html", productVariants = productVariants, product_thumbnail=self.control_data["image_resources"])	
+		self.control_data["productVariantTable"] = render_template("control_panel/product/productEditor_variantTable.html", productVariants = productVariants, variant_thumbnails=self.control_data["variant_thumbnails"])	
 
 		return render_template("control_panel/product/productEditor_product.html", control_data = self.control_data)
 
@@ -274,19 +280,7 @@ class ControlPanel(object):
 		product_id = variantData["product_id"]
 
 		self.control_data["product_id"] = product_id
-
-		productData = loadProduct(product_id, self.database)
-		#gets image resource id list from resource database
-		if productData.has_key("resources"):
-			if(productData["resources"] is not None and productData["resources"] != ""):
-				imageResources = extractImageResources(productData["resources"])
-
-		#if this product has any image resources, extract the URIs for each of them
-				imageURI = resources.loadResourceURIList(imageResources, self.database)
-				imageURI = formatImageURIs(imageURI)
-				self.control_data["image_resources"] = imageURI  #so the product editor can access those image resources
-			else:
-				self.control_data["image_resources"] = None
+		
 
 		variantIDList = findProductVariants(product_id, self.database)
 
@@ -295,34 +289,25 @@ class ControlPanel(object):
 		productVariants = []
 
 		if variantIDList:
+			self.control_data["variant_thumbnails"] = {}
+
 			for variant_id in variantIDList:
 				currentVariantProductData = loadProductVariant(variant_id, self.database)
 				currentVariantProductData["VariantData"] = formatVariantData(currentVariantProductData["VariantData"])
 
+				currentVariantThumbnail = resources.loadResourceURI(currentVariantProductData["VariantImg"], self.database)
+
+				self.control_data["variant_thumbnails"][str(variant_id)] = currentVariantThumbnail
 				self.control_data["variant_product_data"].append(currentVariantProductData)
+
 				productVariants.append(currentVariantProductData)
 
-		self.control_data["variant_types"] = {}
-		variantTypes = productData["VariantTypes"]
-
-		if variantTypes:
-			variantTypes = filter(lambda v: v != '', variantTypes.split(';'))
-			
-			formattedVariantTypes = {}
-			for variant in variantTypes:
-				variant = variant.split(':')
-
-				variantType = variant[0]
-				variantValues = variant[1].split(',')
-				
-				formattedVariantTypes[variantType] = variantValues
-
-			self.control_data["variant_types"] = formattedVariantTypes
 
 		#set root product data for template rendering
-		self.control_data["product_data"] = productData
+		self.control_data["product_data"] = loadProduct(product_id, self.database)
 		self.control_data["variant_data"] = variantData
-		self.control_data["productVariantTable"] = render_template("control_panel/product/productEditor_variantTable.html", productVariants = productVariants, product_thumbnail=self.control_data["image_resources"])	
+
+		self.control_data["productVariantTable"] = render_template("control_panel/product/productEditor_variantTable.html", productVariants = productVariants, variant_thumbnails=self.control_data["variant_thumbnails"])	
 
 		return render_template("control_panel/product/productEditor_inventory.html", control_data = self.control_data)
 
@@ -471,15 +456,19 @@ class ControlPanel(object):
 		formattedVariantList = loadAllProductVariants(formattedProductList, self.database)
 
 		product_thumbnail = {}
+		variant_thumbnails = {}
+
 		for product_id, product in formattedProductList.iteritems():
 			imageURI = resources.loadResourceURI(product["ImageSrc"], self.database)
 			product_thumbnail[product_id] = imageURI 
 
 		for product_id, variants in formattedVariantList.iteritems():
 			for variant in variants:
+				variant_id = variant["variant_id"]
 				variant["VariantData"] = formatVariantData(variant["VariantData"])
+				variant_thumbnails[variant_id] = loadResourceURI(int(variant["VariantImg"]), self.database)
 
-		table = render_template("control_panel/product/InventoryTable.html", productList = formattedProductList, variantList=formattedVariantList, product_thumbnail = product_thumbnail)		
+		table = render_template("control_panel/product/InventoryTable.html", productList = formattedProductList, variantList=formattedVariantList, product_thumbnail = product_thumbnail, variant_thumbnails = variant_thumbnails)		
 		return table
 
 

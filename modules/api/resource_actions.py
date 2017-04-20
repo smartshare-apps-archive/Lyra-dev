@@ -55,6 +55,7 @@ def upload_image_file():
 		if file and allowed_image_file(file.filename):
 			product_id = request.form.get('product_id',None)
 			collection_id = request.form.get('collection_id',None)
+			variant_id = request.form.get('variant_id',None)
 
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(current_app.config['IMAGE_UPLOAD_FOLDER'], filename))
@@ -72,6 +73,9 @@ def upload_image_file():
 			elif product_id is not None:
 				resource_id = resources.createResource(imageURL, "product_image", database)
 				updated = product.updateProductResources(product_id, resource_id, "product_image", database)
+			elif variant_id is not None:
+				resource_id = resources.createResource(imageURL, "product_image", database)
+				updated = product.updateProductVariantResources(variant_id, resource_id, database)
 
 			if updated:
 				print "resource id: ", resource_id

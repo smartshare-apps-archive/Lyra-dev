@@ -1738,6 +1738,19 @@ top:-1px;
     margin:0 auto;
 }
 
+.variant_image_main{
+    width:250px;
+    height:250px;
+    border:1px solid #DDDDDD;
+    border-radius:2px;
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-origin:content-box;
+    padding:10px;
+    margin:0 auto;
+}
+
 
 
 #collection_editor_panel{

@@ -76,8 +76,8 @@
 				<div class="variant_info_panel">
 					{% for variant in variantList[product_id] %}	
 						<div class="product_variant_container">
-							<img src="{{product_thumbnail[variant["VariantImg"] | int]}}" class="product_variant_thumbnail">
-							<input type="hidden" id="variant_{{variant.variant_id}}_imgSrc" value="{{product_thumbnail[variant["VariantImg"] | int]}}">
+							<img src="{{variant_thumbnails[variant["variant_id"] | int]}}" class="product_variant_thumbnail">
+							<input type="hidden" class="variant-img-src" data-variantID="{{variant.variant_id}}" value="{{variant_thumbnails[variant["variant_id"] | int]}}">
 							
 							<div class="variant_attributes_cont">
 

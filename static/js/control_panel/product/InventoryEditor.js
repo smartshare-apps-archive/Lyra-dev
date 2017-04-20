@@ -10,13 +10,13 @@ var btn_confirmProductChanges;
 
 $(document).ready(function(){
 	productData = {};
+
 	bindElements();
-	bindTableEvents();			// bind events to the product variants table
 	bindEvents();
 
 	setupVariantTable();			// bind events to the product variants table
-	loadImageResources();
 });
+
 
 
 function bindElements(){
@@ -24,6 +24,8 @@ function bindElements(){
 	btn_confirmProductChanges = $("#btn_confirmProductChanges")
 	btn_deleteVariant = $("#btn_deleteVariant");
 }
+
+
 
 function bindEvents(){
 	variant_id = $('#currentVariantID').val();
@@ -43,12 +45,19 @@ function bindEvents(){
 	});
 
 	updateVariantData();
+
+	$("#select_filename").change(function(){
+		var filename = $(this).val().split('\\');
+		var pathLength = filename.length;
+		filename = filename[pathLength-1];
+
+		$("#input_filename").val(filename);
+		
+	});
 }
 
 
-function bindTableEvents(){
 
-}
 
 function updateVariantData(){
 	$(".editor_input_field").each(function(){
@@ -63,16 +72,6 @@ function goToProductInventoryEditor(event){
 }
 
 
-
-function loadImageResources(){
-	$(".image_resource").each(function(){
-		var resource_id = $(this).attr('id').split('_')[1];
-		var resource_uri = $("#resource_uri_"+resource_id).val();
-		var bg_image = "url('" + resource_uri + "')";
-		$(this).css('background-image',bg_image);
-	});
-
-}
 
 
 

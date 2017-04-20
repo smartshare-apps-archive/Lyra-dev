@@ -70,6 +70,14 @@
 				</div>
 				<!-- End: product variant inventory editor -->
 
+
+
+				<div class="panel panel-default" id="panel_product_visibility">
+					<h4> Product Variants </h4>
+					<hr>
+					{{ control_data.productVariantTable | safe }}	
+				</div>
+
  			</div>
  			<!-- End: main product editor column (left aligned) -->
 
@@ -88,13 +96,18 @@
 					  	{% endif %}
 					</div>
 				</div>
-				
-				<div class="panel panel-default" id="panel_product_visibility">
-					<h4> Product Variants </h4>
-					<hr>
-					{{ control_data.productVariantTable | safe }}	
-				</div>
 
+				<div class="panel panel-default text-center" id="panel_variant_image">
+					<h4> Variant Image </h4>
+					<hr>
+					<div class="variant_image_main" style="background-image:url('{{ control_data.variant_thumbnails[control_data.variant_data.variant_id | string] }}');"></div>
+					<input type="hidden" id="variant_img_src" value="{{ control_data.variant_thumbnails[control_data.variant_data.variant_id | string] }}">
+					<hr>
+					<button type="button" class="btn btn-primary" id="btn_uploadImage" data-toggle="modal" data-target="#modal_uploadImage">Upload Image </button>
+					<hr>
+				</div>
+				
+				
 			</div>
 			<!-- End: product attribute editor column (right aligned) -->
 
@@ -109,33 +122,4 @@
 	</div>
 </div>
 
-
-<div class="data_container">
-	
-	<table class="table">
-		<thead>
-			<tr>
-			<th>Product ID</th>
-		    <th>Variant Price</th>
-		    <th>Variant Compare at price</th>
-			<th>Variant SKU</th>
-			<th>Variant Barcode</th>
-			<th>Variant Stock</th>
-			</tr>
-		</thead>
-		<tbody>
-		<tr>
-			<td><input type="hidden" id="currentVariantID" value="{{control_data.variant_data.variant_id}}"></td>
-			<td><input type="hidden" id="currentVariantPrice" value="{{control_data.variant_data.VariantPrice}}"></td>
-			<td><input type="hidden" id="currentVariantCompareAtPrice" value="{{control_data.variant_data.VariantCompareAtPrice}}"></td>
-			<td><input type="hidden" id="currentVariantSKU" value="{{control_data.variant_data.VariantSKU}}"></td>
-			<td><input type="hidden" id="currentVariantBarcode" value="{{control_data.variant_data.VariantBarcode}}"></td>
-			<td><input type="hidden" id="currentVariantStock" value="{{control_data.variant_data.VariantInventoryQty}}"></td>
-
-		</tr>
-		</tbody>
-	</table>
-
-	
-</div>
 {% endblock page_content %}

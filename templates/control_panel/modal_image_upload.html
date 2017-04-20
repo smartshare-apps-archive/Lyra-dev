@@ -17,6 +17,8 @@
                 <input  type="hidden" name="collection_id" value="{{collection_id}}">
               {% elif product_id %}
                 <input  type="hidden" name="product_id" value="{{product_id}}">
+              {% elif variant_id %}
+                <input  type="hidden" name="variant_id" value="{{variant_id}}">
               {% endif %}
               <span class="btn btn-primary btn-submit"> Submit <input type="submit" name="file"> </span>
           </form>

@@ -268,16 +268,16 @@ def productInventory():
 
 
 #route to single product inventory editor
-@product_routes.route('/control/products/inventory/<product_id>')
-@product_routes.route('/control/products/inventory/<product_id>/')
+@product_routes.route('/control/products/inventory/<variant_id>')
+@product_routes.route('/control/products/inventory/<variant_id>/')
 #@admin_required(current_app, session, login_redirect)
-def productInventoryEditor(product_id):
+def productInventoryEditor(variant_id):
 	ctl = current_app.config["ctl"]
 	data = {}
 
 	data["current_page"] = "product_inventory_editor"
 
-	response = ctl.render_tab(data["current_page"], data=product_id)
+	response = ctl.render_tab(data["current_page"], data=variant_id)
 
 	if response in config.ERROR_CODES:
 		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
@@ -290,7 +290,11 @@ def productInventoryEditor(product_id):
 	data["current_requests_js"] = "control_panel/product/Requests.js"
 
 	data["ts"] = int(time.time())
-	data["modals"] = [render_template("control_panel/modal.html")]
+
+	data["modals"] = [render_template("control_panel/modal.html"),
+					  render_template("control_panel/modal_image_upload.html", variant_id=variant_id), 
+					 ]
+
 	data["submenu"] = Markup(render_template("control_panel/subMenu_products.html"))
 
 	return render_template("control_panel/control.html", data=data)

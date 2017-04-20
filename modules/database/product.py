@@ -630,6 +630,20 @@ def updateProductResources(product_id, resource_id, resource_type, productDataba
 
 
 
+def updateProductVariantResources(variant_id, resource_id, productDatabase):
+	currentQuery = "UPDATE product_variants SET VariantImg=%s WHERE variant_id=%s;"
+	
+	print "Query:", currentQuery
+	try:
+		productDatabase.execute(currentQuery, (resource_id, variant_id, ))
+	except Exception  as e:
+		print "Exception: ", e
+		return None
+
+	return True
+
+
+
 def updateCollectionImage(collection_id, resource_id, productDatabase):
 	currentQuery = "UPDATE collections SET CollectionImageSrc=%s WHERE collection_id=%s;"
 

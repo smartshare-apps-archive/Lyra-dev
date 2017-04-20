@@ -16,7 +16,7 @@
 
 	<tr id="row_variant_{{variant.variant_id}}">
 		<td class="thumbnail_product_40">
-			<input type="hidden" id="variant_{{variant.variant_id}}_imgSrc" value="{{product_thumbnail[variant["VariantImg"] | int]}}">
+			<input type="hidden" class="variant-img-src" data-variantID="{{variant.variant_id}}" value="{{variant_thumbnails[variant.variant_id | string]}}">
 
 		</td>
 		<td> 
