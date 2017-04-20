@@ -19,6 +19,32 @@ function saveNewProduct(event){
 }
 
 
+function saveNewCollection(){
+	console.log("ok");
+
+	var collectionData = {};
+	collectionData["Title"] = $("#new_collection_title").val();
+	
+	if (collectionData["Title"] == ""){
+		return false;
+	}
+
+	$.ajax({
+	  method: "POST",
+	  url: "/actions/addCollection",
+	  dataType: "json",
+	  traditional:true,
+	  data: { collectionData: JSON.stringify(collectionData) }
+	})
+	  .done(function(collection_id) {
+			window.location.replace("/control/products/collections/"+collection_id);
+	  });
+}
+
+
+
+
+
 // updates a products inventory quantity from the quick edit modal
 function updateProductInventory(product_id, inventory_qty){
 	$.ajax({
@@ -76,20 +102,6 @@ function saveVariantTypes(event){
 }
 
 
-function saveNewCollection(event){
-	collectionData = JSON.stringify(event.data.collectionData)
-	console.log(collectionData);
-	$.ajax({
-	  method: "POST",
-	  url: "/actions/addCollection",
-	  dataType: "json",
-	  traditional:true,
-	  data: { collectionData: collectionData }
-	})
-	  .done(function(collection_id) {
-			window.location.replace("/control/products/collections/"+collection_id);
-	  });
-}
 
 
 

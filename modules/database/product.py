@@ -207,7 +207,11 @@ def loadProductsInCollection(collectionData, productDatabase):
 	conditions = collectionData["Conditions"]
 
 	formattedConditions = ""
-	conditions = conditions.split(";")
+	
+	if conditions:
+		conditions = conditions.split(";")
+	else:
+		return None
 
 	for i in range(len(conditions)):
 		currentCondition = conditions[i].split(":")
@@ -449,6 +453,29 @@ def saveNewProductData(productData, productDatabase):
 		return product_id
 
 
+#saves a new product to the database
+def saveNewCollectionData(collectionData, productDatabase):
+	currentQuery = "INSERT INTO collections(Title, CollectionImageSrc) VALUES(%s, %s);"
+	defaultImageID = "1"
+
+	collectionTuple = (collectionData["Title"], defaultImageID, )
+	
+	try:
+		productDatabase.execute(currentQuery, collectionTuple)
+	except Exception as e:
+		print "Error creating product: ", e
+
+	try:
+		productDatabase.execute("SELECT LAST_INSERT_ID();")
+	except Exception as e:
+		print "Exception: ", e
+
+	collection_id = productDatabase.fetchone()[0]
+
+	if collection_id:
+		return collection_id
+
+
 
 
 # save a new type of product variant based on variant options specified in product editor
@@ -470,28 +497,6 @@ def saveNewVariantData(product_id, variantData, productDatabase):
 
 
 
-
-
-#saves a new colleciton to the database
-def saveNewCollectionData(collectionData, productDatabase):
-	currentQuery = """INSERT INTO collections(Title, Conditions, Published, CollectionImageSrc) VALUES(%s,%s,%s,%s);"""
-	defaultCollectionImage = "1"
-	collectionTuple = (collectionData["Title"], collectionData["Conditions"], collectionData["Published"], defaultCollectionImage)
-	
-	try:
-		productDatabase.execute(currentQuery, collectionTuple)
-	except Exception as e:
-		print e
-
-	try:
-		productDatabase.execute("SELECT collection_id FROM collections WHERE Title=%s;", (collectionData["Title"],))
-	except Exception as e:
-		print e
-
-	collection_id = productDatabase.fetchone()
-	
-	if collection_id:
-		return collection_id[0]
 
 
 

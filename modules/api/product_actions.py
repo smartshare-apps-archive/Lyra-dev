@@ -46,6 +46,28 @@ def addProduct():
 	return json.dumps(product_id)
 
 
+
+@productActions.route('/actions/addCollection', methods=['POST'])
+#@admin_required(current_app, session, login_redirect)
+def addCollection():
+	collectionData = request.form['collectionData']
+	collectionData = json.loads(collectionData)
+
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
+	productDatabase = db.cursor()
+
+	collection_id = product.saveNewCollectionData(collectionData, productDatabase)
+
+	db.commit()
+	db.close()
+
+	return json.dumps(collection_id)
+
+
+
+
 @productActions.route('/actions/addProductVariant', methods=['POST'])
 ##@admin_required(current_app, session, login_redirect)
 def addProductVariant():
@@ -68,26 +90,6 @@ def addProductVariant():
 	return json.dumps(product_id)
 
 
-
-
-
-@productActions.route('/actions/addCollection', methods=['POST'])
-#@admin_required(current_app, session, login_redirect)
-def addCollection():
-	collectionData = request.form['collectionData']
-	collectionData = json.loads(collectionData)
-	
-	instance_db = instance_handle()
-	db = db_handle(instance_db)
-
-	productDatabase = db.cursor()
-
-	collection_id = product.saveNewCollectionData(collectionData, productDatabase)
-
-	db.commit()
-	db.close()
-
-	return json.dumps(collection_id)
 
 
 

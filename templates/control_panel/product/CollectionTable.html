@@ -22,13 +22,14 @@
 
 							<div class="product_info_cell"> 
 							<hr class="unpadded_hr" >
-						
-							{% for condition in collection["Conditions"] %}
-								<button type="button" class="btn btn-default btn_info_cell"> 
-									<b class="info_field">{{condition}}</b> 
-									
-								</button> 
-							{% endfor %}	
+							{% if collection["Conditions"] %}
+								{% for condition in collection["Conditions"] %}
+									<button type="button" class="btn btn-default btn_info_cell"> 
+										<b class="info_field">{{condition}}</b> 
+										
+									</button> 
+								{% endfor %}	
+							{% endif %}
 							</div> 
 				</div>
 				<input type="hidden" class="img_src" value="{{collection.ImageSrc}}">
@@ -50,7 +51,9 @@
 {% else %}
 		<div id="no_collections" class="text-center">
 			<h4> You haven't added any collections to your store yet. </h4><hr>
-			<button type="button" class="btn btn-link btn-lg"><a href="/control/products/addCollection"> Add collection </a></button>
+				<input type="hidden" id="collectionIDList" value="">
+
+			<button type="button" class="btn btn-link btn-lg" data-toggle="modal" data-target="#modal_addCollection"> Add collection </button>
 		</div>
 {% endif %}
 </div>

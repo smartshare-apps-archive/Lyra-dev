@@ -10,8 +10,10 @@ var currentSearchFilter = {"filter":"Title"};
 var selectAll = true;
 
 $(document).ready(function(){
+
 		collectionIDList = $("#collectionIDList").val().split(',');
 		collectionIDList.pop();
+		
 		bindTableEvents();
 		setupActionBar();
 		scaleTiles();
@@ -30,7 +32,8 @@ function bindTableEvents(){
 	});
 
 
-	$("#btn_addCollection").click(go_newCollectionEditor);
+	$("#btn_addNewCollection").click(saveNewCollection);
+
 	$(".btn_bulk_edit_collections").click({collection_id_list: selectedCollections}, goToBulkCollectionEditor);
 	$(".btn_bulk_publish_collections").click({published:"true", collection_id_list: selectedCollections}, bulkPublish);
 	$(".btn_bulk_hide_collections").click({published:"false", collection_id_list: selectedCollections}, bulkPublish);
@@ -132,11 +135,6 @@ function goToCollectionEditor(event){
 }
 
 
-
-function go_newCollectionEditor(){
-	window.location.replace('/control/products/addCollection');
-
-}
 
 function goToBulkCollectionEditor(event){
 	var collectionIDList = ""

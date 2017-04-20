@@ -142,35 +142,6 @@ def collectionEditor(collection_id):
 
 
 
-#route to single collection editor
-@product_routes.route('/control/products/addCollection/')
-@product_routes.route('/control/products/addColection')
-#@admin_required(current_app, session, login_redirect)
-def productEditor_newCollection():
-	ctl = current_app.config["ctl"]
-	data = {}
-
-	data["current_page"] = "collection_editor_new"
-
-	response = ctl.render_tab("collection_editor_new")
-
-	if response in config.ERROR_CODES:
-		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
-	else:
-		data["current_page_content"] = response
-
-
-	data["ts"] = int(time.time())
-	data["modals"] = [render_template("control_panel/modal.html")]
-	data["submenu"] = Markup(render_template("control_panel/subMenu_products.html"))
-	data["current_class_js"] = "control_panel/product/Core.js"
-	data["current_page_js"] = "control_panel/product/CollectionEditorNew.js"
-	data["current_requests_js"] = "control_panel/product/Requests.js"
-
-	return render_template("control_panel/control.html", data=data)
-
-
-
 
 #route to bulk collection editor
 @product_routes.route('/control/products/collections/bulkEditor', methods=['GET'])

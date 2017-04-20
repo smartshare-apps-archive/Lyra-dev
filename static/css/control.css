@@ -2189,6 +2189,10 @@ top:-1px;
     transform: translateY(-50%);
 }
 
+.btn-noclick{
+    cursor:default;
+}
+
 .btn-view-shipment-products{
     margin-left:5px;
 }
@@ -2196,6 +2200,8 @@ top:-1px;
 .btn-delete-shipment{
    
 }
+
+
 
 #order_shipment_details{
     font-size:14px;

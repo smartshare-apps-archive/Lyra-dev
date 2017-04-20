@@ -5,7 +5,7 @@
 	
 
 	
-		<button type="button" class="btn btn-primary btn_float_right" id="btn_addCollection">Create new collection</button>
+		<button type="button" class="btn btn-primary btn_float_right" data-toggle="modal" data-target="#modal_addCollection">Create new collection</button>
 	</div>
 </div>
 
@@ -31,6 +31,12 @@
 				
 	</div>
 </div>
+
+
+
+{% for modal in control_data.modals %}
+	{{ modal | safe }}
+{% endfor %}
 
 
 

@@ -86,14 +86,14 @@
 
 				<div class="panel panel-default" id="panel_product_options_editor">
 					<div class="form-group">
-				  		{% if control_data.variant_types | length >= 1 %}
+				  		
 							<div id="variant_attributes">
-					  		<h4>Variant attributes: </h4><hr>
+					  			<h4> Variant attributes: </h4> <hr>
 					  			{%  for option,value in control_data.variant_data.VariantData.iteritems() %}
-					 					<h3 class="h3-inline">{{option}}:</h3> <button type="button" class="btn btn-primary btn_variantAttribute_inventory"> {{value}} </button> <hr>
+					 					<h3 class="h3-inline">{{option}}:</h3> <button type="button" class="btn btn-primary btn_variantAttribute_inventory btn-noclick"> {{value}} </button> <hr>
 					  			{% endfor %}
 					  		</div>
-					  	{% endif %}
+					
 					</div>
 				</div>
 

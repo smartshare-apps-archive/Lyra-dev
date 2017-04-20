@@ -2,6 +2,10 @@ from resources import *
 
 def formatCollectionConditions(collectionConditions):
 	print "Before:", collectionConditions
+	
+	if type(collectionConditions) == type(None):
+		return None
+
 	collectionConditions = collectionConditions.split(';')
 
 	for i in range(len(collectionConditions)):

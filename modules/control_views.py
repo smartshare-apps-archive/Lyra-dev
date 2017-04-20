@@ -156,6 +156,9 @@ class ControlPanel(object):
 		self.control_data["productCollectionTable"] = self.product_CollectionTable()
 		self.control_data["productCollectionActionPanel"] = self.product_CollectionActionPanel()
 		self.control_data["productSearchPanel"] = self.product_SearchPanel()
+
+		self.control_data["modals"] = [render_template("control_panel/product/modal_add_collection.html")]
+
 		return render_template("control_panel/product/Collections.html", control_data = self.control_data)
 
 
@@ -247,9 +250,10 @@ class ControlPanel(object):
 
 		formattedCollectionConditions = {}
 
-		for i in range(len(collectionConditions)):
-			formattedCollectionConditions[str(i)] = collectionConditions[i]
-		
+		if(collectionConditions):
+			for i in range(len(collectionConditions)):
+				formattedCollectionConditions[str(i)] = collectionConditions[i]
+			
 		products = loadProductsInCollection(collectionData, self.database)	
 		
 		self.control_data["collectionProductsTable"] = render_template("control_panel/product/productEditor_productsInCollection.html", products = products)	
@@ -258,7 +262,6 @@ class ControlPanel(object):
 		self.control_data["formattedCollectionConditions"] = formattedCollectionConditions
 		self.control_data["product_tags"] = config.loadProductTags(self.instance_db)
 
-		print "product tags:!!!!", self.control_data["product_tags"]
 
 		collection_image_src = resources.loadResourceURI(collectionData["CollectionImageSrc"], self.database)
 
@@ -480,8 +483,9 @@ class ControlPanel(object):
 		if type(collectionList) != type(None):
 			for i in range(len(collectionList)):
 				collectionList[i]["Conditions"] = formatCollectionConditions(collectionList[i]["Conditions"])
-				for j in range(len(collectionList[i]["Conditions"])):
-					collectionList[i]["Conditions"][j] = " ".join(collectionList[i]["Conditions"][j])
+				if collectionList[i]["Conditions"]: 
+					for j in range(len(collectionList[i]["Conditions"])):
+						collectionList[i]["Conditions"][j] = " ".join(collectionList[i]["Conditions"][j])
 			
 		if type(collectionList) != type(None):
 			for collection in collectionList:
