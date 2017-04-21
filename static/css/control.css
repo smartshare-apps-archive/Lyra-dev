@@ -492,12 +492,37 @@ h4 {
 }
 
 .btn-noclick{
-
+    background-color: white;
+    color: #333333;
+    border:1px solid rgba(53,53,53,0.3);
 }
 
 .btn-noclick:hover{
     cursor:default;
+    background-color: white;
+    color: #333333;
+    border:1px solid rgba(53,53,53,0.3);
+
 }
+
+.btn-noclick:active{
+    cursor:default;
+    box-shadow: none !important;
+    background-color: white  !important;
+    color: #333333 !important;
+    border:1px solid rgba(53,53,53,0.3)  !important;
+}
+
+.btn-noclick:focus{
+    cursor:default;
+    box-shadow: none !important;
+    background-color: white  !important;
+    color: #333333 !important;
+    border:1px solid rgba(53,53,53,0.3)  !important;
+}
+
+
+
 
 #btn_confirmProductChanges {
     margin-left:20px;
@@ -1810,24 +1835,16 @@ top:-1px;
     display:none;
 }
 
-#condition_template{
-    display:none;
+#panel_collection_conditions{
+    padding:10px;
 }
 
-#condition_rule_template{
-    display:none;
+.condition-input-group select{
+    width:50% !important;
 }
 
-#condition_tag_selection{
-    display:none;
-}
-
-#condition_text_input{
-    display:none;
-}
-
-#delete_condition_template{
-    display:none;
+.condition-input-group input[type=text]{
+    width:50% !important;
 }
 
 /* bulk editor styles */

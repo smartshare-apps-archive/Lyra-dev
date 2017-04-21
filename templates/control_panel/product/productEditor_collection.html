@@ -12,7 +12,7 @@
 <div class="row">
 	<!-- Begin collection editor content div -->
 	<div class="col-xs-12 tab_content">
-		<div class="container-fluid collection-editor-container">
+		<div class="container-fluid main-content-container-sm">
 
 		<div class="row">
 			<!-- Begin: main collection editor column (left aligned) -->
@@ -20,8 +20,10 @@
 
 				<div class="panel panel-default" id="panel_collection_text_editor">
 					<div class="form-group">
-				  		<h5> Title </h5>
-				  			<input type="text" class="form-control" id="input_collection_title" value="{{control_data.collection_data.Title}}">
+		  				<div class="input-group">
+			  				<span class="input-group-addon"> Collection Title </span>
+				  			<input type="text" class="form-control collection-input-field" data-fieldID="Title" value="{{control_data.collection_data.Title}}">
+			  			</div>
 						<br>
 					
 						<h5> Description </h5>
@@ -35,8 +37,8 @@
 
 			<div class="panel panel-default" id="panel_collection_visibility">
 				
-					<div class="btn-group select_container pull-right" role="group">
-						<label class="btn btn-default">
+					<div class="btn-group select_container" role="group">
+						<label class="btn btn-default btn-noclick">
 							Products are required to match all conditions 
 						</label>
 						
@@ -48,18 +50,35 @@
 					</div>
 
 
-					<hr>
-					<br>
+					
+				<hr>	
 				<!-- Begin condition form editor -->
-				<div class="form-group" id="form_collection_conditions">
-					{% for condition_id, condition in control_data.formattedCollectionConditions.iteritems() %}
-						
-						<input type="hidden" id="condition_{{condition_id}}" value="{{condition}}" class="collection_condition">
-						
-					{% endfor %}
+				<div class="panel panel-default text-center" id="panel_collection_conditions">
+					{% if formattedCollectionConditions | length == 0 %}
+						<h5> This collection does not have any conditions yet. </h5>
+					{% else %}
+						{% for condition_id, condition in control_data.formattedCollectionConditions.iteritems() %}
+							<input type="text" class="collection-condition" data-conditionID="{{condition_id}}" value="{{condition}}">
+						{% endfor %}
+					{% endif %}
 				</div>
+				<hr>
+				<!-- start condition creation panel -->
+				<div class="input-group">
+		          <span class="input-group-addon" id="type-addon"> Set condition on </span>
+		            <select class="form-control" id="select_newConditionType"> 
+		              <option value="Tag"> Tag </option>
+		              <option value="Title"> Title </option>
+		              <option value="Price"> Price </option>
+           			 </select>
 
-				<button type="button" class="btn btn-warning" id="btn_addCondition">Add condition <span class="glyphicon glyphicon-plus"> </span> </button>
+           			 <span class="input-group-btn">
+           			 	<button type="button" class="btn btn-success" id="btn_addCondition" >Add condition <span class="glyphicon glyphicon-plus"> </span> </button>
+           			 </span>
+      			  </div>
+
+				
+				<!-- end condition creation panel -->
 
 				<!-- End: condition form editor -->
 
@@ -92,22 +111,23 @@
 
        				 			<label class="btn btn-default">
 									{% if control_data.collection_data.Published %}
-										<input type='checkbox' class="collection-input-field" data-fieldID="Published" data-collectionID="{{control_data.collection_data.collection_id}}" checked> 
+										<input type='checkbox' class="collection-input-field selectTableItem" data-fieldID="Published" data-collectionID="{{control_data.collection_data.collection_id}}" checked> 
 									{% else %}
-										<input type='checkbox' class="collection-input-field" data-fieldID="Published" data-collectionID="{{control_data.collection_data.collection_id}}"> 
+										<input type='checkbox' class="collection-input-field selectTableItem" data-fieldID="Published" data-collectionID="{{control_data.collection_data.collection_id}}"> 
 									{% endif %}
 						        </label>
 						 
-								<label class="btn btn-default">
+								<label class="btn btn-default btn-noclick">
 									Show in Online store? 
 								 </label>
 					</div>
 				</div>
 
 				<div class="panel panel-default text-center" id="panel_collection_image">
+
 					<h4> Collection Image </h4>
 					<hr>
-					<div class="collection_image_main"></div>
+					<div class="collection_image_main" style="background-image:url('{{control_data["collection_image_src"]}}');"></div>
 					
 					<input type="hidden" id="collection_img_src" value="{{control_data["collection_image_src"]}}">
 					<hr>
@@ -127,57 +147,19 @@
 </div>
 
 
-<div id="condition_template">
-	<select class="condition_field select_collection_condition" id="field_x">
-	  <option value="Title">Product Title</option>
-	  <option value="Tags">Product Tag</option>
-	   <option value="Type">Product Type</option>
-	  <option value="VariantPrice">Product Price</option>
-	</select>
-
-</div>
 
 
-<div id="condition_rule_template">
-	<select class="condition_rule select_collection_condition" id="rule_x">
-	  <option value= "=">is equal to</option>
-	  <option value= "!=">is not equal to</option>
-	  <option value= ">">is greater than</option>
-	  <option value= "<">is less than</option>
-	  <option value= "sw">starts with</option>
-	  <option value= "c">contains</option>
-	</select>
-</div>
-
-
-<div id="condition_tag_selection">
-		<select class="condition_input_field select_collection_condition select_tag" id="tag_x">
-		  {% for tag in control_data.product_tags %}
-		  <option>{{tag}}</option>
-		  {% endfor %}
-		</select>
-
-</div>
-
-
-<div id="condition_text_input">
-		<input type="text" class="form-control condition_input_field input_text_condition" id="input_x">
-</div>
-
-
-<div id="delete_condition_template">
-	<button type="button" class="btn btn-warning btn_remove_condition" id="btn_deleteCondition_x"><span class="glyphicon glyphicon-trash"> </span> </button>
-</div>
-
-<input type="hidden" id="rule_policy" value="{{control_data.collection_data.Strict}}">
 <input type="hidden" id="collection_id" value="{{control_data.collection_data.collection_id}}">
-<input type="hidden" id="collection_image_url" value="{{control_data.collection_data.CollectionImageSrc}}">
 <input type="hidden" id="collection_description" value="{{control_data.collection_data.BodyHTML}}">
+<input type="hidden" id="product_tags" value="{% for tag in control_data.product_tags %}{{tag}},{% endfor %}">
 <div class="row">
 	<div class="col-xs-12" id="footer_products">	
 		
 	</div>
 </div>
 
+{% for modal in control_data.modals %}
+	{{ modal | safe }}
+{% endfor %}
 
 {% endblock page_content %}

@@ -1,92 +1,118 @@
-var form_collection_conditions;
-var rule_policy;
 
-var conditionIDList = [];
-var collectionData = {}
-
-var collectionID;
-var currentConditions = "";
-var collection_description = "";
-
-var defaultCondition = ["Title","isequalto",""]
+var collectionData = {};
+var collectionConditions = {};
 
 var btn_saveCollection;
 var btn_deleteCollection;
 var btn_confirmCollectionChanges;
 var btn_addCondition;
 
+var select_newConditionType;
+var panel_collection_conditions;
+
+var conditionFields = {
+	"Price": [">", "<", ">=", "<=", "="],
+	"Title": ["c"],
+	"Tag": ["c", "="]
+
+};
+
+var allProductTags = [];
+
+
+var conditionTemplates = {
+	"condition-input-group": "<div class=\"input-group condition-input-group\"></div>",
+	"select-condition-rule": "<select class=\"form-control select-condition-rule\"></select>",
+	"condition_type_label": "<span class=\"input-group-addon condition-type-label\" id=\"type-addon\">replace_me</span>",
+	"condition_value_text": "<input type=\"text\" class=\"form-control condition-value-input condition-text-value\">",
+	"condition_value_tag": "<select class=\"form-control condition-value-input condition-tag-value\"></select>",
+	"condition_value_float": "<input type=\"text\" class=\"form-control condition-value-input condition-float-value\">",
+	"delete-condition-btn": "<span class=\"input-group-btn delete-condition-btn\"><button type=\"button\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"> </span> </button></span>"
+};
+
+
+
 
 $(document).ready(function(){
-	collectionID = $("#collection_id").val();
 
 	bindElements();
-	setupInitialConditions();
-	remapConditions();
+
 	setupDescriptionEditor();
-	loadImages();
+	bindEvents();
 
-	btn_confirmCollectionChanges.click({collection_data: collectionData}, saveCollectionChanges);
-	btn_saveCollection.click(updateCollectionData);
-
-
+	updateCollectionData();
 });
-
-
-function clearEvents(){
-	btn_addCondition.unbind();
-
-	$(".condition_field").unbind();
-	$(".select_collection_condition").unbind();
-	$(".condition_input_field").unbind();
-
-	$(".btn_remove_condition").each(function(){
-		$(this).unbind();
-	});
-
-}
-
-
-function bindEvents(){
-	btn_addCondition.click(createNewCondition);
-
-	$(".condition_field").change(replaceConditionInput);
-	$(".select_collection_condition").change(formatConditions);
-	$(".condition_input_field").change(formatConditions);
-
-	// button event handling
-
-	$(".btn_remove_condition").each(function(){
-		$(this).click({conditionID:$(this).attr('id')}, removeCondition);
-	});
-
-	btn_deleteCollection.click({collection_id: collectionID}, deleteCollection);
-
-	$('#collection_description_editor').on('summernote.change', function(e) {
-		$("#collection_description").val($('#collection_description_editor').summernote('code'));
-	});
-
-	$(".collection-input-field").each(function(){
-		$(this).change(updateCollectionData);
-	});
-
-}
 
 
 
 function bindElements(){
-	form_collection_conditions = $("#form_collection_conditions");
-	rule_policy = $("#rule_policy");
-	
-
-	btn_addCondition = $("#btn_addCondition");
-	btn_saveCollection = $("#btn_saveCollection")
+	btn_saveCollection = $("#btn_saveCollection");
 	btn_deleteCollection = $("#btn_deleteCollection");
-	btn_confirmCollectionChanges = $("#btn_confirmCollectionChanges")
+	btn_confirmCollectionChanges = $("#btn_confirmCollectionChanges");
+	btn_addCondition = $("#btn_addCondition");
+
+	select_newConditionType = $("#select_newConditionType");
+	panel_collection_conditions = $("#panel_collection_conditions");
+
+	//populate product tags list
+	allProductTags = $("#product_tags").val().split(',');
+	allProductTags.pop();
+
+
 }
 
 
 
+function bindEvents(){
+
+	$(".collection-input-field").each(function(){
+		var fieldID = $(this).attr('data-fieldID');
+
+		$(this).change(function(){
+		
+			if(fieldID == "Strict" || fieldID == "Published"){
+				collectionData[fieldID] = $(this).prop("checked");
+			}
+			else{
+				collectionData[fieldID] = $(this).val();
+			}
+
+			console.log(collectionData);
+		});
+	});
+
+
+	btn_addCondition.click(addCollectionCondition);
+
+
+}	
+
+
+
+function updateCollectionData(){
+
+	$(".collection-input-field").each(function(){
+		var fieldID = $(this).attr('data-fieldID');
+		
+		if(fieldID == "Strict" || fieldID == "Published"){
+			collectionData[fieldID] = $(this).prop("checked");
+		}
+		else{
+			collectionData[fieldID] = $(this).val();
+		}
+
+	});
+
+	collectionData["Conditions"] = collectionConditions;
+
+	console.log(collectionData);
+}
+
+
+
+
 function setupDescriptionEditor(){
+	
 	$('#collection_description_editor').summernote({
 		  height: 200,                 // set editor height
 		  minHeight: 200,             // set minimum height of editor
@@ -95,290 +121,179 @@ function setupDescriptionEditor(){
 		});
 
 	collection_description = $("#collection_description").val();
+
 	$('#collection_description_editor').summernote('code', collection_description);
+
+}
+
+
+
+
+
+function addCollectionCondition(){
+	var conditionType = select_newConditionType.val();
+
+	var nConditions = Object.keys(collectionConditions).length;
+	var conditionID = nConditions + 1;
+
+	if(nConditions == 0){
+		panel_collection_conditions.html("");
+
+	}
+
+	// append a container for the condition controls, e.g. condition rules
+	panel_collection_conditions.append(conditionTemplates["condition-input-group"]);
+	var collection_input_group = $(".condition-input-group").last();
+
+	var conditionTypeLabel = "";
+	var conditionValueType = "";
+
+		
+	switch(conditionType){
+		case "Price": 
+				conditionTypeLabel = "Price "; 
+				conditionValueType = "condition_value_float";
+			break;
+		case "Tag": 
+				conditionTypeLabel = "Tag";
+				conditionValueType = "condition_value_tag";
+			break;
+		case "Title": 
+				conditionTypeLabel = "Product Title ";
+				conditionValueType = "condition_value_text";
+			break;
+		default:
+			conditionTypeLabel = "Invalid condition type.";
+	}
+
+
+	collection_input_group.append(conditionTemplates["condition_type_label"].replace("replace_me", conditionTypeLabel));
+
+	var condition_type_label = $(".condition-type-label").last();
+	condition_type_label.attr('data-conditionType', conditionType);
+
+	collection_input_group.append(conditionTemplates["select-condition-rule"]);
+
+	// append the dropdown to select the condition rule (e.g. gt, eq, lt, contains)
+	var select_condition_rule = $(".select-condition-rule").last();
+
+	// add the possible rules to the select box
+	for(var i=0; i<conditionFields[conditionType].length; i++){
+		var ruleLabel = "";
+		
+		switch(conditionFields[conditionType][i]){
+
+			case 'c': ruleLabel = "contains"; 
+				break;
+			case '=': ruleLabel = "is equal to"; 
+				break;
+			case '>=': ruleLabel = "is greater than or equal to"; 
+				break;
+			case '<=': ruleLabel = "is less than or equal to"; 
+				break;
+			case '>': ruleLabel = "is greater than"; 
+				break;
+			case '<': ruleLabel = "is less than"; 
+				break;
+
+			default:
+				ruleLabel = "Invalid rule";
+		}
+
+		select_condition_rule.append("<option value=\"" + conditionFields[conditionType][i] +"\">" + ruleLabel + "</option>");
+
+	}
+
+	collection_input_group.append(conditionTemplates[conditionValueType]);
+	var condition_value_input = $(".condition-value-input").last();
+
+	if(conditionValueType == "condition_value_tag"){
+
+		for(var i=0; i<allProductTags.length; i++){
+			condition_value_input.append("<option value=\"" + allProductTags[i] + "\">" + allProductTags[i] + "</option>");
+		}
+	}
+
+	collection_input_group.append(conditionTemplates["delete-condition-btn"]);
+	var delete_condition_btn = $(".delete-condition-btn").last();
+
+	
+
+	mapConditions();
+}
+
+function mapConditions(){
+	collectionConditions = {};
+
+	$(".condition-input-group").each(function(index){
+
+		var conditionID =  String(index);
+
+		$(this).attr('data-conditionID', conditionID);
+
+		var conditionRuleInput = $(this).find('.select-condition-rule');
+		var conditionValueInput = $(this).find(".condition-value-input");
+		var deleteConditionBtn = $(this).find(".delete-condition-btn");
+		var conditionTypeLabel = $(this).find('.condition-type-label');
+
+		conditionRuleInput.attr('data-conditionID', conditionID);
+		conditionValueInput.attr('data-conditionID', conditionID);
+		deleteConditionBtn.attr('data-conditionID', conditionID);
+		conditionTypeLabel.attr('data-conditionID', conditionID);
+
+		collectionConditions[conditionID] = {};
+		collectionConditions[conditionID]["type"] = conditionTypeLabel.attr('data-conditionType');
+		collectionConditions[conditionID]["rule"] = conditionRuleInput.val();
+		collectionConditions[conditionID]["value"] = conditionValueInput.val();
+
+		conditionRuleInput.unbind();
+		conditionValueInput.unbind();
+		deleteConditionBtn.unbind();
+
+		conditionRuleInput.change({conditionID: conditionID}, updateCollectionCondition);
+		conditionValueInput.change({conditionID: conditionID}, updateCollectionCondition);
+		deleteConditionBtn.click({conditionID: conditionID}, deleteCollectionCondition);
+
+	});
+
+	var nConditions = Object.keys(collectionConditions).length;
+
+	if(nConditions == 0){
+		panel_collection_conditions.html("<h5> This collection does not have any conditions yet. </h5>");
+	}
 
 	updateCollectionData();
 }
 
 
+function updateCollectionCondition(event){
+	console.log("Updating: " + conditionID);
 
-function setupInitialConditions(){
-	$(".collection_condition").each(function(){
-		var currentCondition = $(this).val();
+	var conditionID = event.data.conditionID;
+	var selectorString = '[data-conditionID="' + conditionID + '"]';
 
-		currentCondition = replaceAll(currentCondition,' ','');
-		currentCondition = replaceAll(currentCondition,'u\'','\'');
-
-		var currentConditionID = $(this).attr('id').split('_')[1];
-
-		conditionIDList.push(currentConditionID);
-
-		condition = currentCondition.slice(1,-1);
-		condition = condition.split(',');
-		
-		field = condition[0].slice(1,-1);
-		rule = condition[1].slice(1,-1);
-		value = condition[2].slice(1,-1);
+	var conditionTypeLabel = $(".condition-type-label" + selectorString);
+	var conditionRuleInput = $(".select-condition-rule" + selectorString);
+	var conditionValueInput = $(".condition-value-input" + selectorString);
+	var deleteConditionBtn = $(".delete-condition-btn" + selectorString);
 
 
-		condition = [field, rule, value];
+	collectionConditions[conditionID] = {};
+	collectionConditions[conditionID]["type"] = conditionTypeLabel.attr('data-conditionType');
+	collectionConditions[conditionID]["rule"] = conditionRuleInput.val();
+	collectionConditions[conditionID]["value"] = conditionValueInput.val();
 
-		// build a template for each condition selector specific to it's ID 
-		conditionTemplate = buildConditionTemplate(currentConditionID, condition=condition);
-
-		// add the condition into the html of the collection condition form
-		addCondition(currentConditionID, conditionTemplate, condition=condition);
-
-
-	})
-
-	rule_policy_value = rule_policy.val();
-	
-	if(rule_policy_value == 1){
-		$("#radio_Strict").prop("checked","true");
-		$("#radio_Lax").prop("checked","false");
-	}
-	else{
-		$("#radio_Lax").prop("checked","true");
-		$("#radio_Strict").prop("checked","false");
-	}
-
-	conditionIDList.sort();
+	updateCollectionData();
 }
 
 
-// dynamically assembly the html for a collection condition 
-function buildConditionTemplate(conditionID, condition=defaultCondition){
-	conditionContainer = "<div class=\"condition_container\" id=\"condition_" + conditionID + "\">";
-	conditionFieldTemplate = $("#condition_template").html();
-	conditionRuleTemplate = $("#condition_rule_template").html();
-	deleteConditionTemplate = $("#delete_condition_template").html();
+function deleteCollectionCondition(event){
+	var conditionID = event.data.conditionID;
 
-	var field = condition[0];
-	
-	if(field == "Tags"){
-		conditionInputTemplate = $("#condition_tag_selection").html();
-		conditionInputTemplate = conditionInputTemplate.replace("tag_x", "tag_"+conditionID)
-	}
-	else{
-		conditionInputTemplate = $("#condition_text_input").html();
-		conditionInputTemplate = conditionInputTemplate.replace("input_x", "input_"+conditionID)
-	}
+	var selectorString = '[data-conditionID="' + conditionID + '"]';
+	var condition_input_group = $(".condition-input-group" + selectorString);
 
-	conditionFieldTemplate = conditionFieldTemplate.replace("field_x", "field_"+conditionID)
-	conditionRuleTemplate = conditionRuleTemplate.replace("rule_x", "rule_"+conditionID)
-	deleteConditionTemplate = deleteConditionTemplate.replace("_x","_"+conditionID);
-	
+	condition_input_group.remove();
 
-	return conditionContainer + conditionFieldTemplate + conditionRuleTemplate + "<br><br>" + conditionInputTemplate + deleteConditionTemplate + "<hr></div>";
-
-}
-
-
-
-function createNewCondition(){
-	var nConditions = conditionIDList.length;
-	var newConditionID = (nConditions).toString();
-	var newConditionTemplate = buildConditionTemplate(newConditionID);
-
-	conditionIDList.push(newConditionID);
-	
-	addCondition(newConditionID, newConditionTemplate);
-	
-	clearEvents();
-	bindEvents();
-
-}
-
-
-
-function removeCondition(event){
-	conditionID = event.data.conditionID
-	conditionContainer = $("#"+conditionID).parent();
-	conditionContainer.remove();
-	
-	remapConditions();
-}
-
-
-
-// sorts out condition rules on the page to be in the proper order, allowing for easy dynamic editing
-function remapConditions(){
-
-	conditionIDList = [];
-	nConditions = $(".condition_container").length;
-
-	for(var i=0;i<nConditions;i++){
-		conditionIDList.push(i.toString());
-	}
-
-	$(".condition_container").each(function(index){
-
-		//temporarily store the previous condition attributes in these
-		field = $(this).children(".condition_field").val();
-		rule = $(this).children(".condition_rule").val();
-		value = $(this).children(".condition_input_field").val();
-
-		currentConditionID = $(this).attr('id').split('_')[1];
-		
-		beforeHTML = $(this).html()
-		afterHTML = replaceAll(beforeHTML, "_"+currentConditionID, "_"+index)
-		$(this).attr("id","condition_"+index);
-
-		$(this).html(afterHTML);
-
-		// repopulate remapped fields
-		$(this).children(".condition_field").val(field);
-		$(this).children(".condition_rule").val(rule);
-		$(this).children(".condition_input_field").val(value);
-
-	});
-
-
-	clearEvents();
-	bindEvents();
-	formatConditions();
-}
-
-
-
-function formatConditions(){
-	var conditions = "";
-	$(".condition_container").each(function(){
-		var field = $(this).children(".condition_field").val();
-		var rule = $(this).children(".condition_rule").val();
-		var value = $(this).children(".condition_input_field").val();
-		conditions += field + ":" + rule + ":" + value + ";"
-	});
-
-	
-	currentConditions = conditions;
-}
-
-
-function replaceConditionInput(e){
-	var conditionContainer = $(e.target).closest('.condition_container');
-	var selectedField = $(e.target).val();
-	var conditionID = $(e.target).attr("id").split('_')[1];
-	
-	var conditionInputField  = conditionContainer.children(".condition_input_field");
-
-	var replacementField = ""
-	
-	switch(selectedField){
-		case "Tags":
-			replacementField = $("#condition_tag_selection").html();
-			replacementField = replacementField.replace("tag_x", "tag_"+conditionID)
-			break;
-		case "Title":
-			replacementField = $("#condition_text_input").html();
-			replacementField = replacementField.replace("input_x", "tag_"+conditionID)
-			break;
-		default:
-			console.log("No, not recognized.");
-	}		
-
-	conditionInputField.replaceWith(replacementField);
-	
-	clearEvents();
-	bindEvents();
-
-}
-
-
-function addCondition(conditionID, conditionTemplate, condition=defaultCondition){
-	
-	form_collection_conditions.append(conditionTemplate);	// add the new condition template to the conditions panel
-
-	var selectedField = "";
-	var selectedRule = "";
-	var selectedValue = condition[2];
-
-	var dropDown = "";
-
-	var field = condition[0];
-	var rule = condition[1];
-	var value = condition[2];
-
-	switch(field){
-		case "Tags":
-			selectedField = "Tags";
-			$("#tag_"+conditionID).val(selectedValue);
-			break;
-		case "Title":
-			selectedField = "Title";
-			$("#input_"+conditionID).val(selectedValue);
-			break;
-		case "Type":
-			selectedField = "Type";
-			$("#type_"+conditionID).val(selectedValue);
-			break;
-		default:
-			selectedField = "Title";
-			$("#input_"+conditionID).val(selectedValue);
-	}
-
-
-	switch(value){
-		case "isequalto":
-			selectedRule = "=";
-			break;
-		case "isnotequalto":
-			selectedRule = "!=";
-			break;
-		case "contains":
-			selectedRule = "c";
-			break;
-		case "islessthan":
-			selectedRule = "<";
-			break;
-		case "isgreaterthan":
-			selectedRule = ">";
-			break;
-		default:
-			selectedRule = "=";
-	}
-
-
-
-	$("#field_"+conditionID).val(selectedField);
-	$("#rule_"+conditionID).val(selectedRule);
-}
-
-
-function updateCollectionData(){
-
-	$(".collection-input-field").each(function(){
-		var field = $(this).attr('data-fieldID');
-
-		if(field == 'Published'){
-			var value = $(this).prop('checked');
-		}
-		else if(field == 'Strict'){
-			var value = $(this).prop('checked');
-		}
-		else{
-			var value = $(this).val();
-		}
-
-		collectionData[field] = value;
-	});
-
-	collectionData["collection_id"] = collectionID;
-	collectionData["Conditions"] = currentConditions;
-	collectionData["Title"] = $("#input_collection_title").val();
-	collectionData["BodyHTML"] = $("#collection_description").val();
-	console.log(collectionData);
-
-}
-
-
-
-
-function loadImages(){
-	collectionImageURL = $("#collection_img_src").val();
-	main_image_container = $(".collection_image_main");
-	main_image_container.css("background-image","url('" + collectionImageURL + "')");
-
-
+	mapConditions();
 }

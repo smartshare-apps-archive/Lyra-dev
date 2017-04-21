@@ -4,23 +4,28 @@ var rule_policy;
 var conditionIDList = [];
 var collectionData = {}
 
+var collectionID;
 var currentConditions = "";
+var collection_description = "";
 
 var defaultCondition = ["Title","isequalto",""]
 
 var btn_saveCollection;
+var btn_deleteCollection;
 var btn_confirmCollectionChanges;
 var btn_addCondition;
 
 
 $(document).ready(function(){
+	collectionID = $("#collection_id").val();
 
 	bindElements();
 	setupInitialConditions();
 	remapConditions();
+	setupDescriptionEditor();
 	loadImages();
 
-	btn_confirmCollectionChanges.click({collectionData: collectionData}, saveNewCollection);
+	btn_confirmCollectionChanges.click({collection_data: collectionData}, saveCollectionChanges);
 	btn_saveCollection.click(updateCollectionData);
 
 
@@ -47,12 +52,21 @@ function bindEvents(){
 	$(".condition_field").change(replaceConditionInput);
 	$(".select_collection_condition").change(formatConditions);
 	$(".condition_input_field").change(formatConditions);
-	$("#input_collection_title").change(updateCollectionData);
 
 	// button event handling
 
 	$(".btn_remove_condition").each(function(){
 		$(this).click({conditionID:$(this).attr('id')}, removeCondition);
+	});
+
+	btn_deleteCollection.click({collection_id: collectionID}, deleteCollection);
+
+	$('#collection_description_editor').on('summernote.change', function(e) {
+		$("#collection_description").val($('#collection_description_editor').summernote('code'));
+	});
+
+	$(".collection-input-field").each(function(){
+		$(this).change(updateCollectionData);
 	});
 
 }
@@ -66,7 +80,24 @@ function bindElements(){
 
 	btn_addCondition = $("#btn_addCondition");
 	btn_saveCollection = $("#btn_saveCollection")
+	btn_deleteCollection = $("#btn_deleteCollection");
 	btn_confirmCollectionChanges = $("#btn_confirmCollectionChanges")
+}
+
+
+
+function setupDescriptionEditor(){
+	$('#collection_description_editor').summernote({
+		  height: 200,                 // set editor height
+		  minHeight: 200,             // set minimum height of editor
+		  maxHeight: 250,             // set maximum height of editor
+		  focus: false                  // set focus to editable area after initializing summernote
+		});
+
+	collection_description = $("#collection_description").val();
+	$('#collection_description_editor').summernote('code', collection_description);
+
+	updateCollectionData();
 }
 
 
@@ -76,6 +107,7 @@ function setupInitialConditions(){
 		var currentCondition = $(this).val();
 
 		currentCondition = replaceAll(currentCondition,' ','');
+		currentCondition = replaceAll(currentCondition,'u\'','\'');
 
 		var currentConditionID = $(this).attr('id').split('_')[1];
 
@@ -150,7 +182,6 @@ function createNewCondition(){
 	var newConditionTemplate = buildConditionTemplate(newConditionID);
 
 	conditionIDList.push(newConditionID);
-	console.log(conditionIDList);
 	
 	addCondition(newConditionID, newConditionTemplate);
 	
@@ -222,7 +253,6 @@ function formatConditions(){
 
 	
 	currentConditions = conditions;
-	updateCollectionData();
 }
 
 
@@ -317,14 +347,36 @@ function addCondition(conditionID, conditionTemplate, condition=defaultCondition
 
 
 function updateCollectionData(){
-	collectionData["Title"] = $("#input_collection_title").val();
+
+	$(".collection-input-field").each(function(){
+		var field = $(this).attr('data-fieldID');
+
+		if(field == 'Published'){
+			var value = $(this).prop('checked');
+		}
+		else if(field == 'Strict'){
+			var value = $(this).prop('checked');
+		}
+		else{
+			var value = $(this).val();
+		}
+
+		collectionData[field] = value;
+	});
+
+	collectionData["collection_id"] = collectionID;
 	collectionData["Conditions"] = currentConditions;
-	collectionData["Published"] = 1;
+	collectionData["Title"] = $("#input_collection_title").val();
+	collectionData["BodyHTML"] = $("#collection_description").val();
 	console.log(collectionData);
+
 }
 
+
+
+
 function loadImages(){
-	collectionImageURL = $("#collection_image_url").val();
+	collectionImageURL = $("#collection_img_src").val();
 	main_image_container = $(".collection_image_main");
 	main_image_container.css("background-image","url('" + collectionImageURL + "')");
 

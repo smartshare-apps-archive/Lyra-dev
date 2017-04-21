@@ -262,13 +262,14 @@ class ControlPanel(object):
 		self.control_data["formattedCollectionConditions"] = formattedCollectionConditions
 		self.control_data["product_tags"] = config.loadProductTags(self.instance_db)
 
-
 		collection_image_src = resources.loadResourceURI(collectionData["CollectionImageSrc"], self.database)
 
 		if collection_image_src == None:
 			collection_image_src = resources.loadResourceURI("1", self.database)
 
 		self.control_data["collection_image_src"] = collection_image_src
+
+		self.control_data["modals"] = []
 
 		return render_template("control_panel/product/productEditor_collection.html", control_data = self.control_data)
 
