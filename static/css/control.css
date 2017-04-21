@@ -336,7 +336,19 @@ body {
 }
 
 
+#table_collectionProducts{
+    display:none;
+    width:100%;
+}
 
+
+#table_collectionProducts_body{
+
+}
+
+#message_noProductsInCollection{
+    display:none;
+}
 
 #content_products {
     font-family: 'Nunito Sans', sans-serif;
@@ -360,7 +372,7 @@ body {
 
 
 .table-hover tbody tr:hover td {
-    cursor:pointer;
+    
 }
 
 h4 {

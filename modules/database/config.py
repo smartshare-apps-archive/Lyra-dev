@@ -510,16 +510,7 @@ def loadProductTags(productDatabase):
 
 
 
-def saveProductTags(product_id, product_tags, productDatabase):
-	currentQuery = "UPDATE products SET Tags=? WHERE product_id=?;"
 
-	try:
-		productDatabase.execute(currentQuery, (product_tags, product_id,))
-	except Exception as e:
-		print "Error: ", e
-		return None
-
-	return True
 
 
 def loadProductTypes(database):

@@ -1,50 +1,16 @@
 from resources import *
 
+
 def formatCollectionConditions(collectionConditions):
-	print "Before:", collectionConditions
-	
 	if type(collectionConditions) == type(None):
-		return None
+		return ""
 
-	collectionConditions = collectionConditions.split(';')
+	conditionsString = ""
 
-	for i in range(len(collectionConditions)):
-		condition = collectionConditions[i].split(':')
-		if len(condition) > 1:
-			field = condition[0]
-			rule = condition[1]
-			value = condition[2]
+	for condition_id, condition in collectionConditions.iteritems():
+		conditionsString += condition["type"] + "<field_split>" + condition["rule"] + "<field_split>" + condition["value"] + "<condition_split>"
 
-			if rule == "=":
-				rule = "is equal to"
-			elif rule == "!=":
-				rule = "is not equal to"
-			elif rule == ">=":
-				rule = "is greater than or equal to"
-			elif rule == "<=":
-				rule = "is less than or equal to"
-			elif rule == "<":
-				rule = "is less than"
-			elif rule == ">":
-				rule = "is greater than"
-			elif rule == "sw":
-				rule = "starts with"
-			elif rule == "ew":
-				rule = "ends with"
-			elif rule == "c":
-				rule = "contains"
-			elif rule == "dc":
-				rule = "does not contain"
-			else:
-				rule = "is equal to"
-
-			condition = [field, rule, value]
-			collectionConditions[i] = condition
-		else:
-			del collectionConditions[i]
-
-	return collectionConditions
-
+	return conditionsString
 
 
 def formatProductTags(product_tags):

@@ -1,4 +1,4 @@
-
+var collection_id;
 var collectionData = {};
 var collectionConditions = {};
 
@@ -10,15 +10,22 @@ var btn_addCondition;
 var select_newConditionType;
 var panel_collection_conditions;
 
+var table_collectionProducts;
+var table_collectionProducts_body;
+var message_noProductsInCollection;
+
+
 var conditionFields = {
 	"Price": [">", "<", ">=", "<=", "="],
 	"Title": ["c"],
-	"Tag": ["c", "="]
+	"Tag": ["="],
+	"Type": ["="]
 
 };
 
-var allProductTags = [];
 
+var allProductTags = [];
+var allProductTypes = [];
 
 var conditionTemplates = {
 	"condition-input-group": "<div class=\"input-group condition-input-group\"></div>",
@@ -26,6 +33,7 @@ var conditionTemplates = {
 	"condition_type_label": "<span class=\"input-group-addon condition-type-label\" id=\"type-addon\">replace_me</span>",
 	"condition_value_text": "<input type=\"text\" class=\"form-control condition-value-input condition-text-value\">",
 	"condition_value_tag": "<select class=\"form-control condition-value-input condition-tag-value\"></select>",
+	"condition_value_type": "<select class=\"form-control condition-value-input condition-tag-value\"></select>",
 	"condition_value_float": "<input type=\"text\" class=\"form-control condition-value-input condition-float-value\">",
 	"delete-condition-btn": "<span class=\"input-group-btn delete-condition-btn\"><button type=\"button\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"> </span> </button></span>"
 };
@@ -34,7 +42,6 @@ var conditionTemplates = {
 
 
 $(document).ready(function(){
-
 	bindElements();
 
 	setupDescriptionEditor();
@@ -54,10 +61,18 @@ function bindElements(){
 	select_newConditionType = $("#select_newConditionType");
 	panel_collection_conditions = $("#panel_collection_conditions");
 
+	table_collectionProducts = $("#table_collectionProducts");
+	table_collectionProducts_body = $("#table_collectionProducts_body");
+	message_noProductsInCollection = $("#message_noProductsInCollection");
+
 	//populate product tags list
 	allProductTags = $("#product_tags").val().split(',');
 	allProductTags.pop();
 
+	allProductTypes = $("#product_types").val().split(',');
+	allProductTypes.pop();
+
+	collection_id = $("#collection_id").val();
 
 }
 
@@ -72,6 +87,7 @@ function bindEvents(){
 		
 			if(fieldID == "Strict" || fieldID == "Published"){
 				collectionData[fieldID] = $(this).prop("checked");
+
 			}
 			else{
 				collectionData[fieldID] = $(this).val();
@@ -83,7 +99,7 @@ function bindEvents(){
 
 
 	btn_addCondition.click(addCollectionCondition);
-
+	btn_confirmCollectionChanges.click(saveCollectionChanges);
 
 }	
 
@@ -94,7 +110,11 @@ function updateCollectionData(){
 	$(".collection-input-field").each(function(){
 		var fieldID = $(this).attr('data-fieldID');
 		
-		if(fieldID == "Strict" || fieldID == "Published"){
+		if(fieldID == "Strict"){
+			collectionData[fieldID] = $(this).prop("checked");
+			
+		}
+		else if(fieldID == "Published"){
 			collectionData[fieldID] = $(this).prop("checked");
 		}
 		else{
@@ -104,6 +124,7 @@ function updateCollectionData(){
 	});
 
 	collectionData["Conditions"] = collectionConditions;
+	collectionData["collection_id"] = collection_id;
 
 	console.log(collectionData);
 }
@@ -162,6 +183,10 @@ function addCollectionCondition(){
 				conditionTypeLabel = "Product Title ";
 				conditionValueType = "condition_value_text";
 			break;
+		case "Type": 
+				conditionTypeLabel = "Product Type ";
+				conditionValueType = "condition_value_type";
+			break;
 		default:
 			conditionTypeLabel = "Invalid condition type.";
 	}
@@ -208,11 +233,16 @@ function addCollectionCondition(){
 	var condition_value_input = $(".condition-value-input").last();
 
 	if(conditionValueType == "condition_value_tag"){
-
 		for(var i=0; i<allProductTags.length; i++){
 			condition_value_input.append("<option value=\"" + allProductTags[i] + "\">" + allProductTags[i] + "</option>");
 		}
 	}
+	else if(conditionValueType == "condition_value_type"){
+		for(var i=0; i<allProductTypes.length; i++){
+			condition_value_input.append("<option value=\"" + allProductTypes[i] + "\">" + allProductTypes[i] + "</option>");
+		}
+	}
+
 
 	collection_input_group.append(conditionTemplates["delete-condition-btn"]);
 	var delete_condition_btn = $(".delete-condition-btn").last();
@@ -254,15 +284,44 @@ function mapConditions(){
 		conditionValueInput.change({conditionID: conditionID}, updateCollectionCondition);
 		deleteConditionBtn.click({conditionID: conditionID}, deleteCollectionCondition);
 
-	});
 
+	});
+	
 	var nConditions = Object.keys(collectionConditions).length;
 
-	if(nConditions == 0){
-		panel_collection_conditions.html("<h5> This collection does not have any conditions yet. </h5>");
-	}
-
 	updateCollectionData();
+
+	if(nConditions == 0){
+		$(".collection-input-field" + '[data-fieldID="Strict"]').unbind();
+
+		$(".collection-input-field" + '[data-fieldID="Strict"]').change(function(){
+			collectionData["Strict"] = $(this).prop("checked");
+			console.log(collectionData);
+		});
+
+		panel_collection_conditions.html("<h5> This collection does not have any conditions yet. </h5>");
+
+	}
+	else{
+
+		$('.condition-float-value').keypress(function(event) {
+		  if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+		    event.preventDefault();
+		  }
+		});
+
+		$(".collection-input-field" + '[data-fieldID="Strict"]').unbind();
+
+		$(".collection-input-field" + '[data-fieldID="Strict"]').change(function(){
+			collectionData["Strict"] = $(this).prop("checked");
+			console.log(collectionData);
+			applyCollectionConditions();
+		});
+
+
+
+	}
+		applyCollectionConditions();
 }
 
 
@@ -284,6 +343,9 @@ function updateCollectionCondition(event){
 	collectionConditions[conditionID]["value"] = conditionValueInput.val();
 
 	updateCollectionData();
+
+	// returns products that now fit into this collection
+	applyCollectionConditions();
 }
 
 
@@ -296,4 +358,37 @@ function deleteCollectionCondition(event){
 	condition_input_group.remove();
 
 	mapConditions();
+}
+
+
+function populateProductTable(products){
+	table_collectionProducts.css('display','block');
+	message_noProductsInCollection.css('display','none');
+
+	table_collectionProducts_body.html("");
+
+	for(product_id in products){
+		var currentProduct = products[product_id];
+		var currentProductTitle = currentProduct["Title"];
+		var currentProductSKU = currentProduct["VariantSKU"];
+		var currentProductRowHTML = "";
+		
+		currentProductRowHTML += "<tr id=\"row_product\" data-productID=\"\">";
+		currentProductRowHTML += "<td class=\"thumbnail_product_40\"></td>";
+		currentProductRowHTML += "<td>" + currentProductTitle + "</td>";
+		currentProductRowHTML += "<td>" + currentProductSKU + "</td>";
+		currentProductRowHTML += "</tr>";
+
+		table_collectionProducts_body.append(currentProductRowHTML);
+	}
+
+
+}
+
+
+
+function initCollectionConditions(){
+
+	
+
 }

@@ -196,9 +196,8 @@ class ControlPanel(object):
 		self.control_data["variant_product_data"] = []
 		productVariants = []
 
+		self.control_data["variant_thumbnails"] = {}
 		if variantIDList:
-			self.control_data["variant_thumbnails"] = {}
-
 			for variant_id in variantIDList:
 				currentVariantProductData = loadProductVariant(variant_id, self.database)
 				currentVariantProductData["VariantData"] = formatVariantData(currentVariantProductData["VariantData"])
@@ -245,22 +244,16 @@ class ControlPanel(object):
 		self.control_data["collection_id"] = collection_id
 		
 		collectionData = loadCollection(collection_id, self.database)
-
-		collectionConditions = formatCollectionConditions(collectionData["Conditions"])
-
-		formattedCollectionConditions = {}
-
-		if(collectionConditions):
-			for i in range(len(collectionConditions)):
-				formattedCollectionConditions[str(i)] = collectionConditions[i]
 			
-		products = loadProductsInCollection(collectionData, self.database)	
+		products = None
 		
 		self.control_data["collectionProductsTable"] = render_template("control_panel/product/productEditor_productsInCollection.html", products = products)	
 
 		self.control_data["collection_data"] = collectionData
-		self.control_data["formattedCollectionConditions"] = formattedCollectionConditions
+		self.control_data["collection_condition"] = collectionData["Conditions"]
+
 		self.control_data["product_tags"] = config.loadProductTags(self.instance_db)
+		self.control_data["product_types"] = config.loadProductTypes(self.instance_db)
 
 		collection_image_src = resources.loadResourceURI(collectionData["CollectionImageSrc"], self.database)
 
@@ -292,8 +285,8 @@ class ControlPanel(object):
 		self.control_data["variant_product_data"] = []
 		productVariants = []
 
+		self.control_data["variant_thumbnails"] = {}
 		if variantIDList:
-			self.control_data["variant_thumbnails"] = {}
 
 			for variant_id in variantIDList:
 				currentVariantProductData = loadProductVariant(variant_id, self.database)
@@ -483,10 +476,7 @@ class ControlPanel(object):
 
 		if type(collectionList) != type(None):
 			for i in range(len(collectionList)):
-				collectionList[i]["Conditions"] = formatCollectionConditions(collectionList[i]["Conditions"])
-				if collectionList[i]["Conditions"]: 
-					for j in range(len(collectionList[i]["Conditions"])):
-						collectionList[i]["Conditions"][j] = " ".join(collectionList[i]["Conditions"][j])
+				pass
 			
 		if type(collectionList) != type(None):
 			for collection in collectionList:

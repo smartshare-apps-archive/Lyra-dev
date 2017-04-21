@@ -20,8 +20,6 @@ function saveNewProduct(event){
 
 
 function saveNewCollection(){
-	console.log("ok");
-
 	var collectionData = {};
 	collectionData["Title"] = $("#new_collection_title").val();
 	
@@ -103,8 +101,6 @@ function saveVariantTypes(event){
 
 
 
-
-
 function saveProductChanges(event){
 	product_data = JSON.stringify(event.data.product_data);
 
@@ -119,6 +115,7 @@ function saveProductChanges(event){
 		location.reload();
 	  });
 }
+
 
 
 function saveProductTags(event){
@@ -238,19 +235,45 @@ function saveProductInventoryChanges(event){
 
 
 
-function saveCollectionChanges(event){
-	collectionData = JSON.stringify(event.data.collection_data)
+function saveCollectionChanges(){
 
 	$.ajax({
 	  method: "POST",
 	  url: "/actions/updateCollectionData",
 	  dataType: "json",
-	  data: { collection_data:collectionData },
+	  data: { collection_data: JSON.stringify(collectionData) },
 	  traditional:true
 	})
 	  .done(function( msg ) {
 		location.reload();
 	  });
+}
+
+
+function applyCollectionConditions(){
+	console.log(collectionConditions);
+	
+	$.ajax({
+	  method: "POST",
+	  url: "/actions/getCollectionProducts",
+	  dataType: "json",
+	  data: { collection_conditions: JSON.stringify(collectionConditions), collection_policy: JSON.stringify(collectionData["Strict"]) },
+	  traditional:true
+	})
+	  .done(function( products ) {
+
+		if(products){
+			populateProductTable(products);
+		}
+		else{
+				table_collectionProducts.css('display','none');
+				message_noProductsInCollection.css('display','block');
+
+				table_collectionProducts_body.html("");
+		}
+
+	  });
+
 }
 
 

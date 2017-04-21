@@ -69,6 +69,7 @@
 		            <select class="form-control" id="select_newConditionType"> 
 		              <option value="Tag"> Tag </option>
 		              <option value="Title"> Title </option>
+		              <option value="Type"> Type </option>
 		              <option value="Price"> Price </option>
            			 </select>
 
@@ -87,11 +88,9 @@
 
 			 <!-- Begin: products in collection panel -->
 			<div class="panel panel-default" id="panel_product_text_editor">
-				<div class="form-group">
 			  		<h4> Products </h4>
 					<hr>
 			  		{{ control_data.collectionProductsTable | safe }}	
-				</div>
 			</div>
 			<!-- End: product variant editor panel -->
 
@@ -152,6 +151,8 @@
 <input type="hidden" id="collection_id" value="{{control_data.collection_data.collection_id}}">
 <input type="hidden" id="collection_description" value="{{control_data.collection_data.BodyHTML}}">
 <input type="hidden" id="product_tags" value="{% for tag in control_data.product_tags %}{{tag}},{% endfor %}">
+<input type="hidden" id="product_types" value="{% for type in control_data.product_types %}{{type}},{% endfor %}">
+
 <div class="row">
 	<div class="col-xs-12" id="footer_products">	
 		

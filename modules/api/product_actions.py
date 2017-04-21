@@ -450,6 +450,32 @@ def updateCollectionData():
 
 
 
+#pull products in a collection, dump as JSON
+@productActions.route('/actions/getCollectionProducts', methods=['POST'])
+#@admin_required(current_app, session, login_redirect)
+def getCollectionProducts():
+	collection_conditions = request.form['collection_conditions']
+	collection_conditions = json.loads(collection_conditions)
+
+	collection_policy = request.form['collection_policy']
+	collection_policy = json.loads(collection_policy)
+
+	instance_db = instance_handle()
+	db = db_handle(instance_db)
+
+	productDatabase = db.cursor()
+	
+	collectionProductIDList = product.loadProductsInCollection(collection_conditions, collection_policy, productDatabase)
+	productData = product.loadProductsByID(collectionProductIDList, productDatabase)
+
+	db.close()
+
+	return json.dumps(productData)
+
+
+
+
+
 
 
 

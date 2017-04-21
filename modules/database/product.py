@@ -8,7 +8,7 @@ from product_util import *
 #load single product by product_id
 def loadProduct(product_id, productDatabase):
 	try:
-		productDatabase.execute("SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE product_id=%s;", [product_id] )
+		productDatabase.execute("SELECT product_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE product_id=%s;", [product_id] )
 	except Exception as e:
 		print "Exception: ", e
 		return None
@@ -29,11 +29,11 @@ def loadProduct(product_id, productDatabase):
 def loadProductBySKU(variantSKU, productDatabase):
 	variantData = None 
 	if len(variantSKU.split('-')) == 1:
-		productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=%s;""",(variantSKU, ))
+		productDatabase.execute("""SELECT product_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=%s;""",(variantSKU, ))
 	else:
 		product_id = variantSKU.split('-')[0]
 		variantData = loadProductVariantBySKU(variantSKU, productDatabase)
-		productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=%s;""",(product_id, ))
+		productDatabase.execute("""SELECT product_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=%s;""",(product_id, ))
 
 	productData = productDatabase.fetchone()
 
@@ -130,7 +130,7 @@ def loadAllProducts(productDatabase):
 	formattedProductList = collections.OrderedDict()
 
 	#select all products in database, including variants
-	productDatabase.execute("""SELECT product_id,VariantSKU,VariantPrice,VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products;""")
+	productDatabase.execute("""SELECT product_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products;""")
 
 	productList = productDatabase.fetchall()
 
@@ -140,8 +140,10 @@ def loadAllProducts(productDatabase):
 
 		#go through the list of key names (set in config.py file) and assign values to their respective keys
 		for j in range(len(productColumnMappings)):
+
+
 			formattedProductList[currentProductID][productColumnMappings[j]] = productList[i][j]
-	
+		
 	return formattedProductList
 
 
@@ -192,7 +194,6 @@ def loadCollections(productDatabase):
 			formattedCollectionList.append({})
 			for j in range(len(collectionColumnMappings)):
 				formattedCollectionList[i][collectionColumnMappings[j]] = collectionList[i][j]
-
 		return formattedCollectionList
 	else:
 		return None
@@ -200,85 +201,178 @@ def loadCollections(productDatabase):
 
 
 
-#load products meeting certain conditions
-def loadProductsInCollection(collectionData, productDatabase):
-	print collectionData
-
-	conditions = collectionData["Conditions"]
-
-	formattedConditions = ""
-	
-	if conditions:
-		conditions = conditions.split(";")
-	else:
-		return None
-
-	for i in range(len(conditions)):
-		currentCondition = conditions[i].split(":")
-
-		if len(currentCondition) > 1:
-			field = currentCondition[0]
-			rule = currentCondition[1]
-			value = currentCondition[2]
-
-			rule = collectionRuleMappings[rule]
-
-			if (field == "Tags"):
-				rule = " LIKE "
-			
-			if rule == " LIKE ":
-				value = "'%" + value + "%'"
-
-
-			currentCondition = field + rule + value
-			formattedConditions += currentCondition
-
-			if(i != len(conditions)-2):
-				#print "I: ", i, ":", len(conditions)-2
-				if(collectionData["Strict"] == 0):
-					formattedConditions += " OR "
-				else:
-					formattedConditions += " AND "
-			
-		else:
-			del conditions[i]
-
-
-	currentQuery = "SELECT product_id FROM products WHERE %s;" % formattedConditions
-	print "Collection query: ", currentQuery
+def loadProductsByID(productIDList, productDatabase):
+	placeholders = ','.join(['%s' for _ in productIDList])
+	q = "SELECT product_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE product_id IN (%s);" % placeholders
 
 	try:
-		productDatabase.execute(currentQuery)
+		productDatabase.execute(q, productIDList)
 	except Exception as e:
+		print "Couldn't retreive product data: ", e
 		return None
 
-	products = productDatabase.fetchall()
-	productIDList = [product_id[0] for product_id in products]
+	productList = productDatabase.fetchall()
 
-	productDict = {}
-	if products:
-		for product_id in productIDList:
-			productDict[product_id] = (loadProduct(product_id, productDatabase))
+	if productList:
+		formattedProductList = {}
+		for i in range(len(productList)):
+			currentProductID = str(productList[i][0])
+			formattedProductList[currentProductID] = {}	#create a new dictionary for each product
 
-		return productDict
+			#go through the list of key names (set in config.py file) and assign values to their respective keys
+			for j in range(len(productColumnMappings)):
+				formattedProductList[currentProductID][productColumnMappings[j]] = productList[i][j]
+
+		return formattedProductList
 	else:
 		return None
 
 
 
+
+#load products meeting certain collection conditions
+def loadProductsInCollection(collectionConditions, collectionStrict, productDatabase):
+
+	productSetList = []
+
+	print "Trying to load products that match: ", collectionConditions
+
+	for condition_id, condition in collectionConditions.iteritems():
+		conditionType = condition["type"]
+		conditionValue = condition["value"]
+		conditionRule = condition["rule"]
+
+		if conditionValue == "":
+			productSetList.append(set([]))
+			continue
+
+		conditionRule = condition["rule"]
+
+		#find products that match the title conditions
+		if conditionType == "Title":
+			q = "SELECT product_id FROM products WHERE Title LIKE CONCAT('%%', %s, '%%');"
+			try:
+				productDatabase.execute(q, (conditionValue.lower(), ))
+			except Exception as e:
+				print "Error getting products by title: ", e
+				return None
+
+			products = productDatabase.fetchall()
+
+			if products:
+				products = [product[0] for product in products]
+				productSet = set(products)
+				productSetList.append(productSet)
+			else:
+				productSetList.append(set([]))
+
+
+		#find products that match the tag conditions
+		elif conditionType == "Tag":
+			if conditionRule == "=":
+				q = "SELECT product_id FROM products WHERE Tags REGEXP CONCAT('[,]?', %s, '[,]?');"
+
+			try:
+				productDatabase.execute(q, (conditionValue.lower(), ))
+			except Exception as e:
+				print "Error getting products by tag: ", e
+				return None
+
+			products = productDatabase.fetchall()
+
+			if products:
+				products = [product[0] for product in products]
+				productSet = set(products)
+				productSetList.append(productSet)
+			else:
+				productSetList.append(set([]))
+
+
+		#find products that match the tag conditions
+		elif conditionType == "Type":
+			if conditionRule == "=":
+				q = "SELECT product_id FROM products WHERE Type = %s;"
+
+			try:
+				productDatabase.execute(q, (conditionValue, ))
+			except Exception as e:
+				print "Error getting products by type: ", e
+				return None
+
+			products = productDatabase.fetchall()
+
+			if products:
+				products = [product[0] for product in products]
+				productSet = set(products)
+				productSetList.append(productSet)
+			else:
+				productSetList.append(set([]))
+
+
+		#find products that match the tag conditions
+		elif conditionType == "Price":
+
+			#conditionValue = float(conditionValue)
+			print "price value: ", conditionValue
+
+			if conditionRule == "=":
+				q = "SELECT product_id FROM products WHERE VariantPrice = %s;"
+			elif conditionRule == ">":
+				q = "SELECT product_id FROM products WHERE VariantPrice > %s;"
+			elif conditionRule == "<":
+				q = "SELECT product_id FROM products WHERE VariantPrice < %s;"
+			elif conditionRule == "<=":
+				q = "SELECT product_id FROM products WHERE VariantPrice <= %s;"
+			elif conditionRule == ">=":
+				q = "SELECT product_id FROM products WHERE VariantPrice <= %s;"
+
+			try:
+				productDatabase.execute(q, (conditionValue, ))
+			except Exception as e:
+				print "Error getting products by price: ", e
+				return None
+
+			products = productDatabase.fetchall()
+
+			if products:
+				products = [product[0] for product in products]
+				productSet = set(products)
+				productSetList.append(productSet)
+			else:
+				productSetList.append(set([]))
+
+
+	if len(productSetList) > 0:
+		if collectionStrict:
+			return list(set.intersection(*productSetList))
+		else:
+			return list(set.union(*productSetList))
+	else:
+		return []
+
+
+
+
+def saveProductTags(product_id, product_tags, productDatabase):
+
+	currentQuery = "UPDATE products SET Tags=%s WHERE product_id=%s;"
+
+	try:
+		productDatabase.execute(currentQuery, (product_tags, product_id,))
+	except Exception as e:
+		print "Error: ", e
+		return None
+
+	return True
 
 
 
 
 def saveProductVendors(vendorData, productDatabase):
-	print "Attempting to go through vendors"
 
 	for vendor_id, vendor in vendorData.iteritems():
-		print vendor_id, ":", vendor
 
-		# 
 		q = "INSERT INTO vendors(vendor_id, Name, Phone, URL, Email) VALUES(%s,%s,%s,%s,%s) ON DUPLICATE KEY UPDATE vendor_id=%s, Name=%s, Phone=%s, URL=%s, Email=%s;"
-
 		
 		try:
 			productDatabase.execute(q, (vendor_id, vendor["Name"], vendor["Phone"], vendor["URL"], vendor["Email"], vendor_id, vendor["Name"], vendor["Phone"], vendor["URL"], vendor["Email"] ))
@@ -545,6 +639,10 @@ def saveCollectionData(collectionData, productDatabase):
 		if field == "collection_id":
 			collection_id = int(value)
 			continue
+		elif field == "Conditions":
+			value = formatCollectionConditions(value)
+			orderedFields[field] = value
+			fieldUpdates += field + "=%s," 
 		else:	
 			orderedFields[field] = value
 			fieldUpdates += field + "=%s," 

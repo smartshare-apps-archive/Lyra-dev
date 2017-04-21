@@ -1,6 +1,6 @@
-	{% if products %}
 
-	<table class="table table-responsive table-hover">
+
+	<table class="table table-responsive table-hover" id="table_collectionProducts">
 	<thead>
 		<tr>
 		<th></th>
@@ -8,29 +8,26 @@
 	    <th>SKU</th>
 		</tr>
 	</thead>
-	<tbody>
+	<tbody id="table_collectionProducts_body">
 
+	{% if products %}
+		{% for product_id, product in products.iteritems() %}
 
-	{% for product_id, product in products.iteritems() %}
+		<tr id="row_product" data-productID="{{product_id}}">
+			<td class="thumbnail_product_40"></td>
+		    <td>{{ product.Title }}</td>
+		    <td>{{ product.VariantSKU }}</td>
+		</tr>
 
-	<tr id="row_product_{{product_id}}">
-		<td class="thumbnail_product_40" style="background-image:url('{% if product.VariantImage == "" %}{{ product.ImageSrc }} {% else %} {{ product.VariantImage }} {% endif %}');"></td>
-	    <td>{{ product.Title }}</td>
-	    <td>{{ product.VariantSKU }}</td>
-	</tr>
-
-	{% endfor %}
+		{% endfor %}
+	{% endif %}
 
 	</tbody>
 	</table>
 
-	<input type="hidden" value="{% for product_id, product in products.iteritems() %}{{product_id}},{% endfor %}" id="productIDList"> 	
-	
-	{% else %}
 
-	<h5> Looks like there aren't any products that meet these conditions. </h5>
-	
-	<input type="hidden" value="" id="productIDList"> 	
-
-	{% endif %}
-
+{% if products is none %}
+	<div id="message_noProductsInCollection" class="text-center">
+			<h5> This collection has no products yet. </h5>
+	</div>
+{% endif %}
