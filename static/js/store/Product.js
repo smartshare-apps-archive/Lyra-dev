@@ -70,7 +70,8 @@ function filterVariants(){
 	//console.log(available_variants);
 
 	$("#available_variants > option").each(function(){
-		var variant = JSON.parse(replaceAll($(this).text(),"'","\""));
+		var variant = replaceAll($(this).text(),"\'","\"");
+		variant = JSON.parse(replaceAll(variant,"u\"","\""));
 		//console.log(variant);
 		for (var option in variant){
 			if(available_variants[option][variant[option]]){
