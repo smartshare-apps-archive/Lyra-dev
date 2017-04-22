@@ -19,18 +19,22 @@
 				<input type="hidden" id="thumbnail_uri_{{collection.collection_id}}" value="{{collection_thumbnail[collection.collection_id]}}">
 
 				<div id="info_content_{{collection.collection_id}}" class="collection_info_panel">
-
-							<div class="product_info_cell"> 
+						<div class="product_info_cell"> 
+							<h4> Collection conditions </h4><br>
 							<hr class="unpadded_hr" >
-							{% if collection["Conditions"] %}
-								{% for condition in collection["Conditions"] %}
-									<button type="button" class="btn btn-default btn_info_cell"> 
-										<b class="info_field">{{condition}}</b> 
+							{% if collection.Conditions %}
+								{% for condition_id, condition in collection["Conditions"].iteritems() %}
+									<button type="button" class="btn btn-default btn_info_cell btn-noclick"> 
+										<span class="label_collection_condition">{{condition["type"]}}&nbsp;{{condition["rule"]}}&nbsp;{{condition["value"]}}</span> 
 										
 									</button> 
 								{% endfor %}	
+							{% else %}
+								<button type="button" class="btn btn-default btn_info_cell btn-noclick"> 
+										<span class="label_collection_condition">This collection has no conditions.</span> 
+								</button> 
 							{% endif %}
-							</div> 
+						</div> 
 				</div>
 				<input type="hidden" class="img_src" value="{{collection.ImageSrc}}">
 		</div>

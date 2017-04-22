@@ -1775,7 +1775,7 @@ top:-1px;
 }
 
 .collection_image_main:hover{
-    
+
 }
 
 .variant_image_main{
@@ -2223,6 +2223,7 @@ top:-1px;
 
 .btn-noclick{
     cursor:default;
+    text-align: center;
 }
 
 .btn-view-shipment-products{

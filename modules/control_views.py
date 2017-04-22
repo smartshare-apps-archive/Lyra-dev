@@ -479,12 +479,11 @@ class ControlPanel(object):
 		collectionList = loadCollections(self.database)
 		collection_thumbnail = {}
 
-		if type(collectionList) != type(None):
-			for i in range(len(collectionList)):
-				pass
+
 			
 		if type(collectionList) != type(None):
-			for collection in collectionList:
+			for idx, collection in enumerate(collectionList):
+				collectionList[idx]["Conditions"] = parseCollectionConditions(collection["Conditions"])
 				collection_image_src = resources.loadResourceURI(collection["CollectionImageSrc"], self.database)
 
 				if collection_image_src == None:
