@@ -20,10 +20,25 @@ function bindElements(){
 function bindEvents(){
 	//btn_savePaymentSettings.click(saveSettings);
 	$(".editor_input_field").each(function(){
-		var fieldID = $(this).attr('id').split('_')[1];
+		var fieldID = $(this).attr('data-fieldID');
+
+		if(fieldID == "payment_status"){
+			var fieldValue = $(this).prop('checked');
+			
+			if (fieldValue == true){
+				fieldValue = "enabled";
+			}
+			else{
+				fieldValue = "disabled";
+			}
+			paymentSettings[fieldID] = fieldValue
+		}
+		else{
+			paymentSettings[fieldID] = $(this).val();
+		}
 
 		$(this).change({fieldID: fieldID}, updatePaymentSettings);
-		paymentSettings[fieldID] = $(this).val();
+		
 	});
 
 	btn_saveStripeAPIKey.click(saveStripeAPIKeys);
@@ -32,6 +47,20 @@ function bindEvents(){
 
 function updatePaymentSettings(event){
 	var fieldID = event.data.fieldID;
-	paymentSettings[fieldID] = $("#input_"+fieldID).val();
 
+	if(fieldID == "payment_status"){
+			var fieldValue = $(this).prop('checked');
+			
+			if (fieldValue == true){
+				fieldValue = "enabled";
+			}
+			else{
+				fieldValue = "disabled";
+			}
+			paymentSettings[fieldID] = fieldValue
+		}
+	else{
+		paymentSettings[fieldID] = $(this).val();
+	}
+	
 }

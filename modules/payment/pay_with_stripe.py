@@ -11,7 +11,11 @@ db = instance_handle()
 
 #grab stripe api key settings from database
 stripe_keys = config.getStripeAPIKeys(db.cursor())
-stripe.api_key = stripe_keys['secret_key_test']
+
+if(stripe_keys["payment_status"] == "enabled"):
+	stripe.api_key = stripe_keys['secret_key_live']
+else:
+	stripe.api_key = stripe_keys['secret_key_test']
 
 
 def create_order(response, order_contents, customer_info):

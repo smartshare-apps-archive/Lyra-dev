@@ -1,7 +1,7 @@
 function saveStripeAPIKeys(event){
 	//console.log(paymentSettings);
 	
-	var stripe_api_keys = "secret_key:" + paymentSettings["SecretKey"] + ",publishable_key:" + paymentSettings["PublishableKey"];
+	var stripe_api_keys = "secret_key_test:" + paymentSettings["secret_key_test"] + ",publishable_key_test:" + paymentSettings["publishable_key_test"] +",secret_key_live:" + paymentSettings["secret_key_live"] + ",publishable_key_live:" + paymentSettings["publishable_key_live"] + ",payment_status:" + paymentSettings["payment_status"];
 
 	
 	$.ajax({

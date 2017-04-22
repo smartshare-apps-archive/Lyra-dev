@@ -23,31 +23,31 @@
 					<h4 class="h4-inline"> <span class="glyphicon glyphicon-lock off_black"></span> &nbsp; Stripe API settings </h4>
 
 					<div class="pull-right">
-						<input type="checkbox" data-toggle="toggle" data-on="Live payments" data-off="Test mode" {% if control_data.stripe_api_keys.payment_status == "enabled" %} checked {% endif %}>
+						<input type="checkbox" class="editor_input_field" data-fieldID="payment_status" data-toggle="toggle" data-on="Live payments" data-off="Test mode" {% if control_data.stripe_api_keys.payment_status == "enabled" %} checked {% endif %}>
 						
 					</div>
 					<hr>
 					<h5> Stripe test keys: </h5>
 						<div class="input-group">
 							<span class="input-group-addon"> Secret Key </span>
-							<input type="text" class="form-control editor_input_field" id="input_SecretKey" placeholder="Stripe API Secret Key" value="{{control_data.stripe_api_keys.secret_key_test}}"> <br>
+							<input type="text" class="form-control editor_input_field" data-fieldID="secret_key_test" placeholder="Stripe API Secret Key" value="{{control_data.stripe_api_keys.secret_key_test}}"> <br>
 						</div>
 
 						<div class="input-group">
 							<span class="input-group-addon"> Publishable Key </span>
-						<input type="text" class="form-control editor_input_field" id="input_PublishableKey" placeholder="Stripe API Publishable Key" value="{{control_data.stripe_api_keys.publishable_key_test}}">
+						<input type="text" class="form-control editor_input_field" data-fieldID="publishable_key_test" placeholder="Stripe API Publishable Key" value="{{control_data.stripe_api_keys.publishable_key_test}}">
 						</div>
 					<hr>
 
 					<h5> Stripe live keys: </h5>
 						<div class="input-group">
 							<span class="input-group-addon"> Secret Key </span>
-							<input type="text" class="form-control editor_input_field" id="input_SecretKey" placeholder="Stripe API Secret Key" value="{{control_data.stripe_api_keys.secret_key_live}}"> <br>
+							<input type="text" class="form-control editor_input_field" data-fieldID="secret_key_live" placeholder="Stripe API Secret Key" value="{{control_data.stripe_api_keys.secret_key_live}}"> <br>
 						</div>
 
 						<div class="input-group">
 							<span class="input-group-addon"> Publishable Key </span>
-						<input type="text" class="form-control editor_input_field" id="input_PublishableKey" placeholder="Stripe API Publishable Key" value="{{control_data.stripe_api_keys.publishable_key_live}}">
+						<input type="text" class="form-control editor_input_field" data-fieldID="publishable_key_live" placeholder="Stripe API Publishable Key" value="{{control_data.stripe_api_keys.publishable_key_live}}">
 						</div>
 					<hr>
 
