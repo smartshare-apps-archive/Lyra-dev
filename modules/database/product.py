@@ -236,6 +236,9 @@ def loadProductsInCollection(collectionConditions, collectionStrict, productData
 	productSetList = []
 
 	print "Trying to load products that match: ", collectionConditions
+	
+	if len(collectionConditions) == 0:
+		return None
 
 	for condition_id, condition in collectionConditions.iteritems():
 		conditionType = condition["type"]

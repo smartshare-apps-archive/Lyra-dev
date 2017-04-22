@@ -466,11 +466,15 @@ def getCollectionProducts():
 	productDatabase = db.cursor()
 	
 	collectionProductIDList = product.loadProductsInCollection(collection_conditions, collection_policy, productDatabase)
-	productData = product.loadProductsByID(collectionProductIDList, productDatabase)
+	
+	if collectionProductIDList:
+		productData = product.loadProductsByID(collectionProductIDList, productDatabase)
+		db.close()
+		return json.dumps(productData)
 
-	db.close()
-
-	return json.dumps(productData)
+	else:
+		db.close()
+		return json.dumps(None)
 
 
 

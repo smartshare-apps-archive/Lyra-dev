@@ -337,7 +337,6 @@ body {
 
 
 #table_collectionProducts{
-    display:none;
     width:100%;
 }
 
@@ -347,7 +346,7 @@ body {
 }
 
 #message_noProductsInCollection{
-    display:none;
+
 }
 
 #content_products {
@@ -1773,6 +1772,10 @@ top:-1px;
     background-origin:content-box;
     padding:10px;
     margin:0 auto;
+}
+
+.collection_image_main:hover{
+    
 }
 
 .variant_image_main{

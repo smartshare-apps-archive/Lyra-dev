@@ -47,6 +47,7 @@ $(document).ready(function(){
 	setupDescriptionEditor();
 	bindEvents();
 
+	populateInitialConditions();
 	updateCollectionData();
 });
 
@@ -93,15 +94,37 @@ function bindEvents(){
 				collectionData[fieldID] = $(this).val();
 			}
 
-			console.log(collectionData);
+			//console.log(collectionData);
 		});
 	});
 
 
-	btn_addCondition.click(addCollectionCondition);
+	btn_addCondition.click(function(){
+		addCollectionCondition();
+	});
+
 	btn_confirmCollectionChanges.click(saveCollectionChanges);
 
 }	
+
+
+function populateInitialConditions(){
+	
+	$(".collection-condition-data").each(function(){
+		var conditionID = $(this).attr('data-conditionID');
+
+		var conditionObj = replaceAll($(this).val(),'u\'','\'');
+		conditionObj = replaceAll(conditionObj,"\'","\"");
+		conditionObj = JSON.parse(conditionObj);
+
+		collectionConditions[conditionID] = conditionObj;
+		collectionConditions[conditionID]["id"] = conditionID;
+
+		addCollectionCondition(conditionObj);
+	});
+
+	mapConditions();
+}
 
 
 
@@ -126,7 +149,7 @@ function updateCollectionData(){
 	collectionData["Conditions"] = collectionConditions;
 	collectionData["collection_id"] = collection_id;
 
-	console.log(collectionData);
+	//console.log(collectionData);
 }
 
 
@@ -144,23 +167,39 @@ function setupDescriptionEditor(){
 	collection_description = $("#collection_description").val();
 
 	$('#collection_description_editor').summernote('code', collection_description);
+	
 
+	$('#collection_description_editor').on('summernote.change', function(e) {
+ 		collectionData["BodyHTML"] = $('#collection_description_editor').summernote('code');
+	});
+	
+	console.log(collectionData);
 }
 
 
 
 
 
-function addCollectionCondition(){
-	var conditionType = select_newConditionType.val();
-
+function addCollectionCondition(conditionObj){
 	var nConditions = Object.keys(collectionConditions).length;
-	var conditionID = nConditions + 1;
+	
 
 	if(nConditions == 0){
 		panel_collection_conditions.html("");
 
 	}
+	
+	if(typeof(conditionObj) != 'undefined'){
+		var conditionType = conditionObj["type"];
+		var conditionID = conditionObj["id"];
+	}
+	else{
+		var conditionType = select_newConditionType.val();
+		var conditionID = nConditions + 1;
+	}
+	
+
+
 
 	// append a container for the condition controls, e.g. condition rules
 	panel_collection_conditions.append(conditionTemplates["condition-input-group"]);
@@ -229,6 +268,7 @@ function addCollectionCondition(){
 
 	}
 
+
 	collection_input_group.append(conditionTemplates[conditionValueType]);
 	var condition_value_input = $(".condition-value-input").last();
 
@@ -248,8 +288,15 @@ function addCollectionCondition(){
 	var delete_condition_btn = $(".delete-condition-btn").last();
 
 	
+	if(typeof(conditionObj) != 'undefined'){
+		select_condition_rule.val(conditionObj["rule"]);
+		condition_value_input.val(conditionObj["value"]);
+	}
 
-	mapConditions();
+	else{
+		mapConditions();
+	}
+	
 }
 
 function mapConditions(){
@@ -296,7 +343,7 @@ function mapConditions(){
 
 		$(".collection-input-field" + '[data-fieldID="Strict"]').change(function(){
 			collectionData["Strict"] = $(this).prop("checked");
-			console.log(collectionData);
+			//console.log(collectionData);
 		});
 
 		panel_collection_conditions.html("<h5> This collection does not have any conditions yet. </h5>");
@@ -314,7 +361,6 @@ function mapConditions(){
 
 		$(".collection-input-field" + '[data-fieldID="Strict"]').change(function(){
 			collectionData["Strict"] = $(this).prop("checked");
-			console.log(collectionData);
 			applyCollectionConditions();
 		});
 
@@ -326,7 +372,6 @@ function mapConditions(){
 
 
 function updateCollectionCondition(event){
-	console.log("Updating: " + conditionID);
 
 	var conditionID = event.data.conditionID;
 	var selectorString = '[data-conditionID="' + conditionID + '"]';
@@ -362,8 +407,8 @@ function deleteCollectionCondition(event){
 
 
 function populateProductTable(products){
-	table_collectionProducts.css('display','block');
-	message_noProductsInCollection.css('display','none');
+	table_collectionProducts.show();
+	message_noProductsInCollection.hide();
 
 	table_collectionProducts_body.html("");
 
@@ -386,9 +431,3 @@ function populateProductTable(products){
 }
 
 
-
-function initCollectionConditions(){
-
-	
-
-}

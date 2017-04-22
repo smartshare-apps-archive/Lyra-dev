@@ -251,7 +251,7 @@ function saveCollectionChanges(){
 
 
 function applyCollectionConditions(){
-	console.log(collectionConditions);
+	//console.log(collectionConditions);
 	
 	$.ajax({
 	  method: "POST",
@@ -265,11 +265,11 @@ function applyCollectionConditions(){
 		if(products){
 			populateProductTable(products);
 		}
-		else{
-				table_collectionProducts.css('display','none');
-				message_noProductsInCollection.css('display','block');
+		else{	
+			table_collectionProducts.hide();
+			message_noProductsInCollection.show();
 
-				table_collectionProducts_body.html("");
+			table_collectionProducts_body.html("");
 		}
 
 	  });

@@ -244,13 +244,18 @@ class ControlPanel(object):
 		self.control_data["collection_id"] = collection_id
 		
 		collectionData = loadCollection(collection_id, self.database)
-			
-		products = None
+		collectionData["Conditions"] = parseCollectionConditions(collectionData["Conditions"])
+
+		#productIDList = loadProductsInCollection(collectionData["Conditions"], collectionData["Strict"], self.database)
 		
-		self.control_data["collectionProductsTable"] = render_template("control_panel/product/productEditor_productsInCollection.html", products = products)	
+		#if len(productIDList) > 0:
+		#	products = loadProductsByID(productIDList, self.database)
+		#	print "Here are the products: ", products
+
+
+		self.control_data["collectionProductsTable"] = render_template("control_panel/product/productEditor_productsInCollection.html")	
 
 		self.control_data["collection_data"] = collectionData
-		self.control_data["collection_condition"] = collectionData["Conditions"]
 
 		self.control_data["product_tags"] = config.loadProductTags(self.instance_db)
 		self.control_data["product_types"] = config.loadProductTypes(self.instance_db)

@@ -54,11 +54,11 @@
 				<hr>	
 				<!-- Begin condition form editor -->
 				<div class="panel panel-default text-center" id="panel_collection_conditions">
-					{% if formattedCollectionConditions | length == 0 %}
+					{% if control_data.collection_data.Conditions | length == 0 %}
 						<h5> This collection does not have any conditions yet. </h5>
 					{% else %}
-						{% for condition_id, condition in control_data.formattedCollectionConditions.iteritems() %}
-							<input type="text" class="collection-condition" data-conditionID="{{condition_id}}" value="{{condition}}">
+						{% for condition_id, condition in control_data.collection_data.Conditions.iteritems() %}
+							<input type="hidden" class="collection-condition-data" data-conditionID="{{condition_id}}" value="{{condition}}">
 						{% endfor %}
 					{% endif %}
 				</div>
@@ -126,7 +126,7 @@
 
 					<h4> Collection Image </h4>
 					<hr>
-					<div class="collection_image_main" style="background-image:url('{{control_data["collection_image_src"]}}');"></div>
+					<div class="collection_image_main hvr-grow" style="background-image:url('{{control_data["collection_image_src"]}}');"></div>
 					
 					<input type="hidden" id="collection_img_src" value="{{control_data["collection_image_src"]}}">
 					<hr>

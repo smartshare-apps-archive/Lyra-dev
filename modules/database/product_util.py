@@ -14,6 +14,35 @@ def formatCollectionConditions(collectionConditions):
 
 
 
+def parseCollectionConditions(collectionConditions):
+	if type(collectionConditions) == type(None):
+		return None
+
+	formattedConditions = {}
+
+	conditions = filter(lambda c: c != '', collectionConditions.split('<condition_split>'))
+
+	for idx, condition in enumerate(conditions):
+		condition = filter(lambda f: f != '', condition.split('<field_split>'))
+
+		conditionType = condition[0]
+		conditionRule = condition[1]
+
+		try:
+			conditionValue = condition[2]
+		except IndexError as e:
+			conditionValue = ""
+
+		formattedConditions[str(idx)] = {}
+		formattedConditions[str(idx)]["type"] = conditionType
+		formattedConditions[str(idx)]["rule"] = conditionRule
+		formattedConditions[str(idx)]["value"] = conditionValue
+
+	return formattedConditions
+
+
+
+
 def formatProductTags(product_tags):
 	product_tags = sorted(product_tags.split(','))
 	product_tags = set(filter(lambda t: t!='', product_tags))

@@ -10,24 +10,11 @@
 	</thead>
 	<tbody id="table_collectionProducts_body">
 
-	{% if products %}
-		{% for product_id, product in products.iteritems() %}
-
-		<tr id="row_product" data-productID="{{product_id}}">
-			<td class="thumbnail_product_40"></td>
-		    <td>{{ product.Title }}</td>
-		    <td>{{ product.VariantSKU }}</td>
-		</tr>
-
-		{% endfor %}
-	{% endif %}
-
 	</tbody>
 	</table>
 
 
-{% if products is none %}
+
 	<div id="message_noProductsInCollection" class="text-center">
 			<h5> This collection has no products yet. </h5>
 	</div>
-{% endif %}
