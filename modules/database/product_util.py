@@ -13,6 +13,7 @@ def formatCollectionConditions(collectionConditions):
 	return conditionsString
 
 
+
 def formatProductTags(product_tags):
 	product_tags = sorted(product_tags.split(','))
 	product_tags = set(filter(lambda t: t!='', product_tags))

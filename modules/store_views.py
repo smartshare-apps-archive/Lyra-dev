@@ -128,6 +128,7 @@ class Store(object):
 
 	def AllProducts(self):
 		products = loadAllProducts(self.database)
+		print products
 		image_resources = loadProductImages(products, self.database)
 
 		for product_id, product in products.iteritems():

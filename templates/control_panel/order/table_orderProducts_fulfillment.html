@@ -22,7 +22,7 @@
           <div class="order_product_info" data-productID="{{product_id}}" data-productSKU="{{product.VariantSKU}}">
               SKU: {{product.VariantSKU}} <br>
               Quantity: {{ product.quantity }} <br>
-              Price/Unit: ${{ '%0.2f' % product.VariantPrice }} <br>
+              Price/Unit: ${{product.VariantPrice}} <br>
               Item total: ${{ '%0.2f' % subtotals[product.VariantSKU] }}
           </div>
         </div>

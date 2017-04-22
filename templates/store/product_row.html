@@ -7,7 +7,7 @@
 
 			{% for product_id in row %}
 				<div class="col-sm-4 product_tile" id="product_{{product_id}}">
-					<h5 class="product_tile_header">{{ products[product_id].Title }} | <b> ${{ '%0.2f' % products[product_id].VariantPrice }} </h5>
+					<h5 class="product_tile_header">{{ products[product_id].Title }} | <b> ${{products[product_id].VariantPrice}} </h5>
 
 						
 
@@ -24,7 +24,7 @@
 
 			{% for product_id in row %}
 				<div class="col-sm-6 product_tile" id="product_{{product_id}}">
-					<h5>{{ products[product_id].Title }} | <b> ${{ '%0.2f' % products[product_id].VariantPrice }} </h5>
+					<h5>{{ products[product_id].Title }} | <b> ${{products[product_id].VariantPrice}}  </h5>
 
 
 					{% if image_resources[product_id | string] %}
@@ -40,7 +40,7 @@
 			{% for product_id in row %}
 				<div class="col-sm-3"></div>
 				<div class="col-sm-6 product_tile" id="product_{{product_id}}">
-					<h5>{{ products[product_id].Title }} | <b> ${{ '%0.2f' % products[product_id].VariantPrice }} </h5>
+					<h5>{{ products[product_id].Title }} | <b> ${{products[product_id].VariantPrice}}  </h5>
 
 
 					{% if image_resources[product_id | string] %}

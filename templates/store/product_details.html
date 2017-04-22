@@ -21,7 +21,7 @@
 	</div>
 
 	<div class="col-sm-6" id="product_details">
-		<h4> {{ product.Title }} | &nbsp; <b> ${{ '%0.2f' % product.VariantPrice }} </b></h4> 
+		<h4> {{ product.Title }} | &nbsp; <b> ${{product.VariantPrice}} </b></h4> 
 		<div class="product_description">
 			<hr>
 			{{ product.BodyHTML | safe }}
