@@ -1,29 +1,59 @@
 {% block page_content %}
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+
 <div class="row">
 	<div class="col-xs-12 banner">
 	<h4 id="h4_banner"> <span class="glyphicon glyphicon-usd"></span> &nbsp;  <a href="/control/settings/">Settings</a> / <a href="/control/settings/payment"> Payment </a> </h4>
-
-		<button type="button" class="btn btn-default btn-floated" id="btn_savePaymentSettings">Save settings &nbsp;<span class="glyphicon glyphicon-floppy-disk off_black"></span></button>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-xs-12 tab_content">
 	<!-- Begin payment settings content div -->
-		<div class="row">
+		<div class="container-fluid main-content-container-sm">
+			<div class="row">
 		<!-- Begin: payment settings column (left aligned) -->
 
+
+				
 			<div class="col-lg-6 flex-panel">
 				<div class="panel panel-default padded-panel">
 					<h4 class="h4-inline"> <span class="glyphicon glyphicon-lock off_black"></span> &nbsp; Stripe API settings </h4>
 
-					<button type="button" class="btn btn-primary" id="btn_saveStripeAPIKey"> Save &nbsp; <span class="glyphicon glyphicon-floppy-disk"></span></button>
-
+					<div class="pull-right">
+						<input type="checkbox" data-toggle="toggle" data-on="Live payments" data-off="Test mode" {% if control_data.stripe_api_keys.payment_status == "enabled" %} checked {% endif %}>
+						
+					</div>
 					<hr>
-					<input type="text" class="form-control editor_input_field" id="input_SecretKey" placeholder="Stripe API Secret Key" value="{{control_data.stripe_api_keys.secret_key}}"> <br>
-					<input type="text" class="form-control editor_input_field" id="input_PublishableKey" placeholder="Stripe API Publishable Key" value="{{control_data.stripe_api_keys.publishable_key}}">
+					<h5> Stripe test keys: </h5>
+						<div class="input-group">
+							<span class="input-group-addon"> Secret Key </span>
+							<input type="text" class="form-control editor_input_field" id="input_SecretKey" placeholder="Stripe API Secret Key" value="{{control_data.stripe_api_keys.secret_key_test}}"> <br>
+						</div>
+
+						<div class="input-group">
+							<span class="input-group-addon"> Publishable Key </span>
+						<input type="text" class="form-control editor_input_field" id="input_PublishableKey" placeholder="Stripe API Publishable Key" value="{{control_data.stripe_api_keys.publishable_key_test}}">
+						</div>
+					<hr>
+
+					<h5> Stripe live keys: </h5>
+						<div class="input-group">
+							<span class="input-group-addon"> Secret Key </span>
+							<input type="text" class="form-control editor_input_field" id="input_SecretKey" placeholder="Stripe API Secret Key" value="{{control_data.stripe_api_keys.secret_key_live}}"> <br>
+						</div>
+
+						<div class="input-group">
+							<span class="input-group-addon"> Publishable Key </span>
+						<input type="text" class="form-control editor_input_field" id="input_PublishableKey" placeholder="Stripe API Publishable Key" value="{{control_data.stripe_api_keys.publishable_key_live}}">
+						</div>
+					<hr>
 
 
+
+					<button type="button" class="btn btn-primary pull-right" id="btn_saveStripeAPIKey"  data-toggle="modal" data-target="#modal_confirmSetting"> Save &nbsp; <span class="glyphicon glyphicon-floppy-disk"></span></button>
 				</div>
 			</div>
 
@@ -31,10 +61,12 @@
 				<div class="panel panel-default padded-panel">
 				
 				
+					</div>
 				</div>
-			</div>
 
+			</div>
 		</div>
+	</div>
 </div>
 
 

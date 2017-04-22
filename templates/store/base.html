@@ -71,7 +71,13 @@
 	<script type="text/javascript" src="/static/js/store/jquery.payment.js"></script>
 	
 	<script type="text/javascript">
-			 Stripe.setPublishableKey('pk_test_idhTCBskER5T8GVsT7JhdHxK');
+		
+			{% if data.stripe_api_keys.payment_status == "enabled" %}
+				 Stripe.setPublishableKey('{{data.stripe_api_keys.publishable_key_live}}');
+			{% else %}
+				 Stripe.setPublishableKey('{{data.stripe_api_keys.publishable_key_test}}');
+			{% endif %}
+
 	</script>
 </body>
 </html>

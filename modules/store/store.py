@@ -12,6 +12,7 @@ from modules.database.order import *
 from modules.database.resources import *
 from modules.database.user import *
 import modules.database.customer as customer
+import modules.database.config as config
 from store_util import *
 
 #this is only included here temporarily, as I can access the store wide cart object
@@ -53,6 +54,10 @@ def Home(user_data=None):
 	data["current_page_js"] = ["store/"+page_id+".js", "store/lulu.js"]
 	data["common_libraries"] = render_template("store/common_libraries.html")
 
+	instance_db = instance_handle().cursor()
+	data["stripe_api_keys"] = config.getStripeAPIKeys(instance_db)
+	instance_db.close()
+
 	if user_data:
 		user_data["cart_contents"] = cartContents
 		data["nav_bar"] = ctl.render_tab("nav_bar", user_data)
@@ -89,6 +94,10 @@ def Page(page_id, user_data=None):
 	data["current_class_js"] = "store/Core.js"
 	data["current_page_js"] = ["store/"+page_id+".js", "store/lulu.js"]
 	data["common_libraries"] = render_template("store/common_libraries.html")
+
+	instance_db = instance_handle().cursor()
+	data["stripe_api_keys"] = config.getStripeAPIKeys(instance_db)
+	instance_db.close()
 
 	if user_data:
 		user_data["cart_contents"] = cartContents
@@ -129,6 +138,10 @@ def AllProducts(user_data=None):
 	data["current_class_js"] = "store/Core.js"
 	data["current_page_js"] = ["store/AllProducts.js", "store/lulu.js"]
 
+	instance_db = instance_handle().cursor()
+	data["stripe_api_keys"] = config.getStripeAPIKeys(instance_db)
+	instance_db.close()
+
 	if user_data:
 		user_data["cart_contents"] = cartContents
 		data["nav_bar"] = ctl.render_tab("nav_bar", user_data)
@@ -168,6 +181,10 @@ def loadCollection(collection_id, user_data=None):
 	data["current_page"] = "load_collection"
 	data["current_class_js"] = "store/Core.js"
 	data["current_page_js"] = ["store/Collection.js", "store/lulu.js"]
+
+	instance_db = instance_handle().cursor()
+	data["stripe_api_keys"] = config.getStripeAPIKeys(instance_db)
+	instance_db.close()
 
 	if user_data:
 		user_data["cart_contents"] = cartContents
@@ -213,6 +230,10 @@ def viewProduct(product_id, user_data=None):
 	data["current_class_js"] = "store/Core.js"
 	data["current_page_js"] = ["store/Product.js", "store/lulu.js"]
 
+	instance_db = instance_handle().cursor()
+	data["stripe_api_keys"] = config.getStripeAPIKeys(instance_db)
+	instance_db.close()
+
 	if user_data:
 		user_data["cart_contents"] = cartContents
 		data["nav_bar"] = ctl.render_tab("nav_bar", user_data)
@@ -256,6 +277,10 @@ def cart(user_data=None):
 	data["current_page"] = "cart"
 	data["current_class_js"] = "store/Core.js"
 	data["current_page_js"] = ["store/Cart.js", "store/lulu.js"]
+
+	instance_db = instance_handle().cursor()
+	data["stripe_api_keys"] = config.getStripeAPIKeys(instance_db)
+	instance_db.close()
 
 	if user_data:
 		user_data["cart_contents"] = cartContents
@@ -371,6 +396,10 @@ def checkout(user_data=None):
 	data["current_class_js"] = "store/Core.js"
 	data["current_page_js"] = ["store/Checkout.js", "store/Payment.js", "store/lulu.js"]	
 
+	instance_db = instance_handle().cursor()
+	data["stripe_api_keys"] = config.getStripeAPIKeys(instance_db)
+	instance_db.close()
+
 	if user_data:
 		user_data["cart_contents"] = cartContents
 		data["nav_bar"] = ctl.render_tab("nav_bar", user_data)
@@ -419,6 +448,10 @@ def order_success(user_data=None):
 		order_details = loadOrderByCharge(charge_id, db.cursor())	#loads order from db, so no session is required for persistance
 		print "CHARGE ID: ", charge_id
 		if order_details:
+			instance_db = instance_handle().cursor()
+			data["stripe_api_keys"] = config.getStripeAPIKeys(instance_db)
+			instance_db.close()
+
 			data["current_page"] = "order_success"
 			data["current_class_js"] = "store/Core.js"
 			data["current_page_js"] = ["store/OrderSuccess.js", "store/lulu.js"]

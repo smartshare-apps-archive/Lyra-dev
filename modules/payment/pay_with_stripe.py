@@ -11,7 +11,7 @@ db = instance_handle()
 
 #grab stripe api key settings from database
 stripe_keys = config.getStripeAPIKeys(db.cursor())
-stripe.api_key = stripe_keys['secret_key']
+stripe.api_key = stripe_keys['secret_key_test']
 
 
 def create_order(response, order_contents, customer_info):

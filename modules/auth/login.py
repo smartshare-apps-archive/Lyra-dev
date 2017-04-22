@@ -10,6 +10,8 @@ from modules.decorators import *
 from modules.database.store import *
 from modules.database.user import *
 import modules.database.order
+import modules.database.config as config
+
 
 #this is only included here temporarily, as I can access the store wide cart object
 from modules.store.cart import *
@@ -47,6 +49,10 @@ def login_redirect(product_id = None, collection_id = None):
 	data["current_page"] = "home"
 	data["current_class_js"] = "auth/Core.js"
 	data["current_page_js"] = "auth/Login.js"
+
+	instance_db = instance_handle().cursor()
+	data["stripe_api_keys"] = config.getStripeAPIKeys(instance_db)
+	instance_db.close()
 
 	data["common_libraries"] = render_template("store/common_libraries.html")
 
