@@ -3,7 +3,7 @@
 	<div class="col-xs-12 banner">
 	<h4 id="h4_banner"> <span class="glyphicon glyphicon-tags"></span> &nbsp; <a href="/control/products/">Products</a> / <a href="/control/products/collections">Collections</a> / {{ control_data.collection_data.Title }} 	&nbsp; <span class="glyphicon glyphicon-pencil"></span> </h4>
 
-		<button type="button" class="btn btn-warning" id="btn_deleteCollection">Delete Collection  <span class="glyphicon glyphicon-trash"> </span> </button>
+		<button type="button" class="btn btn-warning" id="btn_deleteCollection" data-toggle="modal" data-target="#modal_deleteCollection">Delete Collection  <span class="glyphicon glyphicon-trash"> </span> </button>
 		<button type="button" class="btn btn-primary" id="btn_saveCollection" data-toggle="modal" data-target="#modal_saveCollection">Save Collection <span class="glyphicon glyphicon-floppy-disk"> </span> </button>
 	</div>
 		
@@ -54,12 +54,13 @@
 				<hr>	
 				<!-- Begin condition form editor -->
 				<div class="panel panel-default text-center" id="panel_collection_conditions">
-					{% if control_data.collection_data.Conditions | length == 0 %}
-						<h5> This collection does not have any conditions yet. </h5>
-					{% else %}
+
+					{% if control_data.collection_data.Conditions %}
 						{% for condition_id, condition in control_data.collection_data.Conditions.iteritems() %}
 							<input type="hidden" class="collection-condition-data" data-conditionID="{{condition_id}}" value="{{condition}}">
 						{% endfor %}
+					{% else %}
+						<h5> This collection does not have any conditions yet. </h5>
 					{% endif %}
 				</div>
 				<hr>

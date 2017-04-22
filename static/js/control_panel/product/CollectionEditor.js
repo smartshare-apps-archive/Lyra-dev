@@ -5,6 +5,7 @@ var collectionConditions = {};
 var btn_saveCollection;
 var btn_deleteCollection;
 var btn_confirmCollectionChanges;
+var btn_confirmDeleteCollection;
 var btn_addCondition;
 
 var select_newConditionType;
@@ -57,6 +58,8 @@ function bindElements(){
 	btn_saveCollection = $("#btn_saveCollection");
 	btn_deleteCollection = $("#btn_deleteCollection");
 	btn_confirmCollectionChanges = $("#btn_confirmCollectionChanges");
+	btn_confirmDeleteCollection = $("#btn_confirmDeleteCollection");
+	
 	btn_addCondition = $("#btn_addCondition");
 
 	select_newConditionType = $("#select_newConditionType");
@@ -105,6 +108,7 @@ function bindEvents(){
 
 	btn_confirmCollectionChanges.click(saveCollectionChanges);
 
+	btn_confirmDeleteCollection.click(deleteCollection);
 }	
 
 
@@ -172,7 +176,7 @@ function setupDescriptionEditor(){
 	$('#collection_description_editor').on('summernote.change', function(e) {
  		collectionData["BodyHTML"] = $('#collection_description_editor').summernote('code');
 	});
-	
+
 	console.log(collectionData);
 }
 

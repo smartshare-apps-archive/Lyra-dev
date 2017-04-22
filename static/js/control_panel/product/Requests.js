@@ -187,9 +187,7 @@ function deleteProduct(event){
 }
 
 
-function deleteCollection(event){
-	collection_id = event.data.collection_id;
-
+function deleteCollection(){
 	$.ajax({
 	  method: "POST",
 	  url: "/actions/deleteCollection",
