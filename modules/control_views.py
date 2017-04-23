@@ -727,6 +727,7 @@ class ControlPanel(object):
 
 		footer_categories = store.getFooterCategories(self.database)
 
+
 		if footer_categories != {}:
 			formattedFooterCategories = {}
 			for footer_category, footer_data in footer_categories.iteritems():
@@ -744,6 +745,10 @@ class ControlPanel(object):
 		
 		else:
 			self.control_data["footer_categories"] = {}
+
+
+		self.control_data["collections"] = loadCollections(self.database) 	#this loads all collections for link selection
+
 
 
 		return render_template("control_panel/store_settings/Footer.html", control_data = self.control_data)

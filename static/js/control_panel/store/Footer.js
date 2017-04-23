@@ -17,7 +17,6 @@ $(document).ready(function(){
 	selectedFooterCategory = default_selection.attr('data-footerCategory');
 	
 	setupHeaderEditor();
-
 	selectFooterCategory(selectedFooterCategory);
 
 
