@@ -1,0 +1,96 @@
+{% block page_content %}
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+
+<div class="row">
+	<div class="col-xs-12 banner">
+	<h4 id="h4_banner"> <span class="glyphicon glyphicon-plane"></span> &nbsp;  <a href="/control/settings/">Settings</a> / <a href="/control/settings/shipping"> Shipping </a> </h4>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 tab_content">
+	<!-- Begin payment settings content div -->
+		<div class="container-fluid main-content-container-sm">
+			<div class="row">
+		<!-- Begin: payment settings column (left aligned) -->
+
+
+				
+			<div class="col-lg-6 flex-panel">
+				<div class="panel panel-default padded-panel">
+					<h4 class="h4-inline"> <span class="glyphicon glyphicon-lock off_black"></span> &nbsp; Shippo API Settings </h4>
+
+					<div class="pull-right">
+						<input type="checkbox" class="editor_input_field" data-fieldID="shipping_status" data-toggle="toggle" data-on="Live shipping" data-off="Test mode" {% if control_data.shippo_api_keys.shipping_status == "enabled" %} checked {% endif %}>
+						
+					</div>
+					<hr>
+					
+						<div class="input-group">
+							<span class="input-group-addon"> Test Key </span>
+							<input type="text" class="form-control editor_input_field" data-fieldID="api_test_token" placeholder="Shippo API Test Token" value="{{control_data.shippo_api_keys.api_test_token}}"> <br>
+						</div>
+
+					<hr>
+
+						<div class="input-group">
+							<span class="input-group-addon"> Live Key </span>
+							<input type="text" class="form-control editor_input_field" data-fieldID="api_live_token" placeholder="Shippo API Live Token" value="{{control_data.shippo_api_keys.api_live_token}}"> <br>
+						</div>
+
+
+					<hr>
+
+
+
+					<button type="button" class="btn btn-primary pull-right" id="btn_saveShippoAPIKeys"  data-toggle="modal" data-target="#modal_confirmSetting"> Save &nbsp; <span class="glyphicon glyphicon-floppy-disk"></span></button>
+				</div>
+			</div>
+
+			<div class="col-lg-6 flex-panel">
+				<div class="panel panel-default padded-panel">
+					<h4 class="h4-inline"> <span class="glyphicon glyphicon-home off_black"></span> &nbsp; Shipping Address From</h4> 
+					<hr>
+
+					<div id="settings_defaultShippingAddress" class="text-center">
+					<span class="shipping-label" data-fieldID="ShippingFirstName">{{control_data.default_shipping_address.ShippingFirstName}}</span>&nbsp;<span class="shipping-label" data-fieldID="ShippingLastName">{{control_data.default_shipping_address.ShippingLastName}}</span> <br>
+					<span class="shipping-label" data-fieldID="ShippingAddress1">{{control_data.default_shipping_address.ShippingAddress1}}</span> <br>
+					{% if control_data.default_shipping_address.ShippingAddress2 != "" %} <span class="shipping-label" data-fieldID="ShippingAddress2">{{control_data.default_shipping_address.ShippingAddress2}}</span> <br> {% endif %}
+					<span class="shipping-label" data-fieldID="ShippingCity">{{control_data.default_shipping_address.ShippingCity}}</span>,&nbsp;<span class="shipping-label" data-fieldID="ShippingState">{{control_data.default_shipping_address.ShippingState}}</span>&nbsp;<span class="shipping-label" data-fieldID="ShippingPostalCode">{{control_data.default_shipping_address.ShippingPostalCode}}</span>
+					<br>
+					<span class="shipping-label" data-fieldID="ShippingCountry">{{control_data.default_shipping_address.ShippingCountry}}</span>
+					<br>
+
+					<button type="button" class="btn btn-link" data-toggle="modal" data-target="#modal_editShippingAddress"> Edit Address </button>
+					</div>
+
+						
+				
+					<hr>
+
+					<button type="button" class="btn btn-primary pull-right" id="btn_saveDefaultShippingAddress"  data-toggle="modal" data-target="#modal_confirmSetting"> Save &nbsp; <span class="glyphicon glyphicon-floppy-disk"></span></button>
+				
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12" id="footer_products">			
+	</div>
+</div>
+
+{% for modal in control_data.modals %}
+
+	{{ modal | safe }}
+
+{% endfor %}
+
+
+{% endblock page_content %}

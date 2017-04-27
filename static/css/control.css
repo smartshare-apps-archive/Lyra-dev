@@ -1903,6 +1903,10 @@ top:-1px;
 
 /* store settings css */
 
+#settings_defaultShippingAddress{
+    font-size:16px;
+}
+
 #btn_saveStripeAPIKey{
     margin-top:10px;
     float:right;    

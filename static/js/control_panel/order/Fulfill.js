@@ -3,7 +3,7 @@ var btn_markFulfilled;
 var btn_fulfillItems;
 var btn_createNewShipment;
 var btn_saveShipment;
-
+var btn_genShipmentObj;
 var cont_buy_label;
 var cont_mark_fulfilled;
 
@@ -58,6 +58,7 @@ function bindElements(){
 	btn_fulfillItems = $("#btn_fulfillItems");
 	btn_createNewShipment = $("#btn_createNewShipment");
 	btn_saveShipment = $("#btn_saveShipment");
+	btn_genShipmentObj = $("#btn_genShipmentObj");
 
 	cont_buy_label = $("#cont_buy_label");
 	cont_mark_fulfilled = $("#cont_mark_fulfilled");
@@ -269,7 +270,7 @@ function populateProductTable(containerID){
 		tableTemplateHTML += "<tr>";
 		tableTemplateHTML += "<td>" + productData[product_sku]["Title"] + "</td>";
 		tableTemplateHTML += "<td>" + product_sku + "</td>";
-		tableTemplateHTML += "<td>" + (productData[product_sku]["Weight"]/1000) + "</td>";
+		tableTemplateHTML += "<td><input type\"text\" class=\"form-control product-weight-input\" value=\"" + (productData[product_sku]["Weight"]/1000) + "\" data-productSKU=\"" + product_sku + "\"> </td>";
 		tableTemplateHTML += "<td>" + productQtyDropdown + "</td>";
 		tableTemplateHTML += "</tr>";
 	}
@@ -309,8 +310,56 @@ function populateProductTable(containerID){
 	shipment_options_table.html("");
 	selected_shipping_method.html("");
 	generated_label_data.html("");
+
+
+	validateProductWeights();
+
+	
 }
 
+
+function validateProductWeights(){
+	var validWeights = true;
+
+	$(".product-weight-input").each(function(){
+
+		var productWeight = $(this).val();
+		var productSKU = $(this).attr('data-productSKU');
+
+		if(productWeight == "NaN" || productWeight == 0.00){
+			btn_genShipmentObj.unbind();
+			btn_genShipmentObj.toggleClass("disabled", true);
+			//btn_genShipmentObj.click({order_id: order_id}, createShipmentObject);
+			validWeights = false;
+		}
+
+		$(this).change(function(){
+			var selectorString = '[data-productSKU="' + productSKU + '"]';
+			var weightElements = $(".product-weight-input" + selectorString);
+			var newWeight = $(this).val();
+
+			weightElements.each(function(){
+				$(this).val(newWeight);
+			});
+
+			
+			console.log(newWeight);
+			productData[productSKU]["Weight"] = newWeight;
+			validateProductWeights();
+		});
+
+	});
+
+	if (validWeights){
+		console.log(validWeights);
+		btn_genShipmentObj.unbind();
+		btn_genShipmentObj.toggleClass("disabled", false);
+		btn_genShipmentObj.click({order_id: order_id}, createShipmentObject);
+		calculateParcelData();
+	}
+
+
+}
 
 
 // 
@@ -343,7 +392,7 @@ function populateProductTable_shipment(shipment_id){
 		tableTemplateHTML += "<tr>";
 		tableTemplateHTML += "<td>" + productData[product_sku]["Title"] + "</td>";
 		tableTemplateHTML += "<td>" + product_sku + "</td>";
-		tableTemplateHTML += "<td>" + (productData[product_sku]["Weight"]/1000) + "</td>";
+		tableTemplateHTML += "<td><input type\"text\" class=\"form-control product-weight-input\" value=\"" + (productData[product_sku]["Weight"]/1000) + "\" data-productSKU=\"" + product_sku + "\"> </td>";
 		tableTemplateHTML += "<td>" + product_qty +  "</td>";
 		tableTemplateHTML += "</tr>";
 	}
@@ -431,8 +480,6 @@ function calculateParcelData(event){
 		var fulfillment_method = event.data.fulfillment_method;
 	}
 
-	console.log(fulfillment_method);
-
 	parcelData = {};
 
 	if(fulfillment_method == "shippo"){
@@ -470,7 +517,7 @@ function calculateParcelData(event){
 
 	}
 
-	parcelData["Weight"] = (totalParcelWeight/1000);
+	parcelData["Weight"] = (totalParcelWeight);
 	parcelData["ItemCount"] = totalItemCount;
 
 	populateShipmentDetailsTable();
@@ -670,8 +717,6 @@ function toggleProductSelection(event){
 		modal_loadShippingAddressTo();
 
 
-
-		bindShipmentModalEvents();
 	}
 	else{
 		btn_createNewShipment.toggleClass("disabled",true);
@@ -683,14 +728,6 @@ function toggleProductSelection(event){
 }
 
 
-function bindShipmentModalEvents(){
-	var btn_genShipmentObj = $("#btn_genShipmentObj");
-	btn_genShipmentObj.unbind();
-	btn_genShipmentObj.click({order_id: order_id}, createShipmentObject);
-
-}
-
-
 
 
 function range(start, end, inc){
@@ -698,5 +735,5 @@ function range(start, end, inc){
 	for(var i=start;i<=end;i+=inc){
 		a.push(i);
 	}
-	return a
+	return a;
 }

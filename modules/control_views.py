@@ -99,6 +99,8 @@ class ControlPanel(object):
 			return self.settings_Main()
 		elif tab == "settings_payment":
 			return self.settings_Payment()
+		elif tab == "settings_shipping":
+			return self.settings_Shipping()
 		elif tab == "settings_advanced":
 			return self.settings_Advanced()
 
@@ -607,6 +609,7 @@ class ControlPanel(object):
 		shipping_data = shipment.loadOrderShipments(order_id, self.database)
 
 		product_thumbnails = {}
+
 		for product_id, product in products.iteritems():
 			imageURI = resources.loadResourceURI(product["ImageSrc"], self.database)
 			product_thumbnails[product_id] = imageURI 
@@ -688,6 +691,30 @@ class ControlPanel(object):
 		self.control_data["stripe_api_keys"] = stripe_api_keys
 
 		return render_template("control_panel/settings/Payment.html", control_data = self.control_data)
+
+
+
+
+	def settings_Shipping(self):
+		self.control_data["page"] = "settings_shipping"
+
+		shippo_api_keys = config.getShippoAPIKeys(self.instance_db)
+		default_shipping_address = config.getDefaultShippingAddress(self.instance_db)
+
+		self.control_data["shippo_api_keys"] = shippo_api_keys
+		self.control_data["default_shipping_address"] = default_shipping_address
+
+		country_list = config.CountryList(self.instance_db)
+		rendered_country_list = render_template("control_panel/settings/country_list.html", country_list = country_list, default_shipping_address=default_shipping_address)
+
+		self.control_data["modals"] = [ render_template("control_panel/settings/modal_edit_shipping_address.html", address = default_shipping_address ,country_list=rendered_country_list)]
+		
+
+
+		return render_template("control_panel/settings/Shipping.html", control_data = self.control_data)
+
+
+
 
 
 	def settings_Advanced(self, flag=None):

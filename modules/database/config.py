@@ -1,5 +1,5 @@
 import sqlite3
-
+from functools import partial
 
 ERROR_CODES = {
 	"NO_DB": "There was an issue connecting to the store database. Please verify your configuration below."
@@ -276,12 +276,27 @@ def getDefaultShippingAddress(database):
 		return None
 
 
-#gets the stripe api keys to allow for payment with credit cards directly on the store
-def getStripeAPIKeys(database):
-	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="stripe_api_keys";"""
+
+
+def setDefaultShippingAddress(default_address, database):
+	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="DefaultShippingAddress";"""
 
 	try:
-		database.execute(currentQuery)
+		database.execute(currentQuery, (default_address, ))
+	except Exception as e:
+		print e
+		return False
+
+	return True
+
+
+
+#template to retreive api keys
+def getAPIKeys(database, setting_id):
+	currentQuery = """SELECT FieldList FROM settings WHERE setting_id=?;"""
+
+	try:
+		database.execute(currentQuery, (setting_id, ))
 	except Exception as e:
 		print "Error: ", e
 
@@ -289,26 +304,37 @@ def getStripeAPIKeys(database):
 	if api_keys:
 		api_keys = api_keys[0].split(',')
 		
-		stripe_api_keys = {}
+		formatted_api_keys = {}
 
 		for key in api_keys:
 			key = key.split(':')
-			stripe_api_keys[key[0]] = key[1]
+			formatted_api_keys[key[0]] = key[1]
 
-		return stripe_api_keys
+		return formatted_api_keys
 
 
-#sets the stripe api keys to allow for payment with credit cards directly on the store
-def setStripeAPIKeys(stripe_api_keys, database):
-	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="stripe_api_keys";"""
+
+# template function to set api keys
+def setAPIKeys(setting_id, api_keys, database):
+	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id=?;"""
 
 	try:
-		database.execute(currentQuery, (stripe_api_keys,))
+		database.execute(currentQuery, (api_keys, setting_id, ))
 	except Exception as e:
 		print e
 		return False
 
 	return True
+
+
+
+
+setStripeAPIKeys = partial(setAPIKeys, setting_id='stripe_api_keys')
+getStripeAPIKeys = partial(getAPIKeys, setting_id='stripe_api_keys')
+
+setShippoAPIKeys = partial(setAPIKeys, setting_id='shippo_api_keys')
+getShippoAPIKeys = partial(getAPIKeys, setting_id='shippo_api_keys')
+
 
 
 
@@ -407,7 +433,7 @@ def CountryList(database):
 		print "Error: ", e
 
 	countryList = database.fetchone()
-	print countryList
+	
 	if countryList:
 		countryList = [country.split(':') for country in countryList[0].split(',')]
 		return countryList

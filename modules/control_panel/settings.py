@@ -105,3 +105,28 @@ def payment_settings():
 
 
 
+@settings_routes.route('/control/settings/shipping')
+@settings_routes.route('/control/settings/shipping/')
+#@admin_required(current_app, session, login_redirect)
+def shipping_settings():
+	ctl = current_app.config["ctl"]
+	data = {}
+
+	data["current_page"] = "settings_shipping"
+	data["current_class_js"] = "control_panel/settings/Core.js"
+	data["current_page_js"] = "control_panel/settings/Shipping.js"
+	data["current_requests_js"] = "control_panel/settings/Requests.js"
+	
+	response = ctl.render_tab("settings_shipping")
+
+	if response in config.ERROR_CODES:
+		return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
+	else:
+		data["current_page_content"] = response
+
+	data["ts"] = int(time.time())
+	data["modal"] = Markup(render_template("control_panel/modal.html"))
+	data["submenu"] = Markup(render_template("control_panel/subMenu_settings.html"))
+
+	return render_template("control_panel/control.html", data=data)
+

@@ -36,7 +36,42 @@ def saveStripeAPIKeys():
 	
 	instance_db = instance_handle()
 	
-	config.setStripeAPIKeys(stripe_api_keys, instance_db.cursor())
+	config.setStripeAPIKeys(api_keys = stripe_api_keys, database = instance_db.cursor())
+
+	instance_db.commit()
+	instance_db.close()
+
+	return json.dumps("success")
+
+
+
+
+@settingsActions.route('/actions/saveShippoAPIKeys', methods=['POST'])
+#@admin_required(current_app, session, login_redirect)
+def saveShippoAPIKeys():
+	shippo_api_keys = request.form['shippo_api_keys']
+	shippo_api_keys = json.loads(shippo_api_keys)
+	
+	instance_db = instance_handle()
+	
+	config.setShippoAPIKeys(api_keys = shippo_api_keys, database = instance_db.cursor())
+
+	instance_db.commit()
+	instance_db.close()
+
+	return json.dumps("success")
+
+
+
+@settingsActions.route('/actions/saveDefaultShippingAddress', methods=['POST'])
+#@admin_required(current_app, session, login_redirect)
+def saveDefaultShippingAddress():
+	default_shipping_address = request.form['default_shipping_address']
+	default_shipping_address = json.loads(default_shipping_address)
+	
+	instance_db = instance_handle()
+	
+	config.setDefaultShippingAddress(default_shipping_address, database = instance_db.cursor())
 
 	instance_db.commit()
 	instance_db.close()

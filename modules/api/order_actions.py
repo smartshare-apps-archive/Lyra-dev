@@ -172,6 +172,7 @@ def createShipmentObject():
 		"mass_unit": "kg"
 	}
 
+	print "Attempting to create a shipment with weight: ", parcel_data["Weight"]
 	shipment = shippo.Shipment.create(
 	    address_from = address_from,
 	    address_to = address_to,
@@ -199,7 +200,16 @@ def generateShippingLabel():
 	selected_option = request.form['selected_option']
 	selected_option = int(json.loads(selected_option))
 
-	shippo.api_key = "shippo_test_0c91f05a81b1168a9e24f494b064a3ff5be3ebff"
+	instance_db = instance_handle().cursor()
+
+	shippo_api_keys = config.getShippoAPIKeys(instance_db)
+
+
+	if shippo_api_keys["shipping_status"] == "enabled":	
+		shippo.api_key = shippo_api_keys["api_live_token"]
+	else:
+		shippo.api_key = shippo_api_keys["api_test_token"]
+
 
 	#select the rate specified by the user
 	rate = shipment_obj["rates"][selected_option]

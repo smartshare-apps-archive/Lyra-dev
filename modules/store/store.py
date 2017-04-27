@@ -55,7 +55,7 @@ def Home(user_data=None):
 	data["common_libraries"] = render_template("store/common_libraries.html")
 
 	instance_db = instance_handle().cursor()
-	data["stripe_api_keys"] = config.getStripeAPIKeys(instance_db)
+	data["stripe_api_keys"] = config.getAPIKeys(instance_db, 'stripe_api_keys')
 	instance_db.close()
 
 	if user_data:
@@ -96,7 +96,7 @@ def Page(page_id, user_data=None):
 	data["common_libraries"] = render_template("store/common_libraries.html")
 
 	instance_db = instance_handle().cursor()
-	data["stripe_api_keys"] = config.getStripeAPIKeys(instance_db)
+	data["stripe_api_keys"] = config.getAPIKeys(instance_db, 'stripe_api_keys')
 	instance_db.close()
 
 	if user_data:
@@ -139,7 +139,7 @@ def AllProducts(user_data=None):
 	data["current_page_js"] = ["store/AllProducts.js", "store/lulu.js"]
 
 	instance_db = instance_handle().cursor()
-	data["stripe_api_keys"] = config.getStripeAPIKeys(instance_db)
+	data["stripe_api_keys"] = config.getAPIKeys(instance_db, 'stripe_api_keys')
 	instance_db.close()
 
 	if user_data:

@@ -11,7 +11,7 @@ $(document).ready(function(){
 
 function bindMenuButtons(){
 	var subNavMenuButtons = $(".li_sub_nav_link");
-	subNavMenuButtons.click(goToLink);
+	
 
 }
 
@@ -19,17 +19,6 @@ function bindMenuButtons(){
 function goToLink(event){
 	page = event.target.id;
 	
-	if (page == "li_link_settings_main"){
-		window.location.replace("/control/settings/");
-	}
-	else if (page == "li_link_settings_payment"){
-		window.location.replace("/control/settings/payment");
-	}
-
-
-	else{
-		alert('not ready yet');
-	}
 }
 
 
