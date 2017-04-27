@@ -278,6 +278,7 @@ def getDefaultShippingAddress(database):
 
 
 
+
 def setDefaultShippingAddress(default_address, database):
 	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="DefaultShippingAddress";"""
 
@@ -288,6 +289,58 @@ def setDefaultShippingAddress(default_address, database):
 		return False
 
 	return True
+
+
+
+def getPackageTypes(database):
+	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="PackageTypes";"""
+
+	try:
+		database.execute(currentQuery)
+	except Exception as e:
+		print "Error: ", e
+
+	packages = database.fetchone()
+
+	if packages:
+		packages = filter(lambda p: p != "", packages[0].split('<package_split>'))
+		packageList = []
+
+		for idx, package in enumerate(packages):
+			package = filter(lambda p: p != "", package.split(';'))
+
+			packageList.append({})
+
+			packageList[idx] = {}
+
+			for field in package:
+				key, value = field.split('=')
+				packageList[idx][key] = value
+				
+		formattedPackages = {}
+
+		for package in packageList:
+			formattedPackages[package['title']] = {}
+			formattedPackages[package['title']] = package
+			formattedPackages[package['title']].pop('title',None)
+
+		return formattedPackages
+	else:
+		return None
+
+
+
+def setPackageTypes(package_type_string, database):
+	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="PackageTypes";"""
+
+	try:
+		database.execute(currentQuery, (package_type_string, ))
+	except Exception as e:
+		print e
+		return False
+
+	return True
+
 
 
 

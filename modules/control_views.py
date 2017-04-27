@@ -701,13 +701,19 @@ class ControlPanel(object):
 		shippo_api_keys = config.getShippoAPIKeys(self.instance_db)
 		default_shipping_address = config.getDefaultShippingAddress(self.instance_db)
 
+		package_types = config.getPackageTypes(self.instance_db)
+
+		print "Package types: ", package_types
+
+		self.control_data["package_table"] = render_template("control_panel/settings/packageTable.html", package_types = package_types)
+
 		self.control_data["shippo_api_keys"] = shippo_api_keys
 		self.control_data["default_shipping_address"] = default_shipping_address
 
 		country_list = config.CountryList(self.instance_db)
 		rendered_country_list = render_template("control_panel/settings/country_list.html", country_list = country_list, default_shipping_address=default_shipping_address)
 
-		self.control_data["modals"] = [ render_template("control_panel/settings/modal_edit_shipping_address.html", address = default_shipping_address ,country_list=rendered_country_list)]
+		self.control_data["modals"] = [ render_template("control_panel/settings/modal_edit_shipping_address.html", address = default_shipping_address ,country_list=rendered_country_list), render_template("control_panel/settings/modal_edit_package.html")]
 		
 
 

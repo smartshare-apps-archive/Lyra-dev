@@ -80,6 +80,24 @@ def saveDefaultShippingAddress():
 
 
 
+@settingsActions.route('/actions/savePackageTypes', methods=['POST'])
+#@admin_required(current_app, session, login_redirect)
+def savePackageTypes():
+	package_types = request.form['package_types']
+	package_types = json.loads(package_types)
+	
+	instance_db = instance_handle()
+	
+	config.setPackageTypes(package_types,instance_db.cursor())
+
+	instance_db.commit()
+	instance_db.close()
+
+	return json.dumps("success")
+
+
+
+
 @settingsActions.route('/actions/saveRedisConfig', methods=['POST'])
 #@admin_required(current_app, session, login_redirect)
 def saveRedisConfig():

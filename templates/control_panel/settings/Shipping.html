@@ -47,6 +47,17 @@
 
 					<button type="button" class="btn btn-primary pull-right" id="btn_saveShippoAPIKeys"  data-toggle="modal" data-target="#modal_confirmSetting"> Save &nbsp; <span class="glyphicon glyphicon-floppy-disk"></span></button>
 				</div>
+
+
+				<div class="panel panel-default padded-panel">
+					<h4 class="h4-inline"> <span class="glyphicon glyphicon-envelope off_black"></span> &nbsp;  Packages </h4> <hr>
+						{{ control_data.package_table | safe }}
+					<hr>
+
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_editPackage" id="btn_createNewPackageType"> Create Package </button>
+
+					<button type="button" class="btn btn-primary pull-right" id="btn_savePackageTypes"> Save &nbsp; <span class="glyphicon glyphicon-floppy-disk"></span></button>
+				</div>
 			</div>
 
 			<div class="col-lg-6 flex-panel">

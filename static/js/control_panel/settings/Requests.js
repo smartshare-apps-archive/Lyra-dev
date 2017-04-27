@@ -38,6 +38,32 @@ function saveShippoAPIKeys(event){
 }
 
 
+
+
+function savePackageTypes(){
+	var packageTypesString = "";
+
+	for(key in shippingSettings["PackageTypes"]){
+		var currentPackageData = shippingSettings["PackageTypes"][key];
+		packageTypesString += "title=" + currentPackageData["title"] + ";unit=" + currentPackageData["unit"] + ";l=" + currentPackageData["l"] + ";w=" + currentPackageData["w"] + ";h=" + currentPackageData["h"] + ";<package_split>";
+	}
+
+
+	$.ajax({
+	  method: "POST",
+	  url: "/actions/savePackageTypes",
+	  dataType: "json",
+	  data: { package_types: JSON.stringify(packageTypesString) },
+	  traditional: true
+	})
+	  .done(function(msg) {
+	  	window.location.reload();
+	  });
+}
+
+
+
+
 function saveDefaultShippingAddress(event){
 	var default_shipping_address = "ShippingFirstName:" + shippingSettings["ShippingFirstName"] + ";ShippingLastName:" + shippingSettings["ShippingLastName"];
 	default_shipping_address += ";ShippingAddress1:" + shippingSettings["ShippingAddress1"] + ";ShippingAddress2:" + shippingSettings["ShippingAddress2"];
