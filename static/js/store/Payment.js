@@ -23,12 +23,12 @@ function verifyPaymentMethod(){
 		"cvc": $("#customer_cvc").val(),
 		"exp_month": parseInt($("#customer_exp").val().split('/')[0]),
 		"exp_year": parseInt($("#customer_exp").val().split('/')[1]),
-		"address_line1": $("#customer_BillingAddress1").val(),
-		"address_line2": $("#customer_BillingAddress2").val(),
-		"address_city": $("#customer_BillingCity").val(),
-		"address_state": $("#customer_BillingState").val(),
-		"address_country": $("#customer_BillingCountry").val(),
-		"address_zip": $("#customer_BillingPostalCode").val()
+		"address_line1": $(".customer_info_input" + '[data-fieldID="BillingAddress1"]').val(),
+		"address_line2": $(".customer_info_input" + '[data-fieldID="BillingAddress2"]').val(),
+		"address_city": $(".customer_info_input" + '[data-fieldID="BillingCity"]').val(),
+		"address_state": $(".customer_info_input" + '[data-fieldID="BillingState"]').val(),
+		"address_country": $(".customer_info_input" + '[data-fieldID="BillingCountry"]').val(),
+		"address_zip": $(".customer_info_input" + '[data-fieldID="BillingPostalCode"]').val()
 	};
 
 	$("#progress_button").slideToggle();			// show progress button
@@ -49,8 +49,8 @@ function stripeResponseHandler(status, response) {
     	$("#error_message_container").html("");
 
 		var billing_info = {
-			"BillingFirstName": $("#customer_BillingFirstName").val(),
-			"BillingLastName": $("#customer_BillingLastName").val(),
+			"BillingFirstName": $(".customer_info_input" + '[data-fieldID="BillingFirstName"]').val(),
+			"BillingLastName": $(".customer_info_input" + '[data-fieldID="BillingLastName"]').val(),
 			"BillingAddress1": response.card["address_line1"],
 			"BillingAddress2": response.card["address_line2"],
 			"BillingCity": response.card["address_city"],
@@ -60,17 +60,17 @@ function stripeResponseHandler(status, response) {
 		}
 
 		var shipping_info = {
-			"ShippingAddress1": $("#customer_ShippingAddress1").val(),
-			"ShippingAddress2": $("#customer_ShippingAddress2").val(),
-			"ShippingCity": $("#customer_ShippingCity").val(),
-			"ShippingState": $("#customer_ShippingState").val(),
-			"ShippingPostalCode": $("#customer_ShippingPostalCode").val(),
-			"ShippingCountry":  $("#customer_ShippingCountry").val(),
-			"ShippingFirstName": $("#customer_ShippingFirstName").val(),
-			"ShippingLastName": $("#customer_ShippingLastName").val()
+			"ShippingAddress1": $(".customer_info_input" + '[data-fieldID="ShippingAddress1"]').val(),
+			"ShippingAddress2": $(".customer_info_input" + '[data-fieldID="ShippingAddress2"]').val(),
+			"ShippingCity": $(".customer_info_input" + '[data-fieldID="ShippingCity"]').val(),
+			"ShippingState": $(".customer_info_input" + '[data-fieldID="ShippingState"]').val(),
+			"ShippingPostalCode": $(".customer_info_input" + '[data-fieldID="ShippingPostalCode"]').val(),
+			"ShippingCountry":  $(".customer_info_input" + '[data-fieldID="ShippingCountry"]').val(),
+			"ShippingFirstName": $(".customer_info_input" + '[data-fieldID="ShippingFirstName"]').val(),
+			"ShippingLastName": $(".customer_info_input" + '[data-fieldID="ShippingLastName"]').val()
 		}
 
-		var billingName = $("#customer_BillingFirstName").val() + " " + $("#customer_BillingLastName").val();
+		var billingName = $(".customer_info_input" + '[data-fieldID="BillingFirstName"]').val() + " " + $(".customer_info_input" + '[data-fieldID="BillingLastName"]').val();
 
 		$("#order_BillingName").html(billingName);
 		$("#order_BillingAddress1").html(billing_info["BillingAddress1"]);
@@ -115,9 +115,9 @@ function stripeResponseHandler(status, response) {
 			"BillingState": billing_info["BillingState"],
 			"BillingFirstName": billing_info["BillingFirstName"],
 			"BillingLastName": billing_info["BillingLastName"],
-			"Phone": $("#customer_Phone").val(),
-			"Email": $("#customer_Email").val(),
-			"Company": $("#customer_Company").val()
+			"Phone": $(".customer_info_input" + '[data-fieldID="Phone"]').val(),
+			"Email": $(".customer_info_input" + '[data-fieldID="Email"]').val(),
+			"Company": $(".customer_info_input" + '[data-fieldID="Company"]').val()
   		}
 
   		// open the confirm order container (to submit order)

@@ -171,6 +171,8 @@ function selectFooterCategory(footer_category){
 
 		currentHTML += "<div class=\"dropdown_link_cont\" data-footerCategory=\"" + footer_category + "\" data-dropdownLink=\"" + link + "\">";
 		currentHTML += "<input type=\"text\" class=\"form-control footer_edit input_link_label\" value=\"" + link + "\">";
+		
+
 		currentHTML += "<input type=\"text\" class=\"form-control footer_edit input_link_href\" value=\"" + uri + "\">";
 		currentHTML += "<button type=\"button\" class=\"btn btn-danger btn_delete_footer_link\" data-dropdownLink=\"" + link + "\"> <span class=\"glyphicon glyphicon-minus-sign\"> </span> </button>";
 		currentHTML += "</div>";

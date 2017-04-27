@@ -746,10 +746,9 @@ class ControlPanel(object):
 		else:
 			self.control_data["footer_categories"] = {}
 
-
 		self.control_data["collections"] = loadCollections(self.database) 	#this loads all collections for link selection
-
-
+		self.control_data["content_pages_links"] = ['/page/' + page_id.replace(' ', '%20') for page_id in store.getPageIDs(self.database)]						# need to write a fn to pull static pages
+		print "Content pages:", self.control_data["content_pages_links"]
 
 		return render_template("control_panel/store_settings/Footer.html", control_data = self.control_data)
 

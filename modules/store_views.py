@@ -366,13 +366,25 @@ class Store(object):
 
 	def LoadCollection(self, collection_id):
 		collectionData = loadCollection(collection_id, self.database)
-		products = loadProductsInCollection(collectionData, self.database)	
-		products = filter(lambda p: p["Published"]==True, products)
+		print collectionData
+		image_resources = {}
+
+		productIDList = loadProductsInCollection(parseCollectionConditions(collectionData["Conditions"]), collectionData["Strict"], self.database)
+		
+		if len(productIDList) > 0:
+			products = loadProductsByID(productIDList, self.database)
+
+			print "HERE ARE PRODUCTS: ", products
+			for product_id, product in products.iteritems():
+				imageURI = resources.loadResourceURI(product["ImageSrc"], self.database)
+				image_resources[str(product_id)] = imageURI
+
+		
 
 		rows = formatProductRows(products)
 
 		self.store_data["collection_title"] = collectionData["Title"]
-		self.store_data["product_rows"] = render_template("store/product_row.html", products=products, rows=rows)
+		self.store_data["product_rows"] = render_template("store/product_row.html", products=products, rows=rows, image_resources=image_resources)
 
 		return self.store_data
 

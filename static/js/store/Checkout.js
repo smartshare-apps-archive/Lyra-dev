@@ -87,13 +87,12 @@ function bindElements(){
 
 function bindEvents(){
 	$(".customer_info_input").each(function(){
-		$(this).find('input').on('change keyup paste',validateFieldEvent);
+		$(this).on('change keyup paste',validateFieldEvent);
 		
-		var currentField = $(this).find('.form-control').attr('id');
+		var currentField = $(this).attr('data-fieldID');
 		// this is for validating data that appears on load (from logged in customers)
 		if(currentField){
-			var targetID = currentField.split('_')[1];
-			validateField(targetID);
+			validateField(currentField);
 		}
 		
 
@@ -220,15 +219,14 @@ function toggleShippingAddress(event){
 		var step_valid = validateCheckoutStep(currentCheckoutStep);
 
 		$(".customer_info_input").each(function(){
-			var targetField = $(this).find('input');
-			var targetFieldID = targetField.attr('id').split('_')[1];
-			var currentFieldValue =  targetField.val();
+			var targetFieldID = $(this).attr('data-fieldID');
+			var currentFieldValue =  $(this).val();
 
 			//replace the content in the shipping container to match the billing container, if "Ship to this address" is selected
 			if(targetFieldID.indexOf("Billing") >= 0){
 				var el = targetFieldID.replace("Billing","Shipping");
 
-				$("#customer_"+el).val(currentFieldValue);
+				$(".customer_info_input"+el).val(currentFieldValue);
 				validateFieldContent(el, currentFieldValue);
 			}
 
@@ -247,23 +245,26 @@ function toggleShippingAddress(event){
 
 function validateField(fieldID) {
 	var targetFieldID = fieldID;
-	var currentFieldValue = $("#customer_"+targetFieldID).val();
+	var selectorString = '[data-fieldID="' + targetFieldID + '"]';
+	var currentFieldValue = $(".customer_info_input"+selectorString).val();
+
 	validateFieldContent(targetFieldID, currentFieldValue);
 }
 
 
 function validateFieldEvent(event){
-	var targetFieldID = $(event.target).attr('id').split('_')[1];
+	var targetFieldID = $(event.target).attr('data-fieldID');
 	var currentFieldValue = $(event.target).val();
 	validateFieldContent(targetFieldID, currentFieldValue);
 
+	console.log("Updating: " + targetFieldID);
 	if(shippingIsBilling){
 		if(targetFieldID.indexOf("Billing") >= 0){
-			var el = targetFieldID.replace("Billing","Shipping")
+			var el = '[data-fieldID="' + targetFieldID.replace("Billing","Shipping") + '"]';
 
-			$("#customer_"+el).val($(event.target).val());
+			$(".customer_info_input" + el).val($(event.target).val());
 
-			validateFieldContent(el, currentFieldValue);
+			validateFieldContent($(".customer_info_input" + el), currentFieldValue);
 			}
 	}
 }
@@ -272,6 +273,8 @@ function validateFieldEvent(event){
 
 function validateFieldContent(targetFieldID, currentFieldValue){
 	var valid = false;
+
+	console.log(targetFieldID);
 
 	switch(targetFieldID){
 		case "cc": 
@@ -354,26 +357,28 @@ function updateFieldValidity(message) {
 	var fieldID = message["field"];
 	var validity = message["valid"];
 
-	var input_field = $("#customer_"+fieldID);
+	var selectorString = '[data-fieldID="' + fieldID + '"]';
+
+	var input_field = $(".customer_info_input"+selectorString);
 	
 	if(validatedFields.indexOf(fieldID) >= 0) {
 		if(validity == true){
-			field = input_field.closest('.customer_info_input').find('.placeholder_addon').toggleClass("green", true);
-			field = input_field.closest('.customer_info_input').find('.placeholder_addon').toggleClass("red", false);
+			field = input_field.closest('.customer_info_input').closest('.placeholder_addon').toggleClass("green", true);
+			field = input_field.closest('.customer_info_input').closest('.placeholder_addon').toggleClass("red", false);
 			input_field.css('background-color','#D6FED2');
 
 		}
 		else if(validity == false && input_field.val() != ""){
-			field = input_field.closest('.customer_info_input').find('.placeholder_addon').toggleClass("green", false);
-			field = input_field.closest('.customer_info_input').find('.placeholder_addon').toggleClass("red", true);
+			field = input_field.closest('.customer_info_input').closest('.placeholder_addon').toggleClass("green", false);
+			field = input_field.closest('.customer_info_input').closest('.placeholder_addon').toggleClass("red", true);
 			input_field.css('background-color','#F6FFF5');
 
 
 		}
 		else{
 			input_field.css('background-color','#FFFFFF');
-			field = input_field.closest('.customer_info_input').find('.placeholder_addon').toggleClass("green", false);
-			field = input_field.closest('.customer_info_input').find('.placeholder_addon').toggleClass("red", false);
+			field = input_field.closest('.customer_info_input').closest('.placeholder_addon').toggleClass("green", false);
+			field = input_field.closest('.customer_info_input').closest('.placeholder_addon').toggleClass("red", false);
 		}
 	}
 

@@ -262,6 +262,25 @@ def getPage(page_id, database):
 
 
 
+def getPageIDs(database):
+	currentQuery = "SELECT CONVERT(Data using utf8) FROM store  WHERE Type='page_id';"
+
+	try:
+		database.execute(currentQuery)
+	except Exception as e:
+		print "Error getting pages: ", e
+
+	page_id_list = database.fetchall()
+
+	if page_id_list:
+		return list(page_id[0] for page_id in page_id_list)
+	else:
+		return None
+
+
+
+
+
 def getPages(database):
 	currentQuery = "SELECT Data FROM store WHERE Type='page_id';"
 
