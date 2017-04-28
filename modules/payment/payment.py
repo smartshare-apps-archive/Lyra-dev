@@ -103,5 +103,7 @@ def createOrder(user_data = None):
 	
 	response["customer_info"] = customer_info	#include customer info object in the response as well
 
+	print "Payment response: ", response
+
 	return json.dumps(response)
 

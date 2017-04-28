@@ -31,9 +31,10 @@ var validatedFields = [
 
 
 //checkout state manager
-var checkoutSteps = ["shipping","payment","confirm"];
-var checkoutNextMessages = ["Continue to payment", "Verify payment method"];
-var checkoutPreviousMessages = ["", "Return to shipping", ""];
+var checkoutSteps = ["shipping","shipping_method","payment","confirm"];
+var checkoutNextMessages = ["Select shipping method", "Continue to payment", "Verify payment method"];
+var checkoutPreviousMessages = ["","Return to shipping info", "Return to shipping method", ""];
+
 var currentCheckoutStep = "shipping";
 
 var cardType = "";
@@ -46,6 +47,7 @@ var postal_input;
 
 // other container handles
 var shipping_info_container;
+var shipping_method_container;
 var payment_info_container;
 var next_message;
 var previous_message;
@@ -76,8 +78,10 @@ function bindElements(){
 	btn_chkShippingAddress = $("#chk_ship_to_address");
 
 	shipping_info_container = $("#shipping_info_container");
+	shipping_method_container = $("#shipping_method_container");
 	billing_info_container = $("#billing_info_container");
 	payment_info_container = $("#payment_info_container");
+
 	next_message = $("#next_message");
 	previous_message = $("#previous_message");
 
@@ -94,9 +98,6 @@ function bindEvents(){
 		if(currentField){
 			validateField(currentField);
 		}
-		
-
-
 		
 	});
 
@@ -119,11 +120,20 @@ function checkoutNext(){
 	var checkoutStepIndex = checkoutSteps.indexOf(currentCheckoutStep);
 
 	if (currentCheckoutStep == "shipping"){
+		shipping_method_container.slideToggle();
+		
+
 		billing_info_container.slideToggle();
 
 		if (shippingIsBilling == false) {
 			shipping_info_container.slideToggle();
 		}
+
+		
+	}
+	else if(currentCheckoutStep == "shipping_method"){
+
+		shipping_method_container.slideToggle();
 
 		payment_info_container.slideToggle();
 	}
@@ -138,17 +148,26 @@ function checkoutNext(){
 
 
 function checkoutPrevious(){
+
 	var checkoutStepIndex = checkoutSteps.indexOf(currentCheckoutStep);
 
-	if (currentCheckoutStep == "payment"){
-		billing_info_container.slideToggle();
+	if(currentCheckoutStep == "shipping_method"){ 
+		shipping_method_container.slideToggle();
 
 		if(shippingIsBilling == false){
 			shipping_info_container.slideToggle();
 		}
 
-		payment_info_container.slideToggle();
+		billing_info_container.slideToggle();
 	}
+
+	else if (currentCheckoutStep == "payment"){
+
+		shipping_method_container.slideToggle();
+		payment_info_container.slideToggle();
+
+	}
+
 
 	currentCheckoutStep = checkoutSteps[checkoutStepIndex - 1];
 	next_message.html(checkoutNextMessages[checkoutStepIndex - 1]);
@@ -184,6 +203,18 @@ function validateCheckoutStep(currentCheckoutStep){
 				return false;
 			}
 		}
+		//if step is valid, attach event handlers and toggle class
+		btn_checkoutNext.click(checkoutNext);
+		btn_checkoutNext.toggleClass("disabled", false);
+
+	}
+	else if(currentCheckoutStep == "shipping_method"){
+		btn_checkoutPrevious.click(checkoutPrevious);
+		btn_checkoutPrevious.toggleClass("disabled", false);
+
+
+
+
 		//if step is valid, attach event handlers and toggle class
 		btn_checkoutNext.click(checkoutNext);
 		btn_checkoutNext.toggleClass("disabled", false);
