@@ -263,6 +263,7 @@ body{
 	display:inline;
 	font-size:16px;
 }
+
 #popup_product_img{
 	height:100px;
 	width:100px;
@@ -286,25 +287,46 @@ body{
 
 /* cart styles */
 
+
+.shopping_cart_row{
+	position:relative;
+	margin-left:5px;
+
+	height:auto;
+	border-bottom:1px solid rgba(53,53,53,0.3);
+	padding-bottom:10px;
+	margin-bottom:10px;
+}
+
+.shopping_cart_row h3{
+	font-size:16px;
+	font-family: 'Nunito Sans', sans-serif;
+}
+
+
 .thumbnail_cart_60 {
-    height:150px;
-    width:150px;
-    background-image:url('../../images/missing_product_icon.png');
-    background-repeat:no-repeat;
-    background-position:center;
-    background-size: contain;
-    padding:10px;
+	
 }
 
 
 .thumbnail_cart_40 {
-    height:75px;
-    width:75px;
-    background-image:url('../../images/missing_product_icon.png');
-    background-repeat:no-repeat;
-    background-position:center;
-    background-size: contain;
+	
 }
+
+.img-responsive {
+  position: relative;
+  max-width: 180px;
+  max-height: 150px;
+}
+
+.checkout_item_details .checkout_item_total{
+	
+}
+
+.table > tbody > tr > td {
+     vertical-align: middle !important;
+}
+
 
 #btn_goCheckout{
 	float:right;
@@ -319,6 +341,7 @@ body{
 #shopping_cart_checkout h3{
 	font-size:16px;
 	font-family: 'Nunito Sans', sans-serif;
+	position:relative;
 }
 
 
@@ -330,14 +353,6 @@ body{
 
 }
 
-#powered_by {
-	display:inline;
-	position:relative;
-	top:-15px;
-	right:15px;
-	font-size:1.4vw;
-	float:right;
-}
 
 #table_checkout{
 	border-right:1px solid #DDDDDD;
@@ -351,32 +366,52 @@ body{
 
 #billing_info_container{
 
+}
+
+#contact_info_container{
+	padding-left:10px;
 
 }
 
 #payment_info_container{
 	display:none;
-
+	padding-left:10px;
 }
 
 .order_detail_text{
 	font-style:;
 }
 
-/* checkout styles */
-#paypal_logo {
+.hr-top{
 	position:relative;
-	top:-10px;
-	display:inline-block;
+	z-index:1000;
+}
+
+/* checkout styles */
+
+#powered_by {
+	display:none;
+	position:relative;
+	z-index:900;
+	/*display:inline-block;*/
+	font-size:18px;
+}
+
+#stripe_logo {
+	display:none;
+	position:relative;
+	z-index:900;
+	/*display:inline-block;*/
 	background-image:url('/static/images/store/stripe_logo4.png');
 	background-position:top center;
 	background-repeat:no-repeat;
 	background-size:100%;
-	height:40px;
+	height:30px;
 	width:108px;
-	float:right;
 
 }
+
+
 .customer_info_input .input-group-addon{
 	width:10%;
 }
@@ -418,14 +453,15 @@ body{
 
 .h4-inline {
 	font-family: 'Nunito Sans', sans-serif;
-	font-size:1.2vw;
+	font-size:16px;
 	display:inline;
 	float:left;
+
 }
 
 .h4-select-variant {
 	font-family: 'Nunito Sans', sans-serif;
-	font-size:1.2vw;
+	font-size:16px;
 	display:inline;
 
 }
@@ -482,7 +518,7 @@ body{
 	top:20px;
 	width:100%;
 	height:60px;
-	font-size:1.1vw;
+	font-size:14px;
 	font-family: 'Nunito Sans', sans-serif;
 }
 
@@ -506,14 +542,10 @@ body{
 }
 
 #order_billing_info{
-	float:left;
 	padding-left:30px;
 }
 
 #order_shipping_info{
-	float:right;
-	position:relative;
-	right:50px;
 	padding-left:30px;
 }
 
@@ -530,7 +562,7 @@ body{
 }
 
 .h4_cart {
-	font-size:1.3vw;
+	font-size:16px;
 	font-family: 'Nunito Sans', sans-serif;
 }
 
@@ -619,7 +651,7 @@ body{
 }
 
 .product_title.xxl{
-	font-size:1.4vw;
+	font-size:18px;
 	
 	
 }
@@ -794,3 +826,13 @@ h3{
     background-color:rgba(53,53,53,0.2);
 }
 
+
+
+#btn_toggleLiveChat{
+	text-decoration:none;
+}
+
+#btn_toggleLiveChat:hover{
+	text-decoration:none;
+	opacity:0.8;
+}

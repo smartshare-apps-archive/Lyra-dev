@@ -1,18 +1,19 @@
 {% if products | length != 0 %}
 
-<table class="table table-responsive table-hover table-bordered" id="shopping_cart">
-	<tbody>
-	
-
 	{% for product, itemDetails in products.iteritems() %}
 
-	<tr class="text-center"> 
-		<td class="thumbnail_cart_60" id="product_{{itemDetails[0].product_id}}"> </td>
-		<td> <h3> <a href="/product/{{itemDetails[0].product_id}}"> {{itemDetails[0].Title}} </a> </h3> <hr>
+	<div class="row shopping_cart_row text-center"> 
+
+		<div class="col-sm-3 thumbnail_cart_60" id="product_{{itemDetails[0].product_id}}"> 
+			<img class="img-responsive center-block" src="{{product_thumbnail[itemDetails[0]["product_id"]]}}">
+		</div>
+
+		<div class="col-sm-3 checkout_item_details"> <h3> <a href="/product/{{itemDetails[0].product_id}}"> {{itemDetails[0].Title}} </a> </h3> <hr>
 
 		<h4>SKU:{{itemDetails[0].VariantSKU}} </h4>
-		</td>
-		<td> <h3> Quantity:&nbsp;&nbsp;
+		</div>
+
+		<div class="col-sm-3"> <h3> Quantity:&nbsp;&nbsp;
 		<select id="item_quantity_{{itemDetails[0].VariantSKU}}" class="selectQuantity">  
 			<option value="1">1</option>
 			<option value="2">2</option>
@@ -25,15 +26,19 @@
 			<option value="9">9</option>
 		</select>
 		<input type="hidden" class="currentItemQuantity" value="{{itemDetails[1]}}">
-		x <b>${{itemDetails[0].VariantPrice}} </b></h3> 
-			<hr>
+		x <b>${{ '%0.2f' % (itemDetails[0].VariantPrice | float) }} </b></h3> 
+			<br>
 			<button type="button" class="btn btn-primary btn_updateQuantity" id="update_item_{{itemDetails[0].VariantSKU}}"> Update &nbsp;<span class="glyphicon glyphicon-refresh"></span> </button>
 
 			<button type="button" class="btn btn-warning btn_removeFromCart" id="delete_item_{{itemDetails[0].VariantSKU}}"> Remove &nbsp;<span class="glyphicon glyphicon-trash"></span> </button>
-		</td>
+		</div>
+		<hr class="hidden-md hidden-lg hidden-xl">
+		<div class="col-sm-3 checkout_item_total"> 
+			<h3> Item total: &nbsp;<b>${{ '%0.2f' % ((itemDetails[0].VariantPrice | float) * (itemDetails[1] | float)) }}</b> </h3> 
 
-		<td class="order_item_total"> <h3> <b>${{ '%0.2f' % ((itemDetails[0].VariantPrice | float) * (itemDetails[1] | float)) }}</b> </h3> </td>
-	</tr>
+		</div>
+
+	</div>
 	
 	
 	<input type="hidden"  id="product_{{itemDetails[0].product_id}}_thumbnail" value="{{product_thumbnail[itemDetails[0]["product_id"]]}}" class="product_thumbnail_src">
@@ -41,8 +46,7 @@
 
 	{% endfor %}
 
-	</tbody>
-</table>
+
 
 <button type="button" class="btn btn-lg btn-default" id="btn_goCheckout"> Continue to checkout &nbsp;&nbsp; <span class="glyphicon glyphicon-arrow-right"></span></button>
 
