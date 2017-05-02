@@ -120,6 +120,8 @@ class ControlPanel(object):
 			return self.store_settings_FileManager()
 		elif tab == "store_settings_theme_manager":
 			return self.store_settings_ThemeManager()
+		elif tab == "store_settings_analytics":
+			return self.store_settings_Analytics()
 
 		elif tab == "plugins":
 			return self.plugins_Main()
@@ -860,6 +862,17 @@ class ControlPanel(object):
 			self.control_data["page_templates"] = page_templates
 
 		return render_template("control_panel/store_settings/PageEditor.html", control_data = self.control_data)
+
+
+
+	def store_settings_Analytics(self):
+		self.control_data["page"] = "store_settings_analytics"
+
+
+		self.control_data["modals"] = []
+
+		return render_template("control_panel/store_settings/Analytics.html", control_data = self.control_data)
+
 
 
 
