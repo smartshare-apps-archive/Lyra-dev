@@ -867,9 +867,9 @@ class ControlPanel(object):
 
 	def store_settings_Analytics(self):
 		self.control_data["page"] = "store_settings_analytics"
-
-
 		self.control_data["modals"] = []
+
+		self.control_data["analytics_script"] = config.getGoogleAnalyticsScript(self.instance_db)
 
 		return render_template("control_panel/store_settings/Analytics.html", control_data = self.control_data)
 

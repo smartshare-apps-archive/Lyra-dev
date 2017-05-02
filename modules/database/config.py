@@ -391,6 +391,35 @@ getShippoAPIKeys = partial(getAPIKeys, setting_id='shippo_api_keys')
 
 
 
+def getGoogleAnalyticsScript(database):
+	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="GoogleAnalyticsScript";"""
+	try:
+		database.execute(currentQuery)
+	except Exception as e:
+		print e
+		return None
+
+	analytics_script = database.fetchone()
+	if analytics_script:
+		return analytics_script[0]
+
+
+
+
+def setGoogleAnalyticsScript(analytics_script, database):
+	currentQuery = """UPDATE settings SET FieldList=? WHERE setting_id="GoogleAnalyticsScript";""" 
+
+	try:
+		database.execute(currentQuery, (analytics_script,))
+	except Exception as e:
+		print "Error saving google analytics script:", e
+		return False
+
+	return True
+
+
+
+
 def BulkProductEditorSettings(database):
 	currentQuery = """SELECT FieldList FROM settings WHERE setting_id="BulkProductEditorFields";"""
 	
