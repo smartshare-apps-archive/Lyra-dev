@@ -113,6 +113,9 @@ class stripe_manager(object):
 		productName = product_data.get("Title", None)
 		productDescription = product_data.get("BodyHTML", None)
 
+		productDimensions = {product_data.get("VariantWeight", None)
+							}
+
 		product_id = product_data["stripe_id"]
 		stripe_product = stripe.Product.retrieve(product_id)
 
@@ -172,7 +175,14 @@ class stripe_manager(object):
 		stripe_product = stripe.Product.retrieve(product_id)
 		
 		return stripe_product
-		
+	
+
+	@classmethod
+	def getVariant(cls, variantData):
+		variant_id = variantData["stripe_id"]
+		stripe_variant = stripe.SKU.retrieve(variant_id)
+		return stripe_variant
+
 
 
 	@classmethod
