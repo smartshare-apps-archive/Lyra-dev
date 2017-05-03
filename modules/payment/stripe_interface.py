@@ -116,13 +116,16 @@ class stripe_manager(object):
 		product_id = product_data["stripe_id"]
 		stripe_product = stripe.Product.retrieve(product_id)
 
-		if type(variantTypes) != dict:
-			variantTypes = variantTypes.split(';')
-			attribute_list = filter(lambda a: a != '', [attribute.split(':')[0] for attribute in variantTypes])
-		elif type(variantTypes) == dict:
-			attribute_list = [attr for attr, values in variantTypes.iteritems()]
-		else:
-			attribute_list = []
+		if variantTypes:
+			if type(variantTypes) != dict:
+				variantTypes = variantTypes.split(';')
+				attribute_list = filter(lambda a: a != '', [attribute.split(':')[0] for attribute in variantTypes])
+			elif type(variantTypes) == dict:
+				attribute_list = [attr for attr, values in variantTypes.iteritems()]
+			else:
+				attribute_list = []
+
+			stripe_product["attributes"] = attribute_list
 
 		if productName:
 			stripe_product["name"] = productName
@@ -130,8 +133,7 @@ class stripe_manager(object):
 		if productDescription:
 			stripe_product["description"] = productDescription
 
-		stripe_product["attributes"] = attribute_list
-
+		
 		stripe_product.save()
 		
 
