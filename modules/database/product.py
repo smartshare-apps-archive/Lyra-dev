@@ -457,7 +457,7 @@ def saveProductData(productData, productDatabase):
 
 
 
-def saveProductVariantTypes(product_id, variantTypes, productDatabase):
+def saveProductVariantTypes(product_data, variantTypes, productDatabase):
 	currentQuery = """UPDATE products SET VariantTypes=%s WHERE product_id=%s;"""
 
 	formattedVariantTypes = ""
@@ -465,6 +465,8 @@ def saveProductVariantTypes(product_id, variantTypes, productDatabase):
 	for variantType, values in variantTypes.iteritems():
 		formattedVariantTypes += variantType +  ":" +  ",".join(values) + ";"
 
+	product_id = product_data["product_id"]
+	
 	try:
 		productDatabase.execute(currentQuery, (formattedVariantTypes[:-1], product_id,))
 	except Exception as e:

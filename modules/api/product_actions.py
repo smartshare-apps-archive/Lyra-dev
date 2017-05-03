@@ -39,7 +39,10 @@ def addProduct():
 	productDatabase = db.cursor()
 
 	productData["stripe_id"] = product.stripe_manager.createProduct(productData)	#create a stripe listing for the product
+	productData["VariantSKU"] = product.stripe_manager.createVariant(productData)	#create a stripe listing for the product
+
 	product_id = product.saveNewProductData(productData, productDatabase)
+
 
 	db.commit()
 	db.close()
@@ -90,7 +93,7 @@ def addProductVariant():
 
 	productData = product.loadProduct(product_id, productDatabase)
 
-	variantData["stripe_id"] = product.stripe_manager.createVariant(variantData, productData)	#create a stripe listing for the product
+	variantData["stripe_id"] = product.stripe_manager.createVariant(productData, variant_data = variantData)	#create a stripe listing for the product
 	product.saveNewVariantData(productData, variantData, productDatabase)
 
 	db.commit()
@@ -346,27 +349,22 @@ def updateProductVariantTypes():
 	variantTypes = request.form['variantTypes']
 	variantTypes = json.loads(variantTypes)
 
-	product_id = request.form['product_id']
-	product_id = json.loads(product_id)
+	product_data = request.form['product_data']
+	product_data = json.loads(product_data)
 
+	print "We have: ", product_data
 
-	stripe_id = request.form['stripe_id']
-	stripe_id = json.loads(stripe_id)
-
+	product_id = product_data["product_id"]
 
 	instance_db = instance_handle()
 	db = db_handle(instance_db)
+
+	product_data["VariantTypes"] = variantTypes
 	
 	productDatabase = db.cursor()
 
-	product_data = {
-		"product_id": product_id,
-		"stripe_id": stripe_id,
-		"VariantTypes": variantTypes
-	}
-
 	product.stripe_manager.updateProduct(product_data)	#updates a product with new data
-	product.saveProductVariantTypes(product_id, variantTypes, productDatabase)
+	product.saveProductVariantTypes(product_data, variantTypes, productDatabase)
 
 	db.commit()
 	db.close()

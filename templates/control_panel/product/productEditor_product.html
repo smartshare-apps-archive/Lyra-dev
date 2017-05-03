@@ -212,7 +212,7 @@
 							  		<h5> Inventory Quantity: </h5>
 							  		<div class="input-group">
 										  <span class="input-group-addon" id="inventory-addon">#</span>
-							  				<input type="text" class="form-control editor_input_field" id="input_VariantInventoryQty" value="{{control_data.product_data.VariantInventoryQty}}" aria-describedby="inventory-addon">
+							  				<input type="text" class="form-control editor_input_field" id="input_VariantInventoryQty" value="{{control_data.default_variant_data.inventory.quantity}}" aria-describedby="inventory-addon">
 							  		</div>
 									<hr>
 
@@ -337,6 +337,7 @@
 	<input type="text" id="product_description_html" value="{{control_data.product_data.BodyHTML}}"> 
 	<input type="text" id="currentVariantTypes" value="{{control_data.variant_types}}">
 	<input type="hidden" id="currentStripeID" value="{{control_data.product_data.stripe_id}}">
+	<input type="hidden" id="currentVariantSKU" value="{{control_data.product_data.VariantSKU}}">
 	<input type="hidden" id="currentProductId" value="{{control_data.product_data.product_id}}">
 	<input type="hidden" id="currentBodyHTML" value="{{control_data.product_data.BodyHTML}}">
     <input type="hidden" id="currentProductTitle" value="{{control_data.product_data.Title}}">

@@ -179,7 +179,7 @@ class ControlPanel(object):
 
 		productData = loadProduct(product_id, self.database)
 		self.control_data["stripe_data"] = stripe_manager.getProduct(productData)
-
+		self.control_data["default_variant_data"] = stripe_manager.getDefaultVariant(productData)
 
 		if productData["Tags"]:
 			productData["Tags"] = formatProductTags(productData["Tags"])

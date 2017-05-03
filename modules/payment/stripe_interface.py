@@ -46,6 +46,13 @@ class stripe_manager(object):
 	#deletes all products and variants from the users stripe api profile
 	@classmethod
 	def deleteProductCatalog(cls):
+		variant_catalog = cls.getVariantCatalog()
+
+		for sku_id, variant_data in variant_catalog.iteritems():
+			variant_to_delete = stripe.SKU.retrieve(sku_id)
+			variant_to_delete.delete()
+
+
 		product_catalog = cls.getProductCatalog()
 
 		for product_id, product_data in product_catalog.iteritems():
@@ -57,6 +64,25 @@ class stripe_manager(object):
 		#for current_product in product_batch:
 		#	current_product.delete()
 
+
+	#retrieves all the product data stored in a users stripe api profile, which is used to create orders during checkout
+	@classmethod
+	def getVariantCatalog(cls):
+		variants_in_catalog = {}
+
+		more_products = True
+		last_product_in_batch = None
+
+		while(more_products):
+			product_batch = stripe.SKU.list(limit=PRODUCTS_PER_REQUEST, starting_after=last_product_in_batch)
+
+			variants_in_catalog.update({current_product["id"]: current_product for current_product in product_batch["data"]})
+			product_id_list = [current_product["id"] for current_product in product_batch["data"]]
+			last_product_in_batch = product_id_list[len(product_id_list)-1]
+
+			more_products = product_batch["has_more"]
+
+		return variants_in_catalog
 
 
 
@@ -100,9 +126,38 @@ class stripe_manager(object):
 			name = productName,
 			description = productDescription,
 			attributes = attribute_list
+
 		)
 
 		return product_obj["id"]
+
+
+
+	#creates a new variant object for stripe so it can be referenced during order creation
+	@classmethod
+	def createVariant(cls, product_data, variant_data = None):
+		productPrice = product_data.get("VariantPrice", None)
+
+		if productPrice <= 0.00:
+			productPrice = 200
+		else:
+			productPrice = int(float(productPrice)*100)
+
+		if variant_data:
+			variantAttributes = variant_data.get("attributes", {})
+			print "Creating with:", variantAttributes
+		else:
+			variantAttributes = {}
+
+		variant_obj = stripe.SKU.create(
+			product=product_data["stripe_id"],
+			attributes=variantAttributes,
+			price=productPrice,
+			currency='usd',
+			inventory={'type': 'finite', 'quantity': 1}
+		)
+
+		return variant_obj["id"]
 
 
 
@@ -112,8 +167,12 @@ class stripe_manager(object):
 		variantTypes = product_data.get("VariantTypes", None)
 		productName = product_data.get("Title", None)
 		productDescription = product_data.get("BodyHTML", None)
+		#productInventory = product_data.get("VariantInventoryQty", None)
 
-		productDimensions = {product_data.get("VariantWeight", None)
+		
+
+		productDimensions = {
+			product_data.get("VariantWeight", None)
 							}
 
 		product_id = product_data["stripe_id"]
@@ -136,37 +195,23 @@ class stripe_manager(object):
 		if productDescription:
 			stripe_product["description"] = productDescription
 
-		
+		cls.updateVariant(product_data)
+
 		stripe_product.save()
 		
 
 
-
-
-	#creates a new variant object for stripe so it can be referenced during order creation
 	@classmethod
-	def createVariant(cls, variant_data, product_data):
-		productPrice = product_data.get("VariantPrice", None)
+	def updateVariant(cls, product_data):
+		variant_id = product_data["VariantSKU"]
+		stripe_variant = stripe.SKU.retrieve(variant_id)
 
-		if productPrice <= 0.00:
-			productPrice = 200
-		else:
-			productPrice = int(float(productPrice)*100)
+		inventoryQty = product_data.get('VariantInventoryQty', None)
 
-		variantAttributes = variant_data.get("attributes", {})
+		if inventoryQty:
+			stripe_variant["inventory"] = { 'type': 'finite', 'quantity': int(inventoryQty) }
 
-		print "Creating with:", variantAttributes
-		variant_obj = stripe.SKU.create(
-			product=product_data["stripe_id"],
-			attributes=variantAttributes,
-			price=productPrice,
-			currency='usd',
-			inventory={'type': 'finite', 'quantity': 1}
-		)
-
-		return variant_obj["id"]
-
-
+		stripe_variant.save()
 
 
 	@classmethod
@@ -178,8 +223,15 @@ class stripe_manager(object):
 	
 
 	@classmethod
+	def getDefaultVariant(cls, productData):
+		variant_id = productData.get("VariantSKU", None)
+		stripe_variant = stripe.SKU.retrieve(variant_id)
+		return stripe_variant
+
+
+	@classmethod
 	def getVariant(cls, variantData):
-		variant_id = variantData["stripe_id"]
+		variant_id = variantData.get("stripe_id", None)
 		stripe_variant = stripe.SKU.retrieve(variant_id)
 		return stripe_variant
 
@@ -189,8 +241,14 @@ class stripe_manager(object):
 	def populateProductCatalog(cls, products):
 		for product_id, product_data in products.iteritems():
 			product_obj = cls.createProduct(product_data)
-			print product_obj
+
 			product_data["stripe_id"] = product_obj
+
+			variant_obj = cls.createVariant(product_data)
+
+			product_data["VariantSKU"] = variant_obj
+
+			print product_obj,":", variant_obj
 
 			product.saveProductData(product_data, store_database.cursor())
 

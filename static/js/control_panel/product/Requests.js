@@ -84,15 +84,14 @@ function saveNewProductVariant(variantData, product_id){
 
 function saveVariantTypes(event){
 	variantTypes = JSON.stringify(event.data.variantTypes)
-	product_id = JSON.stringify(event.data.product_id)
-	stripe_id = JSON.stringify(event.data.stripe_id)
+	product_data = JSON.stringify(productData);
 
 	$.ajax({
 	  method: "POST",
 	  url: "/actions/updateVariantTypes",
 	  dataType: "json",
 	  traditional:true,
-	  data: { product_id: product_id, stripe_id: stripe_id, variantTypes: variantTypes }
+	  data: { product_data: product_data, variantTypes: variantTypes }
 	})
 	  .done(function(product_id) {
 			window.location.replace("/control/products/"+product_id);
