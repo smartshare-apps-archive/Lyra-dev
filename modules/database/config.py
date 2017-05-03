@@ -21,7 +21,7 @@ generalSettings = {
 
 
 productColumnMappings = [
-		"product_id","VariantSKU","VariantPrice","VariantCompareAtPrice","VariantInventoryQty","VariantTaxable","VariantWeightUnit","VariantGrams","Title","BodyHTML","Vendor","Type","Tags","Published","ImageSrc","ImageAltText","VariantTypes","resources"
+		"product_id","stripe_id", "VariantSKU","VariantPrice","VariantCompareAtPrice","VariantInventoryQty","VariantTaxable","VariantWeightUnit","VariantGrams","Title","BodyHTML","Vendor","Type","Tags","Published","ImageSrc","ImageAltText","VariantTypes","resources"
 ]
 
 

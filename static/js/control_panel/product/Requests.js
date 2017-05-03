@@ -85,14 +85,14 @@ function saveNewProductVariant(variantData, product_id){
 function saveVariantTypes(event){
 	variantTypes = JSON.stringify(event.data.variantTypes)
 	product_id = JSON.stringify(event.data.product_id)
+	stripe_id = JSON.stringify(event.data.stripe_id)
 
-	console.log(variantTypes);
 	$.ajax({
 	  method: "POST",
 	  url: "/actions/updateVariantTypes",
 	  dataType: "json",
 	  traditional:true,
-	  data: { product_id: product_id, variantTypes: variantTypes }
+	  data: { product_id: product_id, stripe_id: stripe_id, variantTypes: variantTypes }
 	})
 	  .done(function(product_id) {
 			window.location.replace("/control/products/"+product_id);
@@ -103,7 +103,7 @@ function saveVariantTypes(event){
 
 function saveProductChanges(event){
 	product_data = JSON.stringify(event.data.product_data);
-
+	console.log(product_data);
 	$.ajax({
 	  method: "POST",
 	  url: "/actions/updateProductData",
@@ -218,7 +218,7 @@ function deleteVariant(event){
 
 function saveProductInventoryChanges(event){
 	var variantData = event.data.variant_data;
-
+	console.log(variantData);
 	$.ajax({
 	  method: "POST",
 	  url: "/actions/updateVariantData",

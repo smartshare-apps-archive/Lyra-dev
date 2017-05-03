@@ -24,6 +24,7 @@ def create_order(response, order_contents, customer_info):
 	#format order items into sku_list for storage
 	formatted_sku_list = ""
 	formatted_sku_fulfillment = ""
+
 	for sku, quantity in order_contents.iteritems():
 		formatted_sku_list += (sku + ";" + quantity + ",")
 		formatted_sku_fulfillment += (sku + ";" + "0" + ",")
@@ -133,8 +134,60 @@ def calculate_subtotal(order_contents):
 
 
 
-def calculate_shipping_cost(order_contents, shipping_method):
-	pass
 
 
 
+
+def updateSKU(sku_id, key, payload):
+	#product = stripe.Product.retrieve(product)
+	sku = stripe.SKU.retrieve(sku_id)
+
+	sku[key] = payload
+
+	sku.save()
+
+
+
+
+if __name__ == "__main__":
+
+	payload = {
+				"length": 10,
+				"width": 10,
+				"height": 10,
+				"weight": 100
+				}
+
+	#updateSKU('sku_AaaSwEH0ZFDFBb', "package_dimensions", payload)
+
+	
+	"""
+	order = stripe.Order.create(
+
+		currency = 'usd',
+		email = 'jenny@example.com',
+		items = [
+			{
+			  "type":'sku',
+			  "parent":'sku_AaaSwEH0ZFDFBb',
+			  "quantity": 2,
+			}
+		],
+
+		shipping = {
+			"name":'Jenny Rosen',
+			"address":{
+			  "line1":'1234 Main Street',
+			  "city":'Anytown',
+			  "country":'US',
+			  "postal_code":'123456'
+			}
+		},
+	)
+
+	print order
+	"""
+
+	order_id = 'or_1AFPRuB9jeytrsNC3mJlEcg7'
+	order = stripe.Order.retrieve(order_id)
+	order.delete()

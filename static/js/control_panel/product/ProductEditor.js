@@ -1,5 +1,6 @@
 var productData;
 var product_id;
+var stripe_id;
 
 // page specific button handles
 var btn_saveProduct;
@@ -75,7 +76,10 @@ function bindElements(){
 	});
 
 	product_id = $('#currentProductId').val();
+	stripe_id = $('#currentStripeID').val();
+
 	productData["product_id"] = product_id;
+	productData["stripe_id"] = stripe_id;
 
 	$('[data-toggle="tooltip"]').tooltip(); 
 }
@@ -325,7 +329,7 @@ function deleteVariantType(event){
 	delete variantTypes[variantType];
 	
 	btn_saveVariantTypes.unbind("click");
-	btn_saveVariantTypes.click({product_id: product_id, variantTypes:variantTypes}, saveVariantTypes);
+	btn_saveVariantTypes.click({product_id: product_id, stripe_id: stripe_id, variantTypes:variantTypes}, saveVariantTypes);
 }
 
 
@@ -436,7 +440,7 @@ function reviewNewVariants(){
 
 		variantTypes[newVariantType_input.val()] = newVariantType[newVariantType_input.val()];
 
-		btn_confirmNewVariant.click({product_id: product_id, variantTypes:variantTypes}, saveVariantTypes);
+		btn_confirmNewVariant.click({product_id: product_id, stripe_id: stripe_id, variantTypes:variantTypes}, saveVariantTypes);
 
 	}
 }

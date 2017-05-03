@@ -3,12 +3,12 @@ import sys, csv, json, collections
 #config current only has column/field mapping information, which will be specific to the import form (of the product csv), e.g. shopify
 from config import *	
 from product_util import *
-
+from modules.payment.stripe_interface import stripe_manager
 
 #load single product by product_id
 def loadProduct(product_id, productDatabase):
 	try:
-		productDatabase.execute("SELECT product_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE product_id=%s;", [product_id] )
+		productDatabase.execute("SELECT product_id,stripe_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE product_id=%s;", [product_id] )
 	except Exception as e:
 		print "Exception: ", e
 		return None
@@ -29,11 +29,11 @@ def loadProduct(product_id, productDatabase):
 def loadProductBySKU(variantSKU, productDatabase):
 	variantData = None 
 	if len(variantSKU.split('-')) == 1:
-		productDatabase.execute("""SELECT product_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=%s;""",(variantSKU, ))
+		productDatabase.execute("""SELECT product_id,stripe_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=%s;""",(variantSKU, ))
 	else:
 		product_id = variantSKU.split('-')[0]
 		variantData = loadProductVariantBySKU(variantSKU, productDatabase)
-		productDatabase.execute("""SELECT product_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=%s;""",(product_id, ))
+		productDatabase.execute("""SELECT product_id,stripe_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE VariantSKU=%s;""",(product_id, ))
 
 	productData = productDatabase.fetchone()
 
@@ -130,7 +130,7 @@ def loadAllProducts(productDatabase):
 	formattedProductList = collections.OrderedDict()
 
 	#select all products in database, including variants
-	productDatabase.execute("""SELECT product_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products;""")
+	productDatabase.execute("""SELECT product_id,stripe_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products;""")
 
 	productList = productDatabase.fetchall()
 
@@ -203,7 +203,7 @@ def loadCollections(productDatabase):
 
 def loadProductsByID(productIDList, productDatabase):
 	placeholders = ','.join(['%s' for _ in productIDList])
-	q = "SELECT product_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE product_id IN (%s);" % placeholders
+	q = "SELECT product_id,stripe_id,VariantSKU,CAST(VariantPrice as char),VariantCompareAtPrice,VariantInventoryQty,VariantTaxable,VariantWeightUnit,VariantGrams,Title,BodyHTML,Vendor,Type,Tags,Published,ImageSrc,ImageAltText,VariantTypes,resources FROM products WHERE product_id IN (%s);" % placeholders
 
 	try:
 		productDatabase.execute(q, productIDList)
@@ -425,6 +425,7 @@ def findTotalProductStock(product_id, productDatabase):
 
 
 
+
 #save changes to product description, title, and other things later on
 def saveProductData(productData, productDatabase):
 	orderedFields = collections.OrderedDict()
@@ -444,10 +445,10 @@ def saveProductData(productData, productDatabase):
 	valueList = [value for field, value in orderedFields.iteritems()]
 	valueList.append(product_id)
 
-	currentQuery = "UPDATE products SET %s WHERE product_id =" % fieldUpdates	#pop in the fieldUpdates for this query
-	currentQuery += " %s;" 
+	currentQuery = "UPDATE products SET %s WHERE product_id=" % fieldUpdates	#pop in the fieldUpdates for this query
+	currentQuery += "%s;" 
 
-	print currentQuery,":", valueList
+	print currentQuery
 
 	try:
 		productDatabase.execute(currentQuery, valueList)		#run current query
@@ -523,10 +524,10 @@ def deleteInvalidVariants(product_id, productDatabase):
 
 #saves a new product to the database
 def saveNewProductData(productData, productDatabase):
-	currentQuery = "INSERT INTO products(Title, ImageSrc) VALUES(%s, %s);"
+	currentQuery = "INSERT INTO products(Title, ImageSrc, stripe_id) VALUES(%s, %s, %s);"
 	defaultImageID = "1"
 
-	productTuple = (productData["Title"], defaultImageID, )
+	productTuple = (productData["Title"], defaultImageID, productData["stripe_id"] )
 	
 	try:
 		productDatabase.execute(currentQuery, productTuple)
@@ -576,19 +577,18 @@ def saveNewCollectionData(collectionData, productDatabase):
 
 
 # save a new type of product variant based on variant options specified in product editor
-def saveNewVariantData(product_id, variantData, productDatabase):
-	currentQuery = "INSERT into product_variants(product_id, VariantSKU, VariantData, VariantPrice, VariantImg, VariantRequiresShipping, VariantWeightUnit) VALUES(%s, %s, %s, %s, %s, %s, %s);"
-	productData = loadProduct(product_id, productDatabase)
+def saveNewVariantData(productData, variantData, productDatabase):
+	currentQuery = "INSERT into product_variants(product_id, stripe_id, VariantSKU, VariantData, VariantPrice, VariantImg, VariantRequiresShipping, VariantWeightUnit) VALUES(%s, %s, %s, %s, %s, %s, %s, %s);"
 	
 	formattedVariantData = ""
-	formattedVariantSKU = str(product_id)
+	formattedVariantSKU = str(productData["product_id"])
 
-	for variantOption, variantValue in variantData.iteritems():
+	for variantOption, variantValue in variantData["attributes"].iteritems():
 		formattedVariantData += variantOption + ":" + variantValue + ";"
 		formattedVariantSKU += "-" + variantValue.replace(' ','-').lower()
 
 	try:
-		productDatabase.execute(currentQuery, (product_id, formattedVariantSKU, formattedVariantData[:-1], productData["VariantPrice"], productData["ImageSrc"], "true", "lb"))
+		productDatabase.execute(currentQuery, (productData["product_id"], variantData["stripe_id"], formattedVariantSKU, formattedVariantData[:-1], productData["VariantPrice"], productData["ImageSrc"], "true", "lb"))
 	except Exception as e:
 		print "Error: ", e
 

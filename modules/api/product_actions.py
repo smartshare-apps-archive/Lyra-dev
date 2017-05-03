@@ -38,12 +38,14 @@ def addProduct():
 
 	productDatabase = db.cursor()
 
+	productData["stripe_id"] = product.stripe_manager.createProduct(productData)	#create a stripe listing for the product
 	product_id = product.saveNewProductData(productData, productDatabase)
 
 	db.commit()
 	db.close()
 
 	return json.dumps(product_id)
+
 
 
 
@@ -71,18 +73,25 @@ def addCollection():
 @productActions.route('/actions/addProductVariant', methods=['POST'])
 ##@admin_required(current_app, session, login_redirect)
 def addProductVariant():
-	variantData = request.form['variantData']
-	variantData = json.loads(variantData)
+	variantAttributes = request.form['variantData']
+	variantAttributes = json.loads(variantAttributes)
 
 	product_id = request.form['product_id'];
 	product_id = json.loads(product_id);
+
+	variantData = {}
+	variantData["attributes"] = variantAttributes
+
 
 	instance_db = instance_handle()
 	db = db_handle(instance_db)
 
 	productDatabase = db.cursor()
-	
-	product.saveNewVariantData(product_id, variantData, productDatabase)
+
+	productData = product.loadProduct(product_id, productDatabase)
+
+	variantData["stripe_id"] = product.stripe_manager.createVariant(variantData, productData)	#create a stripe listing for the product
+	product.saveNewVariantData(productData, variantData, productDatabase)
 
 	db.commit()
 	db.close()
@@ -160,8 +169,9 @@ def updateProductData():
 	instance_db = instance_handle()
 	db = db_handle(instance_db)
 
-	
 	productDatabase = db.cursor()
+	product.stripe_manager.updateProduct(product_data)	#updates a product with new data
+
 	product.saveProductData(product_data, productDatabase)
 
 	db.commit()
@@ -195,7 +205,7 @@ def updateProductInventory():
 
 
 #updates customer data changed in the customer editor 
-@productActions.route('/actions/updateProductData', methods=['POST'])
+@productActions.route('/actions/updateCustomerData', methods=['POST'])
 #@admin_required(current_app, session, login_redirect)
 def updateCustomerData():
 	customer_data = request.form['customer_data']
@@ -339,11 +349,23 @@ def updateProductVariantTypes():
 	product_id = request.form['product_id']
 	product_id = json.loads(product_id)
 
+
+	stripe_id = request.form['stripe_id']
+	stripe_id = json.loads(stripe_id)
+
+
 	instance_db = instance_handle()
 	db = db_handle(instance_db)
-
 	
 	productDatabase = db.cursor()
+
+	product_data = {
+		"product_id": product_id,
+		"stripe_id": stripe_id,
+		"VariantTypes": variantTypes
+	}
+
+	product.stripe_manager.updateProduct(product_data)	#updates a product with new data
 	product.saveProductVariantTypes(product_id, variantTypes, productDatabase)
 
 	db.commit()
