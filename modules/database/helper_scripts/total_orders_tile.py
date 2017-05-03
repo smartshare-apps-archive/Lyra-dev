@@ -15,8 +15,13 @@ class total_orders_tile(data_feed_tile):
 	# sums up all of the order sales
 	def calculate_total_sales(self):
 		self.template_data["sum_order_totals"] = 0.00
-		for total in self.template_data["order_totals"]:
-			total = total[0]
-			self.template_data["sum_order_totals"] += total
+
+		order_totals = self.template_data.get("order_totals", None)
+
+		if order_totals:
+			for total in self.template_data["order_totals"]:
+				total = total[0]
+				self.template_data["sum_order_totals"] += total
+			
 
 		

@@ -169,7 +169,6 @@ class stripe_manager(object):
 		productDescription = product_data.get("BodyHTML", None)
 		#productInventory = product_data.get("VariantInventoryQty", None)
 
-		
 
 		productDimensions = {
 			product_data.get("VariantWeight", None)
@@ -195,6 +194,7 @@ class stripe_manager(object):
 		if productDescription:
 			stripe_product["description"] = productDescription
 
+		
 		cls.updateVariant(product_data)
 
 		stripe_product.save()
@@ -203,6 +203,7 @@ class stripe_manager(object):
 
 	@classmethod
 	def updateVariant(cls, product_data):
+
 		variant_id = product_data["VariantSKU"]
 		stripe_variant = stripe.SKU.retrieve(variant_id)
 
