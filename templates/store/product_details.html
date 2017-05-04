@@ -70,7 +70,7 @@
 			<button type="button" class="btn btn-default" id="btn_addToCart"> Add to cart  &nbsp;&nbsp;<span id="cart_link" class="glyphicon glyphicon-shopping-cart black"></button>
 			
 
-			<input type="hidden" id="selectedProduct" value="{{product.product_id}};1">
+			<input type="hidden" id="selectedProduct" value="{{product.VariantSKU}};1">
 			{% if variants %}
 				<input type="hidden" id="has_variants" value="true">
 			{% else %}
