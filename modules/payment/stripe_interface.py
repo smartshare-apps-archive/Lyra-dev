@@ -194,10 +194,11 @@ class stripe_manager(object):
 		if productDescription:
 			stripe_product["description"] = productDescription
 
+		stripe_product.save()
 		
 		cls.updateVariant(product_data)
 
-		stripe_product.save()
+		
 		
 
 
