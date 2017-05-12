@@ -120,6 +120,15 @@ def Page(page_id, user_data=None):
 
 
 
+@store_routes.route('/googlec039a3f1a173c2f4.html')
+@with_user_data(current_app, session)
+def site_ownership(user_data=None):
+	s_id = current_app.config['session_cookie_id']
+	session_id = session[s_id]
+
+	return render_template("store/googlec039a3f1a173c2f4.html")
+
+
 @store_routes.route('/products/')
 @store_routes.route('/products')
 @with_user_data(current_app, session)
