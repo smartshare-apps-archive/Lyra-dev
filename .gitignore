@@ -1,6 +1,20 @@
-flask-env/
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# Environments
+flask-env/
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Byte-compiled / optimized
 *.py[cod]
+__pycache__/
+
+# IDE
+.idea/
+.vscode/

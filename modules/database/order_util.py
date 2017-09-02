@@ -1,4 +1,2 @@
-
-
 def formatOrderTimeline(eventList):
-	return eventList
+    return eventList
