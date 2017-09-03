@@ -19,9 +19,9 @@ db = instance_handle()
 
 redis_config = config.getRedisSettings(db.cursor())
 
-REDIS_SERVER = redis_config["host"]
-REDIS_PORT = int(redis_config["port"])
-REDIS_PASSWORD = redis_config["password"]
+REDIS_SERVER = redis_config['host']
+REDIS_PORT = int(redis_config['port'])
+REDIS_PASSWORD = redis_config['password']
 
 SESSION_DURATION = 3000
 
@@ -38,28 +38,18 @@ class SessionManager(object):
         auth_id = app.config['session_cookie_id']
 
         if auth_id not in session:
-            new_UUID = str(uuid4())
-            session[auth_id] = new_UUID
+            session[auth_id] = str(uuid4())
 
-            return self.r.setex(new_UUID, int(SESSION_DURATION), "guest")
-
-        else:
-            return self.r.setex(session[auth_id], int(SESSION_DURATION), "guest")
+        return self.r.setex(session[auth_id], SESSION_DURATION, 'guest')
 
     # redis calls
-
-
     @session_required
     def get_session_keys(self, app, session):
-        all_keys = self.r.keys('*')
-        for idx, key in enumerate(all_keys):
-            # print idx,":", key
-            pass
-        return all_keys
+        return self.r.keys('*')
 
     @session_required
     def update_session_key(self, app, session, data):
-        return self.r.setex(data['key'], int(SESSION_DURATION), data['value'])
+        return self.r.setex(data['key'], SESSION_DURATION, data['value'])
 
     @session_required
     def get_session_key(self, app, session, data):
@@ -88,4 +78,4 @@ class SessionManager(object):
 
     @session_required
     def append_session_list(self, app, session, data):
-        result = self.r.lpush(data['key'], data['value'])
+        self.r.lpush(data['key'], data['value'])

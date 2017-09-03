@@ -8,7 +8,7 @@ import modules.database.order
 from modules.decorators import *
 from modules.auth.login import *
 
-order_routes = Blueprint('order_routes', __name__, template_folder='templates')  # blueprint definition
+order_routes = Blueprint('order_routes', __name__)
 
 
 @order_routes.before_request
@@ -18,7 +18,7 @@ def setup_session():
 
     if s_id not in session:
         sm.open_session(current_app, session)
-        print "Created: ", session[s_id]
+        print 'Created:', session[s_id]
 
 
 # route to main order list
@@ -26,26 +26,25 @@ def setup_session():
 @order_routes.route('/control/orders', methods=['GET', 'POST'])
 # @admin_required(current_app, session, login_redirect)
 def orders():
-    ctl = current_app.config["ctl"]
-    data = {}
-
-    data["current_page"] = "orders"
-    data["current_class_js"] = "control_panel/order/Core.js"
-    data["current_page_js"] = "control_panel/order/Main.js"
-    data["current_requests_js"] = "control_panel/order/Requests.js"
-
-    response = ctl.render_tab("orders")
+    current_page = 'orders'
+    ctl = current_app.config['ctl']
+    response = ctl.render_tab(current_page)
 
     if response in config.ERROR_CODES:
-        return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
-    else:
-        data["current_page_content"] = response
+        return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    data["ts"] = int(time.time())
-    data["modals"] = [render_template("control_panel/modal.html")]
-    data["submenu"] = Markup(render_template("control_panel/subMenu_orders.html"))
+    context = {
+        'current_page': current_page,
+        'current_class_js': 'control_panel/order/Core.js',
+        'current_page_js': 'control_panel/order/Main.js',
+        'current_requests_js': 'control_panel/order/Requests.js',
+        'current_page_content': response,
+        'ts': int(time.time()),
+        'modals': [render_template('control_panel/modal.html')],
+        'submenu': Markup(render_template('control_panel/subMenu_orders.html'))
+    }
 
-    return render_template("control_panel/control.html", data=data)
+    return render_template('control_panel/control.html', data=context)
 
 
 # route to main order list
@@ -53,26 +52,25 @@ def orders():
 @order_routes.route('/control/orders/drafts', methods=['GET', 'POST'])
 # @admin_required(current_app, session, login_redirect)
 def orders_drafts():
-    ctl = current_app.config["ctl"]
-    data = {}
-
-    data["current_page"] = "orders_drafts"
-    data["current_class_js"] = "control_panel/order/Core.js"
-    data["current_page_js"] = "control_panel/order/Drafts.js"
-    data["current_requests_js"] = "control_panel/order/Requests.js"
-
-    response = ctl.render_tab("orders_drafts")
+    current_page = 'orders_drafts'
+    ctl = current_app.config['ctl']
+    response = ctl.render_tab(current_page)
 
     if response in config.ERROR_CODES:
-        return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
-    else:
-        data["current_page_content"] = response
+        return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    data["ts"] = int(time.time())
-    data["modals"] = [render_template("control_panel/modal.html")]
-    data["submenu"] = Markup(render_template("control_panel/subMenu_orders.html"))
+    context = {
+        'current_page': current_page,
+        'current_class_js': 'control_panel/order/Core.js',
+        'current_page_js': 'control_panel/order/Drafts.js',
+        'current_requests_js': 'control_panel/order/Requests.js',
+        'current_page_content': response,
+        'ts': int(time.time()),
+        'modals': [render_template('control_panel/modal.html')],
+        'submenu': Markup(render_template('control_panel/subMenu_orders.html'))
+    }
 
-    return render_template("control_panel/control.html", data=data)
+    return render_template('control_panel/control.html', data=context)
 
 
 # route to single order editor
@@ -80,26 +78,25 @@ def orders_drafts():
 @order_routes.route('/control/orders/<order_id>/', methods=['GET', 'POST'])
 # @admin_required(current_app, session, login_redirect)
 def orderEditor(order_id):
-    ctl = current_app.config["ctl"]
-    data = {}
-
-    data["current_page"] = "order_editor"
-    data["current_class_js"] = "control_panel/order/Core.js"
-    data["current_page_js"] = "control_panel/order/OrderEditor.js"
-    data["current_requests_js"] = "control_panel/order/Requests.js"
-
-    response = ctl.render_tab("order_editor", data=order_id)
+    current_page = 'order_editor'
+    ctl = current_app.config['ctl']
+    response = ctl.render_tab(current_page, data=order_id)
 
     if response in config.ERROR_CODES:
-        return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
-    else:
-        data["current_page_content"] = response
+        return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    data["ts"] = int(time.time())
-    data["modals"] = [render_template("control_panel/modal.html")]
-    data["submenu"] = Markup(render_template("control_panel/subMenu_orders.html"))
+    context = {
+        'current_page': current_page,
+        'current_class_js': 'control_panel/order/Core.js',
+        'current_page_js': 'control_panel/order/OrderEditor.js',
+        'current_requests_js': 'control_panel/order/Requests.js',
+        'current_page_content': response,
+        'ts': int(time.time()),
+        'modals': [render_template('control_panel/modal.html')],
+        'submenu': Markup(render_template('control_panel/subMenu_orders.html'))
+    }
 
-    return render_template("control_panel/control.html", data=data)
+    return render_template('control_panel/control.html', data=context)
 
 
 # route to single draft editor
@@ -107,26 +104,25 @@ def orderEditor(order_id):
 @order_routes.route('/control/orders/addDraft/', methods=['GET', 'POST'])
 # @admin_required(current_app, session, login_redirect)
 def addDraft():
-    ctl = current_app.config["ctl"]
-    data = {}
-
-    data["current_page"] = "order_editor_draft_new"
-    data["current_class_js"] = "control_panel/order/Core.js"
-    data["current_page_js"] = "control_panel/order/DraftEditorNew.js"
-    data["current_requests_js"] = "control_panel/order/Requests.js"
-
-    response = ctl.render_tab("order_editor_draft_new")
+    current_page = 'order_editor_draft_new'
+    ctl = current_app.config['ctl']
+    response = ctl.render_tab(current_page)
 
     if response in config.ERROR_CODES:
-        return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
-    else:
-        data["current_page_content"] = response
+        return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    data["ts"] = int(time.time())
-    data["modals"] = [render_template("control_panel/modal.html")]
-    data["submenu"] = Markup(render_template("control_panel/subMenu_orders.html"))
+    context = {
+        'current_page': current_page,
+        'current_class_js': 'control_panel/order/Core.js',
+        'current_page_js': 'control_panel/order/DraftEditorNew.js',
+        'current_requests_js': 'control_panel/order/Requests.js',
+        'current_page_content': response,
+        'ts': int(time.time()),
+        'modals': [render_template('control_panel/modal.html')],
+        'submenu': Markup(render_template('control_panel/subMenu_orders.html'))
+    }
 
-    return render_template("control_panel/control.html", data=data)
+    return render_template('control_panel/control.html', data=context)
 
 
 # route to order fulfillment
@@ -134,23 +130,22 @@ def addDraft():
 @order_routes.route('/control/orders/fulfill/<order_id>/', methods=['GET', 'POST'])
 # @admin_required(current_app, session, login_redirect)
 def fulfillOrder(order_id):
-    ctl = current_app.config["ctl"]
-    data = {}
-
-    data["current_page"] = "order_fulfill"
-    data["current_class_js"] = "control_panel/order/Core.js"
-    data["current_page_js"] = "control_panel/order/Fulfill.js"
-    data["current_requests_js"] = "control_panel/order/Requests.js"
-
-    response = ctl.render_tab("order_fulfill", data=order_id)
+    current_page = 'order_fulfill'
+    ctl = current_app.config['ctl']
+    response = ctl.render_tab(current_page, data=order_id)
 
     if response in config.ERROR_CODES:
-        return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
-    else:
-        data["current_page_content"] = response
+        return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    data["ts"] = int(time.time())
-    data["modals"] = [render_template("control_panel/modal.html")]
-    data["submenu"] = Markup(render_template("control_panel/subMenu_orders.html"))
+    context = {
+        'current_page': current_page,
+        'current_class_js': 'control_panel/order/Core.js',
+        'current_page_js': 'control_panel/order/Fulfill.js',
+        'current_requests_js': 'control_panel/order/Requests.js',
+        'current_page_content': response,
+        'ts': int(time.time()),
+        'modals': [render_template('control_panel/modal.html')],
+        'submenu': Markup(render_template('control_panel/subMenu_orders.html'))
+    }
 
-    return render_template("control_panel/control.html", data=data)
+    return render_template('control_panel/control.html', data=context)
