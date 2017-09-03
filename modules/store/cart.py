@@ -13,7 +13,7 @@ import modules.database.order
 
 CartMessage = {
     'CART_EXISTS': None,
-    'CART_EMPTY': "empty"
+    'CART_EMPTY': 'empty'
 }
 
 
@@ -25,8 +25,9 @@ class CartManager(object):
 
     # creates a new cart list if none exists, or returns
     def getCartContents(self, session):
-        data = {}
-        data["table"] = "cart:" + session['user_session']
+        data = {
+            'table': 'cart:' + session['user_session']
+        }
 
         cart = self.s.get_session_hashTable(self.app, session, data)
 
@@ -36,62 +37,64 @@ class CartManager(object):
         else:
             return None
 
-
         # adds an item to the cart
 
     def addItem(self, session, data):
-        prefix = "cart:"
+        prefix = 'cart:'
         data = data.split(';')
         item = data[0]
         quantity = data[1]
 
         currentContents = self.getCartContents(session)
 
-        data = {}
-        data["table"] = prefix + session['user_session']
-        data["key"] = item
-        data["value"] = quantity
+        data = {
+            'table': prefix + session['user_session'],
+            'key': item,
+            'value': quantity
+        }
 
         result = self.s.set_session_hashKey(self.app, session, data)
         currentContents = self.getCartContents(session)
 
-        print "After contents: ", currentContents
+        print 'After contents:', currentContents
         return result
 
     def deleteItem(self, session, data):
-        prefix = "cart:"
+        prefix = 'cart:'
         item = data
         currentContents = self.getCartContents(session)
 
-        data = {}
-        data["table"] = prefix + session['user_session']
-        data["key"] = item
+        data = {
+            'table': prefix + session['user_session'],
+            'key': item
+        }
 
         result = self.s.delete_session_hashKey(self.app, session, data)
         currentContents = self.getCartContents(session)
 
-        print "After contents: ", currentContents
+        print 'After contents:', currentContents
         return result
 
     def updateItem(self, session, data):
-        prefix = "cart:"
+        prefix = 'cart:'
         data = data.split(';')
         item = data[0]
         quantity = data[1]
 
         currentContents = self.getCartContents(session)
 
-        data = {}
-        data["table"] = prefix + session['user_session']
-        data["key"] = item
-        data["value"] = quantity
+        data = {
+            'table': prefix + session['user_session'],
+            'key': item,
+            'value': quantity
+        }
 
-        if (quantity == '0'):
+        if quantity == '0':
             result = self.s.delete_session_hashKey(self.app, session, data)
         else:
             result = self.s.set_session_hashKey(self.app, session, data)
 
         currentContents = self.getCartContents(session)
 
-        print "After contents: ", currentContents
+        print 'After contents:', currentContents
         return result

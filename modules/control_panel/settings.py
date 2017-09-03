@@ -8,7 +8,7 @@ from modules.decorators import *
 from modules.auth.login import *
 import modules.database.order
 
-settings_routes = Blueprint('settings_routes', __name__, template_folder='templates')  # blueprint definition
+settings_routes = Blueprint('settings_routes', __name__)
 
 
 @settings_routes.before_request
@@ -18,33 +18,32 @@ def setup_session():
 
     if s_id not in session:
         sm.open_session(current_app, session)
-        print "Created: ", session[s_id]
+        print 'Created:', session[s_id]
 
 
 @settings_routes.route('/control/settings')
 @settings_routes.route('/control/settings/')
 # @admin_required(current_app, session, login_redirect)
 def settings():
-    ctl = current_app.config["ctl"]
-    data = {}
-
-    data["current_page"] = "settings"
-    data["current_class_js"] = "control_panel/settings/Core.js"
-    data["current_page_js"] = "control_panel/settings/Main.js"
-    data["current_requests_js"] = "control_panel/settings/Requests.js"
-
-    response = ctl.render_tab("settings")
+    current_page = 'settings'
+    ctl = current_app.config['ctl']
+    response = ctl.render_tab(current_page)
 
     if response in config.ERROR_CODES:
-        return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
-    else:
-        data["current_page_content"] = response
+        return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    data["ts"] = int(time.time())
-    data["modal"] = Markup(render_template("control_panel/modal.html"))
-    data["submenu"] = Markup(render_template("control_panel/subMenu_settings.html"))
+    context = {
+        'current_page': current_page,
+        'current_class_js': 'control_panel/settings/Core.js',
+        'current_page_js': 'control_panel/settings/Main.js',
+        'current_requests_js': 'control_panel/settings/Requests.js',
+        'current_page_content': response,
+        'ts': int(time.time()),
+        'modal': Markup(render_template('control_panel/modal.html')),
+        'submenu': Markup(render_template('control_panel/subMenu_settings.html'))
+    }
 
-    return render_template("control_panel/control.html", data=data)
+    return render_template('control_panel/control.html', data=context)
 
 
 @settings_routes.route('/control/settings/advanced')
@@ -52,75 +51,71 @@ def settings():
 @settings_routes.route('/control/settings/advanced/?flag=<string:flag>')
 # @admin_required(current_app, session, login_redirect)
 def advanced_settings(flag=None):
-    ctl = current_app.config["ctl"]
-    data = {}
+    current_page = 'settings_advanced'
+    ctl = current_app.config['ctl']
 
-    data["current_page"] = "settings_advanced"
-    data["current_class_js"] = "control_panel/settings/Core.js"
-    data["current_page_js"] = "control_panel/settings/Advanced.js"
-    data["current_requests_js"] = "control_panel/settings/Requests.js"
+    response = ctl.render_tab(current_page)
 
-    response = ctl.render_tab("settings_advanced")
+    context = {
+        'current_page': current_page,
+        'current_class_js': 'control_panel/settings/Core.js',
+        'current_page_js': 'control_panel/settings/Advanced.js',
+        'current_requests_js': 'control_panel/settings/Requests.js',
+        'ts': int(time.time()),
+        'modal': Markup(render_template('control_panel/modal.html')),
+        'submenu': Markup(render_template('control_panel/subMenu_settings.html')),
+        'current_page_content': ctl.render_tab('settings_advanced', flag)
+        if flag is not None else ctl.render_tab('settings_advanced')
+    }
 
-    if flag != None:
-        data["current_page_content"] = ctl.render_tab("settings_advanced", flag)
-    else:
-        data["current_page_content"] = ctl.render_tab("settings_advanced")
-
-    data["ts"] = int(time.time())
-    data["modal"] = Markup(render_template("control_panel/modal.html"))
-    data["submenu"] = Markup(render_template("control_panel/subMenu_settings.html"))
-
-    return render_template("control_panel/control.html", data=data)
+    return render_template('control_panel/control.html', data=context)
 
 
 @settings_routes.route('/control/settings/payment')
 @settings_routes.route('/control/settings/payment/')
 # @admin_required(current_app, session, login_redirect)
 def payment_settings():
-    ctl = current_app.config["ctl"]
-    data = {}
-
-    data["current_page"] = "settings_payment"
-    data["current_class_js"] = "control_panel/settings/Core.js"
-    data["current_page_js"] = "control_panel/settings/PaymentSettings.js"
-    data["current_requests_js"] = "control_panel/settings/Requests.js"
-
-    response = ctl.render_tab("settings_payment")
+    current_page = 'settings_payment'
+    ctl = current_app.config['ctl']
+    response = ctl.render_tab(current_page)
 
     if response in config.ERROR_CODES:
-        return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
-    else:
-        data["current_page_content"] = response
+        return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    data["ts"] = int(time.time())
-    data["modal"] = Markup(render_template("control_panel/modal.html"))
-    data["submenu"] = Markup(render_template("control_panel/subMenu_settings.html"))
+    context = {
+        'current_page': current_page,
+        'current_class_js': 'control_panel/settings/Core.js',
+        'current_page_js': 'control_panel/settings/PaymentSettings.js',
+        'current_requests_js': 'control_panel/settings/Requests.js',
+        'current_page_content': response,
+        'ts': int(time.time()),
+        'modal': Markup(render_template('control_panel/modal.html')),
+        'submenu': Markup(render_template('control_panel/subMenu_settings.html'))
+    }
 
-    return render_template("control_panel/control.html", data=data)
+    return render_template('control_panel/control.html', data=context)
 
 
 @settings_routes.route('/control/settings/shipping')
 @settings_routes.route('/control/settings/shipping/')
 # @admin_required(current_app, session, login_redirect)
 def shipping_settings():
-    ctl = current_app.config["ctl"]
-    data = {}
-
-    data["current_page"] = "settings_shipping"
-    data["current_class_js"] = "control_panel/settings/Core.js"
-    data["current_page_js"] = "control_panel/settings/Shipping.js"
-    data["current_requests_js"] = "control_panel/settings/Requests.js"
-
-    response = ctl.render_tab("settings_shipping")
+    current_page = 'settings_shipping'
+    ctl = current_app.config['ctl']
+    response = ctl.render_tab(current_page)
 
     if response in config.ERROR_CODES:
-        return redirect(url_for('settings_routes.advanced_settings', flag="NO_DB"))
-    else:
-        data["current_page_content"] = response
+        return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    data["ts"] = int(time.time())
-    data["modal"] = Markup(render_template("control_panel/modal.html"))
-    data["submenu"] = Markup(render_template("control_panel/subMenu_settings.html"))
+    context = {
+        'current_page': current_page,
+        'current_class_js': 'control_panel/settings/Core.js',
+        'current_page_js': 'control_panel/settings/Shipping.js',
+        'current_requests_js': 'control_panel/settings/Requests.js',
+        'current_page_content': response,
+        'ts': int(time.time()),
+        'modal': Markup(render_template('control_panel/modal.html')),
+        'submenu': Markup(render_template('control_panel/subMenu_settings.html'))
+    }
 
-    return render_template("control_panel/control.html", data=data)
+    return render_template('control_panel/control.html', data=context)

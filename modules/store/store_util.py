@@ -14,21 +14,21 @@ def formatProductRows(products):
     rowList.append([])
 
     if type(products) == type([]):
-        print "this is a list"
+        print 'this is a list'
         for product in products:
-            if (cItems == maxItemsPerRow):
+            if cItems == maxItemsPerRow:
                 rowList.append([])
                 cItems = 0
                 currentRow += 1
 
-            rowList[currentRow].append(product["product_id"])
+            rowList[currentRow].append(product['product_id'])
 
             cItems += 1
             nProducts -= 1
 
     elif type(products) == type({}) or isinstance(products, collections.OrderedDict):
         for product_id, product in products.iteritems():
-            if (cItems == maxItemsPerRow):
+            if cItems == maxItemsPerRow:
                 rowList.append([])
                 cItems = 0
                 currentRow += 1
@@ -38,7 +38,7 @@ def formatProductRows(products):
             cItems += 1
             nProducts -= 1
     else:
-        print "Invalid type:", type(products)
+        print 'Invalid type:', type(products)
 
     return rowList
 
@@ -53,7 +53,7 @@ def parseAddress(address):
         try:
             formattedAddress[a[0]] = a[1]
         except:
-            formattedAddress[a[0]] = ""
+            formattedAddress[a[0]] = ''
 
     return formattedAddress
 
@@ -61,15 +61,15 @@ def parseAddress(address):
 def parseDropdownList(navData):
     navData = navData.split('<split>')
     formattedDropdown = {}
-    formattedDropdown["links"] = []
+    formattedDropdown['links'] = []
 
     for resource in navData:
         resource = resource.split(':')
-        if resource[0] == "title":
-            formattedDropdown["title"] = resource[1]
+        if resource[0] == 'title':
+            formattedDropdown['title'] = resource[1]
             continue
 
-        formattedDropdown["links"].append(resource)
+        formattedDropdown['links'].append(resource)
     return formattedDropdown
 
 
