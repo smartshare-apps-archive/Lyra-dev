@@ -7,10 +7,9 @@ var chatLog = {};
 
 
 $(document).ready(function(){
-	bindChatElements();
-	initLiveChat();
-	
-	bindChatEvents();
+	//bindChatElements();
+	//initLiveChat();
+	//bindChatEvents();
 
 });
 

@@ -7,7 +7,7 @@
         {% block page_title %}
             <title>base template</title>
         {% endblock page_title %}
-
+        
         {{ data.common_libraries|safe }}
         <script src="/static/js/store/Requests.js?v={{ data.ts }}"></script>
         <script src="/static/js/{{ data.current_class_js }}?v={{ data.ts }}"></script>

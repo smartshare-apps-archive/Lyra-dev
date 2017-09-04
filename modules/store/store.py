@@ -66,6 +66,7 @@ def Home(user_data=None):
         stripe_api_keys=stripe_api_keys
     )
 
+    print ts
     return render_template('store/page.html', data=context)
 
 
