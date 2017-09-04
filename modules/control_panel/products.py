@@ -38,16 +38,16 @@ def products():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/product/Core.js',
-        'current_page_js': 'control_panel/product/Main.js',
-        'current_requests_js': 'control_panel/product/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html')],
-        'submenu': Markup(render_template('control_panel/subMenu_products.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/product/Core.js',
+        current_page_js='control_panel/product/Main.js',
+        current_requests_js='control_panel/product/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html')],
+        submenu=Markup(render_template('control_panel/subMenu_products.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -68,11 +68,7 @@ def productEditor(product_id):
     db = db_handle(instance_db)
 
     product_data = loadProduct(product_id, db.cursor())
-
-    if product_data['Tags']:
-        product_tags = formatProductTags(product_data['Tags'])
-    else:
-        product_tags = []
+    product_tags = formatProductTags(product_data['Tags']) if product_data['Tags'] else []
 
     all_tags = config.loadProductTags(instance_db.cursor())
     all_types = config.loadProductTypes(instance_db.cursor())
@@ -80,24 +76,24 @@ def productEditor(product_id):
 
     db.close()
 
-    context = {
-        'current_page': current_page,
-        'product_id': product_id,
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html'),
-                   render_template('control_panel/modal_image_upload.html', product_id=product_id),
-                   render_template('control_panel/modal_edit_tags.html', product_id=product_id,
-                                   product_tags=product_tags, all_tags=all_tags),
-                   render_template('control_panel/modal_edit_types.html', product_id=product_id, all_types=all_types,
-                                   product_type=product_data['Type']),
-                   render_template('control_panel/modal_edit_vendors.html', product_id=product_id,
-                                   vendors=all_vendors)],
-        'submenu': Markup(render_template('control_panel/subMenu_products.html')),
-        'current_class_js': 'control_panel/product/Core.js',
-        'current_page_js': 'control_panel/product/ProductEditor.js',
-        'current_requests_js': 'control_panel/product/Requests.js'
-    }
+    context = dict(
+        current_page=current_page,
+        product_id=product_id,
+        current_page_content=response,
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html'),
+                render_template('control_panel/modal_image_upload.html', product_id=product_id),
+                render_template('control_panel/modal_edit_tags.html', product_id=product_id,
+                                product_tags=product_tags, all_tags=all_tags),
+                render_template('control_panel/modal_edit_types.html', product_id=product_id, all_types=all_types,
+                                product_type=product_data['Type']),
+                render_template('control_panel/modal_edit_vendors.html', product_id=product_id,
+                                vendors=all_vendors)],
+        submenu=Markup(render_template('control_panel/subMenu_products.html')),
+        current_class_js='control_panel/product/Core.js',
+        current_page_js='control_panel/product/ProductEditor.js',
+        current_requests_js='control_panel/product/Requests.js'
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -114,17 +110,18 @@ def collectionEditor(collection_id):
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'product_id': collection_id,
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html'),
-                   render_template('control_panel/modal_image_upload.html', collection_id=collection_id)],
-        'submenu': Markup(render_template('control_panel/subMenu_products.html')),
-        'current_class_js': 'control_panel/product/Core.js',
-        'current_page_js': 'control_panel/product/CollectionEditor.js',
-        'current_requests_js': 'control_panel/product/Requests.js'}
+    context = dict(
+        current_page=current_page,
+        product_id=collection_id,
+        current_page_content=response,
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html'),
+                render_template('control_panel/modal_image_upload.html', collection_id=collection_id)],
+        submenu=Markup(render_template('control_panel/subMenu_products.html')),
+        current_class_js='control_panel/product/Core.js',
+        current_page_js='control_panel/product/CollectionEditor.js',
+        current_requests_js='control_panel/product/Requests.js'
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -142,17 +139,17 @@ def productBulkCollectionEditor():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'collectionIDList': collectionIDList,
-        'current_page': current_page,
-        'current_page_content': response,
-        'current_class_js': 'control_panel/product/Core.js',
-        'current_page_js': 'control_panel/product/BulkCollectionEditor.js',
-        'current_requests_js': 'control_panel/product/Requests.js',
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html')],
-        'submenu': Markup(render_template('control_panel/subMenu_products.html'))
-    }
+    context = dict(
+        collectionIDList=collectionIDList,
+        current_page=current_page,
+        current_page_content=response,
+        current_class_js='control_panel/product/Core.js',
+        current_page_js='control_panel/product/BulkCollectionEditor.js',
+        current_requests_js='control_panel/product/Requests.js',
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html')],
+        submenu=Markup(render_template('control_panel/subMenu_products.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -170,17 +167,17 @@ def productBulkEditor():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'productIdList': productIdList,
-        'current_page': current_page,
-        'current_page_content': response,
-        'current_class_js': 'control_panel/product/Core.js',
-        'current_page_js': 'control_panel/product/BulkProductEditor.js',
-        'current_requests_js': 'control_panel/product/Requests.js',
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html')],
-        'submenu': Markup(render_template('control_panel/subMenu_products.html'))
-    }
+    context = dict(
+        productIdList=productIdList,
+        current_page=current_page,
+        current_page_content=response,
+        current_class_js='control_panel/product/Core.js',
+        current_page_js='control_panel/product/BulkProductEditor.js',
+        current_requests_js='control_panel/product/Requests.js',
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html')],
+        submenu=Markup(render_template('control_panel/subMenu_products.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -196,16 +193,16 @@ def productInventory():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_page_content': response,
-        'current_class_js': 'control_panel/product/Core.js',
-        'current_page_js': 'control_panel/product/Inventory.js',
-        'current_requests_js': 'control_panel/product/Requests.js',
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html')],
-        'submenu': Markup(render_template('control_panel/subMenu_products.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_page_content=response,
+        current_class_js='control_panel/product/Core.js',
+        current_page_js='control_panel/product/Inventory.js',
+        current_requests_js='control_panel/product/Requests.js',
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html')],
+        submenu=Markup(render_template('control_panel/subMenu_products.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -222,17 +219,17 @@ def productInventoryEditor(variant_id):
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_page_content': response,
-        'current_class_js': 'control_panel/product/Core.js',
-        'current_page_js': 'control_panel/product/InventoryEditor.js',
-        'current_requests_js': 'control_panel/product/Requests.js',
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html'),
-                   render_template('control_panel/modal_image_upload.html', variant_id=variant_id)],
-        'submenu': Markup(render_template('control_panel/subMenu_products.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_page_content=response,
+        current_class_js='control_panel/product/Core.js',
+        current_page_js='control_panel/product/InventoryEditor.js',
+        current_requests_js='control_panel/product/Requests.js',
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html'),
+                render_template('control_panel/modal_image_upload.html', variant_id=variant_id)],
+        submenu=Markup(render_template('control_panel/subMenu_products.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -250,17 +247,17 @@ def productBulkInventoryEditor():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'variantIdList': variantIdList,
-        'current_page': current_page,
-        'current_page_content': response,
-        'current_class_js': 'control_panel/product/Core.js',
-        'current_page_js': 'control_panel/product/BulkInventoryEditor.js',
-        'current_requests_js': 'control_panel/product/Requests.js',
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html')],
-        'submenu': Markup(render_template('control_panel/subMenu_products.html'))
-    }
+    context = dict(
+        variantIdList=variantIdList,
+        current_page=current_page,
+        current_page_content=response,
+        current_class_js='control_panel/product/Core.js',
+        current_page_js='control_panel/product/BulkInventoryEditor.js',
+        current_requests_js='control_panel/product/Requests.js',
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html')],
+        submenu=Markup(render_template('control_panel/subMenu_products.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -276,15 +273,15 @@ def productCollections():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_page_content': response,
-        'current_class_js': 'control_panel/product/Core.js',
-        'current_page_js': 'control_panel/product/Collections.js',
-        'current_requests_js': 'control_panel/product/Requests.js',
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html')],
-        'submenu': Markup(render_template('control_panel/subMenu_products.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_page_content=response,
+        current_class_js='control_panel/product/Core.js',
+        current_page_js='control_panel/product/Collections.js',
+        current_requests_js='control_panel/product/Requests.js',
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html')],
+        submenu=Markup(render_template('control_panel/subMenu_products.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)

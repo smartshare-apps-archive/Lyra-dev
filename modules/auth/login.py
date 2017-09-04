@@ -16,7 +16,7 @@ import modules.database.config as config
 from modules.store.cart import *
 from modules.store.store import *
 
-login_routes = Blueprint('login_routes', __name__, template_folder='templates')
+login_routes = Blueprint('login_routes', __name__)
 
 
 # this method creates a session for the store visitor before any request occurs

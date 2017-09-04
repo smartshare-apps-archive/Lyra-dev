@@ -33,19 +33,13 @@ def createResource(resource_URI, resource_type, database):
 
 
 def loadResourceURI(resource_id, database):
-    currentQuery = "SELECT resource_uri FROM resources WHERE resource_id=%s;"
+    query = "SELECT resource_uri FROM resources WHERE resource_id=%s"
 
-    try:
-        database.execute(currentQuery, (resource_id,))
-    except Exception as e:
-        print "Exception: ", e
-        return None
-
+    # TODO: Check for SQL injections
+    database.execute(query % resource_id)
     resource_uri = database.fetchone()
 
-    if resource_uri:
-        return resource_uri[0]
-    return None
+    return resource_uri[0] if resource_uri else None
 
 
 def deleteResource(resource_id, database):

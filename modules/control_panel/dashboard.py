@@ -34,16 +34,16 @@ def dashboard_main():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/dashboard/Core.js',
-        'current_page_js': 'control_panel/dashboard/Main.js',
-        'current_requests_js': 'control_panel/dashboard/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_dashboard.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/dashboard/Core.js',
+        current_page_js='control_panel/dashboard/Main.js',
+        current_requests_js='control_panel/dashboard/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_dashboard.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -59,15 +59,15 @@ def dashboard_live_chat():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/dashboard/Core.js',
-        'current_page_js': 'control_panel/dashboard/Main.js',
-        'current_requests_js': 'control_panel/dashboard/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_dashboard.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/dashboard/Core.js',
+        current_page_js='control_panel/dashboard/Main.js',
+        current_requests_js='control_panel/dashboard/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_dashboard.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)

@@ -38,8 +38,6 @@ from modules.control_panel import dashboard
 from modules.store import store
 from modules.store import cart
 
-from modules.payment import payment
-
 # authentication and session management modules
 from modules.auth import login
 from modules.auth import session_manager
@@ -85,7 +83,6 @@ application.register_blueprint(dashboard.dashboard_routes)
 # register store blueprints
 application.register_blueprint(store.store_routes)
 application.register_blueprint(login.login_routes)
-application.register_blueprint(payment.payment_routes)
 
 # initialize store wide session and cart manager
 application.config['session_cookie_id'] = 'user_session'
