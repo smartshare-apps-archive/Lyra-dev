@@ -32,16 +32,16 @@ def store_settings():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/store/Core.js',
-        'current_page_js': 'control_panel/store/Main.js',
-        'current_requests_js': 'control_panel/store/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_store_settings.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/store/Core.js',
+        current_page_js='control_panel/store/Main.js',
+        current_requests_js='control_panel/store/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_store_settings.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -57,16 +57,16 @@ def store_settings_navigation():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/store/Core.js',
-        'current_page_js': 'control_panel/store/Navigation.js',
-        'current_requests_js': 'control_panel/store/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_store_settings.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/store/Core.js',
+        current_page_js='control_panel/store/Navigation.js',
+        current_requests_js='control_panel/store/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_store_settings.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -82,16 +82,16 @@ def store_settings_footer():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/store/Core.js',
-        'current_page_js': 'control_panel/store/Footer.js',
-        'current_requests_js': 'control_panel/store/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_store_settings.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/store/Core.js',
+        current_page_js='control_panel/store/Footer.js',
+        current_requests_js='control_panel/store/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_store_settings.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -107,16 +107,16 @@ def store_settings_pages():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/store/Core.js',
-        'current_page_js': 'control_panel/store/Pages.js',
-        'current_requests_js': 'control_panel/store/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_store_settings.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/store/Core.js',
+        current_page_js='control_panel/store/Pages.js',
+        current_requests_js='control_panel/store/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_store_settings.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -132,16 +132,16 @@ def store_settings_page_editor(page_id):
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/store/Core.js',
-        'current_page_js': 'control_panel/store/PageEditor.js',
-        'current_requests_js': 'control_panel/store/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_store_settings.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/store/Core.js',
+        current_page_js='control_panel/store/PageEditor.js',
+        current_requests_js='control_panel/store/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_store_settings.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -157,16 +157,16 @@ def store_settings_file_manager():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/store/Core.js',
-        'current_page_js': 'control_panel/store/FileManager.js',
-        'current_requests_js': 'control_panel/store/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_store_settings.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/store/Core.js',
+        current_page_js='control_panel/store/FileManager.js',
+        current_requests_js='control_panel/store/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_store_settings.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -182,16 +182,16 @@ def store_settings_theme_manager():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/store/Core.js',
-        'current_page_js': 'control_panel/store/ThemeManager.js',
-        'current_requests_js': 'control_panel/store/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_store_settings.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/store/Core.js',
+        current_page_js='control_panel/store/ThemeManager.js',
+        current_requests_js='control_panel/store/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_store_settings.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -207,15 +207,15 @@ def store_settings_analytics():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/store/Core.js',
-        'current_page_js': 'control_panel/store/Analytics.js',
-        'current_requests_js': 'control_panel/store/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_store_settings.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/store/Core.js',
+        current_page_js='control_panel/store/Analytics.js',
+        current_requests_js='control_panel/store/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_store_settings.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)

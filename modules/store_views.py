@@ -30,33 +30,43 @@ class Store(object):
         self.database = db.cursor()
         self.instance_db = instance_db.cursor()
         # store views: gotta think of a way to add these in a better way
-        if tab == "home":
+        if tab == 'home':
+            print 1
             return self.Home()
-        elif tab == "all_products":
+        elif tab == 'all_products':
+            print 2
             return self.AllProducts()
-        elif tab == "load_collection":
+        elif tab == 'load_collection':
+            print 3
             return self.LoadCollection(data)
-        elif tab == "product":
+        elif tab == 'product':
+            print 4
             return self.ViewProduct(data)
-        elif tab == "cart":
+        elif tab == 'cart':
+            print 5
             return self.ViewCart(data)
-        elif tab == "checkout":
+        elif tab == 'checkout':
+            print 6
             return self.ViewCheckout(data)
-        elif tab == "order_success":
+        elif tab == 'order_success':
+            print 7
             return self.ViewOrderDetails(data)
-        elif tab == "page":
+        elif tab == 'page':
+            print 8
             return self.ViewPage(data)
-        elif tab == "nav_bar":
+        elif tab == 'nav_bar':
+            print 9
             return self.NavBar(data)
-        elif tab == "footer":
+        elif tab == 'footer':
+            print 10
             return self.Footer(data)
 
         self.database = None
         db.close()
 
     def NavBar(self, user_data=None):
-        navBarRoot = "top_nav_bar"
-        navBarTheme = "_lulu"
+        navBarRoot = 'top_nav_bar'
+        navBarTheme = '_lulu'
 
         nav_categories = store.getNavCategories(self.database)
 
@@ -65,27 +75,23 @@ class Store(object):
         for nav_category, nav_data in nav_categories.iteritems():
             formattedNavCategories[nav_category] = {}
             for nav_item in nav_data:
-                nav_item = nav_item.split(':')
-                formattedNavCategories[nav_category][nav_item[0]] = nav_item[1]
+                key, value = nav_item.split(':')
+                formattedNavCategories[nav_category][key] = value
 
-        for navCategory, navData in formattedNavCategories.iteritems():
-            resource_id = formattedNavCategories[navCategory]["resource_id"]
-            formattedNavCategories[navCategory]["resource"] = resources.loadResourceURI(resource_id, self.database)
-            if (formattedNavCategories[navCategory]["type"]) == "dropdown_list":
-                formattedNavCategories[navCategory]["resource"] = parseDropdownList(
-                    formattedNavCategories[navCategory]["resource"])
+            resource_id = formattedNavCategories[nav_category]['resource_id']
+            resource = resources.loadResourceURI(resource_id, self.database)
 
-        if user_data:
-            rendered_nav_data = render_template("store/" + navBarRoot + navBarTheme + ".html",
-                                                nav_data=formattedNavCategories, user_data=user_data)
-        else:
-            rendered_nav_data = render_template("store/" + navBarRoot + navBarTheme + ".html",
-                                                nav_data=formattedNavCategories)
-        return rendered_nav_data
+            if formattedNavCategories[nav_category]['type'] == 'dropdown_list':
+                formattedNavCategories[nav_category]['resource'] = parseDropdownList(resource)
+            else:
+                formattedNavCategories[nav_category]['resource'] = resource
+
+        return render_template('store/' + navBarRoot + navBarTheme + '.html', nav_data=formattedNavCategories,
+                               user_data=user_data)
 
     def Footer(self, user_data=None):
-        footerRoot = "footer"
-        footerTheme = "_lulu"
+        footerRoot = 'footer'
+        footerTheme = '_lulu'
 
         footer_categories = store.getFooterCategories(self.database)
 
@@ -98,28 +104,23 @@ class Store(object):
                 formattedFooterCategories[footer_category][footer_item[0]] = footer_item[1]
 
         for footerCategory, footerData in formattedFooterCategories.iteritems():
-            resource_id = formattedFooterCategories[footerCategory]["resource_id"]
-            formattedFooterCategories[footerCategory]["resource"] = resources.loadResourceURI(resource_id,
+            resource_id = formattedFooterCategories[footerCategory]['resource_id']
+            formattedFooterCategories[footerCategory]['resource'] = resources.loadResourceURI(resource_id,
                                                                                               self.database)
-            if (formattedFooterCategories[footerCategory]["type"]) == "dropdown_list":
-                formattedFooterCategories[footerCategory]["resource"] = parseDropdownList(
-                    formattedFooterCategories[footerCategory]["resource"])
+            if (formattedFooterCategories[footerCategory]['type']) == 'dropdown_list':
+                formattedFooterCategories[footerCategory]['resource'] = parseDropdownList(
+                    formattedFooterCategories[footerCategory]['resource'])
 
-        if user_data:
-            rendered_footer_data = render_template("store/" + footerRoot + footerTheme + ".html",
-                                                   footer_data=formattedFooterCategories, user_data=user_data)
-        else:
-            rendered_footer_data = render_template("store/" + footerRoot + footerTheme + ".html",
-                                                   footer_data=formattedFooterCategories)
-        return rendered_footer_data
+        return render_template('store/' + footerRoot + footerTheme + '.html',
+                               footer_data=formattedFooterCategories, user_data=user_data)
 
     def PageSection(self):
         pass
 
     def Home(self):
-        product_splash = render_template("store/platform_demo.html")
+        product_splash = render_template('store/platform_demo.html')
 
-        self.store_data["product_splash"] = product_splash
+        self.store_data['product_splash'] = product_splash
         return self.store_data
 
     def AllProducts(self):
@@ -128,13 +129,13 @@ class Store(object):
         image_resources = loadProductImages(products, self.database)
 
         for product_id, product in products.iteritems():
-            if (products[product_id]["Published"] == "false"):
+            if (products[product_id]['Published'] == 'false'):
                 del products[product_id]
                 continue
 
         rows = formatProductRows(products)
 
-        self.store_data["product_rows"] = render_template("store/product_row.html", products=products, rows=rows,
+        self.store_data['product_rows'] = render_template('store/product_row.html', products=products, rows=rows,
                                                           image_resources=image_resources)
         return self.store_data
 
@@ -143,18 +144,18 @@ class Store(object):
 
         image_resources = {}
 
-        if productData.has_key("resources"):
-            if (productData["resources"] is not None and productData["resources"] != ""):
+        if productData.has_key('resources'):
+            if (productData['resources'] is not None and productData['resources'] != ''):
                 imageResources = extractImageResources(
-                    productData["resources"])  # gets image resource id list from resource database
+                    productData['resources'])  # gets image resource id list from resource database
                 imageURI = loadResourceURIList(imageResources, self.database)
                 imageURI = formatImageURIs(imageURI)
 
                 image_resources = imageURI  # so the product editor can access those image resources
-                print "image resources: ", image_resources
+                print 'image resources: ', image_resources
 
         variants = loadProductVariants(product_id, self.database)
-        variantTypes = productData["VariantTypes"]
+        variantTypes = productData['VariantTypes']
         formattedVariantTypes = {}
         availableVariants = []
 
@@ -171,26 +172,26 @@ class Store(object):
 
             if variants:
                 for variant in variants:
-                    variantData = formatVariantData(variant["VariantData"])
+                    variantData = formatVariantData(variant['VariantData'])
                     availableVariants.append(variantData)
 
-        productDetails = render_template("store/product_details.html", product=productData, variants=variants,
+        productDetails = render_template('store/product_details.html', product=productData, variants=variants,
                                          variant_types=formattedVariantTypes, availableVariants=availableVariants,
                                          image_resources=image_resources)
 
-        self.store_data["product_details"] = productDetails
-        self.store_data["product_title"] = productData["Title"]
+        self.store_data['product_details'] = productDetails
+        self.store_data['product_title'] = productData['Title']
 
         return self.store_data
 
     def ViewPage(self, page_id):
         page_data = store.getPage(page_id, self.database)
 
-        page_template = page_data["template"]
-        page_type = page_data["type"]
-        page_content = page_data["content"]
-        page_sections = filter(lambda s: s != '', page_data["sections"].split(','))
-        page_section_data = page_data["section_data"]
+        page_template = page_data['template']
+        page_type = page_data['type']
+        page_content = page_data['content']
+        page_sections = filter(lambda s: s != '', page_data['sections'].split(','))
+        page_section_data = page_data['section_data']
 
         page_section_data = filter(lambda s: s != '', page_section_data.split('<section_split>'))
         pageSectionData = {}
@@ -207,7 +208,7 @@ class Store(object):
             sectionData = section_data[1]
 
             pageSectionData[section_id] = {}
-            pageSectionData[section_id]["section_template"] = section_template
+            pageSectionData[section_id]['section_template'] = section_template
             anchors = sectionData.split('<split>')
 
             for anchor in anchors:
@@ -227,13 +228,13 @@ class Store(object):
 
                     pageSectionData[section_id][anchor_tag][anchor_field_id] = anchor_field_value
 
-        self.store_data["page_sections"] = page_sections
-        self.store_data["rendered_sections"] = {}
+        self.store_data['page_sections'] = page_sections
+        self.store_data['rendered_sections'] = {}
 
         # print pageSectionData
         for section_id in page_sections:
-            if section_id != "content":
-                section_template_id = pageSectionData[section_id]["section_template"]
+            if section_id != 'content':
+                section_template_id = pageSectionData[section_id]['section_template']
                 current_section_template = store.loadSectionTemplate(section_template_id, self.database)
                 current_section_template = filter(lambda s: s != '', current_section_template.split('<split>'))
 
@@ -249,34 +250,34 @@ class Store(object):
                     pageSectionTemplateData[section_template_field_id] = section_template_field_value
 
                 for anchor_id, anchor_data in pageSectionData[section_id].iteritems():
-                    if anchor_id == "section_template":
+                    if anchor_id == 'section_template':
                         continue
-                    if anchor_data["anchor_type"] == 'image-resource':
-                        anchor_data["anchor_value"] = loadResourceURI(anchor_data["anchor_value"], self.database)
+                    if anchor_data['anchor_type'] == 'image-resource':
+                        anchor_data['anchor_value'] = loadResourceURI(anchor_data['anchor_value'], self.database)
 
                 # render a specific section
-                rendered_section = render_template(pageSectionTemplateData["template_file"],
+                rendered_section = render_template(pageSectionTemplateData['template_file'],
                                                    section_data=pageSectionData[section_id])
-                self.store_data["rendered_sections"][section_id] = rendered_section
+                self.store_data['rendered_sections'][section_id] = rendered_section
 
         template_data = store.loadTemplateData(page_template, self.database)
         type_template_data = store.loadTypeTemplateData(page_type, self.database)
 
-        template_folder = template_data["template_folder"]
+        template_folder = template_data['template_folder']
 
-        if "delimeter" in template_data:
-            content_delimeter = template_data["delimeter"]
+        if 'delimeter' in template_data:
+            content_delimeter = template_data['delimeter']
             page_content = page_content.split(content_delimeter)
-        elif "delimeter" in type_template_data:
-            content_delimeter = type_template_data["delimeter"]
+        elif 'delimeter' in type_template_data:
+            content_delimeter = type_template_data['delimeter']
             page_content = page_content.split(content_delimeter)
         else:
             content_delimeter = None
 
-        root_name = type_template_data["root_name"]
-        template_location = "store/" + template_folder + "/" + root_name + "_" + page_template + ".html"
+        root_name = type_template_data['root_name']
+        template_location = 'store/' + template_folder + '/' + root_name + '_' + page_template + '.html'
 
-        self.store_data["content_section"] = render_template(template_location, page_content=page_content)
+        self.store_data['content_section'] = render_template(template_location, page_content=page_content)
 
         return self.store_data
 
@@ -287,15 +288,15 @@ class Store(object):
             product_thumbnail = {}
             for productSKU, quantity in cartContents.iteritems():
                 currentProductData = loadProductBySKU(productSKU, self.database)
-                currentImageURI = loadResourceURI(currentProductData["ImageSrc"], self.database)
+                currentImageURI = loadResourceURI(currentProductData['ImageSrc'], self.database)
 
-                product_thumbnail[currentProductData["product_id"]] = currentImageURI
+                product_thumbnail[currentProductData['product_id']] = currentImageURI
                 products[productSKU] = [currentProductData, quantity]
         except:
-            print "Cart is empty."
+            print 'Cart is empty.'
 
         finally:
-            self.store_data["cart_details"] = render_template("store/cart_details.html", products=products,
+            self.store_data['cart_details'] = render_template('store/cart_details.html', products=products,
                                                               product_thumbnail=product_thumbnail)
 
         return self.store_data
@@ -303,27 +304,27 @@ class Store(object):
     def ViewCheckout(self, data):
         products = {}
 
-        if data["cart_contents"]:
+        if data['cart_contents']:
             product_thumbnail = {}
 
-            for productSKU, quantity in data["cart_contents"].iteritems():
+            for productSKU, quantity in data['cart_contents'].iteritems():
                 currentProductData = loadProductBySKU(productSKU, self.database)
 
-                currentImageURI = loadResourceURI(currentProductData["ImageSrc"], self.database)
-                product_thumbnail[currentProductData["product_id"]] = currentImageURI
+                currentImageURI = loadResourceURI(currentProductData['ImageSrc'], self.database)
+                product_thumbnail[currentProductData['product_id']] = currentImageURI
 
                 products[productSKU] = [currentProductData, quantity]
 
-            self.store_data["cart_details"] = render_template("store/cart_details_checkout.html", products=products,
+            self.store_data['cart_details'] = render_template('store/cart_details_checkout.html', products=products,
                                                               product_thumbnail=product_thumbnail)
 
         country_list = config.CountryList(self.instance_db)
-        country_options = render_template("store/country_list.html", country_list=country_list,
-                                          saved_customer_data=data["saved_customer_data"])
+        country_options = render_template('store/country_list.html', country_list=country_list,
+                                          saved_customer_data=data['saved_customer_data'])
 
-        self.store_data["table_checkout"] = render_template("store/table_checkout.html", products=products,
+        self.store_data['table_checkout'] = render_template('store/table_checkout.html', products=products,
                                                             country_options=country_options,
-                                                            saved_customer_data=data["saved_customer_data"])
+                                                            saved_customer_data=data['saved_customer_data'])
 
         return self.store_data
 
@@ -332,7 +333,7 @@ class Store(object):
         order_details = data
 
         if order_details:
-            itemList = order_details["SKU_List"].split(',')
+            itemList = order_details['SKU_List'].split(',')
             product_thumbnail = {}
 
             for item in itemList:
@@ -341,12 +342,12 @@ class Store(object):
                 # load product data by SKU_List
                 currentProductData = loadProductBySKU(productSKU, self.database)
                 # load product image thumbnail for cart table
-                currentImageURI = loadResourceURI(currentProductData["ImageSrc"], self.database)
-                product_thumbnail[currentProductData["product_id"]] = currentImageURI
+                currentImageURI = loadResourceURI(currentProductData['ImageSrc'], self.database)
+                product_thumbnail[currentProductData['product_id']] = currentImageURI
 
                 products[productSKU] = [currentProductData, quantity]
 
-            self.store_data["cart_details"] = render_template("store/cart_details_checkout.html", products=products,
+            self.store_data['cart_details'] = render_template('store/cart_details_checkout.html', products=products,
                                                               product_thumbnail=product_thumbnail)
 
         return self.store_data
@@ -356,21 +357,21 @@ class Store(object):
         print collectionData
         image_resources = {}
 
-        productIDList = loadProductsInCollection(parseCollectionConditions(collectionData["Conditions"]),
-                                                 collectionData["Strict"], self.database)
+        productIDList = loadProductsInCollection(parseCollectionConditions(collectionData['Conditions']),
+                                                 collectionData['Strict'], self.database)
 
         if len(productIDList) > 0:
             products = loadProductsByID(productIDList, self.database)
 
-            print "HERE ARE PRODUCTS: ", products
+            print 'HERE ARE PRODUCTS: ', products
             for product_id, product in products.iteritems():
-                imageURI = resources.loadResourceURI(product["ImageSrc"], self.database)
+                imageURI = resources.loadResourceURI(product['ImageSrc'], self.database)
                 image_resources[str(product_id)] = imageURI
 
         rows = formatProductRows(products)
 
-        self.store_data["collection_title"] = collectionData["Title"]
-        self.store_data["product_rows"] = render_template("store/product_row.html", products=products, rows=rows,
+        self.store_data['collection_title'] = collectionData['Title']
+        self.store_data['product_rows'] = render_template('store/product_row.html', products=products, rows=rows,
                                                           image_resources=image_resources)
 
         return self.store_data

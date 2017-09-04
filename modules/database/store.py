@@ -12,24 +12,17 @@ import config
 
 # grabs the main navigation categories, which can themselves have submenus
 # this allows for dynamic navigation bars
-def getNavCategories(database):
-    currentQuery = "SELECT Name, Data FROM store WHERE Type='nav_bar_link';"
+def getNavCategories(cursor):
+    query = "SELECT Name, Data FROM store WHERE Type='nav_bar_link'"
+    cursor.execute(query)
 
-    try:
-        database.execute(currentQuery)
-    except Exception as e:
-        print e
-        return None
+    nav_links = cursor.fetchall()
 
-    nav_links = database.fetchall()
-    # print nav_links
+    nav_dict = {}
     if nav_links:
-        nav_dict = {nav_link[0]: nav_link[1] for nav_link in nav_links}
-
-        for nav_category, nav_data in nav_dict.iteritems():
-            nav_dict[nav_category] = nav_data.split(',')
-
-        return nav_dict
+        for nav_link in nav_links:
+            nav_dict[nav_link[0]] = nav_link[1].split(',')
+    return nav_dict
 
 
 def createNavCategory(nav_category, nav_data, database):
@@ -186,51 +179,24 @@ def getPageData(page_id, database):
         return page_data[0]
 
 
-def getPage(page_id, database):
-    page = {}
-    page["page_id"] = page_id
+def getPage(page_id, cursor):
+    query = "SELECT Data FROM store WHERE Type='%s' AND Name='%s'"
 
-    currentQuery = "SELECT Data FROM store WHERE Type='page_data' AND Name=%s;"
-    try:
-        database.execute(currentQuery, (page_id,))
-        page["content"] = database.fetchone()[0]
-    except:
-        page["content"] = ""
+    def get_result(store_type):
+        # TODO: Check for SQL injections
+        cursor.execute(query % (store_type, page_id))
+        result = cursor.fetchone()
+        return result[0] if result else ''
 
-    currentQuery = "SELECT Data FROM store WHERE Type='page_template' AND Name=%s;"
-    try:
-        database.execute(currentQuery, (page_id,))
-        page["template"] = database.fetchone()[0]
-    except:
-        page["template"] = ""
-
-    currentQuery = "SELECT Data FROM store WHERE Type='page_type' AND Name=%s;"
-    try:
-        database.execute(currentQuery, (page_id,))
-        page["type"] = database.fetchone()[0]
-    except:
-        page["type"] = ""
-
-    currentQuery = "SELECT Data FROM store WHERE Type='page_title' AND Name=%s;"
-    try:
-        database.execute(currentQuery, (page_id,))
-        page["title"] = database.fetchone()[0]
-    except:
-        page["title"] = ""
-
-    currentQuery = "SELECT Data FROM store WHERE Type='page_sections' AND Name=%s;"
-    try:
-        database.execute(currentQuery, (page_id,))
-        page["sections"] = database.fetchone()[0]
-    except:
-        page["sections"] = ""
-
-    currentQuery = "SELECT Data FROM store WHERE Type='page_section_data' AND Name=%s;"
-    try:
-        database.execute(currentQuery, (page_id,))
-        page["section_data"] = database.fetchone()[0]
-    except:
-        page["section_data"] = ""
+    page = dict(
+        page_id=page_id,
+        content=get_result('page_data'),
+        template=get_result('page_template'),
+        type=get_result('page_type'),
+        title=get_result('page_title'),
+        sections=get_result('page_sections'),
+        section_data=get_result('page_section_data')
+    )
 
     return page
 
@@ -384,61 +350,47 @@ def getSectionTemplates(database):
 
 
 # grabs template data
-def loadTemplateData(template_id, database):
-    currentQuery = "SELECT Data FROM store WHERE Type='template' AND Name=%s;"
-    try:
-        database.execute(currentQuery, (template_id,))
-    except Exception as e:
-        print "Error: ", e
-        return False
+def loadTemplateData(template_id, cursor):
+    query = "SELECT Data FROM store WHERE Type='template' AND Name='%s'"
+    # TODO: Check for SQL injections
+    cursor.execute(query % template_id)
 
-    template_data = database.fetchone()
+    template_data = cursor.fetchone()
+    formattedTemplateData = {}
+
     if template_data:
         template_data = template_data[0]
-        formattedTemplateData = {}
 
         template_data = filter(lambda t: t != '', template_data.split('<split>'))
         for data_field in template_data:
-            data_field = data_field.split('=')
-            formattedTemplateData[data_field[0]] = data_field[1]
+            key, value = data_field.split('=')
+            formattedTemplateData[key] = value
 
-        return formattedTemplateData
+    return formattedTemplateData
 
 
-def loadSectionTemplate(section_id, database):
-    currentQuery = "SELECT Data FROM store WHERE Type='section_template' AND Name=%s;"
-    try:
-        database.execute(currentQuery, (section_id,))
-    except Exception as e:
-        print "Error: ", e
-        return False
+def loadSectionTemplate(section_id, cursor):
+    query = "SELECT Data FROM store WHERE Type='section_template' AND Name='%s'"
+    # TODO: Check for SQL injections
+    cursor.execute(query % section_id)
+    result = cursor.fetchone()
 
-    section_template = database.fetchone()
-    if section_template:
-        section_template = section_template[0]
-        return section_template
-    else:
-        return None
+    return result[0] if result else None
 
 
 # grabs template data
 def loadTypeTemplateData(template_id, database):
-    currentQuery = "SELECT Data FROM store WHERE Type='page_type_template' AND Name=%s;"
-    try:
-        database.execute(currentQuery, (template_id,))
-    except Exception as e:
-        print "Error: ", e
-        return False
+    query = "SELECT Data FROM store WHERE Type='page_type_template' AND Name='%s'"
+    # TODO: Check for SQL injections
+    database.execute(query % template_id)
 
-    template_data = database.fetchone()
-    if template_data:
-        template_data = template_data[0]
+    result = database.fetchone()
+    if result:
         formattedTemplateData = {}
-
-        template_data = filter(lambda t: t != '', template_data.split('<split>'))
+        template_data = filter(lambda t: t != '', result[0].split('<split>'))
         for data_field in template_data:
-            data_field = data_field.split('=')
-            formattedTemplateData[data_field[0]] = data_field[1]
+            key, value = data_field.split('=')
+            formattedTemplateData[key] = value
 
         return formattedTemplateData
 

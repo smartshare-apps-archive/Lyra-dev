@@ -53,18 +53,18 @@ def Home(user_data=None):
     stripe_api_keys = config.getAPIKeys(cursor, 'stripe_api_keys')
     cursor.close()
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'store/Core.js',
-        'current_page_js': ['store/' + current_page + '.js', 'store/lulu.js'],
-        'common_libraries': render_template('store/common_libraries.html'),
-        'nav_bar': ctl.render_tab('nav_bar', user_data),
-        'footer': ctl.render_tab('footer', user_data),
-        'page': ctl.render_tab('page', current_page),
-        'live_chat_window': render_template('store/live_chat_window.html', ts=ts, session_id=session_id),
-        'ts': ts,
-        'stripe_api_keys': stripe_api_keys
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='store/Core.js',
+        current_page_js=['store/' + current_page + '.js', 'store/lulu.js'],
+        common_libraries=render_template('store/common_libraries.html'),
+        nav_bar=ctl.render_tab('nav_bar', user_data),
+        footer=ctl.render_tab('footer', user_data),
+        page=ctl.render_tab('page', current_page),
+        live_chat_window=render_template('store/live_chat_window.html', ts=ts, session_id=session_id),
+        ts=ts,
+        stripe_api_keys=stripe_api_keys
+    )
 
     return render_template('store/page.html', data=context)
 
@@ -87,18 +87,18 @@ def Page(page_id, user_data=None):
     stripe_api_keys = config.getAPIKeys(cursor, 'stripe_api_keys')
     cursor.close()
 
-    context = {
-        'current_page': page_id,
-        'current_class_js': 'store/Core.js',
-        'current_page_js': ['store/' + page_id + '.js', 'store/lulu.js'],
-        'common_libraries': render_template('store/common_libraries.html'),
-        'stripe_api_keys': stripe_api_keys,
-        'nav_bar': ctl.render_tab('nav_bar', user_data),
-        'footer': ctl.render_tab('footer', user_data),
-        'page': ctl.render_tab('page', page_id),
-        'live_chat_window': render_template('store/live_chat_window.html', ts=ts, session_id=session_id),
-        'ts': int(time.time())
-    }
+    context = dict(
+        current_page=page_id,
+        current_class_js='store/Core.js',
+        current_page_js=['store/' + page_id + '.js', 'store/lulu.js'],
+        common_libraries=render_template('store/common_libraries.html'),
+        stripe_api_keys=stripe_api_keys,
+        nav_bar=ctl.render_tab('nav_bar', user_data),
+        footer=ctl.render_tab('footer', user_data),
+        page=ctl.render_tab('page', page_id),
+        live_chat_window=render_template('store/live_chat_window.html', ts=ts, session_id=session_id),
+        ts=int(time.time())
+    )
 
     return render_template('store/page.html', data=context)
 
@@ -132,18 +132,18 @@ def AllProducts(user_data=None):
 
     user_data['cart_contents'] = cartContents
 
-    context = {
-        'current_page': 'all_products',
-        'current_class_js': 'store/Core.js',
-        'current_page_js': ['store/AllProducts.js', 'store/lulu.js'],
-        'stripe_api_keys': stripe_api_keys,
-        'nav_bar': ctl.render_tab('nav_bar', user_data),
-        'footer': ctl.render_tab('footer', user_data),
-        'page_content': ctl.render_tab('all_products'),
-        'live_chat_window': render_template('store/live_chat_window.html', ts=ts, session_id=session_id),
-        'common_libraries': render_template('store/common_libraries.html'),
-        'ts': ts
-    }
+    context = dict(
+        current_page='all_products',
+        current_class_js='store/Core.js',
+        current_page_js=['store/AllProducts.js', 'store/lulu.js'],
+        stripe_api_keys=stripe_api_keys,
+        nav_bar=ctl.render_tab('nav_bar', user_data),
+        footer=ctl.render_tab('footer', user_data),
+        page_content=ctl.render_tab('all_products'),
+        live_chat_window=render_template('store/live_chat_window.html', ts=ts, session_id=session_id),
+        common_libraries=render_template('store/common_libraries.html'),
+        ts=ts
+    )
 
     return render_template('store/all_products.html', data=context)
 
@@ -168,18 +168,18 @@ def loadCollection(collection_id, user_data=None):
 
     user_data['cart_contents'] = cartContents
 
-    context = {
-        'current_page': 'load_collection',
-        'current_class_js': 'store/Core.js',
-        'current_page_js': ['store/Collection.js', 'store/lulu.js'],
-        'nav_bar': ctl.render_tab('nav_bar', user_data),
-        'footer': ctl.render_tab('footer', user_data),
-        'page_content': ctl.render_tab('load_collection', collection_id),
-        'live_chat_window': render_template('store/live_chat_window.html', ts=ts, session_id=session_id),
-        'common_libraries': render_template('store/common_libraries.html'),
-        'ts': ts,
-        'stripe_api_keys': stripe_api_keys
-    }
+    context = dict(
+        current_page='load_collection',
+        current_class_js='store/Core.js',
+        current_page_js=['store/Collection.js', 'store/lulu.js'],
+        nav_bar=ctl.render_tab('nav_bar', user_data),
+        footer=ctl.render_tab('footer', user_data),
+        page_content=ctl.render_tab('load_collection', collection_id),
+        live_chat_window=render_template('store/live_chat_window.html', ts=ts, session_id=session_id),
+        common_libraries=render_template('store/common_libraries.html'),
+        ts=ts,
+        stripe_api_keys=stripe_api_keys
+    )
 
     return render_template('store/collection.html', data=context)
 
@@ -204,18 +204,18 @@ def viewProduct(product_id, user_data=None):
 
     user_data['cart_contents'] = cartContents
 
-    context = {
-        'current_page': 'product',
-        'current_class_js': 'store/Core.js',
-        'current_page_js': ['store/Product.js', 'store/lulu.js'],
-        'stripe_api_keys': stripe_api_keys,
-        'nav_bar': ctl.render_tab('nav_bar', user_data),
-        'footer': ctl.render_tab('footer', user_data),
-        'page_content': ctl.render_tab('product', product_id),
-        'live_chat_window': render_template('store/live_chat_window.html', ts=ts, session_id=session_id),
-        'common_libraries': render_template('store/common_libraries.html'),
-        'ts': ts
-    }
+    context = dict(
+        current_page='product',
+        current_class_js='store/Core.js',
+        current_page_js=['store/Product.js', 'store/lulu.js'],
+        stripe_api_keys=stripe_api_keys,
+        nav_bar=ctl.render_tab('nav_bar', user_data),
+        footer=ctl.render_tab('footer', user_data),
+        page_content=ctl.render_tab('product', product_id),
+        live_chat_window=render_template('store/live_chat_window.html', ts=ts, session_id=session_id),
+        common_libraries=render_template('store/common_libraries.html'),
+        ts=ts
+    )
 
     return render_template('store/product.html', data=context)
 
@@ -242,18 +242,18 @@ def cart(user_data=None):
 
     user_data['cart_contents'] = cartContents
 
-    context = {
-        'current_page': 'cart',
-        'current_class_js': 'store/Core.js',
-        'current_page_js': ['store/Cart.js', 'store/lulu.js'],
-        'stripe_api_keys': stripe_api_keys,
-        'nav_bar': ctl.render_tab('nav_bar', user_data),
-        'footer': ctl.render_tab('footer', user_data),
-        'page_content': ctl.render_tab('cart', cartContents),
-        'live_chat_window': render_template('store/live_chat_window.html', ts=ts, session_id=session_id),
-        'common_libraries': render_template('store/common_libraries.html'),
-        'ts': ts
-    }
+    context = dict(
+        current_page='cart',
+        current_class_js='store/Core.js',
+        current_page_js=['store/Cart.js', 'store/lulu.js'],
+        stripe_api_keys=stripe_api_keys,
+        nav_bar=ctl.render_tab('nav_bar', user_data),
+        footer=ctl.render_tab('footer', user_data),
+        page_content=ctl.render_tab('cart', cartContents),
+        live_chat_window=render_template('store/live_chat_window.html', ts=ts, session_id=session_id),
+        common_libraries=render_template('store/common_libraries.html'),
+        ts=ts
+    )
 
     return render_template('store/cart.html', data=context)
 
@@ -347,16 +347,16 @@ def checkout(user_data=None):
 
     user_data['cart_contents'] = cartContents
 
-    context = {
-        'cart_contents': cartContents,
-        'saved_customer_data': saved_customer_data,
-        'current_page': 'checkout',
-        'current_class_js': 'store/Core.js',
-        'current_page_js': ['store/Checkout.js', 'store/Payment.js', 'store/lulu.js'],
-        'stripe_api_keys': stripe_api_keys,
-        'nav_bar': ctl.render_tab('nav_bar', user_data),
-        'footer': ctl.render_tab('footer', user_data)
-    }
+    context = dict(
+        cart_contents=cartContents,
+        saved_customer_data=saved_customer_data,
+        current_page='checkout',
+        current_class_js='store/Core.js',
+        current_page_js=['store/Checkout.js', 'store/Payment.js', 'store/lulu.js'],
+        stripe_api_keys=stripe_api_keys,
+        nav_bar=ctl.render_tab('nav_bar', user_data),
+        footer=ctl.render_tab('footer', user_data)
+    )
 
     context['page_content'] = ctl.render_tab('checkout', context)
     context['live_chat_window'] = render_template('store/live_chat_window.html', ts=ts, session_id=session_id)
@@ -426,12 +426,12 @@ def empty_cart(session_manager, app, session):
     result = None
     s_id = current_app.config['session_cookie_id']
 
-    context = {'key': session[s_id]}
+    data = {'key': session[s_id]}
 
-    val = session_manager.get_session_key(app, session, context)
+    val = session_manager.get_session_key(app, session, data)
 
     if val:
-        context['table'] = 'cart:' + session[s_id]
-        result = session_manager.delete_session_hashTable(app, session, context)
+        data['table'] = 'cart:' + session[s_id]
+        result = session_manager.delete_session_hashTable(app, session, data)
 
     return result

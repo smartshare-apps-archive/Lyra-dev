@@ -32,16 +32,16 @@ def settings():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/settings/Core.js',
-        'current_page_js': 'control_panel/settings/Main.js',
-        'current_requests_js': 'control_panel/settings/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_settings.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/settings/Core.js',
+        current_page_js='control_panel/settings/Main.js',
+        current_requests_js='control_panel/settings/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_settings.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -56,17 +56,16 @@ def advanced_settings(flag=None):
 
     response = ctl.render_tab(current_page)
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/settings/Core.js',
-        'current_page_js': 'control_panel/settings/Advanced.js',
-        'current_requests_js': 'control_panel/settings/Requests.js',
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_settings.html')),
-        'current_page_content': ctl.render_tab('settings_advanced', flag)
-        if flag is not None else ctl.render_tab('settings_advanced')
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/settings/Core.js',
+        current_page_js='control_panel/settings/Advanced.js',
+        current_requests_js='control_panel/settings/Requests.js',
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_settings.html')),
+        current_page_content=ctl.render_tab('settings_advanced', flag)
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -82,16 +81,16 @@ def payment_settings():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/settings/Core.js',
-        'current_page_js': 'control_panel/settings/PaymentSettings.js',
-        'current_requests_js': 'control_panel/settings/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_settings.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/settings/Core.js',
+        current_page_js='control_panel/settings/PaymentSettings.js',
+        current_requests_js='control_panel/settings/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_settings.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -107,15 +106,15 @@ def shipping_settings():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/settings/Core.js',
-        'current_page_js': 'control_panel/settings/Shipping.js',
-        'current_requests_js': 'control_panel/settings/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_settings.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/settings/Core.js',
+        current_page_js='control_panel/settings/Shipping.js',
+        current_requests_js='control_panel/settings/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_settings.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)

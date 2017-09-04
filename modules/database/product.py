@@ -3,7 +3,6 @@ import sys, csv, json, collections
 # config current only has column/field mapping information, which will be specific to the import form (of the product csv), e.g. shopify
 from config import *
 from product_util import *
-from modules.payment.stripe_interface import stripe_manager
 
 
 # load single product by product_id

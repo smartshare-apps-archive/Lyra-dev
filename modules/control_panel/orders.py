@@ -33,16 +33,16 @@ def orders():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/order/Core.js',
-        'current_page_js': 'control_panel/order/Main.js',
-        'current_requests_js': 'control_panel/order/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html')],
-        'submenu': Markup(render_template('control_panel/subMenu_orders.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/order/Core.js',
+        current_page_js='control_panel/order/Main.js',
+        current_requests_js='control_panel/order/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html')],
+        submenu=Markup(render_template('control_panel/subMenu_orders.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -59,16 +59,16 @@ def orders_drafts():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/order/Core.js',
-        'current_page_js': 'control_panel/order/Drafts.js',
-        'current_requests_js': 'control_panel/order/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html')],
-        'submenu': Markup(render_template('control_panel/subMenu_orders.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/order/Core.js',
+        current_page_js='control_panel/order/Drafts.js',
+        current_requests_js='control_panel/order/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html')],
+        submenu=Markup(render_template('control_panel/subMenu_orders.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -85,16 +85,16 @@ def orderEditor(order_id):
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/order/Core.js',
-        'current_page_js': 'control_panel/order/OrderEditor.js',
-        'current_requests_js': 'control_panel/order/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html')],
-        'submenu': Markup(render_template('control_panel/subMenu_orders.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/order/Core.js',
+        current_page_js='control_panel/order/OrderEditor.js',
+        current_requests_js='control_panel/order/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html')],
+        submenu=Markup(render_template('control_panel/subMenu_orders.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -111,16 +111,16 @@ def addDraft():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/order/Core.js',
-        'current_page_js': 'control_panel/order/DraftEditorNew.js',
-        'current_requests_js': 'control_panel/order/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html')],
-        'submenu': Markup(render_template('control_panel/subMenu_orders.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/order/Core.js',
+        current_page_js='control_panel/order/DraftEditorNew.js',
+        current_requests_js='control_panel/order/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html')],
+        submenu=Markup(render_template('control_panel/subMenu_orders.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -137,15 +137,15 @@ def fulfillOrder(order_id):
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/order/Core.js',
-        'current_page_js': 'control_panel/order/Fulfill.js',
-        'current_requests_js': 'control_panel/order/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html')],
-        'submenu': Markup(render_template('control_panel/subMenu_orders.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/order/Core.js',
+        current_page_js='control_panel/order/Fulfill.js',
+        current_requests_js='control_panel/order/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html')],
+        submenu=Markup(render_template('control_panel/subMenu_orders.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)

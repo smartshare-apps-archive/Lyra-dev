@@ -26,16 +26,17 @@ def setup_session():
 # @admin_required(current_app, session, login_redirect)
 def plugins():
     ctl = current_app.config['ctl']
-    context = {
-        'current_page': 'plugins',
-        'current_class_js': 'control_panel/plugins/Core.js',
-        'current_page_js': 'control_panel/plugins/Main.js',
-        'current_requests_js': 'control_panel/plugins/Requests.js',
-        'current_page_content': ctl.render_tab('plugins'),
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_plugins.html'))
-    }
+
+    context = dict(
+        current_page='plugins',
+        current_class_js='control_panel/plugins/Core.js',
+        current_page_js='control_panel/plugins/Main.js',
+        current_requests_js='control_panel/plugins/Requests.js',
+        current_page_content=ctl.render_tab('plugins'),
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_plugins.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -45,15 +46,16 @@ def plugins():
 # @admin_required(current_app, session, login_redirect)
 def plugins_pyutil(plugin_id):
     ctl = current_app.config['ctl']
-    context = {
-        'current_page': 'plugins_pyutil',
-        'current_class_js': 'control_panel/plugins/Core.js',
-        'current_page_js': 'control_panel/plugins/PyUtil.js',
-        'current_requests_js': 'control_panel/plugins/Requests.js',
-        'current_page_content': ctl.render_tab('plugins_pyutil', plugin_id),
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_plugins.html'))
-    }
+
+    context = dict(
+        current_page='plugins_pyutil',
+        current_class_js='control_panel/plugins/Core.js',
+        current_page_js='control_panel/plugins/PyUtil.js',
+        current_requests_js='control_panel/plugins/Requests.js',
+        current_page_content=ctl.render_tab('plugins_pyutil', plugin_id),
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_plugins.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)

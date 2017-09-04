@@ -32,16 +32,16 @@ def customers():
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page_content': response,
-        'current_page': current_page,
-        'current_class_js': 'control_panel/customer/Core.js',
-        'current_page_js': 'control_panel/customer/Main.js',
-        'current_requests_js': 'control_panel/customer/Requests.js',
-        'ts': int(time.time()),
-        'modal': Markup(render_template('control_panel/modal.html')),
-        'submenu': Markup(render_template('control_panel/subMenu_customers.html'))
-    }
+    context = dict(
+        current_page_content=response,
+        current_page=current_page,
+        current_class_js='control_panel/customer/Core.js',
+        current_page_js='control_panel/customer/Main.js',
+        current_requests_js='control_panel/customer/Requests.js',
+        ts=int(time.time()),
+        modal=Markup(render_template('control_panel/modal.html')),
+        submenu=Markup(render_template('control_panel/subMenu_customers.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
 
@@ -58,15 +58,15 @@ def customerEditor(customer_id):
     if response in config.ERROR_CODES:
         return redirect(url_for('settings_routes.advanced_settings', flag='NO_DB'))
 
-    context = {
-        'current_page': current_page,
-        'current_class_js': 'control_panel/customer/Core.js',
-        'current_page_js': 'control_panel/customer/CustomerEditor.js',
-        'current_requests_js': 'control_panel/customer/Requests.js',
-        'current_page_content': response,
-        'ts': int(time.time()),
-        'modals': [render_template('control_panel/modal.html')],
-        'submenu': Markup(render_template('control_panel/subMenu_customers.html'))
-    }
+    context = dict(
+        current_page=current_page,
+        current_class_js='control_panel/customer/Core.js',
+        current_page_js='control_panel/customer/CustomerEditor.js',
+        current_requests_js='control_panel/customer/Requests.js',
+        current_page_content=response,
+        ts=int(time.time()),
+        modals=[render_template('control_panel/modal.html')],
+        submenu=Markup(render_template('control_panel/subMenu_customers.html'))
+    )
 
     return render_template('control_panel/control.html', data=context)
