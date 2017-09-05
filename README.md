@@ -12,4 +12,4 @@ Python 2.7
 2. CD into the directory and `pip install -r requirements.txt`
 3. Run `python application.py`
 
-The app should now be running locally at <http://127.0.0.1:5000/control/store> 
+The app should now be running locally at <http://127.0.0.1:5000/control> 
