@@ -6,6 +6,8 @@ but has gradually morphed into a multipurpose content management system.
 ## System Requirements
 
 Python 2.7
+Redis
+MySQL
 
 ## Developer Installation
 1. Clone the repo at <https://github.com/smartshare-apps/Lyra-dev.git>
